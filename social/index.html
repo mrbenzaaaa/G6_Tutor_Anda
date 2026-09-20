@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Social Studies Tutor</title>
+  <style>
+    *{box-sizing:border-box}
+    html{-webkit-text-size-adjust:100%}
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      background:#f3f8fd;
+      color:#17324d;
+      min-height:100vh;
+      padding-top:env(safe-area-inset-top);
+      padding-bottom:env(safe-area-inset-bottom);
+    }
+    .wrap{
+      max-width:820px;
+      margin:0 auto;
+      padding:28px 20px 40px;
+    }
+    .hero{
+      background:#fff;
+      border:2px solid #cfe1f3;
+      border-radius:24px;
+      padding:24px;
+      margin-bottom:20px;
+      box-shadow:0 4px 14px rgba(23,74,135,.06);
+    }
+    h1{
+      margin:0 0 8px;
+      font-size:clamp(30px,6vw,46px);
+      color:#174a87;
+    }
+    .subtitle{
+      margin:0;
+      font-size:clamp(17px,3vw,21px);
+      color:#617995;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+    }
+    a.card{
+      display:block;
+      text-decoration:none;
+      background:#fff;
+      color:#174a87;
+      border:2px solid #cfe1f3;
+      border-radius:20px;
+      padding:22px;
+      min-height:120px;
+      box-shadow:0 4px 14px rgba(23,74,135,.06);
+      -webkit-tap-highlight-color:transparent;
+      touch-action:manipulation;
+    }
+    a.card:active{transform:scale(.99)}
+    .lesson{
+      font-size:clamp(22px,4vw,30px);
+      font-weight:700;
+      margin-bottom:8px;
+    }
+    .file{
+      font-size:15px;
+      color:#6c8198;
+      word-break:break-all;
+    }
+    .chapter{
+      display:inline-block;
+      margin-bottom:10px;
+      padding:5px 10px;
+      border-radius:999px;
+      background:#eaf3fc;
+      font-size:14px;
+      font-weight:700;
+      color:#174a87;
+    }
+    @media(max-width:650px){
+      .grid{grid-template-columns:1fr}
+      a.card{min-height:105px}
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>📚 Social Studies Tutor</h1>
+      <p class="subtitle">Choose a lesson to start.</p>
+    </section>
+
+    <section class="grid">
+      <a class="card" href="social_c1l1.html">
+        <div class="chapter">Chapter 1</div>
+        <div class="lesson">Lesson 1</div>
+        <div class="file">social_c1l1.html</div>
+      </a>
+
+      <a class="card" href="social_c1l2.html">
+        <div class="chapter">Chapter 1</div>
+        <div class="lesson">Lesson 2</div>
+        <div class="file">social_c1l2.html</div>
+      </a>
+
+      <a class="card" href="social_c1l3.html">
+        <div class="chapter">Chapter 1</div>
+        <div class="lesson">Lesson 3</div>
+        <div class="file">social_c1l3.html</div>
+      </a>
+
+      <a class="card" href="social_c2l1.html">
+        <div class="chapter">Chapter 2</div>
+        <div class="lesson">Lesson 1</div>
+        <div class="file">social_c2l1.html</div>
+      </a>
+
+      <a class="card" href="social_c2l2.html">
+        <div class="chapter">Chapter 2</div>
+        <div class="lesson">Lesson 2</div>
+        <div class="file">social_c2l2.html</div>
+      </a>
+    </section>
+  </main>
+</body>
+</html>
