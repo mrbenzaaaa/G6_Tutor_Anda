@@ -5,103 +5,94 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="format-detection" content="telephone=no">
   <title>Science Tutor</title>
+
   <style>
     *{box-sizing:border-box}
     html{-webkit-text-size-adjust:100%}
+    :root{
+      --ink:#17324d;
+      --muted:#667d92;
+      --line:#d8e6f2;
+      --blue:#174a87;
+      --blue2:#eef6ff;
+      --green:#0f766e;
+      --quiz:#7c3aed;
+      --quiz2:#f5f0ff;
+      --bg:#f3f8fd;
+      --shadow:0 8px 24px rgba(23,50,77,.08);
+    }
     body{
-      margin:0;
+      margin:0; min-height:100vh;
       font-family:Arial,Helvetica,sans-serif;
-      background:#f3f8fd;
-      color:#17324d;
-      min-height:100vh;
+      color:var(--ink);
+      background:linear-gradient(135deg,#eef7ff,#fff 55%,#effcf6);
       padding-top:env(safe-area-inset-top);
       padding-bottom:env(safe-area-inset-bottom);
     }
-    .wrap{
-      max-width:900px;
-      margin:0 auto;
-      padding:28px 20px 40px;
-    }
+    .wrap{max-width:960px;margin:0 auto;padding:28px 18px 48px}
     .hero{
-      background:#fff;
-      border:2px solid #cfe1f3;
-      border-radius:24px;
-      padding:24px;
-      margin-bottom:20px;
-      box-shadow:0 4px 14px rgba(23,74,135,.06);
+      background:#fff;border:2px solid var(--line);border-radius:26px;
+      padding:26px;box-shadow:var(--shadow);margin-bottom:18px
     }
-    h1{
-      margin:0 0 8px;
-      font-size:clamp(30px,6vw,46px);
-      color:#174a87;
-    }
-    .subtitle{
-      margin:0;
-      font-size:clamp(17px,3vw,21px);
-      color:#617995;
-    }
+    h1{margin:0 0 8px;color:var(--blue);font-size:clamp(32px,6vw,48px)}
+    .subtitle{margin:0;color:var(--muted);font-size:clamp(17px,2.6vw,21px);line-height:1.5}
     .status{
-      margin:16px 0;
-      padding:14px 16px;
-      background:#fff;
-      border:2px solid #d9e8f7;
-      border-radius:14px;
-      color:#5f7690;
-      font-size:17px;
+      margin:16px 0 22px;padding:13px 16px;background:#fff;
+      border:2px solid var(--line);border-radius:15px;color:var(--muted);font-size:16px
     }
-    .chapterTitle{
-      margin:28px 0 12px;
-      font-size:clamp(23px,4vw,30px);
-      color:#174a87;
+    .status.error{background:#fff4f4;border-color:#e9bcbc;color:#8a2f2f}
+    .status.ok{background:#f0fdf4;border-color:#b7e4c7;color:#166534}
+    .chapter{
+      margin:26px 0 0;background:#fff;border:2px solid var(--line);
+      border-radius:24px;box-shadow:var(--shadow);overflow:hidden
     }
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:16px;
+    .chapterHead{
+      display:flex;justify-content:space-between;align-items:center;
+      gap:14px;flex-wrap:wrap;padding:20px 22px;background:var(--blue2);
+      border-bottom:1px solid var(--line)
     }
+    .chapterTitle{margin:0;color:var(--blue);font-size:clamp(24px,4vw,32px)}
+    .chapterCount{color:var(--muted);font-size:14px;font-weight:700}
+    .lessonGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:18px}
     a.card{
-      display:block;
-      text-decoration:none;
-      background:#fff;
-      color:#174a87;
-      border:2px solid #cfe1f3;
-      border-radius:20px;
-      padding:22px;
-      min-height:115px;
-      box-shadow:0 4px 14px rgba(23,74,135,.06);
-      -webkit-tap-highlight-color:transparent;
-      touch-action:manipulation;
+      display:block;text-decoration:none;border:2px solid var(--line);
+      border-radius:18px;padding:18px;background:#fff;color:var(--ink);
+      min-height:105px;box-shadow:0 3px 12px rgba(23,50,77,.05);
+      -webkit-tap-highlight-color:transparent;touch-action:manipulation
     }
     a.card:active{transform:scale(.99)}
-    .lesson{
-      font-size:clamp(22px,4vw,30px);
-      font-weight:700;
-      margin-bottom:8px;
+    .lessonCard:hover{border-color:#9fc3e6;background:#fbfdff}
+    .quizCard{border-color:#d9c5ff!important;background:var(--quiz2)!important}
+    .quizCard:hover{border-color:#b99aef!important}
+    .type{
+      font-size:13px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;
+      margin-bottom:6px;color:var(--green)
     }
-    .file{
-      font-size:15px;
-      color:#6c8198;
-      word-break:break-all;
+    .quizCard .type{color:var(--quiz)}
+    .name{font-size:clamp(21px,3.5vw,28px);font-weight:900;color:var(--blue);margin-bottom:6px}
+    .quizCard .name{color:var(--quiz)}
+    .file{color:var(--muted);font-size:14px;word-break:break-all}
+    .emptyQuiz{padding:0 18px 18px;color:#8b96a3;font-size:14px}
+    .hint{
+      margin-top:10px;font-size:14px;line-height:1.5;color:#6d7f91
     }
-    .error{
-      background:#fff3f3;
-      border-color:#e5b8b8;
-      color:#8a3535;
-    }
-    @media(max-width:650px){
-      .grid{grid-template-columns:1fr}
+    @media(max-width:680px){
+      .lessonGrid{grid-template-columns:1fr}
+      .chapterHead{align-items:flex-start}
     }
   </style>
 </head>
+
 <body>
   <main class="wrap">
     <section class="hero">
-      <h1>Science Tutor</h1>
-      <p class="subtitle">Lessons are loaded automatically from this GitHub folder.</p>
+      <h1>🔬 Science Tutor</h1>
+      <p class="subtitle">Lessons and chapter quizzes are loaded automatically from GitHub.</p>
     </section>
 
-    <div id="status" class="status">Loading lessons...</div>
+    <div id="status" class="status">Loading Science lessons...</div>
     <div id="content"></div>
   </main>
 
@@ -109,12 +100,7 @@
   (function(){
     var owner = "mrbenzaaaa";
     var repo = "G6_Tutor_Anda";
-    var folder = "Science";
     var branch = "main";
-
-    var apiUrl =
-      "https://api.github.com/repos/" +
-      owner + "/" + repo + "/contents/" + folder + "?ref=" + branch;
 
     var statusEl = document.getElementById("status");
     var contentEl = document.getElementById("content");
@@ -128,22 +114,112 @@
         .replace(/'/g,"&#039;");
     }
 
-    function render(files){
+    function unique(arr){
+      var out=[];
+      for(var i=0;i<arr.length;i++){
+        if(arr[i] && out.indexOf(arr[i])===-1){ out.push(arr[i]); }
+      }
+      return out;
+    }
+
+    function getFolderCandidates(){
+      var candidates=[];
+
+      // If running on GitHub Pages, detect folder after repository name.
+      var parts = window.location.pathname.split("/").filter(function(x){ return x; });
+      var repoIndex = parts.indexOf(repo);
+
+      if(repoIndex >= 0 && parts.length > repoIndex + 1){
+        candidates.push(decodeURIComponent(parts.slice(repoIndex + 1).join("/")));
+      }
+
+      // If running locally, try to infer the current directory name.
+      if(window.location.protocol === "file:"){
+        var localParts = decodeURIComponent(window.location.pathname)
+          .replace(/\\/g,"/")
+          .split("/")
+          .filter(function(x){ return x; });
+
+        if(localParts.length >= 2){
+          var localFolder = localParts[localParts.length - 2];
+          candidates.push(localFolder);
+        }
+      }
+
+      // Safe fallbacks for common folder casing.
+      candidates.push("science");
+      candidates.push("Science");
+      candidates.push("SCIENCE");
+
+      return unique(candidates);
+    }
+
+    function buildApiUrl(folder){
+      return "https://api.github.com/repos/" +
+        owner + "/" + repo + "/contents/" +
+        encodeURIComponent(folder).replace(/%2F/g,"/") +
+        "?ref=" + branch;
+    }
+
+    function fetchFolder(candidates, index){
+      if(index >= candidates.length){
+        return Promise.reject(new Error(
+          "Could not find the Science folder in GitHub. Tried: " + candidates.join(", ")
+        ));
+      }
+
+      var folder = candidates[index];
+      var url = buildApiUrl(folder);
+
+      statusEl.textContent = "Checking GitHub folder: " + folder + " ...";
+
+      return fetch(url, {
+        headers: { "Accept": "application/vnd.github+json" }
+      })
+      .then(function(response){
+        if(response.ok){
+          return response.json().then(function(data){
+            return { folder: folder, data: data };
+          });
+        }
+
+        if(response.status === 404){
+          return fetchFolder(candidates, index + 1);
+        }
+
+        throw new Error("GitHub API returned HTTP " + response.status);
+      })
+      .catch(function(err){
+        // Only continue to the next candidate on normal lookup failures.
+        if(index + 1 < candidates.length){
+          return fetchFolder(candidates, index + 1);
+        }
+        throw err;
+      });
+    }
+
+    function render(files, folder){
       var lessons = [];
+      var quizzes = {};
 
       for(var i=0;i<files.length;i++){
         var f = files[i];
-
         if(f.type !== "file"){ continue; }
 
-        var match = /^c(\d+)l(\d+)\.html$/i.exec(f.name);
-        if(!match){ continue; }
+        var lessonMatch = /^c(\d+)l(\d+)\.html$/i.exec(f.name);
+        if(lessonMatch){
+          lessons.push({
+            name: f.name,
+            chapter: parseInt(lessonMatch[1],10),
+            lesson: parseInt(lessonMatch[2],10)
+          });
+          continue;
+        }
 
-        lessons.push({
-          name: f.name,
-          chapter: parseInt(match[1],10),
-          lesson: parseInt(match[2],10)
-        });
+        var quizMatch = /^c(\d+)_quiz\.html$/i.exec(f.name);
+        if(quizMatch){
+          quizzes[parseInt(quizMatch[1],10)] = f.name;
+        }
       }
 
       lessons.sort(function(a,b){
@@ -151,67 +227,116 @@
         return a.lesson - b.lesson;
       });
 
-      if(!lessons.length){
-        statusEl.textContent = "No Science lesson files found.";
-        return;
-      }
-
       var grouped = {};
+      var chapterMap = {};
+
       for(var j=0;j<lessons.length;j++){
         var item = lessons[j];
         if(!grouped[item.chapter]){ grouped[item.chapter] = []; }
         grouped[item.chapter].push(item);
+        chapterMap[item.chapter] = true;
       }
 
-      var chapters = Object.keys(grouped).sort(function(a,b){
-        return parseInt(a,10) - parseInt(b,10);
-      });
+      for(var quizChapter in quizzes){
+        if(Object.prototype.hasOwnProperty.call(quizzes,quizChapter)){
+          chapterMap[parseInt(quizChapter,10)] = true;
+        }
+      }
+
+      var chapters = Object.keys(chapterMap)
+        .map(function(x){ return parseInt(x,10); })
+        .sort(function(a,b){ return a-b; });
+
+      if(!chapters.length){
+        statusEl.className = "status error";
+        statusEl.innerHTML =
+          "<b>GitHub folder was found, but no lesson files matched.</b><br>" +
+          "Expected names such as <b>c1l1.html</b>, <b>c1l2.html</b>, or <b>c1_quiz.html</b>.";
+        return;
+      }
 
       var html = "";
+      var lessonCount = lessons.length;
+      var quizCount = Object.keys(quizzes).length;
 
       for(var c=0;c<chapters.length;c++){
         var ch = chapters[c];
-        html += '<h2 class="chapterTitle">Chapter ' + escapeHtml(ch) + '</h2>';
-        html += '<section class="grid">';
+        var items = grouped[ch] || [];
 
-        var items = grouped[ch];
+        html += '<section class="chapter">';
+        html += '<div class="chapterHead">';
+        html += '<h2 class="chapterTitle">Chapter ' + ch + '</h2>';
+        html += '<div class="chapterCount">' +
+                  items.length + (items.length===1 ? ' lesson' : ' lessons') +
+                '</div>';
+        html += '</div>';
+
+        html += '<div class="lessonGrid">';
+
         for(var k=0;k<items.length;k++){
           var x = items[k];
-
           html +=
-            '<a class="card" href="' + encodeURIComponent(x.name) + '">' +
-              '<div class="lesson">Lesson ' + x.lesson + '</div>' +
+            '<a class="card lessonCard" href="' + encodeURIComponent(x.name) + '">' +
+              '<div class="type">Lesson</div>' +
+              '<div class="name">Lesson ' + x.lesson + '</div>' +
               '<div class="file">' + escapeHtml(x.name) + '</div>' +
             '</a>';
+        }
+
+        if(quizzes[ch]){
+          html +=
+            '<a class="card quizCard" href="' + encodeURIComponent(quizzes[ch]) + '">' +
+              '<div class="type">Chapter Quiz</div>' +
+              '<div class="name">📝 Chapter ' + ch + ' Quiz</div>' +
+              '<div class="file">' + escapeHtml(quizzes[ch]) + '</div>' +
+            '</a>';
+        }
+
+        html += '</div>';
+
+        if(!quizzes[ch]){
+          html += '<div class="emptyQuiz">No chapter quiz file found yet.</div>';
         }
 
         html += '</section>';
       }
 
       contentEl.innerHTML = html;
-      statusEl.textContent =
-        lessons.length + (lessons.length === 1 ? " lesson found." : " lessons found.");
+      statusEl.className = "status ok";
+      statusEl.innerHTML =
+        "<b>Loaded from GitHub folder: " + escapeHtml(folder) + "</b><br>" +
+        lessonCount + (lessonCount===1 ? " lesson" : " lessons") +
+        " • " +
+        quizCount + (quizCount===1 ? " chapter quiz" : " chapter quizzes") +
+        " found.";
     }
 
-    fetch(apiUrl, {
-      headers: { "Accept": "application/vnd.github+json" }
-    })
-    .then(function(response){
-      if(!response.ok){
-        throw new Error("GitHub API returned " + response.status);
-      }
-      return response.json();
-    })
-    .then(function(data){
-      render(data);
-    })
-    .catch(function(error){
-      statusEl.className = "status error";
-      statusEl.innerHTML =
-        "<b>Could not load the lesson list automatically.</b><br>" +
-        "Please refresh the page. If the problem continues, check that the repository is public.";
-      console.error(error);
-    });
+    var folders = getFolderCandidates();
+
+    fetchFolder(folders, 0)
+      .then(function(result){
+        render(result.data, result.folder);
+      })
+      .catch(function(error){
+        statusEl.className = "status error";
+
+        var localHint = "";
+        if(window.location.protocol === "file:"){
+          localHint =
+            '<div class="hint">' +
+            'You are opening this page directly from your computer (file://). ' +
+            'The dynamic list comes from GitHub, so Internet access is required. ' +
+            'For the real test, open the GitHub Pages URL instead.' +
+            '</div>';
+        }
+
+        statusEl.innerHTML =
+          "<b>Could not load Science files automatically.</b><br>" +
+          escapeHtml(error.message || String(error)) +
+          localHint;
+
+        console.error(error);
+      });
   })();
   </script>
 </body>
