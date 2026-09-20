@@ -21,26 +21,14 @@
       padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)
     }
     .wrap{max-width:960px;margin:0 auto;padding:28px 18px 48px}
-    .hero{
-      background:#fff;border:2px solid var(--line);border-radius:26px;padding:26px;
-      box-shadow:var(--shadow);margin-bottom:18px
-    }
+    .hero{background:#fff;border:2px solid var(--line);border-radius:26px;padding:26px;box-shadow:var(--shadow);margin-bottom:18px}
     h1{margin:0 0 8px;color:var(--blue);font-size:clamp(32px,6vw,48px)}
     .subtitle{margin:0;color:var(--muted);font-size:clamp(17px,2.6vw,21px);line-height:1.5}
-    .status{
-      margin:16px 0 22px;padding:13px 16px;background:#fff;border:2px solid var(--line);
-      border-radius:15px;color:var(--muted);font-size:16px
-    }
+    .status{margin:16px 0 22px;padding:13px 16px;background:#fff;border:2px solid var(--line);border-radius:15px;color:var(--muted);font-size:16px}
     .status.error{background:#fff4f4;border-color:#e9bcbc;color:#8a2f2f}
     .status.ok{background:#f0fdf4;border-color:#b7e4c7;color:#166534}
-    .chapter{
-      margin:26px 0 0;background:#fff;border:2px solid var(--line);border-radius:24px;
-      box-shadow:var(--shadow);overflow:hidden
-    }
-    .chapterHead{
-      display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
-      padding:20px 22px;background:var(--blue2);border-bottom:1px solid var(--line)
-    }
+    .chapter{margin:26px 0 0;background:#fff;border:2px solid var(--line);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}
+    .chapterHead{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:20px 22px;background:var(--blue2);border-bottom:1px solid var(--line)}
     .chapterTitle{margin:0;color:var(--blue);font-size:clamp(24px,4vw,32px)}
     .chapterCount{color:var(--muted);font-size:14px;font-weight:700}
     .lessonGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:18px}
@@ -52,23 +40,22 @@
     }
     a.card:active{transform:scale(.99)}
     .quizCard{border-color:#d9c5ff!important;background:var(--quiz2)!important}
-    .type{
-      font-size:13px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;
-      margin-bottom:6px;color:var(--green)
-    }
+    .type{font-size:13px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px;color:var(--green)}
     .quizCard .type{color:var(--quiz)}
     .name{font-size:clamp(21px,3.5vw,28px);font-weight:900;color:var(--blue);margin-bottom:6px}
     .quizCard .name{color:var(--quiz)}
     .file{color:var(--muted);font-size:14px;word-break:break-all}
-    .emptyQuiz{padding:0 18px 18px;color:#8b96a3;font-size:14px}
     @media(max-width:680px){.lessonGrid{grid-template-columns:1fr}}
   </style>
 </head>
+
 <body>
   <main class="wrap">
     <section class="hero">
       <h1>🔬 Science Tutor</h1>
-      <p class="subtitle">Lessons and chapter quizzes are loaded automatically from the Science folder.</p>
+      <p class="subtitle">
+        Lessons are loaded automatically. A chapter quiz link is created automatically for every chapter.
+      </p>
     </section>
 
     <div id="status" class="status">Loading Science lessons...</div>
@@ -97,126 +84,126 @@
     }
 
     function render(files){
-      var lessons=[];
-      var quizzes={};
+      var lessons = [];
+      var quizFiles = {};
+      var chapterMap = {};
 
       for(var i=0;i<files.length;i++){
-        var f=files[i];
-        if(f.type!=="file"){continue;}
+        var f = files[i];
+        if(f.type !== "file"){ continue; }
 
-        var lm=/^c(\d+)l(\d+)\.html$/i.exec(f.name);
+        // c1l1.html, c1l2.html, c2l1.html ...
+        var lm = /^c(\d+)l(\d+)\.html$/i.exec(f.name);
         if(lm){
+          var ch = parseInt(lm[1],10);
           lessons.push({
             name:f.name,
-            chapter:parseInt(lm[1],10),
+            chapter:ch,
             lesson:parseInt(lm[2],10)
           });
+          chapterMap[ch] = true;
           continue;
         }
 
-        var qm=/^c(\d+)_quiz\.html$/i.exec(f.name);
+        // Detect uploaded quiz files too.
+        var qm = /^c(\d+)_quiz\.html$/i.exec(f.name);
         if(qm){
-          quizzes[parseInt(qm[1],10)]=f.name;
+          var qch = parseInt(qm[1],10);
+          quizFiles[qch] = f.name;
+          chapterMap[qch] = true;
         }
       }
 
       lessons.sort(function(a,b){
-        if(a.chapter!==b.chapter){return a.chapter-b.chapter;}
+        if(a.chapter !== b.chapter){ return a.chapter-b.chapter; }
         return a.lesson-b.lesson;
       });
 
-      var grouped={};
-      var chapterMap={};
-
+      var grouped = {};
       for(var j=0;j<lessons.length;j++){
-        var x=lessons[j];
-        if(!grouped[x.chapter]){grouped[x.chapter]=[];}
-        grouped[x.chapter].push(x);
-        chapterMap[x.chapter]=true;
+        var item = lessons[j];
+        if(!grouped[item.chapter]){ grouped[item.chapter] = []; }
+        grouped[item.chapter].push(item);
       }
 
-      for(var qc in quizzes){
-        if(Object.prototype.hasOwnProperty.call(quizzes,qc)){
-          chapterMap[parseInt(qc,10)]=true;
-        }
-      }
-
-      var chapters=Object.keys(chapterMap)
-        .map(function(x){return parseInt(x,10);})
-        .sort(function(a,b){return a-b;});
+      var chapters = Object.keys(chapterMap)
+        .map(function(x){ return parseInt(x,10); })
+        .sort(function(a,b){ return a-b; });
 
       if(!chapters.length){
-        statusEl.className="status error";
-        statusEl.innerHTML=
-          "<b>No matching Science files found.</b><br>"+
-          "Expected names such as c1l1.html, c1l2.html and c1_quiz.html.";
+        statusEl.className = "status error";
+        statusEl.innerHTML =
+          "<b>No Science chapters found.</b><br>" +
+          "Expected lesson filenames such as c1l1.html or c2l1.html.";
         return;
       }
 
-      var html="";
+      var html = "";
 
       for(var c=0;c<chapters.length;c++){
-        var ch=chapters[c];
-        var items=grouped[ch]||[];
+        var ch = chapters[c];
+        var items = grouped[ch] || [];
 
-        html+='<section class="chapter">';
-        html+='<div class="chapterHead">';
-        html+='<h2 class="chapterTitle">Chapter '+ch+'</h2>';
-        html+='<div class="chapterCount">'+items.length+
-          (items.length===1?' lesson':' lessons')+'</div>';
-        html+='</div>';
+        // ALWAYS create expected quiz link.
+        var quizName = "c" + ch + "_quiz.html";
 
-        html+='<div class="lessonGrid">';
+        html += '<section class="chapter">';
+        html += '<div class="chapterHead">';
+        html += '<h2 class="chapterTitle">Chapter ' + ch + '</h2>';
+        html += '<div class="chapterCount">' +
+                  items.length + (items.length===1 ? ' lesson' : ' lessons') +
+                '</div>';
+        html += '</div>';
+
+        html += '<div class="lessonGrid">';
 
         for(var k=0;k<items.length;k++){
-          var item=items[k];
-          html+=
-            '<a class="card" href="'+encodeURIComponent(item.name)+'">'+
-              '<div class="type">Lesson</div>'+
-              '<div class="name">Lesson '+item.lesson+'</div>'+
-              '<div class="file">'+esc(item.name)+'</div>'+
+          var x = items[k];
+          html +=
+            '<a class="card" href="' + encodeURIComponent(x.name) + '">' +
+              '<div class="type">Lesson</div>' +
+              '<div class="name">Lesson ' + x.lesson + '</div>' +
+              '<div class="file">' + esc(x.name) + '</div>' +
             '</a>';
         }
 
-        if(quizzes[ch]){
-          html+=
-            '<a class="card quizCard" href="'+encodeURIComponent(quizzes[ch])+'">'+
-              '<div class="type">Chapter Quiz</div>'+
-              '<div class="name">📝 Chapter '+ch+' Quiz</div>'+
-              '<div class="file">'+esc(quizzes[ch])+'</div>'+
-            '</a>';
-        }
+        // Always show the quiz button, whether GitHub API detected it or not.
+        html +=
+          '<a class="card quizCard" href="' + encodeURIComponent(quizName) + '">' +
+            '<div class="type">Chapter Quiz</div>' +
+            '<div class="name">📝 Chapter ' + ch + ' Quiz</div>' +
+            '<div class="file">' + esc(quizName) + '</div>' +
+          '</a>';
 
-        html+='</div>';
-
-        if(!quizzes[ch]){
-          html+='<div class="emptyQuiz">No chapter quiz file found yet.</div>';
-        }
-
-        html+='</section>';
+        html += '</div>';
+        html += '</section>';
       }
 
-      contentEl.innerHTML=html;
-      statusEl.className="status ok";
-      statusEl.textContent=
-        lessons.length+" lesson"+(lessons.length===1?"":"s")+
-        " • "+Object.keys(quizzes).length+" chapter quiz"+
-        (Object.keys(quizzes).length===1?"":"zes")+" found.";
+      contentEl.innerHTML = html;
+
+      var uploadedQuizCount = Object.keys(quizFiles).length;
+      statusEl.className = "status ok";
+      statusEl.innerHTML =
+        "<b>Loaded successfully.</b><br>" +
+        lessons.length + (lessons.length===1 ? " lesson" : " lessons") +
+        " • quiz links generated for " + chapters.length +
+        (chapters.length===1 ? " chapter" : " chapters") +
+        " • " + uploadedQuizCount + " quiz file" +
+        (uploadedQuizCount===1 ? "" : "s") + " currently detected on GitHub.";
     }
 
     fetch(apiUrl,{headers:{"Accept":"application/vnd.github+json"}})
       .then(function(r){
-        if(!r.ok){throw new Error("GitHub API HTTP "+r.status);}
+        if(!r.ok){ throw new Error("GitHub API HTTP " + r.status); }
         return r.json();
       })
       .then(render)
       .catch(function(err){
-        statusEl.className="status error";
-        statusEl.innerHTML=
-          "<b>Could not load Science files automatically.</b><br>"+
-          "API: "+esc(apiUrl)+"<br>"+
-          "Error: "+esc(err.message||String(err));
-        console.error(err);
+        statusEl.className = "status error";
+        statusEl.innerHTML =
+          "<b>Could not load Science lessons automatically.</b><br>" +
+          "API: " + esc(apiUrl) + "<br>" +
+          "Error: " + esc(err.message || String(err));
       });
   })();
   </script>
