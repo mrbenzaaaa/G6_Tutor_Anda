@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Science Tutor</title>
+  <style>
+    *{box-sizing:border-box}
+    html{-webkit-text-size-adjust:100%}
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      background:#f3f8fd;
+      color:#17324d;
+      min-height:100vh;
+      padding-top:env(safe-area-inset-top);
+      padding-bottom:env(safe-area-inset-bottom);
+    }
+    .wrap{
+      max-width:900px;
+      margin:0 auto;
+      padding:28px 20px 40px;
+    }
+    .hero{
+      background:#fff;
+      border:2px solid #cfe1f3;
+      border-radius:24px;
+      padding:24px;
+      margin-bottom:20px;
+      box-shadow:0 4px 14px rgba(23,74,135,.06);
+    }
+    h1{
+      margin:0 0 8px;
+      font-size:clamp(30px,6vw,46px);
+      color:#174a87;
+    }
+    .subtitle{
+      margin:0;
+      font-size:clamp(17px,3vw,21px);
+      color:#617995;
+    }
+    .status{
+      margin:16px 0;
+      padding:14px 16px;
+      background:#fff;
+      border:2px solid #d9e8f7;
+      border-radius:14px;
+      color:#5f7690;
+      font-size:17px;
+    }
+    .chapterTitle{
+      margin:28px 0 12px;
+      font-size:clamp(23px,4vw,30px);
+      color:#174a87;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+    }
+    a.card{
+      display:block;
+      text-decoration:none;
+      background:#fff;
+      color:#174a87;
+      border:2px solid #cfe1f3;
+      border-radius:20px;
+      padding:22px;
+      min-height:115px;
+      box-shadow:0 4px 14px rgba(23,74,135,.06);
+      -webkit-tap-highlight-color:transparent;
+      touch-action:manipulation;
+    }
+    a.card:active{transform:scale(.99)}
+    .lesson{
+      font-size:clamp(22px,4vw,30px);
+      font-weight:700;
+      margin-bottom:8px;
+    }
+    .file{
+      font-size:15px;
+      color:#6c8198;
+      word-break:break-all;
+    }
+    .error{
+      background:#fff3f3;
+      border-color:#e5b8b8;
+      color:#8a3535;
+    }
+    @media(max-width:650px){
+      .grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>Science Tutor</h1>
+      <p class="subtitle">Lessons are loaded automatically from this GitHub folder.</p>
+    </section>
+
+    <div id="status" class="status">Loading lessons...</div>
+    <div id="content"></div>
+  </main>
+
+  <script>
+  (function(){
+    var owner = "mrbenzaaaa";
+    var repo = "G6_Tutor_Anda";
+    var folder = "Science";
+    var branch = "main";
+
+    var apiUrl =
+      "https://api.github.com/repos/" +
+      owner + "/" + repo + "/contents/" + folder + "?ref=" + branch;
+
+    var statusEl = document.getElementById("status");
+    var contentEl = document.getElementById("content");
+
+    function escapeHtml(text){
+      return String(text)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+    }
+
+    function render(files){
+      var lessons = [];
+
+      for(var i=0;i<files.length;i++){
+        var f = files[i];
+
+        if(f.type !== "file"){ continue; }
+
+        var match = /^c(\d+)l(\d+)\.html$/i.exec(f.name);
+        if(!match){ continue; }
+
+        lessons.push({
+          name: f.name,
+          chapter: parseInt(match[1],10),
+          lesson: parseInt(match[2],10)
+        });
+      }
+
+      lessons.sort(function(a,b){
+        if(a.chapter !== b.chapter){ return a.chapter - b.chapter; }
+        return a.lesson - b.lesson;
+      });
+
+      if(!lessons.length){
+        statusEl.textContent = "No Science lesson files found.";
+        return;
+      }
+
+      var grouped = {};
+      for(var j=0;j<lessons.length;j++){
+        var item = lessons[j];
+        if(!grouped[item.chapter]){ grouped[item.chapter] = []; }
+        grouped[item.chapter].push(item);
+      }
+
+      var chapters = Object.keys(grouped).sort(function(a,b){
+        return parseInt(a,10) - parseInt(b,10);
+      });
+
+      var html = "";
+
+      for(var c=0;c<chapters.length;c++){
+        var ch = chapters[c];
+        html += '<h2 class="chapterTitle">Chapter ' + escapeHtml(ch) + '</h2>';
+        html += '<section class="grid">';
+
+        var items = grouped[ch];
+        for(var k=0;k<items.length;k++){
+          var x = items[k];
+
+          html +=
+            '<a class="card" href="' + encodeURIComponent(x.name) + '">' +
+              '<div class="lesson">Lesson ' + x.lesson + '</div>' +
+              '<div class="file">' + escapeHtml(x.name) + '</div>' +
+            '</a>';
+        }
+
+        html += '</section>';
+      }
+
+      contentEl.innerHTML = html;
+      statusEl.textContent =
+        lessons.length + (lessons.length === 1 ? " lesson found." : " lessons found.");
+    }
+
+    fetch(apiUrl, {
+      headers: { "Accept": "application/vnd.github+json" }
+    })
+    .then(function(response){
+      if(!response.ok){
+        throw new Error("GitHub API returned " + response.status);
+      }
+      return response.json();
+    })
+    .then(function(data){
+      render(data);
+    })
+    .catch(function(error){
+      statusEl.className = "status error";
+      statusEl.innerHTML =
+        "<b>Could not load the lesson list automatically.</b><br>" +
+        "Please refresh the page. If the problem continues, check that the repository is public.";
+      console.error(error);
+    });
+  })();
+  </script>
+</body>
+</html>
