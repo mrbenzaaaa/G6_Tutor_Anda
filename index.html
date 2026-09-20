@@ -151,11 +151,84 @@
       .name,.desc,.go{grid-column:2}
       .go{margin-top:8px}
     }
+  
+    .login-shell{
+      min-height:calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px 16px;
+    }
+    .login-box{
+      width:min(520px,100%);
+      background:#fff;
+      border:2px solid var(--line);
+      border-radius:28px;
+      padding:30px;
+      box-shadow:var(--shadow);
+      text-align:center;
+    }
+    .login-icon{font-size:56px;margin-bottom:10px}
+    .login-box h1{font-size:clamp(30px,6vw,44px);margin-bottom:8px}
+    .login-box p{color:var(--muted);font-size:17px;line-height:1.5}
+    .password-row{display:grid;gap:12px;margin-top:20px}
+    .password-input{
+      width:100%;
+      min-height:58px;
+      border:2px solid #c9dced;
+      border-radius:16px;
+      padding:12px 16px;
+      font-size:24px;
+      text-align:center;
+      letter-spacing:.12em;
+      outline:none;
+      -webkit-appearance:none;
+      appearance:none;
+    }
+    .password-input:focus{border-color:#4b8ed1;box-shadow:0 0 0 4px rgba(75,142,209,.12)}
+    .login-btn{
+      min-height:58px;
+      border:0;
+      border-radius:16px;
+      background:#2563eb;
+      color:#fff;
+      font-size:20px;
+      font-weight:900;
+      cursor:pointer;
+      touch-action:manipulation;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .login-btn:active{transform:scale(.99)}
+    .login-error{
+      min-height:24px;
+      margin-top:10px;
+      color:#b42318;
+      font-size:16px;
+      font-weight:800;
+    }
+    #mainMenu{display:none}
+
   </style>
 </head>
 
 <body>
-  <main class="wrap">
+  <section id="loginScreen" class="login-shell">
+    <div class="login-box">
+      <div class="login-icon">🔐</div>
+      <h1>Grade 6 Tutor</h1>
+      <p>Enter the password to open the lesson menu.</p>
+      <div class="password-row">
+        <input id="passwordInput" class="password-input"
+               type="password" inputmode="numeric" pattern="[0-9]*"
+               maxlength="12" autocomplete="off"
+               aria-label="Password">
+        <button id="loginBtn" class="login-btn" type="button">Open Tutor</button>
+      </div>
+      <div id="loginError" class="login-error" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <main id="mainMenu" class="wrap">
     <section class="hero">
       <div class="badge">GRADE 6 LEARNING HUB</div>
       <h1>🎓 Grade 6 Tutor</h1>
@@ -195,5 +268,52 @@
 
     <div class="footer">Grade 6 Tutor • iPad / Safari friendly</div>
   </main>
+
+  <script>
+  (function(){
+    var CORRECT_PASSWORD = "246802";
+    var loginScreen = document.getElementById("loginScreen");
+    var mainMenu = document.getElementById("mainMenu");
+    var passwordInput = document.getElementById("passwordInput");
+    var loginBtn = document.getElementById("loginBtn");
+    var loginError = document.getElementById("loginError");
+
+    function unlock(){
+      if(passwordInput.value === CORRECT_PASSWORD){
+        loginError.textContent = "";
+        loginScreen.style.display = "none";
+        mainMenu.style.display = "block";
+        try{ sessionStorage.setItem("g6_tutor_unlocked","1"); }catch(e){}
+        window.scrollTo(0,0);
+      }else{
+        mainMenu.style.display = "none";
+        loginError.textContent = "Incorrect password. Please try again.";
+        passwordInput.value = "";
+        passwordInput.focus();
+      }
+    }
+
+    loginBtn.onclick = unlock;
+
+    passwordInput.addEventListener("keydown", function(e){
+      if(e.key === "Enter" || e.keyCode === 13){
+        e.preventDefault();
+        unlock();
+      }
+    });
+
+    try{
+      if(sessionStorage.getItem("g6_tutor_unlocked") === "1"){
+        loginScreen.style.display = "none";
+        mainMenu.style.display = "block";
+      }else{
+        setTimeout(function(){ passwordInput.focus(); }, 100);
+      }
+    }catch(e){
+      setTimeout(function(){ passwordInput.focus(); }, 100);
+    }
+  })();
+  </script>
+
 </body>
 </html>
