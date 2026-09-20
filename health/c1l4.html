@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 4 — Making Decisions and Setting Goals | Touchscreen Tutor v2</title>
+<style>
+  :root{
+    --bg1:#eef7ff; --bg2:#fff7ed; --card:#ffffff; --ink:#17324d; --muted:#5e7185;
+    --accent:#3768d8; --accent2:#8b5cf6; --gold:#f5b942; --green:#15803d; --red:#c62828;
+    --soft-blue:#eaf1ff; --soft-green:#e9f8ef; --soft-yellow:#fff7d6; --soft-purple:#f4efff;
+    --border:#d8e3ef; --shadow:0 14px 36px rgba(30,60,90,.14);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%;font-family:Arial, Helvetica, sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--ink)}
+  body{min-height:100vh}
+  button{font:inherit}
+  .app{min-height:100vh;display:flex;flex-direction:column}
+  .topbar{display:flex;align-items:center;gap:14px;padding:14px 18px;background:rgba(255,255,255,.9);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:20;backdrop-filter:blur(10px)}
+  .brand{font-weight:900;font-size:clamp(16px,2.1vw,23px);white-space:nowrap}
+  .progress-wrap{flex:1;height:12px;background:#e7eef6;border-radius:999px;overflow:hidden;min-width:80px}
+  .progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .25s ease}
+  .counter{font-weight:800;color:var(--muted);font-size:14px;white-space:nowrap}
+  main{flex:1;display:flex;align-items:center;justify-content:center;padding:24px}
+  .stage{width:min(1080px,100%)}
+  .slide{background:var(--card);border:1px solid var(--border);border-radius:28px;box-shadow:var(--shadow);padding:clamp(24px,4vw,52px);min-height:650px;display:flex;flex-direction:column;gap:20px;animation:fade .24s ease}
+  @keyframes fade{from{opacity:.2;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-weight:900;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;font-size:13px}
+  h1,h2,h3{margin:0;line-height:1.08}
+  h1{font-size:clamp(34px,5.5vw,64px)}
+  h2{font-size:clamp(30px,4.1vw,48px)}
+  h3{font-size:clamp(20px,2.7vw,30px)}
+  p{font-size:clamp(17px,2vw,22px);line-height:1.52;margin:0}
+  .sub{color:var(--muted);font-size:clamp(16px,1.8vw,20px)}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .card{border:1px solid var(--border);border-radius:20px;padding:18px;background:#fbfdff}
+  .card strong{color:#123e72}
+  .pill{display:inline-block;padding:7px 12px;border-radius:999px;background:var(--soft-blue);font-weight:800;margin:3px 6px 3px 0}
+  .arrow{font-size:clamp(21px,2.8vw,30px);font-weight:900;text-align:center;color:var(--accent)}
+  .bigline{font-size:clamp(24px,3.5vw,40px);font-weight:900;text-align:center;padding:18px;border-radius:20px;background:linear-gradient(135deg,var(--soft-blue),var(--soft-purple))}
+  ul,ol{margin:0;padding-left:1.25em;font-size:clamp(17px,1.9vw,21px);line-height:1.48}
+  li{margin:8px 0}
+  .remember{margin-top:auto;background:linear-gradient(135deg,#fff5bd,#ffe7a0);border:2px solid #f2c24d;border-radius:20px;padding:16px 18px;font-size:clamp(17px,1.9vw,21px);font-weight:850}
+  .remember b{color:#7a4a00}
+  .teacher-def{background:var(--soft-purple);border-left:6px solid var(--accent2);padding:16px 18px;border-radius:14px;font-size:clamp(17px,1.9vw,21px);font-weight:750}
+  .mainidea{background:var(--soft-blue);border-left:6px solid var(--accent);padding:16px 18px;border-radius:14px;font-size:clamp(17px,1.9vw,21px);font-weight:800}
+  .quote{border-left:5px solid var(--gold);padding:12px 18px;background:var(--soft-yellow);font-size:clamp(17px,1.9vw,21px);font-weight:750}
+  .nav{display:flex;gap:12px;justify-content:center;padding:16px 18px 22px;position:sticky;bottom:0;background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.95) 35%)}
+  .btn{border:0;border-radius:18px;padding:15px 24px;min-height:58px;min-width:135px;font-weight:900;font-size:18px;cursor:pointer;box-shadow:0 5px 14px rgba(30,60,90,.12);touch-action:manipulation}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .btn-back{background:#eef3f8;color:var(--ink)}
+  .btn-next{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+  .btn-restart{background:#fff4cf;color:#6d4b00}
+  .section-label{font-size:14px;font-weight:900;color:#6b7280;text-transform:uppercase;letter-spacing:.07em}
+  .step-row{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:start}
+  .step-num{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:var(--accent);color:#fff;font-weight:900;font-size:22px}
+  .help-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .help-card{border-radius:20px;padding:18px;border:1px solid var(--border);background:#fbfdff}
+  .help-card .letter{font-size:34px;font-weight:1000;color:var(--accent)}
+  .smart{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+  .smart .s{padding:16px 8px;text-align:center;border-radius:18px;background:var(--soft-blue);font-weight:900;font-size:clamp(15px,1.7vw,19px)}
+  .vocab-table{width:100%;border-collapse:separate;border-spacing:0 10px}
+  .vocab-table td{padding:13px 15px;background:#f8fbff;border-top:1px solid var(--border);border-bottom:1px solid var(--border);font-size:clamp(15px,1.6vw,19px)}
+  .vocab-table td:first-child{font-weight:900;border-left:1px solid var(--border);border-radius:14px 0 0 14px;width:30%}
+  .vocab-table td:last-child{border-right:1px solid var(--border);border-radius:0 14px 14px 0}
+  .quizbox{display:flex;flex-direction:column;gap:18px}
+  .question{font-size:clamp(24px,3.2vw,38px);font-weight:900;line-height:1.25}
+  .answers{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .answer{border:2px solid var(--border);background:#fff;border-radius:20px;padding:18px;text-align:left;font-size:clamp(17px,1.9vw,21px);font-weight:800;min-height:78px;cursor:pointer;touch-action:manipulation;transition:.15s}
+  .answer:hover{transform:translateY(-1px);border-color:#9bb3e7}
+  .answer.correct{background:var(--soft-green);border-color:#65b77b;color:#0f5d2d}
+  .answer.wrong{background:#ffecec;border-color:#e18d8d;color:#8e1b1b}
+  .feedback{display:none;border-radius:18px;padding:16px 18px;font-size:clamp(16px,1.8vw,20px);font-weight:750}
+  .feedback.good{display:block;background:var(--soft-green);border:1px solid #87c99a;color:#115a2c}
+  .feedback.bad{display:block;background:#fff0f0;border:1px solid #e4a1a1;color:#861d1d}
+  .quiz-next{display:none;align-self:flex-end}
+  .scorechip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;background:#edf4ff;border-radius:999px;font-weight:900}
+  .review-list{display:flex;flex-wrap:wrap;gap:10px}
+  .review-tag{background:#fff2c7;border:1px solid #f0c65c;border-radius:999px;padding:8px 12px;font-weight:800}
+  .final-score{font-size:clamp(54px,9vw,100px);font-weight:1000;text-align:center;color:var(--accent)}
+  .small-note{font-size:14px;color:var(--muted)}
+  .modebadge{display:inline-block;background:#111827;color:white;padding:7px 11px;border-radius:999px;font-size:12px;font-weight:900;letter-spacing:.05em}
+  .hidden{display:none!important}
+  @media (max-width:760px){
+    main{padding:12px}.slide{min-height:calc(100vh - 180px);border-radius:22px;padding:22px 18px}.grid,.grid3,.help-grid,.answers{grid-template-columns:1fr}.smart{grid-template-columns:1fr}.nav{flex-wrap:wrap}.btn{flex:1;min-width:110px}.topbar{gap:8px;padding:10px}.brand{display:none}.counter{font-size:12px}.vocab-table td{display:block;width:100%!important;border:1px solid var(--border)!important;border-radius:12px!important;margin-bottom:4px}.vocab-table tr{display:block;margin-bottom:10px}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand">Lesson 4 Touchscreen Tutor</div>
+    <div class="progress-wrap" aria-label="progress"><div id="progressBar" class="progress-bar"></div></div>
+    <div id="counter" class="counter">Slide 1 of 1</div>
+  </div>
+
+  <main>
+    <div class="stage"><section id="screen" class="slide"></section></div>
+  </main>
+
+  <div id="nav" class="nav">
+    <button id="backBtn" class="btn btn-back">← Back</button>
+    <button id="restartBtn" class="btn btn-restart">↻ Restart</button>
+    <button id="nextBtn" class="btn btn-next">Next →</button>
+  </div>
+</div>
+
+<script>
+const slides = [
+{
+  type:'teach', title:'Making Decisions and Setting Goals', kicker:'Lesson 4 • Animated Touchscreen Tutor',
+  body:`<p class="sub">Built only from the provided Lesson 4 study material and teacher vocabulary.</p>
+  <div class="mainidea"><b>BIG IDEA:</b> Mental and emotional disorders can be treated.</div>
+  <div class="card"><h3>Before You Read — Quick Write</h3><p>Describe a decision you made recently. List the steps you took when making that decision.</p></div>
+  <div class="grid"><div class="card"><b>Teaching</b><p>Decisions, six steps, H.E.L.P., values, goals, and S.M.A.R.T.</p></div><div class="card"><b>Exam Practice</b><p>35 questions, one at a time, with instant feedback and score.</p></div></div>`,
+  remember:'Lesson 4 = DECISIONS + GOALS.'
+},
+{
+  type:'teach', title:'What You Must Know', kicker:'Study Map',
+  body:`<div class="grid3">
+    <div class="card"><b>1. Decisions & Health</b><p>Decisions → consequences → health.</p></div>
+    <div class="card"><b>2. Six-Step Process</b><p>Know and understand all 6 steps.</p></div>
+    <div class="card"><b>3. H.E.L.P.</b><p>Healthful, Ethical, Legal, Parent Approval.</p></div>
+    <div class="card"><b>4. Values & Criteria</b><p>Values guide how a person lives; criteria are standards for decisions.</p></div>
+    <div class="card"><b>5. Types of Goals</b><p>Short-term vs. long-term and how they connect.</p></div>
+    <div class="card"><b>6. S.M.A.R.T.</b><p>Specific, Measurable, Attainable, Relevant, Timely.</p></div>
+  </div>
+  <p class="sub">Also know Tran's chess club/movie situation, trusted adults, consequences, respect, and healthful rewards.</p>`,
+  remember:'Six big topics: Decisions, 6 Steps, H.E.L.P., Values, Goals, S.M.A.R.T.'
+},
+{
+  type:'teach', title:'Teacher Vocabulary — Part 1', kicker:'Must Memorize Exactly',
+  body:`<table class="vocab-table">
+    <tr><td>Decision making</td><td>The process of making a choice or solving a problem.</td></tr>
+    <tr><td>Ethical</td><td>Choosing to take the right action.</td></tr>
+    <tr><td>Values</td><td>The beliefs that guide the way a person lives.</td></tr>
+    <tr><td>Criteria</td><td>Standard on which to base decisions.</td></tr>
+  </table>`,
+  remember:'Decision making = choice/problem; Ethical = right action; Values = beliefs; Criteria = standard.'
+},
+{
+  type:'teach', title:'Teacher Vocabulary — Part 2', kicker:'Must Memorize Exactly',
+  body:`<table class="vocab-table">
+    <tr><td>Goal setting</td><td>The process of working toward something you want to accomplish.</td></tr>
+    <tr><td>Short-term goal</td><td>A goal that you can achieve in short length of time.</td></tr>
+    <tr><td>Long-term goal</td><td>A goal that you plan to reach over an extended period of time.</td></tr>
+  </table>
+  <div class="quote">Teacher definitions are preserved exactly as provided.</div>`,
+  remember:'Goal setting = work toward what you want to accomplish.'
+},
+{
+  type:'teach', title:'Decisions and Your Health', kicker:'Topic 1',
+  body:`<div class="mainidea"><b>MAIN IDEA:</b> All of your decisions have consequences that can positively or negatively affect your health.</div>
+  <p>As you get older, you can make more decisions on your own. Making responsible decisions can allow you to gain more privileges.</p>
+  <p>To make good decisions, think about two things: <b>Which choice is healthful?</b> and <b>Which choice fits my values?</b></p>`,
+  remember:'Good decisions consider HEALTH + VALUES.'
+},
+{
+  type:'teach', title:'Decision → Consequence → Health', kicker:'Important Connections',
+  body:`<div class="grid3">
+    <div class="card"><b>Not using tobacco</b><p>→ positive long-term effect on <b>physical health</b></p></div>
+    <div class="card"><b>Reporting a bully</b><p>→ promotes <b>mental/emotional health</b></p></div>
+    <div class="card"><b>Friendships with others who share your values</b><p>→ promotes <b>social health</b></p></div>
+  </div>
+  <p>Some decisions may help you avoid harmful behaviors. For some decisions, you may also want help from <b>parents, guardians, or other trusted adults</b>.</p>`,
+  remember:'Every decision can have a positive or negative consequence.'
+},
+{
+  type:'teach', title:'What Is Decision Making?', kicker:'Topic 2',
+  body:`<div class="teacher-def"><b>Decision making</b> — The process of making a choice or solving a problem.</div>
+  <p>You make decisions every day: what to eat for breakfast, what music to buy, or whether to join a sports team.</p>
+  <p>Some decisions are easy. Others are more difficult. The process helps you make the best possible decisions and helps keep you from deciding without thinking things through.</p>`,
+  remember:'Decision making = CHOICE or PROBLEM → think → decide.'
+},
+{
+  type:'teach', title:'The 6 Decision-Making Steps', kicker:'Very Important for the Test',
+  body:`<div class="grid">
+    <div class="step-row"><div class="step-num">1</div><div><h3>State the situation</h3></div></div>
+    <div class="step-row"><div class="step-num">2</div><div><h3>List the options</h3></div></div>
+    <div class="step-row"><div class="step-num">3</div><div><h3>Weigh the possible outcomes</h3></div></div>
+    <div class="step-row"><div class="step-num">4</div><div><h3>Consider your values</h3></div></div>
+    <div class="step-row"><div class="step-num">5</div><div><h3>Make a decision and act</h3></div></div>
+    <div class="step-row"><div class="step-num">6</div><div><h3>Evaluate the decision</h3></div></div>
+  </div>`,
+  remember:'STATE → LIST → WEIGH → VALUES → ACT → EVALUATE.'
+},
+{
+  type:'teach', title:"Tran's Situation", kicker:'Book Example',
+  body:`<p>Tran is a member of the school chess club. The club is preparing for a competition with another school.</p>
+  <div class="bigline">Chess club meeting: <b>3:30 tomorrow</b></div>
+  <p>His friends want him to go to a movie with them. Tran uses the decision-making process to decide what to do.</p>
+  <div class="grid"><div class="card"><b>Choice 1</b><p>Go to chess club.</p></div><div class="card"><b>Choice 2</b><p>Go to a movie with friends.</p></div></div>`,
+  remember:'Tran = CHESS CLUB vs. MOVIE.'
+},
+{
+  type:'teach', title:'Step 1 — State the Situation', kicker:'Decision-Making Process',
+  body:`<p>Identify the situation as you understand it.</p>
+  <div class="grid3"><div class="card"><b>Ask:</b><p>What choice do you need to make?</p></div><div class="card"><b>Ask:</b><p>What are the facts?</p></div><div class="card"><b>Ask:</b><p>Who else is involved?</p></div></div>
+  <p>Tran knows the chess club depends on him, he needs practice for the competition, and he also likes being with his friends. His choice involves himself, the chess club members, and his friends.</p>
+  <div class="quote">When you understand the situation and your choices, you can make a sound decision.</div>`,
+  remember:'Step 1 = Know the CHOICE, FACTS, and PEOPLE involved.'
+},
+{
+  type:'teach', title:'Step 2 — List the Options', kicker:'Decision-Making Process',
+  body:`<p>Think of your options and list all the possibilities you can think of.</p>
+  <ul><li>Include only options that are <b>safe</b>.</li><li>It is never an option to risk your health or someone else's health.</li><li>Ask an adult you trust for advice when making an important decision.</li></ul>
+  <p>Tran listed chess club and the movie. His mom suggested a third option: go to chess club for part of the meeting, then leave early to join his friends at the movie theatre.</p>`,
+  remember:'Step 2 = List SAFE options; trusted adults can help.'
+},
+{
+  type:'teach', title:'Step 3 — Weigh the Possible Outcomes', kicker:'Decision-Making Process',
+  body:`<p>After listing options, evaluate the <b>consequences</b> of each option.</p>
+  <div class="smart"><div class="s">H<br>Healthful</div><div class="s">E<br>Ethical</div><div class="s">L<br>Legal</div><div class="s">P<br>Parent Approval</div><div class="s">→<br>Outcome</div></div>
+  <p>The word <b>H.E.L.P.</b> can help you work through this step.</p>`,
+  remember:'H.E.L.P. is used in Step 3.'
+},
+{
+  type:'teach', title:'H.E.L.P. — What Each Letter Means', kicker:'Step 3 Tool',
+  body:`<div class="help-grid">
+    <div class="help-card"><div class="letter">H</div><h3>Healthful</h3><p>What health risks will this option present to me or to others?</p></div>
+    <div class="help-card"><div class="letter">E</div><h3>Ethical</h3><p>Does this choice reflect what you and your family believe to be right? Does it show respect?</p></div>
+    <div class="help-card"><div class="letter">L</div><h3>Legal</h3><p>Will I be breaking the law? Is this legal for someone my age?</p></div>
+    <div class="help-card"><div class="letter">P</div><h3>Parent Approval</h3><p>Would your parents approve of this choice?</p></div>
+  </div>
+  <div class="teacher-def"><b>Ethical</b> — Choosing to take the right action.</div>`,
+  remember:'H = Healthful, E = Ethical, L = Legal, P = Parent Approval.'
+},
+{
+  type:'teach', title:"How Tran Used H.E.L.P.", kicker:'Step 3 Example',
+  body:`<ul>
+    <li>None of the choices presented health risks to himself or others.</li>
+    <li>He felt that all the choices were ethical.</li>
+    <li>He worried the chess club members might feel disrespected if he skipped club for the movie.</li>
+    <li>He determined that all choices were legal.</li>
+    <li>He thought his parents would probably not be too upset with any choice.</li>
+  </ul>`,
+  remember:'H.E.L.P. = check each option before you choose.'
+},
+{
+  type:'teach', title:'Step 4 — Consider Your Values', kicker:'Decision-Making Process',
+  body:`<div class="teacher-def"><b>Values</b> — The beliefs that guide the way a person lives.</div>
+  <p>Values reflect what is important to you and what you have learned is right and wrong.</p>
+  <div class="review-list"><span class="pill">honesty</span><span class="pill">respect</span><span class="pill">consideration</span><span class="pill">good health</span></div>
+  <p>Tran realized that <b>keeping commitments</b> and <b>friendship</b> were both very important to him.</p>`,
+  remember:'Values = beliefs that GUIDE how you live.'
+},
+{
+  type:'teach', title:'Criteria Help You Decide', kicker:'Values & Criteria',
+  body:`<div class="teacher-def"><b>Criteria</b> — Standard on which to base decisions.</div>
+  <p>Values provide criteria that help you evaluate the possible outcomes of your decision.</p>
+  <div class="grid"><div class="card"><b>If you value good health…</b><p>You will exercise regularly and eat nutritious foods.</p></div><div class="card"><b>If you value honesty…</b><p>You will not make decisions that involve lying, cheating, or stealing.</p></div></div>`,
+  remember:'VALUES guide you; CRITERIA are standards for the decision.'
+},
+{
+  type:'teach', title:'Step 5 — Make a Decision and Act', kicker:'Decision-Making Process',
+  body:`<p>Choose the option that seems best for you after weighing options, risks, and consequences.</p>
+  <ul><li>Be comfortable with your decision.</li><li>Think about how it may affect others.</li><li>Make sure the option supports your values.</li><li>If you are unsure, ask a trusted adult.</li><li>This step is not complete until you <b>take action</b>.</li></ul>
+  <p>Tran chose his mom's suggestion: attend chess club, tell the advisor he would leave early, practice, then join his friends at the movie theatre.</p>`,
+  remember:'Step 5 = CHOOSE + ACT.'
+},
+{
+  type:'teach', title:'Step 6 — Evaluate the Decision', kicker:'Decision-Making Process',
+  body:`<p>After you take action, evaluate the results. This can help you make better decisions in the future.</p>
+  <div class="grid"><div class="card"><b>Ask yourself:</b><ul><li>Was the outcome positive or negative?</li><li>Were there unexpected outcomes?</li><li>Could I have done anything differently?</li></ul></div><div class="card"><b>Also ask:</b><ul><li>How did my decision affect others?</li><li>Did I make the right decision?</li><li>What did I learn?</li></ul></div></div>
+  <p>If the outcome was not what you expected, try again and use the decision-making process to find another way.</p>`,
+  remember:'Step 6 = LOOK BACK → LEARN → make better decisions next time.'
+},
+{
+  type:'teach', title:"Tran's Evaluation", kicker:'Step 6 Example',
+  body:`<ul><li>He felt the outcome was positive.</li><li>There were no unexpected outcomes.</li><li>He would not have done anything differently.</li><li>His decision did not affect others negatively.</li><li>He felt he made the right decision.</li><li>He learned that using the process is worth the time.</li></ul>
+  <p>Tran also knew that some decisions are harder than others, and more difficult decisions can take much more time.</p>`,
+  remember:'Evaluate = What happened? What did I learn?'
+},
+{
+  type:'teach', title:'Easy to Confuse', kicker:'Decision Vocabulary',
+  body:`<div class="grid">
+    <div class="card"><h3>Decision vs. Consequence</h3><p><b>Decision</b> → the choice you make</p><p><b>Consequence</b> → what happens because of the choice</p></div>
+    <div class="card"><h3>Healthful vs. Values</h3><p><b>Healthful</b> → think about health risks</p><p><b>Values</b> → beliefs that guide the way a person lives</p></div>
+    <div class="card"><h3>Values vs. Criteria</h3><p><b>Values</b> → beliefs</p><p><b>Criteria</b> → standard on which to base decisions</p></div>
+    <div class="card"><h3>Step 5 vs. Step 6</h3><p><b>Step 5</b> → choose and act</p><p><b>Step 6</b> → evaluate the result</p></div>
+  </div>`,
+  remember:'CHOICE → RESULT; BELIEFS → STANDARDS; ACT → EVALUATE.'
+},
+{
+  type:'teach', title:'Setting Realistic Goals', kicker:'Topic 5',
+  body:`<div class="mainidea"><b>MAIN IDEA:</b> Goals can be short-term or long-term.</div>
+  <p>A <b>goal</b> is something you want to accomplish.</p>
+  <div class="teacher-def"><b>Goal setting</b> — The process of working toward something you want to accomplish.</div>
+  <p>Setting a goal and planning to achieve it can help you focus on what you want to accomplish. Goals can help you make good decisions, give you a sense of purpose, and help you measure your progress.</p>`,
+  remember:'GOAL = something you want to accomplish.'
+},
+{
+  type:'teach', title:'Short-Term vs. Long-Term Goals', kicker:'Types of Goals',
+  body:`<div class="grid">
+    <div class="card"><h3>Short-Term Goal</h3><div class="teacher-def">A goal that you can achieve in short length of time.</div><p><b>Book example:</b> Getting your homework turned in on time.</p></div>
+    <div class="card"><h3>Long-Term Goal</h3><div class="teacher-def">A goal that you plan to reach over an extended period of time.</div><p><b>Book example:</b> Getting a college education.</p></div>
+  </div>`,
+  remember:'SHORT = soon; LONG = extended period of time.'
+},
+{
+  type:'teach', title:'Short-Term Goals Build Long-Term Goals', kicker:'Important Connection',
+  body:`<p><b>Long-term goal:</b> Finish a class project by the end of the semester.</p>
+  <div class="bigline">Choose a topic ↓ Plan delivery ↓ Research ↓ Finish a few days early ↓ Complete the project</div>
+  <p>Often, long-term goals are made up of short-term goals.</p>`,
+  remember:'Several SHORT-TERM goals → one LONG-TERM goal.'
+},
+{
+  type:'teach', title:'Reaching Your Goals', kicker:'Topic 6',
+  body:`<p>To accomplish short-term and long-term goals, you need a <b>plan</b>. A plan helps you identify the criteria for your goal.</p>
+  <p>The <b>S.M.A.R.T. goal criteria</b> can help you develop an action plan.</p>
+  <div class="smart"><div class="s">S<br>Specific</div><div class="s">M<br>Measurable</div><div class="s">A<br>Attainable</div><div class="s">R<br>Relevant</div><div class="s">T<br>Timely</div></div>`,
+  remember:'S.M.A.R.T. helps you develop an ACTION PLAN.'
+},
+{
+  type:'teach', title:'S — Specific', kicker:'S.M.A.R.T. Goals',
+  body:`<p>Identify your reasons for wanting to achieve the goal.</p>
+  <div class="grid"><div class="card"><b>Ask:</b><p>What is my goal?</p></div><div class="card"><b>Ask:</b><p>Why do I want to achieve this goal?</p></div><div class="card"><b>Ask:</b><p>Who can help me reach the goal?</p></div><div class="card"><b>Ask:</b><p>How long will it take? When should I begin?</p></div></div>`,
+  remember:'Specific = know WHAT, WHY, WHO, HOW LONG, and WHEN.'
+},
+{
+  type:'teach', title:'M — Measurable', kicker:'S.M.A.R.T. Goals',
+  body:`<p>Determine how long it will take you to achieve the goal.</p>
+  <p>If it is a long-term goal, consider whether you should set short-term goals to identify your progress.</p>`,
+  remember:'Measurable = identify PROGRESS and how long it will take.'
+},
+{
+  type:'teach', title:'A — Attainable', kicker:'S.M.A.R.T. Goals',
+  body:`<p>Be honest with yourself. Are you capable of attaining the goal?</p>
+  <div class="quote">Book example: If you are currently about five feet tall, is it realistic to set a goal to grow to six feet in height?</div>`,
+  remember:'Attainable = Can I realistically attain this goal?'
+},
+{
+  type:'teach', title:'R — Relevant', kicker:'S.M.A.R.T. Goals',
+  body:`<p>Ask whether the goal helps you achieve something that is relevant to you.</p>
+  <div class="quote">Book example: A person may prefer soda, but if the person chooses to be healthier, drinking more water is a relevant goal.</div>`,
+  remember:'Relevant = Does this goal matter to what I want to achieve?'
+},
+{
+  type:'teach', title:'T — Timely', kicker:'S.M.A.R.T. Goals',
+  body:`<p>Think about your timeframe for achieving the goal.</p>
+  <div class="grid3"><div class="card"><b>Deadline</b><p>What is your timeframe?</p></div><div class="card"><b>Action plan</b><p>How will you meet that deadline?</p></div><div class="card"><b>Steps</b><p>What steps will help you succeed?</p></div></div>`,
+  remember:'Timely = TIMEFRAME + DEADLINE + PLAN.'
+},
+{
+  type:'teach', title:'When You Complete a Goal', kicker:'Goal Completion',
+  body:`<p>It is important to acknowledge the completion of a goal.</p>
+  <p>When you achieve a goal, <b>reward yourself</b>. Try to choose a reward that is <b>healthful</b>.</p>`,
+  remember:'Achieve the goal → choose a HEALTHFUL reward.'
+},
+{
+  type:'teach', title:'Developing Good Character — Respect', kicker:'Respect',
+  body:`<p>Liking and respecting yourself is important to good mental health.</p>
+  <p>It is hard to do this when you make a decision that goes against your values.</p>
+  <p>When faced with a difficult choice, earning the respect of others matters, but more importantly, you want to respect yourself.</p>
+  <div class="quote">Making healthy decisions shows that you respect yourself and your health.</div>`,
+  remember:'Healthy decisions can show RESPECT for yourself and your health.'
+},
+{
+  type:'teach', title:'Reading Checks from the Lesson', kicker:'Quick Self-Check',
+  body:`<ol>
+    <li>Give an example of a health decision that could affect your health now and in the future.</li>
+    <li>What are the six steps of the decision-making process?</li>
+    <li>What are the two types of goals? How are they related?</li>
+  </ol>
+  <p class="sub">Think through these before moving to Final Review.</p>`,
+  remember:'If you can explain these 3 checks, you understand the core lesson.'
+},
+{
+  type:'teach', title:'Lesson 4 Review Questions', kicker:'Textbook Review',
+  body:`<ol>
+    <li><b>RECALL:</b> What are the benefits of using the decision-making process?</li>
+    <li><b>VOCABULARY:</b> Define short-term and long-term goals. Then give an example of each.</li>
+    <li><b>EXPLAIN:</b> How are short-term and long-term goals related?</li>
+    <li><b>APPLY:</b> Imagine your long-term goal is to become a teacher. List three short-term goals that could help you achieve it.</li>
+    <li><b>PREDICT:</b> How might priorities, changing abilities, and responsibilities influence setting health goals?</li>
+    <li><b>GOAL SETTING:</b> Choose a personal health goal. Discuss strategies and skills needed to attain it.</li>
+  </ol>`,
+  remember:'Review = RECALL + VOCAB + EXPLAIN + APPLY + PREDICT + GOAL SETTING.'
+},
+
+// FINAL REVIEW
+{
+  type:'review', title:'Final Review — MUST KNOW', kicker:'Final Review',
+  body:`<div class="grid">
+    <div class="card"><b>Decisions</b><p>All decisions have consequences that can positively or negatively affect health.</p></div>
+    <div class="card"><b>Good decisions</b><p>Think: Is it healthful? Does it fit my values?</p></div>
+    <div class="card"><b>Six steps</b><p>State → List → Weigh → Values → Act → Evaluate.</p></div>
+    <div class="card"><b>H.E.L.P.</b><p>Healthful, Ethical, Legal, Parent Approval.</p></div>
+  </div>`,
+  remember:'Decision process: STATE → LIST → WEIGH → VALUES → ACT → EVALUATE.'
+},
+{
+  type:'review', title:'Final Review — Vocabulary', kicker:'Final Review',
+  body:`<table class="vocab-table">
+    <tr><td>Decision making</td><td>The process of making a choice or solving a problem.</td></tr>
+    <tr><td>Ethical</td><td>Choosing to take the right action.</td></tr>
+    <tr><td>Values</td><td>The beliefs that guide the way a person lives.</td></tr>
+    <tr><td>Criteria</td><td>Standard on which to base decisions.</td></tr>
+    <tr><td>Goal setting</td><td>The process of working toward something you want to accomplish.</td></tr>
+    <tr><td>Short-term goal</td><td>A goal that you can achieve in short length of time.</td></tr>
+    <tr><td>Long-term goal</td><td>A goal that you plan to reach over an extended period of time.</td></tr>
+  </table>`,
+  remember:'Teacher definitions = high-priority memory.'
+},
+{
+  type:'review', title:'Final Review — Compare', kicker:'Final Review',
+  body:`<div class="grid">
+    <div class="card"><h3>Decision vs. Consequence</h3><p>Choice you make vs. what happens because of it.</p></div>
+    <div class="card"><h3>Values vs. Criteria</h3><p>Beliefs that guide life vs. standard on which to base decisions.</p></div>
+    <div class="card"><h3>Short-Term vs. Long-Term</h3><p>Short length of time vs. extended period of time.</p></div>
+    <div class="card"><h3>Step 5 vs. Step 6</h3><p>Make a decision and act vs. evaluate the decision.</p></div>
+  </div>`,
+  remember:'Know the DIFFERENCE between similar concepts.'
+},
+{
+  type:'review', title:'Final Review — S.M.A.R.T.', kicker:'Final Review',
+  body:`<div class="smart"><div class="s">S<br>Specific</div><div class="s">M<br>Measurable</div><div class="s">A<br>Attainable</div><div class="s">R<br>Relevant</div><div class="s">T<br>Timely</div></div>
+  <div class="grid"><div class="card"><b>Specific</b><p>What, why, who, how long, when.</p></div><div class="card"><b>Measurable</b><p>How long and how to identify progress.</p></div><div class="card"><b>Attainable</b><p>Are you capable of attaining it?</p></div><div class="card"><b>Relevant</b><p>Does it help you achieve something relevant to you?</p></div><div class="card"><b>Timely</b><p>Timeframe, deadline, action-plan steps.</p></div></div>`,
+  remember:'S.M.A.R.T. = Specific, Measurable, Attainable, Relevant, Timely.'
+},
+{
+  type:'review', title:'Final Review — Last Memory Map', kicker:'Ready for the Quiz',
+  body:`<div class="bigline">Decision → Consequence → Health</div>
+  <div class="bigline">Step 3 → H.E.L.P.</div>
+  <div class="bigline">Values → Criteria → Decision</div>
+  <div class="bigline">Short-Term Goals → Long-Term Goal</div>
+  <div class="bigline">S.M.A.R.T. → Action Plan</div>
+  <p><b>Tran:</b> chess club meeting at 3:30 tomorrow vs. movie with friends; he chose to attend chess club, leave early, then join his friends.</p>`,
+  remember:'You are ready: Decisions + H.E.L.P. + Values + Goals + S.M.A.R.T.'
+}
+];
+
+// Quiz v2: correct-answer positions are deliberately balanced across A/B/C/D.
+const questions = [
+// EASY 1-12
+{q:'What is decision making?', a:['Choosing to take the right action.','The process of making a choice or solving a problem.','A standard on which to base decisions.','The process of working toward something you want to accomplish.'], c:1, topic:'Vocabulary', ex:'Decision making is the process of making a choice or solving a problem.'},
+{q:'What does ethical mean in the teacher vocabulary?', a:['The beliefs that guide the way a person lives.','A goal reached over an extended period of time.','A health risk.','Choosing to take the right action.'], c:3, topic:'Vocabulary', ex:'Ethical means choosing to take the right action.'},
+{q:'What are values?', a:['The beliefs that guide the way a person lives.','Standards used only for goals.','The results of a decision.','A list of options.'], c:0, topic:'Values & Criteria', ex:'Values are the beliefs that guide the way a person lives.'},
+{q:'What are criteria?', a:['The process of making a choice.','The beliefs that guide the way a person lives.','Standard on which to base decisions.','A long-term reward.'], c:2, topic:'Values & Criteria', ex:'Criteria are standards on which to base decisions.'},
+{q:'What is goal setting?', a:['The result of every decision.','Choosing a safe option only.','The process of working toward something you want to accomplish.','Evaluating a past choice.'], c:2, topic:'Goals', ex:'Goal setting is working toward something you want to accomplish.'},
+{q:'Which is the teacher definition of a short-term goal?', a:['A goal that you can achieve in short length of time.','A goal that you plan to reach over an extended period of time.','A goal that must include a reward.','A goal that is always about health.'], c:0, topic:'Goals', ex:'A short-term goal can be achieved in a short length of time.'},
+{q:'Which is the teacher definition of a long-term goal?', a:['A goal that you can achieve in short length of time.','A choice that solves a problem.','A standard on which to base decisions.','A goal that you plan to reach over an extended period of time.'], c:3, topic:'Goals', ex:'A long-term goal is planned over an extended period of time.'},
+{q:'What is Step 1 of the decision-making process?', a:['List the options.','State the situation.','Consider your values.','Evaluate the decision.'], c:1, topic:'Decision Process', ex:'Step 1 is to state the situation.'},
+{q:'What is Step 2?', a:['List the options.','Weigh the possible outcomes.','Make a decision and act.','Evaluate the decision.'], c:0, topic:'Decision Process', ex:'Step 2 is to list the options.'},
+{q:'What is Step 3?', a:['State the situation.','Consider your values.','Weigh the possible outcomes.','Make a decision and act.'], c:2, topic:'Decision Process', ex:'Step 3 is to weigh the possible outcomes.'},
+{q:'What is Step 5?', a:['Consider your values.','Make a decision and act.','List the options.','Evaluate the decision.'], c:1, topic:'Decision Process', ex:'Step 5 is to make a decision and act.'},
+{q:'What is Step 6?', a:['State the situation.','List the options.','Weigh the possible outcomes.','Evaluate the decision.'], c:3, topic:'Decision Process', ex:'Step 6 is to evaluate the decision.'},
+
+// MEDIUM 13-24
+{q:'Which choice from the book promotes mental/emotional health?', a:['Buying music.','Going to a movie.','Choosing a project topic.','Reporting a bully.'], c:3, topic:'Decisions & Health', ex:'The book says reporting a bully can promote mental/emotional health.'},
+{q:'Which choice from the book promotes social health?', a:['Not using tobacco.','Forming friendships with others who share your values.','Finishing a project early.','Joining a sports team.'], c:1, topic:'Decisions & Health', ex:'Friendships with others who share your values can promote social health.'},
+{q:'In H.E.L.P., what does H stand for?', a:['Honesty','Helpful','Healthful','Healthy reward'], c:2, topic:'H.E.L.P.', ex:'H stands for Healthful.'},
+{q:'In H.E.L.P., what does E stand for?', a:['Ethical','Evaluate','Extended','Example'], c:0, topic:'H.E.L.P.', ex:'E stands for Ethical.'},
+{q:'In H.E.L.P., what does L stand for?', a:['Long-term','Legal','List','Learn'], c:1, topic:'H.E.L.P.', ex:'L stands for Legal.'},
+{q:'In H.E.L.P., what does P stand for?', a:['Parent Approval','Possible Outcome','Progress','Privilege'], c:0, topic:'H.E.L.P.', ex:'P stands for Parent Approval.'},
+{q:'When should H.E.L.P. be used?', a:['Step 1: State the situation.','Step 5: Make a decision and act.','Step 6: Evaluate the decision.','Step 3: Weigh the possible outcomes.'], c:3, topic:'H.E.L.P.', ex:'H.E.L.P. is used when weighing possible outcomes in Step 3.'},
+{q:'Which question belongs to Step 1?', a:['Would your parents approve?','Was the outcome positive or negative?','Who else is involved?','What is your timeframe?'], c:2, topic:'Decision Process', ex:'Step 1 asks about the choice, facts, and who else is involved.'},
+{q:'What should you do when listing options for an important decision?', a:['Include any option even if it risks health.','Skip the facts and decide quickly.','Include only safe options and consider advice from a trusted adult.','Choose the first option immediately.'], c:2, topic:'Decision Process', ex:'The lesson says to list safe options and ask a trusted adult for advice when needed.'},
+{q:'Which statement best describes the relationship between short-term and long-term goals?', a:['Short-term and long-term goals are unrelated.','Long-term goals must always be finished first.','Short-term goals never measure progress.','Often, long-term goals are made up of short-term goals.'], c:3, topic:'Goals', ex:'The lesson says long-term goals are often made up of short-term goals.'},
+{q:'Which is the book example of a short-term goal?', a:['Getting your homework turned in on time.','Getting a college education.','Becoming a parent.','Graduating from college and having a good job.'], c:0, topic:'Goals', ex:'Turning homework in on time is the book example of a short-term goal.'},
+
+// HARD 25-35
+{q:'Tran knows the chess club depends on him, he needs practice, and his friends want him at a movie. Which step is he using when he identifies these facts and who is involved?', a:['Step 2: List the options.','Step 1: State the situation.','Step 3: Weigh the possible outcomes.','Step 6: Evaluate the decision.'], c:1, topic:'Decision Process', ex:'Identifying the choice, facts, and people involved is Step 1.'},
+{q:'Tran thinks about whether the chess club members might feel disrespected if he skips club for the movie. Which H.E.L.P. idea is most directly involved?', a:['Legal','Ethical','Healthful','Parent Approval'], c:1, topic:'H.E.L.P.', ex:'Ethical asks whether the choice is right and shows respect for yourself and others.'},
+{q:'Tran chooses to attend chess club, leave early, and then join his friends. Which step is happening when he actually carries out that choice?', a:['Step 4: Consider your values.','Step 3: Weigh the possible outcomes.','Step 6: Evaluate the decision.','Step 5: Make a decision and act.'], c:3, topic:'Decision Process', ex:'Carrying out the choice is Step 5: make a decision and act.'},
+{q:'After the movie, Tran asks whether the outcome was positive and whether he would do anything differently. Which step is this?', a:['Step 1: State the situation.','Step 2: List the options.','Step 6: Evaluate the decision.','Step 4: Consider your values.'], c:2, topic:'Decision Process', ex:'Looking back at the result and what was learned is Step 6.'},
+{q:'Which S.M.A.R.T. part asks, “Are you capable of attaining the goal?”', a:['Attainable','Specific','Relevant','Timely'], c:0, topic:'S.M.A.R.T.', ex:'Attainable asks whether you are capable of attaining the goal.'},
+{q:'Which S.M.A.R.T. part asks about the timeframe, deadline, and steps in your action plan?', a:['Measurable','Relevant','Specific','Timely'], c:3, topic:'S.M.A.R.T.', ex:'Timely focuses on the timeframe, deadline, and action-plan steps.'},
+{q:'A person wants to be healthier and chooses a goal of drinking more water. Which S.M.A.R.T. part does the book use this example to explain?', a:['Relevant','Specific','Attainable','Measurable'], c:0, topic:'S.M.A.R.T.', ex:'The water example is used to explain a Relevant goal.'},
+{q:'Which S.M.A.R.T. part includes asking “What is my goal?”, “Why do I want it?”, and “Who can help me?”', a:['Measurable','Specific','Attainable','Timely'], c:1, topic:'S.M.A.R.T.', ex:'Those questions are listed under Specific.'},
+{q:'Which S.M.A.R.T. part asks how long it will take and whether short-term goals can identify progress?', a:['Relevant','Attainable','Measurable','Specific'], c:2, topic:'S.M.A.R.T.', ex:'Measurable includes how long it will take and how to identify progress.'},
+{q:'Which statement best matches the book’s idea about values and criteria?', a:['Values provide criteria that help evaluate possible outcomes.','Criteria replace values when a decision is difficult.','Values are only used after Step 6.','Criteria are the same as consequences.'], c:0, topic:'Values & Criteria', ex:'The lesson says values provide criteria that help evaluate possible outcomes.'},
+{q:'Which choice best matches the lesson’s guidance after you achieve a goal?', a:['Immediately choose a new goal without noticing the old one.','Ignore the result and skip evaluation.','Acknowledge the completion and choose a healthful reward.','Choose any reward even if it is not healthful.'], c:2, topic:'Goals', ex:'The lesson says to acknowledge completion and try to choose a healthful reward.'},
+{q:'Which statement best matches the lesson’s message about respect?', a:['Respect means always choosing what friends want.','Making healthy decisions shows that you respect yourself and your health.','Respect is only part of legal choices.','Respect is not connected to values.'], c:1, topic:'Respect', ex:'The lesson says healthy decisions show respect for yourself and your health.'}
+];
+
+let slideIndex = 0;
+let quizMode = false;
+let qIndex = 0;
+let score = 0;
+let answered = false;
+let wrongTopics = {};
+
+const screen = document.getElementById('screen');
+const backBtn = document.getElementById('backBtn');
+const nextBtn = document.getElementById('nextBtn');
+const restartBtn = document.getElementById('restartBtn');
+const counter = document.getElementById('counter');
+const progressBar = document.getElementById('progressBar');
+const nav = document.getElementById('nav');
+
+function renderSlide(){
+  quizMode = false;
+  const s = slides[slideIndex];
+  const sectionName = s.type === 'review' ? 'Final Review' : 'Teaching Slides';
+  screen.innerHTML = `
+    <div class="section-label">${sectionName}</div>
+    <div class="kicker">${s.kicker}</div>
+    <h2>${s.title}</h2>
+    ${s.body}
+    <div class="remember"><b>⭐ Remember</b> — ${s.remember}</div>`;
+  counter.textContent = `Slide ${slideIndex+1} of ${slides.length}`;
+  progressBar.style.width = `${((slideIndex+1)/slides.length)*100}%`;
+  backBtn.disabled = slideIndex===0;
+  backBtn.classList.remove('hidden');
+  restartBtn.classList.remove('hidden');
+  nextBtn.classList.remove('hidden');
+  nextBtn.textContent = slideIndex===slides.length-1 ? 'Start 35-Question Quiz →' : 'Next →';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function startQuiz(){
+  quizMode = true;
+  qIndex = 0; score = 0; answered = false; wrongTopics = {};
+  backBtn.classList.add('hidden');
+  nextBtn.classList.add('hidden');
+  restartBtn.classList.remove('hidden');
+  renderQuestion();
+}
+
+function renderQuestion(){
+  if(qIndex >= questions.length){ renderFinal(); return; }
+  quizMode = true;
+  answered = false;
+  const q = questions[qIndex];
+  const difficulty = qIndex < 12 ? 'Easy' : qIndex < 23 ? 'Medium' : 'Hard';
+  screen.innerHTML = `
+    <div class="section-label">35-Question Touchscreen Quiz</div>
+    <div class="kicker"><span class="modebadge">${difficulty}</span> <span class="scorechip">Score: ${score}/${qIndex}</span></div>
+    <div class="question">${qIndex+1}. ${q.q}</div>
+    <div class="answers">
+      ${q.a.map((x,i)=>`<button class="answer" data-i="${i}"><b>${String.fromCharCode(65+i)}.</b> ${x}</button>`).join('')}
+    </div>
+    <div id="feedback" class="feedback"></div>
+    <button id="quizNext" class="btn btn-next quiz-next">Next Question →</button>
+    <div class="remember"><b>⭐ Remember</b> — Answer first; the correct answer appears only after you tap a choice.</div>`;
+  counter.textContent = `Question ${qIndex+1} of ${questions.length}`;
+  progressBar.style.width = `${((qIndex+1)/questions.length)*100}%`;
+  screen.querySelectorAll('.answer').forEach(b=>b.addEventListener('click',()=>answerQuestion(Number(b.dataset.i))));
+  document.getElementById('quizNext').addEventListener('click',()=>{qIndex++; renderQuestion();});
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function answerQuestion(choice){
+  if(answered) return;
+  answered = true;
+  const q = questions[qIndex];
+  const buttons = [...screen.querySelectorAll('.answer')];
+  buttons.forEach(b=>b.disabled=true);
+  buttons[q.c].classList.add('correct');
+  const feedback = document.getElementById('feedback');
+  if(choice===q.c){
+    score++;
+    feedback.className='feedback good';
+    feedback.innerHTML=`✅ <b>Correct!</b><br>Correct answer: <b>${String.fromCharCode(65+q.c)}. ${q.a[q.c]}</b><br>${q.ex}<br><b>Score: ${score}/${qIndex+1}</b>`;
+  } else {
+    buttons[choice].classList.add('wrong');
+    wrongTopics[q.topic]=(wrongTopics[q.topic]||0)+1;
+    feedback.className='feedback bad';
+    feedback.innerHTML=`❌ <b>Incorrect.</b><br>Correct answer: <b>${String.fromCharCode(65+q.c)}. ${q.a[q.c]}</b><br>${q.ex}<br><b>⭐ Remember:</b> ${memoryFor(q.topic)}<br><b>Score: ${score}/${qIndex+1}</b>`;
+  }
+  document.getElementById('quizNext').style.display='inline-block';
+}
+
+function memoryFor(topic){
+  const m={
+    'Vocabulary':'Teacher definitions are the key.',
+    'Values & Criteria':'VALUES = beliefs; CRITERIA = standards.',
+    'Goals':'SHORT = short length of time; LONG = extended period.',
+    'Decision Process':'STATE → LIST → WEIGH → VALUES → ACT → EVALUATE.',
+    'Decisions & Health':'Decision → consequence → health.',
+    'H.E.L.P.':'H = Healthful, E = Ethical, L = Legal, P = Parent Approval.',
+    'S.M.A.R.T.':'Specific, Measurable, Attainable, Relevant, Timely.',
+    'Respect':'Healthy decisions show respect for yourself and your health.'
+  };
+  return m[topic] || 'Review the matching ⭐ Remember box.';
+}
+
+function renderFinal(){
+  const pct = Math.round((score/questions.length)*100);
+  const wrongCount = questions.length-score;
+  const weak = Object.entries(wrongTopics).sort((a,b)=>b[1]-a[1]);
+  const weakHtml = weak.length ? weak.map(([t,n])=>`<span class="review-tag">${t} (${n} missed)</span>`).join('') : '<span class="review-tag">No topics flagged</span>';
+  const strong = [...new Set(questions.map(q=>q.topic))].filter(t=>!wrongTopics[t]);
+  const strongHtml = strong.length ? strong.map(t=>`<span class="pill">${t}</span>`).join('') : '<span class="pill">Keep reviewing all major topics</span>';
+  screen.innerHTML=`
+    <div class="section-label">Quiz Complete</div>
+    <div class="kicker">Final Result</div>
+    <h2>Great work — review what matters most.</h2>
+    <div class="final-score">${pct}%</div>
+    <div class="grid">
+      <div class="card"><h3>My Score</h3><p><b>Correct:</b> ${score}<br><b>Incorrect:</b> ${wrongCount}<br><b>Percentage:</b> ${pct}%</p></div>
+      <div class="card"><h3>My Strong Topics</h3><div class="review-list">${strongHtml}</div></div>
+    </div>
+    <div class="card"><h3>Topics I Need to Review</h3><div class="review-list">${weakHtml}</div></div>
+    <div class="card"><h3>Mistakes I Made</h3><p>${weak.length ? weak.map(([t,n])=>`<b>${t}:</b> ${n} question${n>1?'s':''} missed.`).join('<br>') : 'No incorrect answers.'}</p></div>
+    <div class="card"><h3>Last-Minute Review</h3><p>${weak.length ? weak.map(([t])=>`<b>${t}:</b> ${memoryFor(t)}`).join('<br>') : 'Review the final ⭐ Remember map once more before the exam.'}</p></div>
+    <div class="remember"><b>⭐ Remember</b> — Decisions + H.E.L.P. + Values + Goals + S.M.A.R.T.</div>`;
+  counter.textContent='Quiz Complete';
+  progressBar.style.width='100%';
+  backBtn.classList.add('hidden');
+  nextBtn.classList.add('hidden');
+  restartBtn.classList.remove('hidden');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+backBtn.addEventListener('click',()=>{ if(!quizMode && slideIndex>0){slideIndex--;renderSlide();} });
+nextBtn.addEventListener('click',()=>{ if(!quizMode){ if(slideIndex<slides.length-1){slideIndex++;renderSlide();} else {startQuiz();} } });
+restartBtn.addEventListener('click',()=>{ slideIndex=0; quizMode=false; qIndex=0; score=0; answered=false; wrongTopics={}; renderSlide(); });
+
+document.addEventListener('keydown',(e)=>{
+  if(quizMode) return;
+  if(e.key==='ArrowRight' && !nextBtn.classList.contains('hidden')) nextBtn.click();
+  if(e.key==='ArrowLeft' && !backBtn.classList.contains('hidden') && !backBtn.disabled) backBtn.click();
+});
+
+renderSlide();
+</script>
+</body>
+</html>

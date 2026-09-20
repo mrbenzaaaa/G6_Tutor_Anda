@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Grade 6 Health — Complete Touchscreen Tutor</title>
+<style>
+:root {
+  --ink:#24324a;
+  --muted:#64748b;
+  --purple:#6557e8;
+  --blue:#3d7bd9;
+  --green:#1f9d66;
+  --red:#d84d62;
+  --gold:#f4cc54;
+  --paper:#ffffff;
+  --line:#dfe5f0;
+  --soft:#f5f7ff;
+  --remember:#fff7cf;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:linear-gradient(135deg,#edf3ff,#fbfbff 55%,#f3edff)}
+body{touch-action:manipulation}
+.app{min-height:100vh}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);border-bottom:1px solid var(--line);padding:12px 20px;box-shadow:0 3px 14px rgba(50,70,110,.06)}
+.topline{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:8px}
+.brand{font-size:clamp(16px,2vw,22px);font-weight:900}
+.counter{font-weight:800;color:var(--purple)}
+.bar{height:10px;background:#e9edf6;border-radius:999px;overflow:hidden}
+.bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width .25s}
+.stage{width:min(1160px,95vw);margin:20px auto 118px}
+.screen{display:none;background:var(--paper);border-radius:28px;padding:clamp(20px,4vw,46px);box-shadow:0 22px 58px rgba(51,63,105,.15);min-height:68vh;animation:enter .25s ease}
+.screen.active{display:block}
+@keyframes enter{from{opacity:.2;transform:translateY(8px)}to{opacity:1;transform:none}}
+.section{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--purple);font-weight:900;margin-bottom:7px}
+h1{font-size:clamp(30px,4.5vw,56px);line-height:1.05;margin:4px 0 22px}
+h2{font-size:clamp(24px,3vw,38px);margin:10px 0 18px}
+p,li{font-size:clamp(17px,2vw,23px);line-height:1.48}
+strong{color:#17233a}
+ul,ol{padding-left:1.45em}
+li{margin:7px 0}
+.pill-grid{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
+.pill-grid>div{padding:10px 14px;border-radius:999px;background:#eef2ff;border:1px solid #d9e0ff;font-weight:800;font-size:clamp(15px,1.7vw,19px)}
+.pill-grid.danger>div{background:#fff0f2;border-color:#f5ccd2}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.compare>div{border:2px solid var(--line);border-radius:18px;background:#fbfcff;padding:18px;display:flex;flex-direction:column;gap:8px;font-size:clamp(17px,1.9vw,21px)}
+.compare span{color:var(--muted)}
+.table-head,.skill-row{display:grid;grid-template-columns:1fr 1.45fr;gap:12px;align-items:center}
+.table-head{background:#25395e;color:#fff;font-weight:900;border-radius:16px 16px 8px 8px;padding:13px 15px;margin-top:14px}
+.skill-row{border:1px solid var(--line);background:#fbfcff;border-radius:12px;padding:14px 15px;margin-top:8px;font-size:clamp(15px,1.75vw,20px)}
+.domain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.domain-grid>div{border:2px solid #bfe7d2;background:#effaf5;padding:16px;border-radius:18px;text-align:center;display:flex;flex-direction:column;gap:5px}
+.domain-grid .warn{border-color:#f2d498;background:#fff8e7}
+.domain-grid strong{font-size:30px}
+.domain-grid em{font-style:normal;font-weight:800}
+.question-cards{display:grid;gap:10px;margin:14px 0}
+.question-cards>div{background:#f7f9ff;border:1px solid var(--line);padding:14px 16px;border-radius:14px;font-size:clamp(16px,1.8vw,20px);font-weight:700}
+.stop-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.stop-grid>div{display:flex;align-items:flex-start;gap:13px;border:2px solid #e5ddff;background:#faf8ff;border-radius:18px;padding:16px}
+.stop-grid>b{display:grid;place-items:center;min-width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;font-size:28px}
+.stop-grid span{display:flex;flex-direction:column;gap:5px}
+.stop-grid small{font-size:15px;color:var(--muted)}
+.big-list li,.steps li{margin:10px 0}
+.qa{border:1px solid var(--line);background:#fbfcff;border-radius:16px;padding:14px 16px;margin:10px 0;display:flex;flex-direction:column;gap:7px}
+.qa>strong{font-size:clamp(17px,1.9vw,21px)}
+.qa>span,.qa li{font-size:clamp(15px,1.7vw,19px)}
+.mini-stop{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:5px}
+.mini-stop span{background:#f3f0ff;border-radius:10px;padding:9px 10px}
+.remember{margin-top:24px;background:var(--remember);border:2px solid #efd56d;border-radius:18px;padding:15px 18px;font-weight:900;font-size:clamp(17px,2vw,22px)}
+.remember span{display:block;margin-top:4px}
+.controls{position:fixed;left:0;right:0;bottom:0;z-index:25;background:rgba(255,255,255,.96);border-top:1px solid var(--line);padding:12px 16px;display:flex;justify-content:center;gap:10px}
+.btn{min-height:60px;min-width:160px;border:0;border-radius:16px;padding:12px 22px;font-weight:900;font-size:18px;cursor:pointer;box-shadow:0 7px 18px rgba(45,56,95,.11)}
+.btn.primary{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff}
+.btn.secondary{background:#edf1f7;color:var(--ink)}
+.btn:disabled{opacity:.38;cursor:not-allowed}
+.quiz-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.badge{display:inline-block;background:#eef2ff;color:var(--purple);padding:7px 10px;border-radius:999px;font-size:13px;font-weight:900}
+.score{font-size:18px;font-weight:900}
+.qtext{font-size:clamp(25px,3vw,38px);font-weight:900;line-height:1.25;margin:22px 0 18px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.choice{border:2px solid var(--line);background:#fff;border-radius:18px;padding:16px;text-align:left;min-height:82px;font-weight:800;font-size:clamp(16px,1.8vw,20px);cursor:pointer}
+.choice.correct{background:#eaf8f1;border-color:#7fd1a8}
+.choice.wrong{background:#fff0f2;border-color:#e99aa7}
+.choice:disabled{cursor:default}
+.feedback{display:none;margin-top:16px;padding:15px 17px;border-radius:16px;font-size:18px}
+.feedback.show{display:block}
+.feedback.good{background:#eaf8f1;border:1px solid #98d8b6}
+.feedback.bad{background:#fff0f2;border:1px solid #edabb5}
+.quiz-next{display:none;margin-top:16px}
+.quiz-next.show{display:inline-block}
+.final-score{font-size:clamp(56px,9vw,96px);font-weight:950;text-align:center;color:var(--purple);margin:8px 0 14px}
+.review-topics{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:18px 0}
+.review-topics span{background:#fff5da;border:1px solid #edd39b;padding:9px 12px;border-radius:999px;font-weight:800}
+.center{text-align:center}
+.note{font-size:14px;color:var(--muted);text-align:center;margin-top:18px}
+@media(max-width:760px){
+  .topbar{padding:10px 12px}
+  .stage{width:96vw;margin-top:10px;margin-bottom:112px}
+  .screen{border-radius:20px;padding:19px;min-height:72vh}
+  .compare,.domain-grid,.choices,.stop-grid,.mini-stop{grid-template-columns:1fr}
+  .table-head,.skill-row{grid-template-columns:1fr}
+  .table-head span:nth-child(2){display:none}
+  .skill-row{gap:5px}
+  .controls{gap:8px;padding:9px}
+  .btn{min-width:0;flex:1;padding:10px;font-size:16px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="topline">
+      <div class="brand">Grade 6 Health • Building Health Skills</div>
+      <div class="counter" id="counter">Slide 1 of 24</div>
+    </div>
+    <div class="bar"><div id="topProgress"></div></div>
+  </header>
+
+  <main class="stage">
+    <section class="screen active" id="lessonScreen">
+      <div class="section" id="lessonSection"></div>
+      <h1 id="lessonTitle"></h1>
+      <div id="lessonBody"></div>
+      <div class="remember">⭐ Remember<span id="lessonRemember"></span></div>
+    </section>
+
+    <section class="screen" id="reviewScreen">
+      <div class="section" id="reviewSection"></div>
+      <h1 id="reviewTitle"></h1>
+      <div id="reviewBody"></div>
+      <div class="remember">⭐ Remember<span id="reviewRemember"></span></div>
+    </section>
+
+    <section class="screen" id="quizScreen">
+      <div class="quiz-top">
+        <div>
+          <div class="badge" id="difficulty">Easy</div>
+          <div class="section">35-Question Touchscreen Quiz • Correct answers are randomized A / B / C / D</div>
+        </div>
+        <div class="score" id="score">Score: 0/0</div>
+      </div>
+      <div class="qtext" id="question"></div>
+      <div class="choices" id="choices"></div>
+      <div class="feedback" id="feedback"></div>
+      <button class="btn primary quiz-next" id="quizNext">Next Question ▶</button>
+    </section>
+
+    <section class="screen" id="resultScreen">
+      <div class="section">Quiz Complete</div>
+      <h1 class="center">Final Score</h1>
+      <div class="final-score" id="finalScore">0/35</div>
+      <div class="remember center" id="finalMessage"></div>
+      <h2 class="center">Topics to Review</h2>
+      <div class="review-topics" id="reviewTopics"></div>
+      <div class="note">This tutor uses only the uploaded study material.</div>
+    </section>
+  </main>
+
+  <nav class="controls">
+    <button class="btn secondary" id="backBtn">◀ Back</button>
+    <button class="btn secondary" id="restartBtn">↻ Restart</button>
+    <button class="btn primary" id="nextBtn">Next ▶</button>
+  </nav>
+</div>
+
+<script>
+const teachingSlides = [{"section": "Grade 6 Health — Lesson 3: Building Health Skills", "title": "15-Minute Study Review", "html": "\n          <p>This review uses <strong>only the information from the 8-page lesson</strong> and focuses on the most important vocabulary, concepts, strategies, and likely test points.</p>\n        ", "remember": "This review uses only the information from the 8-page lesson."}, {"section": "PART 1 — MUST-KNOW VOCABULARY ⭐", "title": "1. Health Skills", "html": "\n          <p><strong>Meaning:</strong> Skills that help you become and stay healthy.</p>\n          <p>Health skills can improve:</p>\n          <div class=\"pill-grid\">\n            <div>physical health</div><div>mental/emotional health</div><div>social health</div>\n          </div>\n          <p><strong>Examples:</strong></p>\n          <ul>\n            <li>Wearing a helmet and pads to prevent injury</li>\n            <li>Washing your hands to help prevent illness</li>\n          </ul>\n        ", "remember": "Health skills = skills for staying healthy"}, {"section": "PART 1 — MUST-KNOW VOCABULARY ⭐", "title": "2. Decisions", "html": "\n          <p><strong>Meaning:</strong> Choices.</p>\n          <p>As you get older, you make more decisions for yourself and have more responsibility.</p>\n          <p>Examples of health decisions:</p>\n          <ul>\n            <li>choosing nutritious foods</li>\n            <li>getting enough sleep</li>\n            <li>exercising</li>\n            <li>studying for a test early</li>\n          </ul>\n          <p>You should think about both:</p>\n          <div class=\"compare\">\n            <div><strong>short-term consequences</strong></div>\n            <div><strong>long-term consequences</strong></div>\n          </div>\n        ", "remember": "Decision = CHOICE"}, {"section": "PART 1 — MUST-KNOW VOCABULARY ⭐", "title": "3. Stress Management", "html": "\n          <p><strong>Meaning:</strong> Identifying sources of stress and learning how to handle them in ways that promote good mental/emotional health.</p>\n          <p>Healthy ways mentioned in the lesson:</p>\n          <div class=\"compare\">\n            <div><strong>relaxation</strong></div>\n            <div><strong>exercise</strong></div>\n          </div>\n        ", "remember": "Stress management = identify the stress + handle it in a healthy way"}, {"section": "PART 1 — MUST-KNOW VOCABULARY ⭐", "title": "4. Goal", "html": "\n          <p><strong>Meaning:</strong> Something you hope to accomplish.</p>\n          <p>Setting realistic goals can help you:</p>\n          <ul>\n            <li>learn a new skill</li>\n            <li>complete a task</li>\n            <li>maintain your health</li>\n          </ul>\n          <p><strong>Example:</strong></p>\n          <p>Setting a goal to get regular physical activity.</p>\n        ", "remember": "Goal = something you want to ACCOMPLISH"}, {"section": "PART 1 — MUST-KNOW VOCABULARY ⭐", "title": "5. Reliable", "html": "\n          <p><strong>Meaning:</strong> Trustworthy and dependable.</p>\n          <p>Reliable health information comes from sources you can trust.</p>\n          <p>Examples from the lesson:</p>\n          <div class=\"pill-grid\">\n            <div>parents or guardians</div><div>teachers</div><div>school nurse</div>\n            <div>library</div><div>government health agencies</div><div>trusted health organizations</div>\n          </div>\n        ", "remember": "Reliable = TRUSTWORTHY + DEPENDABLE"}, {"section": "PART 1 — MUST-KNOW VOCABULARY ⭐", "title": "6. Communication", "html": "\n          <p><strong>Meaning:</strong> The exchange of information through words or actions.</p>\n          <p>Good communication includes:</p>\n          <ul>\n            <li>expressing your ideas and feelings</li>\n            <li>listening to others</li>\n            <li>understanding how others feel</li>\n          </ul>\n          <p>There are two main types:</p>\n          <div class=\"compare\">\n            <div><strong>Verbal communication</strong><span>spoken or written words</span></div>\n            <div><strong>Nonverbal communication</strong><span>tone of voice, body position, facial expressions, gestures, and posture</span></div>\n          </div>\n        ", "remember": "Communication = exchanging information"}, {"section": "PART 1 — MUST-KNOW VOCABULARY ⭐", "title": "7. Refusal Skills", "html": "\n          <p><strong>Meaning:</strong> Strategies that help you say <strong>no effectively</strong>.</p>\n          <p>You may need refusal skills when someone pressures you to do something:</p>\n          <div class=\"pill-grid danger\">\n            <div>wrong</div><div>unhealthy</div><div>unsafe</div><div>uncomfortable</div><div>against your values or beliefs</div>\n          </div>\n        ", "remember": "Refusal skills = SAY NO effectively"}, {"section": "PART 1 — MUST-KNOW VOCABULARY ⭐", "title": "8. Conflict-Resolution Skills", "html": "\n          <p><strong>Meaning:</strong> Skills that help end a disagreement or keep it from becoming a larger conflict.</p>\n          <p>These skills help people solve problems in healthy ways.</p>\n        ", "remember": "Conflict resolution = solve disagreements in a healthy way"}, {"section": "PART 1 — MUST-KNOW VOCABULARY ⭐", "title": "9. Advocacy", "html": "\n          <p><strong>Meaning:</strong> Taking action in support of a cause.</p>\n          <p>Health advocacy can include:</p>\n          <ul>\n            <li>sharing health information</li>\n            <li>encouraging people to make healthy choices</li>\n            <li>speaking out for health and wellness</li>\n          </ul>\n        ", "remember": "Advocacy = support a cause + take action"}, {"section": "PART 2 — THE 10 HEALTH SKILLS ⭐⭐⭐", "title": "The 10 Health Skills — 1 to 5", "html": "\n          <p>Know what each skill means and be able to identify it in a situation.</p>\n          <div class=\"table-head\"><span>Health Skill</span><span>What It Means</span></div>\n          <div class=\"skill-row\"><strong>1. Accessing Information</strong><span>Finding valid and reliable health information, products, and services</span></div>\n          <div class=\"skill-row\"><strong>2. Practicing Healthful Behaviors</strong><span>Taking action to reduce risks and protect yourself from illness and injury</span></div>\n          <div class=\"skill-row\"><strong>3. Stress Management</strong><span>Finding healthy ways to reduce and manage stress</span></div>\n          <div class=\"skill-row\"><strong>4. Analyzing Influences</strong><span>Recognizing factors that influence your health</span></div>\n          <div class=\"skill-row\"><strong>5. Communication Skills</strong><span>Expressing ideas and feelings and listening to others</span></div>\n        ", "remember": "Know what each skill means and be able to identify it in a situation."}, {"section": "PART 2 — THE 10 HEALTH SKILLS ⭐⭐⭐", "title": "The 10 Health Skills — 6 to 10", "html": "\n          <div class=\"table-head\"><span>Health Skill</span><span>What It Means</span></div>\n          <div class=\"skill-row\"><strong>6. Refusal Skills</strong><span>Saying no to risky behaviors</span></div>\n          <div class=\"skill-row\"><strong>7. Conflict-Resolution Skills</strong><span>Working out problems with others in healthy ways</span></div>\n          <div class=\"skill-row\"><strong>8. Decision Making</strong><span>Thinking through problems and finding healthy solutions</span></div>\n          <div class=\"skill-row\"><strong>9. Goal Setting</strong><span>Planning for the future and working to make your plans come true</span></div>\n          <div class=\"skill-row\"><strong>10. Advocacy</strong><span>Taking a stand for the common good and making a difference</span></div>\n        ", "remember": "The lesson has 10 health skills."}, {"section": "PART 3 — KEY CONCEPTS FOR THE TEST", "title": "A. Practicing Healthful Behaviors", "html": "\n          <p>Healthful behaviors affect your <strong>total health</strong>.</p>\n          <p>Total health has three parts:</p>\n          <div class=\"pill-grid\">\n            <div><strong>1. Physical health</strong></div>\n            <div><strong>2. Mental/Emotional health</strong></div>\n            <div><strong>3. Social health</strong></div>\n          </div>\n          <p>Examples of healthful behaviors:</p>\n          <ul>\n            <li>exercise regularly</li><li>eat healthful foods</li><li>drink plenty of water</li>\n            <li>get enough sleep</li><li>respect and care for others</li>\n            <li>manage feelings in positive ways</li><li>get regular physical checkups</li>\n          </ul>\n          <p>Practicing healthful behaviors can help prevent:</p>\n          <div class=\"pill-grid danger\"><div>injury</div><div>illness</div><div>other health problems</div></div>\n        ", "remember": "Healthy behaviors protect your total health."}, {"section": "PART 3 — KEY CONCEPTS FOR THE TEST", "title": "B. Decision Making and Goal Setting", "html": "\n          <p>A <strong>decision</strong> is a choice.</p>\n          <p>A <strong>goal</strong> is something you hope to accomplish.</p>\n          <p>As you get older, you gain more freedom, but you also have more responsibility.</p>\n          <p>When making decisions, think about:</p>\n          <div class=\"compare\"><div>short-term consequences</div><div>long-term consequences</div></div>\n          <div class=\"table-head\"><span>Decision</span><span>Goal</span></div>\n          <div class=\"skill-row\"><span>A choice you make</span><span>Something you hope to accomplish</span></div>\n          <div class=\"skill-row\"><span>Decides what you will do</span><span>Gives you something to work toward</span></div>\n        ", "remember": "Decision = CHOOSE • Goal = ACCOMPLISH"}, {"section": "PART 3 — KEY CONCEPTS FOR THE TEST", "title": "C. Finding Reliable Health Information", "html": "\n          <p>Knowing how to find reliable health information is an important skill.</p>\n          <p><strong>Reliable Sources</strong></p>\n          <p>The lesson mentions:</p>\n          <div class=\"pill-grid\">\n            <div>trusted adults</div><div>parents and guardians</div><div>teachers</div>\n            <div>school nurse</div><div>library</div><div>government health agencies</div><div>health organizations</div>\n          </div>\n          <p><strong>Website Endings</strong></p>\n          <div class=\"domain-grid\">\n            <div><strong>.gov</strong><span>government organization</span><em>often reliable</em></div>\n            <div><strong>.edu</strong><span>educational institution</span><em>often reliable</em></div>\n            <div class=\"warn\"><strong>.org</strong><span>organization</span><em>should be checked carefully</em></div>\n          </div>\n          <p>Some .org websites may not be legitimate.</p>\n        ", "remember": "Finding information is not enough. Check whether it is reliable."}, {"section": "PART 3 — KEY CONCEPTS FOR THE TEST", "title": "Questions to Ask About a Source", "html": "\n          <p><strong>Questions to Ask About a Source</strong></p>\n          <p>Ask:</p>\n          <div class=\"question-cards\">\n            <div>Is the author an expert?</div>\n            <div>Does the author name scientific studies or other sources?</div>\n            <div>Do other books or articles agree or disagree?</div>\n            <div>Is the report based on research from a respected institution?</div>\n            <div>Is it only one person's opinion without evidence?</div>\n          </div>\n          <p>Also be careful with media sources that are trying to <strong>sell products</strong>.</p>\n        ", "remember": "Finding information is not enough. Check whether it is reliable."}, {"section": "PART 3 — KEY CONCEPTS FOR THE TEST", "title": "D. Analyzing Influences", "html": "\n          <p>Many things can influence your health.</p>\n          <p>The lesson lists:</p>\n          <div class=\"pill-grid\">\n            <div>media and technology</div><div>curiosity</div><div>friends and peers</div><div>environment</div>\n            <div>personal likes and dislikes</div><div>family and culture</div><div>fears</div>\n          </div>\n          <p>Some influences are <strong>internal</strong>.</p>\n          <p>Others are <strong>external</strong>.</p>\n          <p>When analyzing an influence:</p>\n          <ol>\n            <li>Identify the <strong>source</strong>.</li>\n            <li>Think about the <strong>motive</strong>, or reason, behind it.</li>\n          </ol>\n          <p><strong>Example</strong></p>\n          <p>A TV commercial says a food has health benefits.</p>\n          <p>Ask:</p>\n          <ul>\n            <li>Who created the message?</li>\n            <li>Why are they giving this message?</li>\n            <li>Are they trying to get you to buy the product?</li>\n          </ul>\n        ", "remember": "Analyzing influences means understanding what affects your health choices."}, {"section": "PART 3 — KEY CONCEPTS FOR THE TEST", "title": "E. Verbal and Nonverbal Communication", "html": "\n          <div class=\"compare\">\n            <div>\n              <strong>Verbal Communication</strong>\n              <span>Uses spoken or written words.</span>\n              <span><strong>Examples:</strong> speaking, writing</span>\n            </div>\n            <div>\n              <strong>Nonverbal Communication</strong>\n              <span>Includes:</span>\n              <span>tone of voice, body position, facial expressions, gestures, posture</span>\n            </div>\n          </div>\n          <p>Sometimes <strong>how you say something</strong> is very important.</p>\n        ", "remember": "Verbal = words • Nonverbal = tone, face, gestures, and body language"}, {"section": "PART 3 — KEY CONCEPTS FOR THE TEST", "title": "F. Hearing and Listening", "html": "\n          <p>Hearing and listening are not the same.</p>\n          <div class=\"compare\">\n            <div><strong>Hearing</strong><span>You may hear someone's words without really paying attention.</span></div>\n            <div><strong>Listening</strong><span>You pay attention and try to understand the message.</span></div>\n          </div>\n          <p>An <strong>active listener</strong>:</p>\n          <ul>\n            <li>pays close attention</li>\n            <li>asks questions to make sure they understand</li>\n          </ul>\n        ", "remember": "Hearing does not always mean listening."}, {"section": "PART 4 — IMPORTANT STRATEGIES AND LISTS ⭐", "title": "A. S.T.O.P. Strategy ⭐⭐⭐", "html": "\n          <p>The S.T.O.P. strategy helps you practice refusal skills.</p>\n          <div class=\"stop-grid\">\n            <div><b>S</b><span><strong>Say no</strong><small>Be clear.</small><small><strong>Example:</strong> “No, I can't go with you today.”</small></span></div>\n            <div><b>T</b><span><strong>Tell why not</strong><small>Explain your reason.</small><small><strong>Example:</strong> “I would be breaking a promise.”</small></span></div>\n            <div><b>O</b><span><strong>Offer other ideas</strong><small>Suggest another choice.</small><small><strong>Example:</strong> “What about tomorrow?”</small></span></div>\n            <div><b>P</b><span><strong>Promptly leave</strong><small>Leave the situation if you need to.</small></span></div>\n          </div>\n          <p>Strong body language can also help:</p>\n          <div class=\"pill-grid\"><div>eye contact</div><div>crossed arms</div><div>serious expression</div></div>\n        ", "remember": "S = Say no • T = Tell why not • O = Offer other ideas • P = Promptly leave"}, {"section": "PART 4 — IMPORTANT STRATEGIES AND LISTS ⭐", "title": "B. Conflict-Resolution Tips", "html": "\n          <p>When people have a disagreement:</p>\n          <ol class=\"steps\">\n            <li><strong>Take a time-out</strong> so everyone can calm down.</li>\n            <li><strong>Allow each person to tell their side</strong> of the story.</li>\n            <li><strong>Let each person ask questions.</strong></li>\n            <li><strong>Think of creative ways to resolve the conflict.</strong></li>\n          </ol>\n          <p>The goal is to solve the disagreement before it becomes a bigger conflict.</p>\n        ", "remember": "The goal is to solve the disagreement before it becomes a bigger conflict."}, {"section": "PART 4 — IMPORTANT STRATEGIES AND LISTS ⭐", "title": "C. Ways to Practice Advocacy", "html": "\n          <p>The lesson gives these examples:</p>\n          <ul class=\"big-list\">\n            <li>Write letters to government leaders, blogs, or news editors.</li>\n            <li>Collect signatures from people in your community.</li>\n            <li>Organize activities in your school or neighborhood.</li>\n            <li>Volunteer with a group.</li>\n            <li>Start your own group if no group exists.</li>\n            <li>Contact news sites, radio stations, or television stations.</li>\n          </ul>\n        ", "remember": "Advocacy = support a cause + take action"}, {"section": "PART 5 — KNOW WHICH HEALTH SKILL TO USE 🎯", "title": "Situation → Correct Health Skill — 1 to 5", "html": "\n          <p>These kinds of situation questions may appear on a quiz.</p>\n          <div class=\"table-head\"><span>Situation</span><span>Correct Health Skill</span></div>\n          <div class=\"skill-row\"><span>You look for trustworthy health information.</span><strong>Accessing Information</strong></div>\n          <div class=\"skill-row\"><span>You exercise, eat healthy foods, and get enough sleep.</span><strong>Practicing Healthful Behaviors</strong></div>\n          <div class=\"skill-row\"><span>You exercise or relax to handle stress.</span><strong>Stress Management</strong></div>\n          <div class=\"skill-row\"><span>You think about how friends, family, or media affect your choices.</span><strong>Analyzing Influences</strong></div>\n          <div class=\"skill-row\"><span>You express your feelings and listen to another person.</span><strong>Communication Skills</strong></div>\n        ", "remember": "Know which health skill matches each situation."}, {"section": "PART 5 — KNOW WHICH HEALTH SKILL TO USE 🎯", "title": "Situation → Correct Health Skill — 6 to 10", "html": "\n          <div class=\"table-head\"><span>Situation</span><span>Correct Health Skill</span></div>\n          <div class=\"skill-row\"><span>Someone pressures you to do something risky and you say no.</span><strong>Refusal Skills</strong></div>\n          <div class=\"skill-row\"><span>Two people disagree and work to solve the problem.</span><strong>Conflict-Resolution Skills</strong></div>\n          <div class=\"skill-row\"><span>You think through a problem before choosing what to do.</span><strong>Decision Making</strong></div>\n          <div class=\"skill-row\"><span>You plan something you want to accomplish.</span><strong>Goal Setting</strong></div>\n          <div class=\"skill-row\"><span>You take action to support a health cause.</span><strong>Advocacy</strong></div>\n        ", "remember": "Know which health skill matches each situation."}];
+const finalReviewSlides = [{"section": "PART 6 — 2-MINUTE FINAL CHECK ⚡", "title": "Final Check — 1 to 4", "html": "\n          <div class=\"qa\"><strong>1. What are health skills?</strong><span><b>Answer:</b> Skills that help you become and stay healthy.</span></div>\n          <div class=\"qa\"><strong>2. What does decision mean?</strong><span><b>Answer:</b> A choice.</span></div>\n          <div class=\"qa\"><strong>3. What is stress management?</strong><span><b>Answer:</b> Identifying sources of stress and learning how to handle them in healthy ways.</span></div>\n          <div class=\"qa\"><strong>4. What is a goal?</strong><span><b>Answer:</b> Something you hope to accomplish.</span></div>\n        ", "remember": "Health skills help you stay healthy • Decision = choice • Goal = something you hope to accomplish."}, {"section": "PART 6 — 2-MINUTE FINAL CHECK ⚡", "title": "Final Check — 5 to 7", "html": "\n          <div class=\"qa\"><strong>5. What does reliable mean?</strong><span><b>Answer:</b> Trustworthy and dependable.</span></div>\n          <div class=\"qa\"><strong>6. What are the three parts of total health?</strong><span><b>Answer:</b> Physical, mental/emotional, and social health.</span></div>\n          <div class=\"qa\">\n            <strong>7. What are the 10 health skills?</strong>\n            <span><b>Answer:</b></span>\n            <ol>\n              <li>Accessing Information</li><li>Practicing Healthful Behaviors</li><li>Stress Management</li>\n              <li>Analyzing Influences</li><li>Communication Skills</li><li>Refusal Skills</li>\n              <li>Conflict-Resolution Skills</li><li>Decision Making</li><li>Goal Setting</li><li>Advocacy</li>\n            </ol>\n          </div>\n        ", "remember": "Reliable = trustworthy and dependable • Total health has three parts • Know all 10 health skills."}, {"section": "PART 6 — 2-MINUTE FINAL CHECK ⚡", "title": "Final Check — 8 to 12", "html": "\n          <div class=\"qa\"><strong>8. Which website endings are often the most reliable?</strong><span><b>Answer:</b> <strong>.gov</strong> and <strong>.edu</strong></span></div>\n          <div class=\"qa\"><strong>9. Why should you check a .org website carefully?</strong><span><b>Answer:</b> Because some .org websites may not be legitimate or reliable.</span></div>\n          <div class=\"qa\"><strong>10. What is verbal communication?</strong><span><b>Answer:</b> Communication using spoken or written words.</span></div>\n          <div class=\"qa\"><strong>11. What is nonverbal communication?</strong><span><b>Answer:</b> Communication using things such as tone of voice, body position, facial expressions, gestures, and posture.</span></div>\n          <div class=\"qa\"><strong>12. What is the difference between hearing and listening?</strong><span><b>Answer:</b> Hearing can happen without paying attention. Listening means paying attention and trying to understand.</span></div>\n        ", "remember": ".gov and .edu are often the most reliable • Hearing does not always mean listening."}, {"section": "PART 6 — 2-MINUTE FINAL CHECK ⚡", "title": "Final Check — 13 to 17", "html": "\n          <div class=\"qa\"><strong>13. What does an active listener do?</strong><span><b>Answer:</b> Pays close attention and asks questions to make sure they understand.</span></div>\n          <div class=\"qa\"><strong>14. When should you use refusal skills?</strong><span><b>Answer:</b> When someone pressures you to do something wrong, unhealthy, unsafe, uncomfortable, or against your values or beliefs.</span></div>\n          <div class=\"qa\">\n            <strong>15. What does S.T.O.P. stand for?</strong>\n            <span><b>Answer:</b></span>\n            <div class=\"mini-stop\"><span><b>S</b> = Say no</span><span><b>T</b> = Tell why not</span><span><b>O</b> = Offer other ideas</span><span><b>P</b> = Promptly leave if needed</span></div>\n          </div>\n          <div class=\"qa\"><strong>16. When should you use conflict-resolution skills?</strong><span><b>Answer:</b> When people have a disagreement and need to solve it in a healthy way.</span></div>\n          <div class=\"qa\">\n            <strong>17. What are the four conflict-resolution tips?</strong>\n            <span><b>Answer:</b></span>\n            <ol><li>Take a time-out.</li><li>Let each person tell their side.</li><li>Let each person ask questions.</li><li>Think of creative ways to solve the conflict.</li></ol>\n          </div>\n        ", "remember": "Active listeners pay attention • S.T.O.P. helps with refusal skills • Conflict-resolution skills solve disagreements."}, {"section": "PART 6 — 2-MINUTE FINAL CHECK ⚡", "title": "Final Check — 18 to 20", "html": "\n          <div class=\"qa\"><strong>18. What is the difference between a decision and a goal?</strong><span><b>Answer:</b> A <strong>decision</strong> is a choice you make. A <strong>goal</strong> is something you hope to accomplish.</span></div>\n          <div class=\"qa\"><strong>19. What does advocacy mean?</strong><span><b>Answer:</b> Taking action in support of a cause.</span></div>\n          <div class=\"qa\"><strong>20. What can influence your health decisions?</strong><span><b>Answer:</b> Media and technology, curiosity, friends and peers, environment, personal likes and dislikes, family and culture, and fears.</span></div>\n        ", "remember": "Decision = choice • Goal = something you hope to accomplish • Advocacy = taking action in support of a cause."}];
+const questions = [{"q": "What are health skills?", "choices": ["Skills that help you become and stay healthy.", "Choices.", "Something you hope to accomplish.", "Taking action in support of a cause."], "a": 0, "why": "Health skills are skills that help you become and stay healthy.", "topic": "Health Skills", "level": "Easy"}, {"q": "What does decision mean?", "choices": ["A choice.", "A cause.", "A disagreement.", "A website ending."], "a": 0, "why": "The study material defines a decision as a choice.", "topic": "Decisions", "level": "Easy"}, {"q": "What is stress management?", "choices": ["Identifying sources of stress and learning how to handle them in healthy ways.", "Taking action in support of a cause.", "Finding only .gov websites.", "Working out a disagreement."], "a": 0, "why": "Stress management means identifying stress and learning healthy ways to handle it.", "topic": "Stress Management", "level": "Easy"}, {"q": "What is a goal?", "choices": ["Something you hope to accomplish.", "A risky behavior.", "A source of stress.", "A type of body language."], "a": 0, "why": "A goal is something you hope to accomplish.", "topic": "Goal Setting", "level": "Easy"}, {"q": "What does reliable mean?", "choices": ["Trustworthy and dependable.", "Risky and unsafe.", "Internal and external.", "Spoken and written."], "a": 0, "why": "Reliable means trustworthy and dependable.", "topic": "Reliable Information", "level": "Easy"}, {"q": "What is communication?", "choices": ["The exchange of information through words or actions.", "Only speaking.", "Only listening.", "Taking a time-out."], "a": 0, "why": "Communication is the exchange of information through words or actions.", "topic": "Communication", "level": "Easy"}, {"q": "What are refusal skills?", "choices": ["Strategies that help you say no effectively.", "Ways to make a conflict larger.", "Ways to sell products.", "Ways to choose a goal."], "a": 0, "why": "Refusal skills help you say no effectively.", "topic": "Refusal Skills", "level": "Easy"}, {"q": "What do conflict-resolution skills help do?", "choices": ["End a disagreement or keep it from becoming a larger conflict.", "Choose nutritious foods.", "Find reliable websites only.", "Set a physical activity goal."], "a": 0, "why": "Conflict-resolution skills help end disagreements or keep them from growing.", "topic": "Conflict Resolution", "level": "Easy"}, {"q": "What does advocacy mean?", "choices": ["Taking action in support of a cause.", "Listening without paying attention.", "A choice you make.", "A source of stress."], "a": 0, "why": "Advocacy means taking action in support of a cause.", "topic": "Advocacy", "level": "Easy"}, {"q": "Which three parts make up total health?", "choices": ["Physical, mental/emotional, and social health.", "Short-term, long-term, and social health.", "Media, culture, and fears.", "Speaking, writing, and posture."], "a": 0, "why": "Total health has physical, mental/emotional, and social parts.", "topic": "Total Health", "level": "Easy"}, {"q": "Which website endings are often the most reliable?", "choices": [".gov and .edu", ".org and .gov", ".org and .edu", ".org only"], "a": 0, "why": "The study material says .gov and .edu are often the most reliable.", "topic": "Reliable Information", "level": "Easy"}, {"q": "Which is verbal communication?", "choices": ["Spoken or written words.", "Tone of voice only.", "Facial expressions only.", "Posture only."], "a": 0, "why": "Verbal communication uses spoken or written words.", "topic": "Communication", "level": "Easy"}, {"q": "Which is part of nonverbal communication?", "choices": ["Tone of voice, body position, facial expressions, gestures, and posture.", "Only spoken words.", "Only written words.", "Only health websites."], "a": 0, "why": "The lesson lists tone, body position, facial expressions, gestures, and posture as nonverbal.", "topic": "Communication", "level": "Medium"}, {"q": "What does an active listener do?", "choices": ["Pays close attention and asks questions to make sure they understand.", "Hears words without paying attention.", "Leaves the situation immediately.", "Collects signatures."], "a": 0, "why": "An active listener pays close attention and asks questions.", "topic": "Listening", "level": "Medium"}, {"q": "What does S stand for in S.T.O.P.?", "choices": ["Say no", "Stay quiet", "Set a goal", "Solve the conflict"], "a": 0, "why": "S = Say no.", "topic": "S.T.O.P.", "level": "Medium"}, {"q": "What does T stand for in S.T.O.P.?", "choices": ["Tell why not", "Take a time-out", "Trust the source", "Think long-term only"], "a": 0, "why": "T = Tell why not.", "topic": "S.T.O.P.", "level": "Medium"}, {"q": "What does O stand for in S.T.O.P.?", "choices": ["Offer other ideas", "Only listen", "Organize activities", "Open a website"], "a": 0, "why": "O = Offer other ideas.", "topic": "S.T.O.P.", "level": "Medium"}, {"q": "What does P stand for in S.T.O.P.?", "choices": ["Promptly leave if needed", "Plan for the future", "Pay close attention", "Practice healthful behaviors"], "a": 0, "why": "P = Promptly leave if needed.", "topic": "S.T.O.P.", "level": "Medium"}, {"q": "Which is a healthful behavior listed in the study material?", "choices": ["Getting enough sleep", "Making a disagreement bigger", "Ignoring reliable information", "Selling products"], "a": 0, "why": "Getting enough sleep is listed as a healthful behavior.", "topic": "Healthful Behaviors", "level": "Medium"}, {"q": "You think about how friends, family, or media affect your choices. Which health skill is this?", "choices": ["Analyzing Influences", "Goal Setting", "Advocacy", "Conflict-Resolution Skills"], "a": 0, "why": "Analyzing Influences means recognizing factors that influence your health.", "topic": "Analyzing Influences", "level": "Medium"}, {"q": "You look for trustworthy health information. Which health skill is this?", "choices": ["Accessing Information", "Refusal Skills", "Goal Setting", "Advocacy"], "a": 0, "why": "Accessing Information means finding valid and reliable health information, products, and services.", "topic": "Accessing Information", "level": "Medium"}, {"q": "You plan something you want to accomplish. Which health skill is this?", "choices": ["Goal Setting", "Communication Skills", "Refusal Skills", "Stress Management"], "a": 0, "why": "Goal Setting means planning for the future and working to make your plans come true.", "topic": "Goal Setting", "level": "Medium"}, {"q": "You think through a problem before choosing what to do. Which health skill is this?", "choices": ["Decision Making", "Advocacy", "Accessing Information", "Stress Management"], "a": 0, "why": "Decision Making means thinking through problems and finding healthy solutions.", "topic": "Decision Making", "level": "Medium"}, {"q": "You express your feelings and listen to another person. Which health skill is this?", "choices": ["Communication Skills", "Goal Setting", "Advocacy", "Analyzing Influences"], "a": 0, "why": "Communication Skills include expressing ideas and feelings and listening to others.", "topic": "Communication", "level": "Medium"}, {"q": "Someone pressures you to do something risky and you say no. Which health skill fits best?", "choices": ["Refusal Skills", "Conflict-Resolution Skills", "Accessing Information", "Goal Setting"], "a": 0, "why": "Refusal Skills help you say no effectively.", "topic": "Refusal Skills", "level": "Hard"}, {"q": "Two people disagree and work to solve the problem. Which health skill fits best?", "choices": ["Conflict-Resolution Skills", "Stress Management", "Advocacy", "Goal Setting"], "a": 0, "why": "Conflict-Resolution Skills help people work out problems in healthy ways.", "topic": "Conflict Resolution", "level": "Hard"}, {"q": "You find a .org health website. What should you do?", "choices": ["Check it carefully.", "Trust it automatically.", "Treat it as a .gov site.", "Treat it as a .edu site."], "a": 0, "why": "Some .org websites may not be legitimate, so they should be checked carefully.", "topic": "Reliable Information", "level": "Hard"}, {"q": "A TV commercial says a food has health benefits. What should you identify and think about?", "choices": ["The source and the motive.", "Only the color of the commercial.", "Only whether you like the product.", "Only whether it is short."], "a": 0, "why": "When analyzing an influence, identify the source and think about the motive.", "topic": "Analyzing Influences", "level": "Hard"}, {"q": "When making decisions, what should you think about?", "choices": ["Short-term consequences and long-term consequences.", "Only internal influences.", "Only external influences.", "Only .gov and .edu."], "a": 0, "why": "The study material says to think about short-term and long-term consequences.", "topic": "Decisions", "level": "Hard"}, {"q": "Which is listed as something that can influence your health?", "choices": ["Friends and peers", "A conflict-resolution tip", "A website ending", "A physical checkup"], "a": 0, "why": "Friends and peers are listed as an influence on health.", "topic": "Analyzing Influences", "level": "Hard"}, {"q": "Which is a way to practice advocacy from the lesson?", "choices": ["Collect signatures from people in your community.", "Hear words without paying attention.", "Ignore health information.", "Make a disagreement larger."], "a": 0, "why": "Collecting signatures is one of the advocacy examples in the lesson.", "topic": "Advocacy", "level": "Hard"}, {"q": "Which action from the lesson supports healthful behavior?", "choices": ["Respect and care for others.", "Ignore your feelings.", "Avoid physical checkups.", "Stop listening to others."], "a": 0, "why": "Respecting and caring for others is listed as a healthful behavior.", "topic": "Healthful Behaviors", "level": "Hard"}, {"q": "You exercise or relax to handle stress. Which health skill are you using?", "choices": ["Stress Management", "Advocacy", "Goal Setting", "Accessing Information"], "a": 0, "why": "Exercise and relaxation are healthy ways mentioned for managing stress.", "topic": "Stress Management", "level": "Hard"}, {"q": "Which statement correctly compares a decision and a goal?", "choices": ["A decision is a choice you make; a goal is something you hope to accomplish.", "A decision is a goal; a goal is a website.", "A decision is nonverbal; a goal is verbal.", "A decision is a conflict; a goal is advocacy."], "a": 0, "why": "A decision is a choice, while a goal is something you hope to accomplish.", "topic": "Decision Making and Goal Setting", "level": "Hard"}, {"q": "You organize an activity to support a health cause. Which health skill are you using?", "choices": ["Advocacy", "Refusal Skills", "Stress Management", "Communication Skills"], "a": 0, "why": "Organizing activities is listed as a way to practice advocacy.", "topic": "Advocacy", "level": "Hard"}];
+
+let mode = "teaching";
+let slideIndex = 0;
+let reviewIndex = 0;
+let quizIndex = 0;
+let sessionQuestions = [];
+let answers = Array(questions.length).fill(null);
+
+const $ = id => document.getElementById(id);
+const lessonScreen = $("lessonScreen");
+const reviewScreen = $("reviewScreen");
+const quizScreen = $("quizScreen");
+const resultScreen = $("resultScreen");
+
+function showScreen(target){
+  [lessonScreen,reviewScreen,quizScreen,resultScreen].forEach(s=>s.classList.remove("active"));
+  target.classList.add("active");
+}
+
+function setProgress(text, percent){
+  $("counter").textContent = text;
+  $("topProgress").style.width = percent + "%";
+}
+
+function renderTeaching(){
+  mode = "teaching";
+  showScreen(lessonScreen);
+  const s = teachingSlides[slideIndex];
+  $("lessonSection").textContent = s.section;
+  $("lessonTitle").textContent = s.title;
+  $("lessonBody").innerHTML = s.html;
+  $("lessonRemember").textContent = s.remember;
+  setProgress(`Slide ${slideIndex+1} of ${teachingSlides.length}`, ((slideIndex+1)/teachingSlides.length)*100);
+  $("backBtn").disabled = slideIndex === 0;
+  $("backBtn").style.display = "";
+  $("nextBtn").style.display = "";
+  $("nextBtn").textContent = slideIndex === teachingSlides.length-1 ? "Final Review ▶" : "Next ▶";
+}
+
+function renderReview(){
+  mode = "review";
+  showScreen(reviewScreen);
+  const s = finalReviewSlides[reviewIndex];
+  $("reviewSection").textContent = s.section;
+  $("reviewTitle").textContent = s.title;
+  $("reviewBody").innerHTML = s.html;
+  $("reviewRemember").textContent = s.remember;
+  setProgress(`Final Review ${reviewIndex+1} of ${finalReviewSlides.length}`, ((reviewIndex+1)/finalReviewSlides.length)*100);
+  $("backBtn").disabled = false;
+  $("backBtn").style.display = "";
+  $("nextBtn").style.display = "";
+  $("nextBtn").textContent = reviewIndex === finalReviewSlides.length-1 ? "Start 35-Question Quiz ▶" : "Next Review ▶";
+}
+
+function currentScore(){
+  return answers.reduce((sum,sel,i)=>sum + (sessionQuestions[i] && sel === sessionQuestions[i].a ? 1 : 0),0);
+}
+function answeredCount(){
+  return answers.filter(v=>v!==null).length;
+}
+
+
+function shuffleArray(arr){
+  const copy = arr.slice();
+  for(let i = copy.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+/*
+  Create a random-but-balanced answer layout.
+  Across 35 questions, A/B/C/D will be used almost equally as the correct answer.
+  The exact correct letter changes each time the quiz starts.
+*/
+function buildRandomizedQuiz(){
+  const targetPositions = [];
+  for(let i = 0; i < questions.length; i++){
+    targetPositions.push(i % 4);
+  }
+
+  // Randomize the order of the target answer letters.
+  const shuffledTargets = shuffleArray(targetPositions);
+
+  sessionQuestions = questions.map((q, index) => {
+    const correctText = q.choices[q.a];
+    const wrongChoices = q.choices.filter((_, i) => i !== q.a);
+    const shuffledWrong = shuffleArray(wrongChoices);
+    const target = shuffledTargets[index];
+
+    const newChoices = [];
+    let wrongIndex = 0;
+    for(let pos = 0; pos < 4; pos++){
+      if(pos === target){
+        newChoices.push(correctText);
+      } else {
+        newChoices.push(shuffledWrong[wrongIndex++]);
+      }
+    }
+
+    return {
+      ...q,
+      choices: newChoices,
+      a: target
+    };
+  });
+}
+
+function startQuiz(){
+  mode = "quiz";
+  quizIndex = 0;
+  buildRandomizedQuiz();
+  answers = Array(questions.length).fill(null);
+  showScreen(quizScreen);
+  $("backBtn").style.display = "";
+  $("nextBtn").style.display = "none";
+  renderQuestion();
+}
+
+function renderQuestion(){
+  mode = "quiz";
+  showScreen(quizScreen);
+  const q = sessionQuestions[quizIndex];
+  const selected = answers[quizIndex];
+  $("difficulty").textContent = q.level;
+  $("question").textContent = q.q;
+  $("score").textContent = `Score: ${currentScore()}/${answeredCount()}`;
+  setProgress(`Question ${quizIndex+1} of ${questions.length}`, ((quizIndex+1)/questions.length)*100);
+
+  const letters = ["A","B","C","D"];
+  const box = $("choices");
+  box.innerHTML = "";
+  q.choices.forEach((choice,i)=>{
+    const btn = document.createElement("button");
+    btn.className = "choice";
+    btn.innerHTML = `<b>${letters[i]}.</b> ${choice}`;
+    if(selected !== null){
+      btn.disabled = true;
+      if(i === q.a) btn.classList.add("correct");
+      if(i === selected && selected !== q.a) btn.classList.add("wrong");
+    } else {
+      btn.onclick = ()=>answerQuestion(i);
+    }
+    box.appendChild(btn);
+  });
+
+  const fb = $("feedback");
+  if(selected === null){
+    fb.className = "feedback";
+    fb.innerHTML = "";
+    $("quizNext").className = "btn primary quiz-next";
+  } else {
+    const correct = selected === q.a;
+    fb.className = "feedback show " + (correct ? "good" : "bad");
+    fb.innerHTML = `<strong>${correct ? "✅ Correct" : "❌ Incorrect"}</strong><br>
+      Correct answer: <b>${letters[q.a]}. ${q.choices[q.a]}</b><br>${q.why}`;
+    $("quizNext").textContent = quizIndex === questions.length-1 ? "See Final Score ▶" : "Next Question ▶";
+    $("quizNext").className = "btn primary quiz-next show";
+  }
+  $("backBtn").disabled = quizIndex === 0;
+}
+
+function answerQuestion(index){
+  if(answers[quizIndex] !== null) return;
+  answers[quizIndex] = index;
+  renderQuestion();
+}
+
+function nextQuiz(){
+  if(answers[quizIndex] === null) return;
+  if(quizIndex < questions.length-1){
+    quizIndex++;
+    renderQuestion();
+  } else {
+    showResults();
+  }
+}
+
+function showResults(){
+  mode = "results";
+  showScreen(resultScreen);
+  const score = currentScore();
+  const pct = Math.round(score/questions.length*100);
+  $("finalScore").textContent = `${score}/${questions.length}`;
+  let msg = "Review the topics below, then try the quiz again.";
+  if(pct >= 90) msg = "Excellent work!";
+  else if(pct >= 75) msg = "Good work! Review the topics below.";
+  else if(pct >= 60) msg = "Keep reviewing the topics below.";
+  $("finalMessage").textContent = msg;
+  const missed = [];
+  sessionQuestions.forEach((q,i)=>{ if(answers[i] !== q.a && !missed.includes(q.topic)) missed.push(q.topic); });
+  const wrap = $("reviewTopics");
+  wrap.innerHTML = "";
+  if(missed.length === 0){
+    const s = document.createElement("span");
+    s.textContent = "No missed topics";
+    wrap.appendChild(s);
+  } else {
+    missed.forEach(t=>{
+      const s = document.createElement("span");
+      s.textContent = t;
+      wrap.appendChild(s);
+    });
+  }
+  setProgress("Quiz Complete",100);
+  $("backBtn").style.display = "";
+  $("backBtn").disabled = false;
+  $("nextBtn").style.display = "none";
+}
+
+$("nextBtn").onclick = ()=>{
+  if(mode === "teaching"){
+    if(slideIndex < teachingSlides.length-1){
+      slideIndex++;
+      renderTeaching();
+    } else {
+      reviewIndex = 0;
+      renderReview();
+    }
+  } else if(mode === "review"){
+    if(reviewIndex < finalReviewSlides.length-1){
+      reviewIndex++;
+      renderReview();
+    } else {
+      startQuiz();
+    }
+  }
+};
+
+$("backBtn").onclick = ()=>{
+  if(mode === "teaching"){
+    if(slideIndex > 0){ slideIndex--; renderTeaching(); }
+  } else if(mode === "review"){
+    if(reviewIndex > 0){ reviewIndex--; renderReview(); }
+    else { slideIndex = teachingSlides.length-1; renderTeaching(); }
+  } else if(mode === "quiz"){
+    if(quizIndex > 0){ quizIndex--; renderQuestion(); }
+    else { reviewIndex = finalReviewSlides.length-1; renderReview(); }
+  } else if(mode === "results"){
+    mode = "quiz";
+    quizIndex = questions.length-1;
+    $("nextBtn").style.display = "none";
+    renderQuestion();
+  }
+};
+
+$("restartBtn").onclick = ()=>{
+  mode = "teaching";
+  slideIndex = 0;
+  reviewIndex = 0;
+  quizIndex = 0;
+  sessionQuestions = [];
+  answers = Array(questions.length).fill(null);
+  $("backBtn").style.display = "";
+  $("nextBtn").style.display = "";
+  renderTeaching();
+};
+
+$("quizNext").onclick = nextQuiz;
+
+document.addEventListener("keydown",e=>{
+  if(e.key === "ArrowRight"){
+    if(mode === "quiz" && answers[quizIndex] !== null) nextQuiz();
+    else if(mode !== "results" && $("nextBtn").style.display !== "none") $("nextBtn").click();
+  }
+  if(e.key === "ArrowLeft" && !$("backBtn").disabled) $("backBtn").click();
+});
+
+renderTeaching();
+</script>
+</body>
+</html>
