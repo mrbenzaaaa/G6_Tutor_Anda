@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ภาษาไทย ป.6 — Slide Tutor คำนาม สรรพนาม กริยา</title>
+<style>
+:root {
+  --bg:#f3f6fb; --ink:#132238; --muted:#667085; --card:#fff;
+  --blue:#2563eb; --blue2:#dbeafe; --yellow:#f59e0b; --yellow2:#fef3c7;
+  --green:#16a34a; --green2:#dcfce7; --red:#dc2626; --red2:#fee2e2;
+  --purple:#7c3aed; --purple2:#ede9fe; --line:#e5e7eb;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:system-ui,-apple-system,"Segoe UI","Noto Sans Thai",Tahoma,sans-serif;background:var(--bg);color:var(--ink);overflow:hidden}
+button{font:inherit}
+.app{height:100%;display:flex;flex-direction:column}
+.topbar{height:68px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 18px;gap:14px;flex:0 0 auto}
+.brand{font-weight:900;font-size:clamp(16px,2vw,22px);white-space:nowrap}
+.chapter-tabs{display:flex;gap:8px;overflow:auto}
+.tab{border:0;border-radius:999px;padding:9px 14px;font-weight:800;cursor:pointer;background:#eef2f7;color:#334155;white-space:nowrap}
+.tab.active{background:#111827;color:white}
+.progress-wrap{height:7px;background:#e5e7eb;flex:0 0 auto}
+.progress{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));width:0;transition:.25s}
+.stage{flex:1;min-height:0;padding:16px;display:flex;align-items:center;justify-content:center}
+.slide{display:none;width:min(1180px,100%);height:min(760px,100%);background:#fff;border:1px solid var(--line);border-radius:28px;box-shadow:0 20px 60px rgba(15,23,42,.10);padding:clamp(22px,4vw,52px);overflow:auto;position:relative}
+.slide.active{display:block}
+.kicker{font-weight:900;color:var(--blue);letter-spacing:.02em;margin-bottom:8px}
+h1{font-size:clamp(36px,6vw,72px);line-height:1.05;margin:0 0 8px}
+.subtitle{font-size:clamp(20px,3vw,34px);font-weight:800;color:#475569;margin-bottom:22px}
+.big-def{font-size:clamp(24px,3.8vw,42px);font-weight:800;line-height:1.35;margin:28px 0}
+mark{background:linear-gradient(transparent 56%, #fde68a 56%);padding:0 .08em;color:inherit}
+.key{color:var(--blue);font-weight:950}
+.key2{color:#b45309;font-weight:950}
+.remember{margin-top:24px;padding:18px 22px;border-radius:20px;background:var(--yellow2);border:2px solid #fbbf24;font-size:clamp(18px,2.2vw,26px);font-weight:750}
+.remember.big{font-size:clamp(20px,2.8vw,30px)}
+.examples{display:flex;flex-wrap:wrap;gap:12px;margin:26px 0}
+.examples span{background:var(--blue2);color:#1d4ed8;border-radius:18px;padding:12px 18px;font-weight:900;font-size:clamp(20px,2.5vw,30px)}
+.examples.large span{font-size:clamp(22px,2.8vw,34px)}
+.examples.giant span{font-size:clamp(28px,4vw,48px);padding:16px 24px}
+.hero-words{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:54px}
+.hero-chip{border-radius:24px;padding:28px 22px;font-size:clamp(22px,3vw,38px);font-weight:850;text-align:center}
+.hero-chip.noun{background:var(--blue2);color:#1e40af}
+.hero-chip.pronoun{background:var(--purple2);color:#6d28d9}
+.hero-chip.verb{background:var(--green2);color:#166534}
+.compare{display:flex;align-items:center;justify-content:center;gap:28px;background:#f8fafc;border-radius:22px;padding:26px;font-size:clamp(20px,2.6vw,30px);font-weight:750}
+.arrow{font-size:44px;color:var(--blue)}
+.compare-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:12px 20px;align-items:center;margin:24px 0}
+.compare-grid>div{background:#f8fafc;border-radius:16px;padding:14px 18px;font-size:clamp(18px,2.2vw,26px)}
+.compare-grid small{display:block;color:var(--muted);font-weight:700}
+.compare-grid .vs{background:transparent;text-align:center;font-size:34px;color:var(--blue)}
+.versus{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:28px 0}
+.panel{border-radius:24px;padding:28px;text-align:center}
+.panel.blue{background:var(--blue2)}
+.panel.yellow{background:var(--yellow2)}
+.huge{font-size:clamp(28px,4vw,52px);font-weight:950}
+.panel p{font-size:clamp(18px,2vw,26px)}
+.function-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:28px 0}
+.function-cards.four{grid-template-columns:repeat(4,1fr)}
+.function-cards>div{background:#f8fafc;border:1px solid var(--line);border-radius:20px;padding:20px}
+.function-cards b{font-size:clamp(20px,2.5vw,28px);color:var(--blue)}
+.function-cards p{font-size:clamp(20px,2.4vw,30px);font-weight:850}
+.function-cards small{font-size:16px;color:var(--muted)}
+.summary-list{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
+.summary-list>div{display:flex;justify-content:space-between;gap:16px;align-items:center;background:#f8fafc;border-left:7px solid var(--blue);border-radius:16px;padding:16px 18px;font-size:clamp(17px,2vw,24px)}
+.summary-list b{color:#1d4ed8}
+.summary-list span{font-weight:750;text-align:right}
+.summary-list.compact>div{font-size:clamp(16px,1.8vw,22px)}
+.three-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:26px 0}
+.three-cols>div{text-align:center;background:#f8fafc;border-radius:22px;padding:22px}
+.num{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:var(--blue);color:#fff;font-size:32px;font-weight:950;margin:0 auto 12px}
+.three-cols b{font-size:clamp(20px,2.5vw,30px)}
+.three-cols p{font-size:clamp(17px,2vw,23px)}
+.sentence{margin:18px 0;padding:18px 22px;background:#f8fafc;border-radius:18px;font-size:clamp(20px,2.6vw,32px);font-weight:780}
+.quiz-launch{height:100%;min-height:420px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.quiz-launch p{font-size:22px;color:var(--muted)}
+.startquiz{border:0;border-radius:18px;padding:16px 28px;background:var(--blue);color:#fff;font-size:22px;font-weight:900;cursor:pointer}
+.controls{height:78px;background:#fff;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 18px;gap:12px;flex:0 0 auto}
+.navbtn{border:0;border-radius:16px;padding:13px 20px;font-weight:900;cursor:pointer;background:#e2e8f0;color:#0f172a}
+.navbtn.primary{background:#111827;color:white}
+.navbtn:disabled{opacity:.35;cursor:not-allowed}
+.counter{font-weight:850;color:#475569}
+.quiz-modal{position:fixed;inset:0;background:rgba(15,23,42,.72);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}
+.quiz-modal.show{display:flex}
+.quiz-card{width:min(900px,100%);max-height:94vh;overflow:auto;background:#fff;border-radius:28px;padding:clamp(20px,3vw,34px);box-shadow:0 30px 80px rgba(0,0,0,.24)}
+.quiz-top{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.quiz-top h2{font-size:clamp(24px,3vw,34px);margin:0}
+.close{border:0;background:#eef2f7;border-radius:12px;padding:9px 12px;font-weight:900;cursor:pointer}
+.q-progress{height:10px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin:18px 0}
+.q-progress>div{height:100%;background:var(--blue)}
+.qtext{font-size:clamp(22px,3vw,34px);font-weight:900;line-height:1.35;margin:18px 0}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.choice{border:2px solid var(--line);background:#fff;border-radius:16px;padding:15px;text-align:left;font-size:18px;font-weight:800;cursor:pointer}
+.choice.correct{background:var(--green2);border-color:var(--green)}
+.choice.wrong{background:var(--red2);border-color:var(--red)}
+.feedback{display:none;margin-top:14px;padding:14px 16px;border-radius:15px;font-weight:800}
+.feedback.good{display:block;background:var(--green2);color:#166534}
+.feedback.bad{display:block;background:var(--red2);color:#991b1b}
+.quiz-actions{display:flex;justify-content:space-between;gap:10px;margin-top:18px}
+.scorebox{text-align:center;padding:20px}
+.score{font-size:72px;font-weight:950;color:var(--blue)}
+@media(max-width:800px){
+  .hero-words,.function-cards,.function-cards.four,.three-cols,.versus,.summary-list{grid-template-columns:1fr}
+  .choices{grid-template-columns:1fr}
+  .chapter-tabs{display:none}
+  .topbar{height:58px}
+  .stage{padding:10px}
+  .slide{border-radius:20px;padding:22px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand">📘 ภาษาไทย ป.6 — Slide Tutor</div>
+    <div class="chapter-tabs">
+      <button class="tab" onclick="jumpChapter('noun')">คำนาม</button>
+      <button class="tab" onclick="jumpChapter('pronoun')">สรรพนาม</button>
+      <button class="tab" onclick="jumpChapter('verb')">กริยา</button>
+    </div>
+  </div>
+  <div class="progress-wrap"><div id="progress" class="progress"></div></div>
+
+  <div class="stage" id="stage">
+    <section class="slide" data-chapter="intro">
+      <div class="kicker">เริ่มเรียน</div>
+      <h1>บทที่ 3</h1>
+      <div class="subtitle">คำนาม • คำสรรพนาม • คำกริยา</div>
+      
+<div class="hero-words">
+  <div class="hero-chip noun">คำนาม = <b>ชื่อ</b></div>
+  <div class="hero-chip pronoun">สรรพนาม = <b>แทนชื่อ</b></div>
+  <div class="hero-chip verb">กริยา = <b>ทำอะไร / เป็นอย่างไร</b></div>
+</div>
+<div class="remember big">⭐ <b>Remember:</b> ถ้าจำ 3 บรรทัดนี้ได้ จะช่วยแยกชนิดคำได้เร็วมาก</div>
+
+    </section><section class="slide" data-chapter="noun">
+      <div class="kicker">บทที่ 3 • คำนาม</div>
+      <h1>คำนาม คืออะไร?</h1>
+      
+      
+<div class="big-def">คำนาม คือคำที่ใช้ <mark>เรียกชื่อ</mark> คน สัตว์ สิ่งของ สถานที่ อาการ หรือสิ่งต่าง ๆ</div>
+<div class="examples"><span>เด็ก</span><span>แมว</span><span>โรงเรียน</span><span>โต๊ะ</span><span>ความสุข</span></div>
+<div class="remember">⭐ <b>Remember:</b> คำนาม = <b class="key">“ชื่อ”</b></div>
+
+    </section><section class="slide" data-chapter="noun">
+      <div class="kicker">บทที่ 3 • คำนาม</div>
+      <h1>1. สามานยนาม</h1>
+      <div class="subtitle">คำนามสามัญ = ชื่อทั่วไป</div>
+      
+<div class="big-def"><mark>ชื่อทั่วไป</mark> ไม่ได้เจาะจงว่าเป็นใครหรือสิ่งใดโดยเฉพาะ</div>
+<div class="compare"><div><b>ตัวอย่าง</b><br>เด็ก<br>โรงเรียน<br>จังหวัด<br>แมว<br>แม่น้ำ</div><div class="arrow">→</div><div><b>ยังไม่ระบุชื่อเฉพาะ</b></div></div>
+<div class="remember">⭐ <b>Remember:</b> <span class="key">สามัญ = ทั่วไป</span></div>
+
+    </section><section class="slide" data-chapter="noun">
+      <div class="kicker">บทที่ 3 • คำนาม</div>
+      <h1>2. วิสามานยนาม</h1>
+      <div class="subtitle">คำนามวิสามัญ = ชื่อเฉพาะ</div>
+      
+<div class="big-def"><mark>ชื่อเฉพาะเจาะจง</mark> ของคน สัตว์ สถานที่ หรือสิ่งต่าง ๆ</div>
+<div class="compare-grid">
+<div><small>ชื่อทั่วไป</small><b>ประเทศ</b></div><div class="vs">→</div><div><small>ชื่อเฉพาะ</small><b>ประเทศไทย</b></div>
+<div><small>ชื่อทั่วไป</small><b>จังหวัด</b></div><div class="vs">→</div><div><small>ชื่อเฉพาะ</small><b>เชียงใหม่</b></div>
+<div><small>ชื่อทั่วไป</small><b>แม่น้ำ</b></div><div class="vs">→</div><div><small>ชื่อเฉพาะ</small><b>แม่น้ำเจ้าพระยา</b></div>
+</div>
+<div class="remember">⭐ <b>Remember:</b> <span class="key">วิสามัญ = ชื่อเฉพาะ</span></div>
+
+    </section><section class="slide" data-chapter="noun">
+      <div class="kicker">บทที่ 3 • คำนาม</div>
+      <h1>3. ลักษณนาม</h1>
+      
+      
+<div class="big-def">คำที่ใช้ <mark>บอกลักษณะเมื่อนับ</mark> คำนาม</div>
+<div class="examples large"><span>หนังสือ 3 <b>เล่ม</b></span><span>ดินสอ 2 <b>แท่ง</b></span><span>ช้าง 2 <b>เชือก</b></span><span>รถ 3 <b>คัน</b></span></div>
+<div class="remember">⭐ <b>Remember:</b> มักพบ <span class="key">หลังตัวเลข</span> เช่น 2 เล่ม, 3 คน, 4 คัน</div>
+
+    </section><section class="slide" data-chapter="noun">
+      <div class="kicker">บทที่ 3 • คำนาม</div>
+      <h1>4. สมุหนาม</h1>
+      
+      
+<div class="big-def">คำนามที่บอกว่าสิ่งต่าง ๆ <mark>รวมกันเป็นกลุ่มหรือหมู่</mark></div>
+<div class="examples large"><span><b>ฝูง</b>นก</span><span><b>โขลง</b>ช้าง</span><span><b>คณะ</b>นักเรียน</span><span><b>กอง</b>ทหาร</span></div>
+<div class="remember">⭐ <b>Remember:</b> <span class="key">สมุหนาม = กลุ่ม</span></div>
+
+    </section><section class="slide" data-chapter="noun">
+      <div class="kicker">บทที่ 3 • คำนาม</div>
+      <h1>ลักษณนาม vs สมุหนาม</h1>
+      
+      
+<div class="versus">
+<div class="panel blue"><div class="huge">ช้าง 3 <b>เชือก</b></div><p><b>เชือก</b> = ลักษณนาม<br><small>ใช้เมื่อนับ</small></p></div>
+<div class="panel yellow"><div class="huge"><b>โขลง</b>ช้าง</div><p><b>โขลง</b> = สมุหนาม<br><small>บอกกลุ่ม</small></p></div>
+</div>
+<div class="remember">⭐ <b>Remember:</b> <span class="key">นับ = ลักษณนาม</span> | <span class="key2">กลุ่ม = สมุหนาม</span></div>
+
+    </section><section class="slide" data-chapter="noun">
+      <div class="kicker">บทที่ 3 • คำนาม</div>
+      <h1>5. อาการนาม</h1>
+      
+      
+<div class="big-def">คำนามที่บอก <mark>อาการ ความรู้สึก หรือสภาพ</mark></div>
+<div class="examples large"><span><b>การ</b>เดิน</span><span><b>การ</b>เรียน</span><span><b>การ</b>วิ่ง</span><span><b>ความ</b>รัก</span><span><b>ความ</b>สุข</span></div>
+<div class="remember">⭐ <b>Remember:</b> มักมี <span class="key">“การ”</span> หรือ <span class="key">“ความ”</span> นำหน้า</div>
+
+    </section><section class="slide" data-chapter="noun">
+      <div class="kicker">บทที่ 3 • คำนาม</div>
+      <h1>หน้าที่ของคำนาม</h1>
+      
+      
+<div class="function-cards">
+<div><b>1. ประธาน</b><p><mark>เด็ก</mark> วิ่งเล่น</p><small>ผู้ทำกริยา</small></div>
+<div><b>2. กรรม</b><p>แม่ซื้อ <mark>ขนม</mark></p><small>สิ่งที่ถูกกระทำ</small></div>
+<div><b>3. ส่วนขยาย</b><p>ฉันไปโรงเรียนกับ <mark>เพื่อน</mark></p><small>ช่วยให้ใจความสมบูรณ์</small></div>
+</div>
+<div class="remember">⭐ <b>Remember:</b> คำนามทำได้ทั้ง <span class="key">ประธาน • กรรม • ส่วนขยาย</span></div>
+
+    </section><section class="slide" data-chapter="noun">
+      <div class="kicker">บทที่ 3 • คำนาม</div>
+      <h1>สรุปก่อน Quiz: คำนาม</h1>
+      
+      
+<div class="summary-list">
+<div><b>สามานยนาม</b><span>ชื่อทั่วไป</span></div>
+<div><b>วิสามานยนาม</b><span>ชื่อเฉพาะ</span></div>
+<div><b>ลักษณนาม</b><span>ใช้เมื่อนับ</span></div>
+<div><b>สมุหนาม</b><span>บอกกลุ่ม</span></div>
+<div><b>อาการนาม</b><span>อาการ/ความรู้สึก</span></div>
+</div>
+<div class="remember big">⭐ <b>Remember:</b> <span class="key">ทั่วไป → เฉพาะ → นับ → กลุ่ม → อาการ</span></div>
+
+    </section><section class="slide" data-chapter="noun">
+      <div class="kicker">บทที่ 3 • คำนาม</div>
+      <h1>Quiz คำนาม 25 ข้อ</h1>
+      
+      <div class="quiz-launch"><div class="huge">พร้อมหรือยัง?</div><p>ทำทีละข้อ • มีเฉลยทันที • ดูคะแนนเมื่อจบ</p><button class="startquiz" onclick="startQuiz('noun')">เริ่ม Quiz คำนาม</button></div>
+    </section><section class="slide" data-chapter="pronoun">
+      <div class="kicker">บทที่ 3 • คำสรรพนาม</div>
+      <h1>คำสรรพนาม คืออะไร?</h1>
+      
+      
+<div class="big-def">คำสรรพนาม คือคำที่ใช้ <mark>แทนคำนาม</mark> เพื่อไม่ต้องพูดคำนามเดิมซ้ำ ๆ</div>
+<div class="sentence">มานีไปโรงเรียน <s>มานี</s> พบเพื่อน → มานีไปโรงเรียน <mark>เธอ</mark> พบเพื่อน</div>
+<div class="remember">⭐ <b>Remember:</b> สรรพนาม = <b class="key">คำแทนชื่อ</b></div>
+
+    </section><section class="slide" data-chapter="pronoun">
+      <div class="kicker">บทที่ 3 • คำสรรพนาม</div>
+      <h1>1. บุรุษสรรพนาม</h1>
+      
+      
+<div class="three-cols">
+<div><div class="num">1</div><b>ผู้พูด</b><p>ฉัน • ผม • ดิฉัน • เรา</p></div>
+<div><div class="num">2</div><b>ผู้ฟัง</b><p>คุณ • เธอ • ท่าน</p></div>
+<div><div class="num">3</div><b>ผู้ที่ถูกกล่าวถึง</b><p>เขา • เธอ • มัน • ท่าน</p></div>
+</div>
+<div class="remember">⭐ <b>Remember:</b> <span class="key">1 = ฉัน</span> • <span class="key">2 = คุณ</span> • <span class="key">3 = เขา</span></div>
+
+    </section><section class="slide" data-chapter="pronoun">
+      <div class="kicker">บทที่ 3 • คำสรรพนาม</div>
+      <h1>2. นิยมสรรพนาม</h1>
+      
+      
+<div class="big-def">ใช้แทนคำนามและ <mark>ชี้เฉพาะ</mark></div>
+<div class="examples giant"><span>นี่</span><span>นั่น</span><span>โน่น</span></div>
+<div class="sentence"><mark>นี่</mark> คือกระเป๋าของฉัน</div>
+<div class="remember">⭐ <b>Remember:</b> นิยม = <span class="key">ชี้เจาะจง</span></div>
+
+    </section><section class="slide" data-chapter="pronoun">
+      <div class="kicker">บทที่ 3 • คำสรรพนาม</div>
+      <h1>3. อนิยมสรรพนาม</h1>
+      
+      
+<div class="big-def">ใช้แทนสิ่งต่าง ๆ แต่ <mark>ไม่ชี้เฉพาะ</mark> และ <b>ไม่ได้ใช้ถาม</b></div>
+<div class="sentence"><mark>ใคร ๆ</mark> ก็อยากมีความสุข</div>
+<div class="sentence">ฉันกิน <mark>อะไรก็ได้</mark></div>
+<div class="remember">⭐ <b>Remember:</b> อนิยม = <span class="key">ไม่เจาะจง + ไม่ถาม</span></div>
+
+    </section><section class="slide" data-chapter="pronoun">
+      <div class="kicker">บทที่ 3 • คำสรรพนาม</div>
+      <h1>4. ปฤจฉาสรรพนาม</h1>
+      
+      
+<div class="big-def">ใช้แทนคำนามเพื่อ <mark>ตั้งคำถาม</mark></div>
+<div class="examples giant"><span>ใคร?</span><span>อะไร?</span><span>ไหน?</span></div>
+<div class="remember">⭐ <b>Remember:</b> ถ้าใช้ <span class="key">ถาม</span> → ปฤจฉาสรรพนาม</div>
+
+    </section><section class="slide" data-chapter="pronoun">
+      <div class="kicker">บทที่ 3 • คำสรรพนาม</div>
+      <h1>อนิยม vs ปฤจฉา</h1>
+      
+      
+<div class="versus">
+<div class="panel blue"><div class="huge"><b>ใคร ๆ</b> ก็มาได้</div><p>อนิยมสรรพนาม<br><small>ไม่ได้ถาม</small></p></div>
+<div class="panel yellow"><div class="huge"><b>ใคร</b> มา?</div><p>ปฤจฉาสรรพนาม<br><small>ใช้ถาม</small></p></div>
+</div>
+<div class="remember">⭐ <b>Remember:</b> คำเหมือนกันได้ แต่ต้องดู <span class="key">หน้าที่ในประโยค</span></div>
+
+    </section><section class="slide" data-chapter="pronoun">
+      <div class="kicker">บทที่ 3 • คำสรรพนาม</div>
+      <h1>5. วิภาคสรรพนาม</h1>
+      
+      
+<div class="big-def">ใช้แทนคำนามเพื่อ <mark>แยกเป็นส่วนหรือเป็นฝ่าย</mark></div>
+<div class="examples giant"><span>ต่าง</span><span>บ้าง</span><span>กัน</span></div>
+<div class="sentence">นักเรียน <mark>ต่าง</mark> ทำการบ้าน</div>
+<div class="remember">⭐ <b>Remember:</b> <span class="key">ต่าง • บ้าง • กัน</span></div>
+
+    </section><section class="slide" data-chapter="pronoun">
+      <div class="kicker">บทที่ 3 • คำสรรพนาม</div>
+      <h1>6. ประพันธสรรพนาม</h1>
+      
+      
+<div class="big-def">ใช้ <mark>แทนคำนาม + เชื่อมประโยค</mark></div>
+<div class="examples giant"><span>ที่</span><span>ซึ่ง</span><span>อัน</span><span>ผู้</span></div>
+<div class="sentence">นักเรียน <mark>ที่</mark> ได้รางวัลเป็นเพื่อนของฉัน</div>
+<div class="remember">⭐ <b>Remember:</b> ประพันธสรรพนาม = <span class="key">แทน + เชื่อม</span></div>
+
+    </section><section class="slide" data-chapter="pronoun">
+      <div class="kicker">บทที่ 3 • คำสรรพนาม</div>
+      <h1>หน้าที่ของคำสรรพนาม</h1>
+      
+      
+<div class="summary-list compact">
+<div><b>เป็นประธาน</b><span><mark>เขา</mark> ไปโรงเรียน</span></div>
+<div><b>เป็นกรรม</b><span>ครูเรียก <mark>ฉัน</mark></span></div>
+<div><b>เป็นส่วนขยาย</b><span>นักเรียนคนนั้นคือ <mark>เขา</mark></span></div>
+<div><b>เป็นส่วนเติมเต็ม</b><span>คนที่ชนะคือ <mark>เขา</mark></span></div>
+<div><b>เป็นตัวเชื่อม</b><span>เด็ก <mark>ที่</mark> ยืนอยู่หน้าห้อง...</span></div>
+</div>
+
+    </section><section class="slide" data-chapter="pronoun">
+      <div class="kicker">บทที่ 3 • คำสรรพนาม</div>
+      <h1>สรุปก่อน Quiz: สรรพนาม</h1>
+      
+      
+<div class="summary-list">
+<div><b>บุรุษ</b><span>ฉัน • คุณ • เขา</span></div>
+<div><b>นิยม</b><span>นี่ • นั่น • โน่น</span></div>
+<div><b>อนิยม</b><span>ไม่เจาะจง ไม่ถาม</span></div>
+<div><b>ปฤจฉา</b><span>ใช้ถาม</span></div>
+<div><b>วิภาค</b><span>ต่าง • บ้าง • กัน</span></div>
+<div><b>ประพันธ</b><span>ที่ • ซึ่ง • อัน • ผู้</span></div>
+</div>
+<div class="remember big">⭐ <b>Remember:</b> <span class="key">แทนคน • ชี้ • ไม่ชี้ • ถาม • แยก • เชื่อม</span></div>
+
+    </section><section class="slide" data-chapter="pronoun">
+      <div class="kicker">บทที่ 3 • คำสรรพนาม</div>
+      <h1>Quiz สรรพนาม 25 ข้อ</h1>
+      
+      <div class="quiz-launch"><div class="huge">พร้อมหรือยัง?</div><p>ทบทวนคำที่มักสับสนก่อนเริ่ม</p><button class="startquiz" onclick="startQuiz('pronoun')">เริ่ม Quiz สรรพนาม</button></div>
+    </section><section class="slide" data-chapter="verb">
+      <div class="kicker">บทที่ 3 • คำกริยา</div>
+      <h1>คำกริยา คืออะไร?</h1>
+      
+      
+<div class="big-def">คำกริยา คือคำที่บอก <mark>การกระทำ อาการ หรือสภาพ</mark> ของประธาน</div>
+<div class="examples large"><span>กิน</span><span>เดิน</span><span>วิ่ง</span><span>นอน</span><span>อ่าน</span><span>เป็น</span></div>
+<div class="remember">⭐ <b>Remember:</b> กริยา = <b class="key">ทำอะไร / เป็นอย่างไร</b></div>
+
+    </section><section class="slide" data-chapter="verb">
+      <div class="kicker">บทที่ 3 • คำกริยา</div>
+      <h1>1. อกรรมกริยา</h1>
+      
+      
+<div class="big-def">กริยาที่ <mark>ไม่ต้องมีกรรม</mark> ประโยคก็สมบูรณ์</div>
+<div class="examples large"><span>เด็ก <b>นอน</b></span><span>นก <b>บิน</b></span><span>ฝน <b>ตก</b></span><span>นักเรียน <b>หัวเราะ</b></span></div>
+<div class="remember">⭐ <b>Remember:</b> <span class="key">อกรรม = ไม่ต้องมีกรรม</span></div>
+
+    </section><section class="slide" data-chapter="verb">
+      <div class="kicker">บทที่ 3 • คำกริยา</div>
+      <h1>2. สกรรมกริยา</h1>
+      
+      
+<div class="big-def">กริยาที่ <mark>ต้องมีกรรม</mark> มารับการกระทำ</div>
+<div class="examples large"><span>กิน <b>ข้าว</b></span><span>อ่าน <b>หนังสือ</b></span><span>เตะ <b>ฟุตบอล</b></span></div>
+<div class="remember big">⭐ <b>เทคนิค:</b> ถามหลังคำกริยาว่า <span class="key">“ใคร?” หรือ “อะไร?”</span><br>ซื้ออะไร? → ขนม</div>
+
+    </section><section class="slide" data-chapter="verb">
+      <div class="kicker">บทที่ 3 • คำกริยา</div>
+      <h1>3. วิกตรรถกริยา</h1>
+      
+      
+<div class="big-def">กริยาที่ต้องมีคำอื่นมา <mark>เติมความหมายให้สมบูรณ์</mark></div>
+<div class="examples giant"><span>เป็น</span><span>เหมือน</span><span>คล้าย</span><span>เท่า</span></div>
+<div class="sentence">พ่อ <mark>เป็น ครู</mark></div>
+<div class="sentence">น้อง <mark>เหมือน แม่</mark></div>
+<div class="remember">⭐ <b>Remember:</b> เป็น • เหมือน • คล้าย • เท่า → มักต้องมี <span class="key">ส่วนเติมเต็ม</span></div>
+
+    </section><section class="slide" data-chapter="verb">
+      <div class="kicker">บทที่ 3 • คำกริยา</div>
+      <h1>4. กริยานุเคราะห์</h1>
+      
+      
+<div class="big-def">คำกริยาที่เข้าไป <mark>ช่วยกริยาหลัก</mark></div>
+<div class="examples large"><span>จะ</span><span>กำลัง</span><span>ได้</span><span>ต้อง</span><span>ควร</span><span>อาจ</span></div>
+<div class="sentence">ฉัน <mark>จะ</mark> ไปโรงเรียน</div>
+<div class="sentence">น้อง <mark>กำลัง</mark> อ่านหนังสือ</div>
+<div class="remember">⭐ <b>Remember:</b> กริยานุเคราะห์ = <span class="key">กริยาช่วย</span></div>
+
+    </section><section class="slide" data-chapter="verb">
+      <div class="kicker">บทที่ 3 • คำกริยา</div>
+      <h1>4 ชนิดของคำกริยา</h1>
+      
+      
+<div class="function-cards four">
+<div><b>อกรรม</b><p>นก <mark>บิน</mark></p><small>ไม่ต้องมีกรรม</small></div>
+<div><b>สกรรม</b><p>กิน <mark>ข้าว</mark></p><small>ต้องมีกรรม</small></div>
+<div><b>วิกตรรถ</b><p>เป็น <mark>ครู</mark></p><small>ต้องมีส่วนเติมเต็ม</small></div>
+<div><b>กริยานุเคราะห์</b><p><mark>จะ</mark> ไป</p><small>ช่วยกริยาหลัก</small></div>
+</div>
+
+    </section><section class="slide" data-chapter="verb">
+      <div class="kicker">บทที่ 3 • คำกริยา</div>
+      <h1>หน้าที่ของคำกริยา</h1>
+      
+      
+<div class="summary-list compact">
+<div><b>เป็นภาคแสดง</b><span>น้อง <mark>วิ่ง</mark></span></div>
+<div><b>ขยายคำนาม</b><span>เด็ก <mark>ร้องไห้</mark> คนนั้น...</span></div>
+<div><b>ขยายกริยาด้วยกัน</b><span>เขา <mark>เดินไปซื้อ</mark> ขนม</span></div>
+<div><b>ทำหน้าที่เหมือนคำนาม</b><span><mark>ว่ายน้ำ</mark> เป็นการออกกำลังกาย...</span></div>
+</div>
+
+    </section><section class="slide" data-chapter="verb">
+      <div class="kicker">บทที่ 3 • คำกริยา</div>
+      <h1>สรุปก่อน Quiz: คำกริยา</h1>
+      
+      
+<div class="summary-list">
+<div><b>อกรรมกริยา</b><span>ไม่ต้องมีกรรม</span></div>
+<div><b>สกรรมกริยา</b><span>ต้องมีกรรม</span></div>
+<div><b>วิกตรรถกริยา</b><span>ต้องมีส่วนเติมเต็ม</span></div>
+<div><b>กริยานุเคราะห์</b><span>ช่วยกริยาหลัก</span></div>
+</div>
+<div class="remember big">⭐ <b>Remember:</b> <span class="key">ไม่ต้อง • ต้องมี • เติมเต็ม • ช่วย</span></div>
+
+    </section><section class="slide" data-chapter="verb">
+      <div class="kicker">บทที่ 3 • คำกริยา</div>
+      <h1>Quiz คำกริยา 25 ข้อ</h1>
+      
+      <div class="quiz-launch"><div class="huge">พร้อมหรือยัง?</div><p>ดูให้ดีว่า “ต้องมีกรรม” หรือ “ต้องมีส่วนเติมเต็ม”</p><button class="startquiz" onclick="startQuiz('verb')">เริ่ม Quiz คำกริยา</button></div>
+    </section>
+  </div>
+
+  <div class="controls">
+    <button id="prev" class="navbtn" onclick="prevSlide()">← ย้อนกลับ</button>
+    <div id="counter" class="counter"></div>
+    <button id="next" class="navbtn primary" onclick="nextSlide()">ถัดไป →</button>
+  </div>
+</div>
+
+<div id="quizModal" class="quiz-modal">
+  <div class="quiz-card">
+    <div id="quizContent"></div>
+  </div>
+</div>
+
+<script>
+const QUESTION_DATA = {"noun": [["ข้อใดเป็นคำนามสามัญ (สามานยนาม)?", ["ประเทศไทย", "โรงเรียน", "เชียงใหม่", "แม่น้ำเจ้าพระยา"], 1, "“โรงเรียน” เป็นชื่อทั่วไป ไม่ได้ระบุว่าโรงเรียนใด"], ["ข้อใดเป็นคำนามวิสามัญ (วิสามานยนาม)?", ["จังหวัด", "แม่น้ำ", "ประเทศไทย", "เด็ก"], 2, "“ประเทศไทย” เป็นชื่อเฉพาะ"], ["ข้อใดเป็นลักษณนาม?", ["ฝูง", "เล่ม", "ความสุข", "โรงเรียน"], 1, "“เล่ม” ใช้บอกลักษณะเมื่อนับ เช่น หนังสือ 3 เล่ม"], ["ข้อใดเป็นสมุหนาม?", ["โขลง", "แท่ง", "คน", "การเรียน"], 0, "“โขลง” บอกการรวมกันเป็นหมู่ เช่น โขลงช้าง"], ["ข้อใดเป็นอาการนาม?", ["แมว", "การวิ่ง", "คณะ", "กรุงเทพฯ"], 1, "“การวิ่ง” เป็นคำนามบอกอาการ"], ["คำว่า “เด็ก” ในประโยค “เด็กวิ่งเล่น” ทำหน้าที่อะไร?", ["ประธาน", "กรรม", "ลักษณนาม", "กริยา"], 0, "“เด็ก” เป็นผู้ทำกริยา “วิ่งเล่น” จึงเป็นประธาน"], ["คำว่า “ขนม” ในประโยค “แม่ซื้อขนม” ทำหน้าที่อะไร?", ["ประธาน", "กรรม", "กริยา", "สมุหนาม"], 1, "“ขนม” เป็นสิ่งที่ถูกซื้อ จึงเป็นกรรม"], ["ข้อใดจับคู่ถูกต้อง?", ["หนังสือ 3 ฝูง", "ช้าง 2 เชือก", "รถ 4 โขลง", "พระสงฆ์ 5 คัน"], 1, "ช้างใช้ลักษณนามว่า “เชือก”"], ["ข้อใดเป็นคำนามสามัญทั้งหมด?", ["เด็ก แมว โรงเรียน", "ประเทศไทย เชียงใหม่ แม่น้ำเจ้าพระยา", "การเรียน ความสุข คณะ", "เล่ม คัน เชือก"], 0, "เด็ก แมว โรงเรียน เป็นชื่อทั่วไปทั้งหมด"], ["ข้อใดเป็นคำนามวิสามัญ?", ["จังหวัด", "ประเทศ", "เชียงใหม่", "โรงเรียน"], 2, "“เชียงใหม่” เป็นชื่อเฉพาะ"], ["“ฝูงนก” คำว่า “ฝูง” เป็นคำนามชนิดใด?", ["ลักษณนาม", "สมุหนาม", "อาการนาม", "วิสามานยนาม"], 1, "“ฝูง” บอกหมวดหมู่ของนก"], ["“นก 3 ตัว” คำว่า “ตัว” เป็นคำนามชนิดใด?", ["ลักษณนาม", "สมุหนาม", "สามานยนาม", "อาการนาม"], 0, "“ตัว” ใช้บอกลักษณะเมื่อนับ"], ["ข้อใดเป็นอาการนาม?", ["ความรัก", "ประเทศไทย", "คณะ", "เด็ก"], 0, "“ความรัก” เป็นคำนามบอกอาการหรือความรู้สึก"], ["ข้อใดเป็นอาการนามที่มีคำว่า “การ” นำหน้า?", ["ความสุข", "การเรียน", "คณะนักเรียน", "แม่น้ำ"], 1, "“การเรียน” เป็นอาการนาม"], ["ข้อใดเป็นอาการนามที่มีคำว่า “ความ” นำหน้า?", ["การเดิน", "ความเสียใจ", "โรงเรียน", "ฝูง"], 1, "“ความเสียใจ” เป็นอาการนาม"], ["“คณะนักเรียนไปทัศนศึกษา” คำว่า “คณะ” เป็นอะไร?", ["สามานยนาม", "สมุหนาม", "ลักษณนาม", "วิสามานยนาม"], 1, "“คณะ” บอกกลุ่มของนักเรียน"], ["ข้อใดแสดงความต่างระหว่างสมุหนามกับลักษณนามได้ถูกต้อง?", ["สมุหนามใช้บอกกลุ่ม ส่วนลักษณนามใช้เมื่อนับ", "ทั้งสองอย่างเหมือนกัน", "สมุหนามใช้กับชื่อเฉพาะเท่านั้น", "ลักษณนามใช้บอกอาการ"], 0, "สมุหนาม = กลุ่ม, ลักษณนาม = ใช้บอกลักษณะเมื่อนับ"], ["“พระสงฆ์ 5 รูป” คำว่า “รูป” เป็นอะไร?", ["สมุหนาม", "ลักษณนาม", "อาการนาม", "กริยา"], 1, "“รูป” เป็นลักษณนามของพระสงฆ์"], ["ข้อใดมีคำนามทำหน้าที่เป็นประธาน?", ["น้องอ่านหนังสือ", "แม่ซื้อขนม", "ฉันไปกับเพื่อน", "พ่อเป็นครู"], 0, "“น้อง” เป็นผู้ทำกริยาอ่าน จึงเป็นประธาน"], ["ข้อใดมีคำนามทำหน้าที่เป็นกรรม?", ["เด็กนอน", "แม่ซื้อขนม", "ฝนตก", "นกบิน"], 1, "“ขนม” เป็นสิ่งที่ถูกซื้อ"], ["ข้อใดเป็นคำนามบอกหมวดหมู่?", ["ฝูง", "คัน", "เล่ม", "ความสุข"], 0, "“ฝูง” บอกการรวมกันเป็นหมู่"], ["ข้อใดไม่ใช่คำนามวิสามัญ?", ["ประเทศไทย", "เชียงใหม่", "แม่น้ำเจ้าพระยา", "จังหวัด"], 3, "“จังหวัด” เป็นชื่อทั่วไป"], ["ข้อใดมีทั้งคำนามสามัญและคำนามวิสามัญ?", ["โรงเรียนในประเทศไทย", "ความสุข", "หนังสือ 3 เล่ม", "ฝูงนก"], 0, "โรงเรียน = สามัญ, ประเทศไทย = วิสามัญ"], ["“ฉันไปโรงเรียนกับเพื่อน” คำว่า “เพื่อน” ช่วยทำหน้าที่ใด?", ["ขยายให้ใจความสมบูรณ์", "เป็นคำกริยา", "เป็นลักษณนาม", "เป็นอาการนาม"], 0, "“เพื่อน” ช่วยเพิ่มรายละเอียดให้ประโยคสมบูรณ์"], ["ข้อใดสรุป “คำนาม” ได้ดีที่สุด?", ["คำที่ใช้แทนคำนาม", "คำที่บอกการกระทำ", "คำที่ใช้เรียกชื่อคน สัตว์ สิ่งของ สถานที่ หรืออาการ", "คำที่ใช้เชื่อมประโยคเท่านั้น"], 2, "คำนามใช้เรียกชื่อคน สัตว์ สิ่งของ สถานที่ อาการ และสิ่งต่าง ๆ"]], "pronoun": [["คำสรรพนามคืออะไร?", ["คำที่ใช้แทนคำนาม", "คำที่บอกการกระทำ", "คำที่บอกจำนวน", "คำที่บอกหมวดหมู่"], 0, "คำสรรพนามใช้แทนคำนามเพื่อไม่ต้องกล่าวซ้ำ"], ["ข้อใดเป็นบุรุษสรรพนามบุรุษที่ 1?", ["ฉัน", "คุณ", "เขา", "มัน"], 0, "บุรุษที่ 1 หมายถึงผู้พูด เช่น ฉัน ผม ดิฉัน เรา"], ["ข้อใดเป็นบุรุษสรรพนามบุรุษที่ 2?", ["เรา", "คุณ", "เขา", "ฉัน"], 1, "บุรุษที่ 2 หมายถึงผู้ฟัง เช่น คุณ เธอ ท่าน"], ["ข้อใดเป็นบุรุษสรรพนามบุรุษที่ 3?", ["ผม", "ฉัน", "เขา", "เรา"], 2, "บุรุษที่ 3 หมายถึงผู้ที่ถูกกล่าวถึง เช่น เขา เธอ มัน"], ["ข้อใดเป็นนิยมสรรพนาม?", ["นี่", "ใคร ๆ", "ใคร?", "ต่าง"], 0, "“นี่” ใช้ชี้เฉพาะ"], ["ข้อใดเป็นอนิยมสรรพนาม?", ["นี่", "ใคร ๆ", "ใคร?", "ซึ่ง"], 1, "“ใคร ๆ” ไม่ชี้เฉพาะและไม่ได้ใช้ถาม"], ["ข้อใดเป็นปฤจฉาสรรพนาม?", ["อะไรก็ได้", "ใครมา?", "ต่าง", "ที่"], 1, "“ใครมา?” ใช้ถาม จึงเป็นปฤจฉาสรรพนาม"], ["ข้อใดเป็นวิภาคสรรพนาม?", ["ต่าง", "นี่", "เขา", "ซึ่ง"], 0, "“ต่าง” ใช้แยกเป็นฝ่ายหรือส่วน"], ["ข้อใดเป็นประพันธสรรพนาม?", ["ฉัน", "นี่", "ที่", "บ้าง"], 2, "“ที่” ใช้แทนคำนามและเชื่อมประโยค"], ["“ฉันชอบอ่านหนังสือ” คำว่า “ฉัน” เป็นบุรุษที่เท่าไร?", ["1", "2", "3", "ไม่ใช่บุรุษสรรพนาม"], 0, "“ฉัน” แทนผู้พูด จึงเป็นบุรุษที่ 1"], ["“คุณจะไปไหน” คำว่า “คุณ” เป็นบุรุษที่เท่าไร?", ["1", "2", "3", "ไม่ใช่บุรุษสรรพนาม"], 1, "“คุณ” แทนผู้ฟัง จึงเป็นบุรุษที่ 2"], ["“เขากำลังเล่นฟุตบอล” คำว่า “เขา” เป็นบุรุษที่เท่าไร?", ["1", "2", "3", "ไม่ใช่บุรุษสรรพนาม"], 2, "“เขา” แทนผู้ที่ถูกกล่าวถึง"], ["“นี่คือกระเป๋าของฉัน” คำว่า “นี่” เป็นอะไร?", ["นิยมสรรพนาม", "อนิยมสรรพนาม", "ปฤจฉาสรรพนาม", "วิภาคสรรพนาม"], 0, "“นี่” ใช้ชี้เฉพาะ"], ["“ใคร ๆ ก็อยากมีความสุข” คำว่า “ใคร ๆ” เป็นอะไร?", ["ปฤจฉาสรรพนาม", "อนิยมสรรพนาม", "นิยมสรรพนาม", "ประพันธสรรพนาม"], 1, "ไม่ได้ใช้ถาม และไม่ชี้เฉพาะ"], ["“ใครมาโรงเรียนสาย?” คำว่า “ใคร” เป็นอะไร?", ["อนิยมสรรพนาม", "ปฤจฉาสรรพนาม", "วิภาคสรรพนาม", "นิยมสรรพนาม"], 1, "ใช้ตั้งคำถาม จึงเป็นปฤจฉาสรรพนาม"], ["“นักเรียนต่างทำการบ้าน” คำว่า “ต่าง” เป็นอะไร?", ["วิภาคสรรพนาม", "นิยมสรรพนาม", "ประพันธสรรพนาม", "บุรุษสรรพนาม"], 0, "“ต่าง” ใช้แยกฝ่าย"], ["“พวกเราช่วยกันทำงาน” คำว่า “กัน” เป็นอะไร?", ["วิภาคสรรพนาม", "ปฤจฉาสรรพนาม", "นิยมสรรพนาม", "อนิยมสรรพนาม"], 0, "“กัน” ใช้ในความหมายแยกหรือร่วมกันตามกลุ่ม"], ["“นักเรียนที่ได้รางวัลเป็นเพื่อนของฉัน” คำว่า “ที่” เป็นอะไร?", ["ประพันธสรรพนาม", "นิยมสรรพนาม", "วิภาคสรรพนาม", "บุรุษสรรพนาม"], 0, "“ที่” ใช้แทนคำนามและเชื่อมประโยค"], ["ข้อใดเป็นหน้าที่ของคำสรรพนาม?", ["เป็นประธานของประโยค", "เป็นกรรมของประโยค", "เชื่อมประโยคได้", "ถูกทุกข้อ"], 3, "คำสรรพนามทำได้ทั้งเป็นประธาน กรรม และตัวเชื่อมในบางชนิด"], ["“เขาไปโรงเรียน” คำว่า “เขา” ทำหน้าที่อะไร?", ["ประธาน", "กรรม", "กริยา", "ลักษณนาม"], 0, "“เขา” เป็นผู้ไปโรงเรียน จึงเป็นประธาน"], ["“ครูเรียกฉัน” คำว่า “ฉัน” ทำหน้าที่อะไร?", ["ประธาน", "กรรม", "กริยา", "สมุหนาม"], 1, "“ฉัน” เป็นผู้ถูกเรียก จึงเป็นกรรม"], ["ข้อใดมีคำสรรพนามเป็นส่วนเติมเต็มของกริยา?", ["คนที่ชนะคือเขา", "เขาวิ่งเร็ว", "นี่คือหนังสือ", "ใครมา?"], 0, "“เขา” เติมความหมายหลังคำว่า “คือ”"], ["คำใดมักใช้เป็นประพันธสรรพนาม?", ["ที่ ซึ่ง อัน ผู้", "ฉัน คุณ เขา", "นี่ นั่น โน่น", "ต่าง บ้าง กัน"], 0, "คำเหล่านี้ใช้แทนคำนามและเชื่อมประโยค"], ["ข้อใดเปรียบเทียบอนิยมสรรพนามกับปฤจฉาสรรพนามถูกต้อง?", ["ใช้คำเหมือนกันได้ แต่ปฤจฉาใช้ถาม ส่วนอนิยมไม่ใช้ถาม", "ทั้งสองเหมือนกันทุกอย่าง", "อนิยมใช้ชี้เฉพาะ", "ปฤจฉาใช้แยกฝ่าย"], 0, "เช่น “ใครมา?” = ปฤจฉา แต่ “ใคร ๆ ก็มาได้” = อนิยม"], ["ข้อใดสรุปคำสรรพนามได้ดีที่สุด?", ["คำแทนคำนาม", "คำบอกอาการ", "คำบอกหมวดหมู่", "คำบอกจำนวน"], 0, "คำสรรพนามคือคำที่ใช้แทนคำนาม"]], "verb": [["คำกริยาคืออะไร?", ["คำที่บอกการกระทำ อาการ หรือสภาพ", "คำที่ใช้แทนคำนาม", "คำที่บอกลักษณะเมื่อนับ", "คำที่บอกชื่อเฉพาะ"], 0, "คำกริยาบอกการกระทำ อาการ หรือสภาพของประธาน"], ["ข้อใดเป็นอกรรมกริยา?", ["นอน", "กินข้าว", "อ่านหนังสือ", "เตะฟุตบอล"], 0, "“นอน” ไม่ต้องมีกรรมก็ได้ใจความ"], ["ข้อใดเป็นสกรรมกริยา?", ["ฝนตก", "นกบิน", "กินข้าว", "เด็กหัวเราะ"], 2, "“กิน” ต้องมีกรรม เช่น กินข้าว"], ["ข้อใดเป็นวิกตรรถกริยา?", ["เป็น", "วิ่ง", "นอน", "ตก"], 0, "“เป็น” มักต้องมีส่วนเติมเต็ม เช่น พ่อเป็นครู"], ["ข้อใดเป็นกริยานุเคราะห์?", ["จะ", "วิ่ง", "กิน", "นอน"], 0, "“จะ” ช่วยกริยาหลัก เช่น จะไป"], ["“เด็กนอน” คำว่า “นอน” เป็นกริยาชนิดใด?", ["อกรรมกริยา", "สกรรมกริยา", "วิกตรรถกริยา", "กริยานุเคราะห์"], 0, "ประโยคสมบูรณ์ได้โดยไม่ต้องมีกรรม"], ["“ฉันกินข้าว” คำว่า “กิน” เป็นกริยาชนิดใด?", ["อกรรมกริยา", "สกรรมกริยา", "วิกตรรถกริยา", "กริยานุเคราะห์"], 1, "กินอะไร? → ข้าว จึงเป็นสกรรมกริยา"], ["“พ่อเป็นครู” คำว่า “เป็น” เป็นกริยาชนิดใด?", ["วิกตรรถกริยา", "อกรรมกริยา", "สกรรมกริยา", "กริยานุเคราะห์"], 0, "ต้องมีคำว่า “ครู” มาเติมความหมาย"], ["“น้องเหมือนแม่” คำว่า “เหมือน” เป็นกริยาชนิดใด?", ["วิกตรรถกริยา", "สกรรมกริยา", "อกรรมกริยา", "กริยานุเคราะห์"], 0, "“เหมือน” ต้องมีส่วนเติมเต็ม"], ["“ฉันจะไปโรงเรียน” คำว่า “จะ” เป็นอะไร?", ["กริยานุเคราะห์", "สกรรมกริยา", "อกรรมกริยา", "ลักษณนาม"], 0, "“จะ” ช่วยบอกข้อมูลเพิ่มเติมของกริยาหลัก “ไป”"], ["“น้องกำลังอ่านหนังสือ” คำว่า “กำลัง” เป็นอะไร?", ["กริยานุเคราะห์", "สกรรมกริยา", "วิกตรรถกริยา", "อาการนาม"], 0, "“กำลัง” ช่วยกริยาหลัก “อ่าน”"], ["“เราควรตั้งใจเรียน” คำว่า “ควร” เป็นอะไร?", ["กริยานุเคราะห์", "วิกตรรถกริยา", "อกรรมกริยา", "สกรรมกริยา"], 0, "“ควร” เป็นกริยาช่วย"], ["“เขาอาจมาเย็นนี้” คำว่า “อาจ” เป็นอะไร?", ["กริยานุเคราะห์", "สกรรมกริยา", "อกรรมกริยา", "สมุหนาม"], 0, "“อาจ” ช่วยบอกความเป็นไปได้"], ["ข้อใดเป็นอกรรมกริยา?", ["ฝนตก", "แม่ซื้อขนม", "พ่ออ่านหนังสือ", "นักเรียนเตะฟุตบอล"], 0, "“ตก” ไม่ต้องมีกรรม"], ["ข้อใดเป็นสกรรมกริยา?", ["นกบิน", "เด็กหัวเราะ", "พ่ออ่านหนังสือ", "ฝนตก"], 2, "อ่านอะไร? → หนังสือ"], ["วิธีง่าย ๆ ในการหากรรมของสกรรมกริยาคืออะไร?", ["ถามว่า ใคร? หรือ อะไร? หลังคำกริยา", "ดูว่ามีตัวเลขหรือไม่", "ดูว่ามีคำว่า การ หรือ ความ หรือไม่", "ดูว่าเป็นชื่อเฉพาะหรือไม่"], 0, "เช่น ซื้ออะไร? → ขนม"], ["คำใดอยู่ในกลุ่มวิกตรรถกริยา?", ["เป็น เหมือน คล้าย เท่า", "จะ กำลัง ควร อาจ", "กิน อ่าน เตะ ซื้อ", "นอน บิน ตก หัวเราะ"], 0, "กลุ่มนี้มักต้องมีส่วนเติมเต็ม"], ["คำใดอยู่ในกลุ่มกริยานุเคราะห์?", ["จะ กำลัง ได้ ต้อง ควร อาจ", "เป็น เหมือน คล้าย เท่า", "กิน อ่าน เตะ ซื้อ", "นอน บิน ตก หัวเราะ"], 0, "คำเหล่านี้ช่วยกริยาหลัก"], ["หน้าที่สำคัญที่สุดของคำกริยาในประโยคคืออะไร?", ["เป็นภาคแสดง", "เป็นลักษณนาม", "เป็นชื่อเฉพาะ", "เป็นสมุหนาม"], 0, "คำกริยามักทำหน้าที่เป็นภาคแสดงของประโยค"], ["“เด็กร้องไห้คนนั้นเป็นน้องของฉัน” คำว่า “ร้องไห้” ทำหน้าที่อย่างไร?", ["ขยายคำนาม", "เป็นกรรม", "เป็นลักษณนาม", "เป็นชื่อเฉพาะ"], 0, "“ร้องไห้” ช่วยบอกว่าเป็นเด็กคนไหน"], ["“เขาเดินไปซื้อขนม” แสดงว่าคำกริยาทำหน้าที่อย่างไร?", ["กริยาหลายคำช่วยขยายกัน", "เป็นคำนามทั้งหมด", "เป็นสรรพนามทั้งหมด", "เป็นลักษณนาม"], 0, "เดิน–ไป–ซื้อ เป็นกริยาหลายคำที่ทำงานร่วมกัน"], ["“ว่ายน้ำเป็นการออกกำลังกายที่ฉันชอบ” คำว่า “ว่ายน้ำ” ทำหน้าที่อย่างไร?", ["ทำหน้าที่เหมือนคำนาม", "เป็นลักษณนาม", "เป็นสมุหนาม", "เป็นสรรพนาม"], 0, "“ว่ายน้ำ” เดิมเป็นกริยา แต่ในประโยคนี้เป็นสิ่งที่กล่าวถึง"], ["ข้อใดไม่ต้องการกรรม?", ["นกบิน", "ฉันกินข้าว", "แม่ซื้อขนม", "พ่ออ่านหนังสือ"], 0, "“บิน” เป็นอกรรมกริยา"], ["ข้อใดต้องการส่วนเติมเต็ม?", ["พ่อเป็นครู", "นกบิน", "ฝนตก", "เด็กหัวเราะ"], 0, "“เป็น” ต้องมีคำว่า “ครู” เติมให้ความหมายสมบูรณ์"], ["ข้อใดสรุปคำกริยาได้ดีที่สุด?", ["บอกว่าประธานทำอะไร มีอาการอย่างไร หรือมีสภาพอย่างไร", "ใช้เรียกชื่อคน", "ใช้แทนคำนาม", "ใช้บอกจำนวน"], 0, "คำกริยาบอกการกระทำ อาการ หรือสภาพ"]]};
+for (const k of Object.keys(QUESTION_DATA)) {
+  QUESTION_DATA[k] = QUESTION_DATA[k].map(x => ({q:x[0],c:x[1],a:x[2],e:x[3]}));
+}
+const slides = [...document.querySelectorAll('.slide')];
+let index = 0;
+const chapterStart = {};
+slides.forEach((s,i)=>{ if(!(s.dataset.chapter in chapterStart)) chapterStart[s.dataset.chapter]=i; });
+function renderSlide(){
+  slides.forEach((s,i)=>s.classList.toggle('active',i===index));
+  document.getElementById('counter').textContent = `${index+1} / ${slides.length}`;
+  document.getElementById('progress').style.width = `${((index+1)/slides.length)*100}%`;
+  document.getElementById('prev').disabled = index===0;
+  document.getElementById('next').disabled = index===slides.length-1;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  const ch=slides[index].dataset.chapter;
+  const tabs=[...document.querySelectorAll('.tab')];
+  if(ch==='noun'&&tabs[0])tabs[0].classList.add('active');
+  if(ch==='pronoun'&&tabs[1])tabs[1].classList.add('active');
+  if(ch==='verb'&&tabs[2])tabs[2].classList.add('active');
+  slides[index].scrollTop=0;
+}
+function nextSlide(){ if(index<slides.length-1){index++;renderSlide();} }
+function prevSlide(){ if(index>0){index--;renderSlide();} }
+function jumpChapter(ch){ index=chapterStart[ch]; renderSlide(); }
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')nextSlide();if(e.key==='ArrowLeft')prevSlide();});
+let touchX=null;
+document.getElementById('stage').addEventListener('touchstart',e=>touchX=e.changedTouches[0].screenX,{passive:true});
+document.getElementById('stage').addEventListener('touchend',e=>{if(touchX===null)return;let d=e.changedTouches[0].screenX-touchX;if(Math.abs(d)>60){d<0?nextSlide():prevSlide();}touchX=null;},{passive:true});
+renderSlide();
+
+let quizKey=null, qi=0, answers=[];
+function startQuiz(key){
+  quizKey=key; qi=0; answers=Array(QUESTION_DATA[key].length).fill(null);
+  document.getElementById('quizModal').classList.add('show');
+  renderQuestion();
+}
+function closeQuiz(){ document.getElementById('quizModal').classList.remove('show'); }
+function scoreNow(){return answers.reduce((s,a,i)=>s+(a===QUESTION_DATA[quizKey][i].a?1:0),0);}
+function renderQuestion(){
+  const qs=QUESTION_DATA[quizKey], q=qs[qi], selected=answers[qi], answered=selected!==null;
+  const content=document.getElementById('quizContent');
+  content.innerHTML=`
+  <div class="quiz-top">
+    <h2>${quizKey==='noun'?'Quiz คำนาม':quizKey==='pronoun'?'Quiz สรรพนาม':'Quiz คำกริยา'}</h2>
+    <button class="close" onclick="closeQuiz()">✕ ปิด</button>
+  </div>
+  <div class="q-progress"><div style="width:${((qi+1)/qs.length)*100}%"></div></div>
+  <div style="font-weight:800;color:#64748b">ข้อ ${qi+1} / ${qs.length} • คะแนน ${scoreNow()}</div>
+  <div class="qtext">${q.q}</div>
+  <div class="choices">
+    ${q.c.map((c,i)=>{
+      let cls='choice';
+      if(answered&&i===q.a)cls+=' correct';
+      if(answered&&i===selected&&selected!==q.a)cls+=' wrong';
+      return `<button class="${cls}" ${answered?'disabled':''} onclick="answerQ(${i})">${String.fromCharCode(65+i)}. ${c}</button>`;
+    }).join('')}
+  </div>
+  <div class="feedback ${answered?(selected===q.a?'good':'bad'):''}">
+    ${answered?(selected===q.a?`✅ ถูกต้อง — ${q.e}`:`❌ ยังไม่ถูก — คำตอบที่ถูกคือ <b>${String.fromCharCode(65+q.a)}. ${q.c[q.a]}</b><br>${q.e}`):''}
+  </div>
+  <div class="quiz-actions">
+    <button class="navbtn" onclick="prevQ()" ${qi===0?'disabled':''}>← ย้อนกลับ</button>
+    <button class="navbtn primary" onclick="nextQ()" ${answered?'':'disabled'}>${qi===qs.length-1?'ดูคะแนน':'ถัดไป →'}</button>
+  </div>`;
+}
+function answerQ(i){if(answers[qi]!==null)return;answers[qi]=i;renderQuestion();}
+function prevQ(){if(qi>0){qi--;renderQuestion();}}
+function nextQ(){
+  if(answers[qi]===null)return;
+  if(qi<QUESTION_DATA[quizKey].length-1){qi++;renderQuestion();}
+  else renderScore();
+}
+function renderScore(){
+  const s=scoreNow(), total=QUESTION_DATA[quizKey].length, pct=Math.round(s/total*100);
+  document.getElementById('quizContent').innerHTML=`
+    <div class="scorebox">
+      <div class="huge">🎉 จบ Quiz แล้ว</div>
+      <div class="score">${s}/${total}</div>
+      <p style="font-size:24px;font-weight:850">คะแนน ${pct}%</p>
+      <p style="font-size:20px">${pct>=80?'เยี่ยมมาก! เข้าใจเนื้อหาได้ดี':pct>=60?'ทำได้ดี ลองทบทวนจุดที่ยังสับสน':'แนะนำให้อ่านสรุป Remember อีกครั้ง แล้วลองใหม่'}</p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="navbtn" onclick="startQuiz(quizKey)">ทำใหม่</button>
+        <button class="navbtn primary" onclick="closeQuiz()">กลับบทเรียน</button>
+      </div>
+    </div>`;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Grade 6 touchscreen lesson and quiz about simple subjects and simple predicates.">
+  <title>Simple Subjects and Predicates Touchscreen Tutor</title>
+  <style>
+    :root {
+      --navy:#17335f; --blue:#2471d5; --sky:#eaf4ff; --red:#bd2d2d;
+      --yellow:#ffd95a; --cream:#fffbea; --ink:#18233b; --muted:#61708b;
+      --green:#16835b; --green-bg:#e7f8f0; --bad:#bd3131; --bad-bg:#fff0f0;
+      --line:#d7e3f3; --white:#fff; --shadow:0 18px 55px rgba(23,51,95,.13);
+    }
+    *{box-sizing:border-box}
+    html,body{min-height:100%;margin:0}
+    body{font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:
+      radial-gradient(circle at 12% 10%,rgba(255,217,90,.32),transparent 25%),
+      radial-gradient(circle at 90% 6%,rgba(36,113,213,.18),transparent 28%),
+      linear-gradient(150deg,#f6fbff 0%,#edf5ff 48%,#fff9df 100%);font-size:18px}
+    button{font:inherit}
+    button:focus-visible{outline:4px solid #ff9f1c;outline-offset:3px}
+    .app{min-height:100vh;display:flex;flex-direction:column}
+    .topbar{display:flex;align-items:center;gap:12px;padding:14px clamp(14px,3vw,32px);background:var(--navy);color:#fff;box-shadow:0 5px 20px rgba(0,0,0,.14);position:sticky;top:0;z-index:10}
+    .brand{font-weight:900;letter-spacing:.2px;flex:1}.brand span{color:var(--yellow)}
+    .top-btn{border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.1);color:#fff;border-radius:14px;padding:11px 15px;min-height:46px;font-weight:800;cursor:pointer}
+    .top-btn:hover{background:rgba(255,255,255,.2)}
+    main{width:min(1050px,calc(100% - 24px));margin:auto;padding:26px 0 34px;flex:1;display:flex;align-items:center;justify-content:center}
+    .screen{display:none;width:100%;animation:enter .3s ease}.screen.active{display:block}
+    @keyframes enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .panel{background:rgba(255,255,255,.96);border:1px solid rgba(36,113,213,.16);border-radius:28px;box-shadow:var(--shadow);overflow:hidden}
+    .home-hero{display:grid;grid-template-columns:1.15fr .85fr;min-height:570px}
+    .hero-copy{padding:clamp(30px,6vw,68px);display:flex;flex-direction:column;justify-content:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;width:max-content;background:var(--sky);color:var(--blue);border-radius:999px;padding:8px 14px;font-weight:900;font-size:.86rem;text-transform:uppercase;letter-spacing:.7px}
+    h1{font-size:clamp(2.35rem,6vw,4.5rem);line-height:.96;margin:22px 0 18px;color:var(--navy);letter-spacing:-2px}
+    h2{font-size:clamp(1.65rem,4vw,2.55rem);line-height:1.08;margin:0;color:var(--navy)}
+    h3{font-size:1.25rem;margin:.2rem 0 .65rem;color:var(--navy)}
+    p{line-height:1.55}.lead{font-size:1.12rem;color:var(--muted);max-width:590px}
+    .hero-art{background:linear-gradient(145deg,var(--navy),#275ca5);padding:32px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+    .hero-art:before,.hero-art:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.08)}
+    .hero-art:before{width:330px;height:330px;top:-120px;right:-110px}.hero-art:after{width:230px;height:230px;bottom:-90px;left:-80px}
+    .sentence-stack{width:min(360px,100%);display:grid;gap:15px;z-index:1}
+    .sentence-chip{background:#fff;border-radius:20px;padding:18px 20px;font-weight:900;color:var(--navy);box-shadow:0 12px 24px rgba(0,0,0,.17);display:flex;justify-content:space-between;align-items:center;transform:rotate(-1deg)}
+    .sentence-chip:nth-child(2){transform:rotate(1.2deg);margin-left:20px}.sentence-chip:nth-child(3){transform:rotate(-.6deg);margin-right:18px}.sentence-chip:nth-child(4){transform:rotate(1deg);margin-left:8px}
+    .mark{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--yellow);font-size:1.55rem;color:var(--red)}
+    .primary,.secondary,.danger{border:0;border-radius:16px;min-height:56px;padding:14px 24px;font-weight:900;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease}
+    .primary{background:var(--blue);color:#fff;box-shadow:0 8px 18px rgba(36,113,213,.28)}
+    .primary:hover{transform:translateY(-2px);box-shadow:0 11px 22px rgba(36,113,213,.34)}
+    .secondary{background:#eef4fb;color:var(--navy);border:2px solid var(--line)}
+    .danger{background:#fff0f0;color:var(--bad);border:2px solid #ffd0d0}
+    .start{font-size:1.08rem;margin-top:20px;width:max-content;min-width:220px}
+    .progress-card{margin-top:20px;padding:16px;border:2px solid var(--line);border-radius:18px;background:#fbfdff}
+    .progress-row{display:flex;justify-content:space-between;gap:12px;font-weight:800;font-size:.92rem}
+    .track{height:12px;border-radius:999px;background:#e5edf7;margin-top:10px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),#25b88a);border-radius:inherit;transition:width .3s}
+    .slide-panel,.quiz-panel,.result-panel{min-height:610px;display:flex;flex-direction:column}
+    .section-head{padding:22px clamp(22px,4vw,42px);background:linear-gradient(90deg,var(--navy),#275ca5);color:#fff;display:flex;align-items:center;gap:16px}
+    .section-head h2{color:#fff;flex:1}.counter{font-weight:900;background:rgba(255,255,255,.15);padding:8px 13px;border-radius:999px;white-space:nowrap;font-size:.88rem}
+    .slide-body,.quiz-body,.result-body{padding:clamp(25px,5vw,52px);flex:1;display:flex;flex-direction:column}
+    .slide-content{flex:1}
+    .slide-content ul{padding-left:1.35rem;line-height:1.6}.slide-content li{margin:.45rem 0}
+    .definition{font-size:1.2rem;line-height:1.55;background:var(--sky);border-left:7px solid var(--blue);padding:18px 22px;border-radius:0 18px 18px 0;margin:20px 0}
+    .example{font-size:1.2rem;font-weight:800;background:var(--cream);border:2px solid #f1d36d;border-radius:18px;padding:18px 22px;margin:18px 0}.example small{display:block;font-size:.84rem;color:#715b0a;margin-top:8px;font-weight:700}
+    .remember{background:linear-gradient(90deg,#fff4b6,#fff9db);border:2px solid #efd36c;border-radius:18px;padding:15px 19px;font-weight:900;margin-top:22px;color:#5d4b06}
+    .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:20px 0}
+    .card{border:2px solid var(--line);border-radius:18px;padding:18px;background:#fbfdff}.card .big{font-size:1.8rem;font-weight:900;color:var(--red)}
+    .compare{width:100%;border-collapse:separate;border-spacing:0;margin:20px 0;border:2px solid var(--line);border-radius:18px;overflow:hidden}
+    .compare th,.compare td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--line)}.compare th{background:var(--navy);color:#fff}.compare tr:last-child td{border-bottom:0}
+    .nav-row{display:flex;gap:12px;justify-content:space-between;align-items:center;margin-top:25px;flex-wrap:wrap}.nav-group{display:flex;gap:12px;flex-wrap:wrap}
+    .question{font-size:clamp(1.35rem,3vw,2rem);line-height:1.32;margin:6px 0 23px;color:var(--navy)}
+    .choices{display:grid;gap:13px}.choice{width:100%;text-align:left;border:2px solid var(--line);background:#fff;color:var(--ink);border-radius:17px;padding:16px 18px;min-height:62px;font-weight:750;cursor:pointer;display:flex;gap:14px;align-items:center;transition:.14s ease}
+    .choice:hover:not(:disabled){border-color:var(--blue);background:#f5f9ff;transform:translateX(3px)}.choice:disabled{cursor:default}.letter{flex:0 0 38px;height:38px;border-radius:11px;background:#eaf2fc;color:var(--blue);display:grid;place-items:center;font-weight:900}
+    .choice.correct{border-color:var(--green);background:var(--green-bg)}.choice.correct .letter{background:var(--green);color:#fff}.choice.wrong{border-color:var(--bad);background:var(--bad-bg)}.choice.wrong .letter{background:var(--bad);color:#fff}
+    .feedback{display:none;margin-top:18px;border-radius:17px;padding:17px 20px;line-height:1.45;font-weight:700}.feedback.show{display:block}.feedback.good{background:var(--green-bg);border:2px solid #9cddc4;color:#096143}.feedback.bad{background:var(--bad-bg);border:2px solid #ffc5c5;color:#8d2020}
+    .quiz-meta{display:flex;justify-content:space-between;gap:14px;color:var(--muted);font-weight:800;margin-bottom:6px}
+    .score-big{font-size:clamp(3.3rem,10vw,6rem);line-height:1;color:var(--blue);font-weight:900;letter-spacing:-4px;margin:18px 0 10px}.score-big small{font-size:1.25rem;letter-spacing:0;color:var(--muted)}
+    .result-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:18px 0}.result-box{background:#f6f9fd;border:2px solid var(--line);border-radius:18px;padding:18px}.result-box strong{font-size:1.6rem;color:var(--navy);display:block;margin-top:4px}
+    .topic-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.topic-pill{background:var(--sky);color:var(--navy);border:1px solid #c9def8;border-radius:999px;padding:7px 11px;font-weight:800;font-size:.88rem}.topic-pill.review{background:#fff0f0;color:#8d2020;border-color:#ffc5c5}
+    .mistakes{display:grid;gap:15px;margin-top:18px}.mistake{border:2px solid var(--line);border-radius:18px;padding:18px;background:#fbfdff}.mistake p{margin:.45rem 0}.mistake .topic{color:var(--blue);font-weight:900;font-size:.88rem;text-transform:uppercase}
+    .hidden{display:none!important}.center{text-align:center}.small-note{color:var(--muted);font-size:.9rem}.quick-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0}.quick-item{border-radius:18px;padding:16px 18px;background:#f7faff;border:2px solid var(--line)}
+    @media(max-width:760px){body{font-size:16px}.home-hero{grid-template-columns:1fr}.hero-art{min-height:285px;order:-1}.hero-copy{padding:30px 24px}.topbar{flex-wrap:wrap}.brand{width:100%;flex-basis:100%}.slide-panel,.quiz-panel,.result-panel{min-height:calc(100vh - 120px)}.cards,.result-grid,.quick-list{grid-template-columns:1fr}.slide-body,.quiz-body,.result-body{padding:24px 20px}.section-head{padding:18px 20px;align-items:flex-start}.section-head h2{font-size:1.45rem}.counter{font-size:.78rem}.nav-row>button,.nav-group{width:100%}.nav-group button{flex:1}.primary,.secondary,.danger{min-height:54px}.compare{font-size:.9rem}.compare th,.compare td{padding:11px 9px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><span>Grade 6</span> Language Arts Tutor</div>
+    <button class="top-btn" id="homeBtn" type="button">Home</button>
+    <button class="top-btn" id="resetBtn" type="button">Reset All Progress</button>
+  </header>
+  <main>
+    <section id="homeScreen" class="screen active" aria-labelledby="homeTitle">
+      <div class="panel home-hero">
+        <div class="hero-copy">
+          <div class="eyebrow">Unit 1 · The Sentence</div>
+          <h1 id="homeTitle">Simple Subjects and Predicates</h1>
+          <p class="lead">Find the main word or words in each complete subject and predicate, then practice with a 25-question quiz.</p>
+          <div class="progress-card">
+            <div class="progress-row"><span>Lesson 3 Progress</span><span id="homeProgressText">Not started</span></div>
+            <div class="track" aria-hidden="true"><div class="fill" id="homeProgressFill"></div></div>
+          </div>
+          <button class="primary start" id="startBtn" type="button">Start Learning</button>
+        </div>
+        <div class="hero-art" aria-label="Main words in a simple subject and simple predicate">
+          <div class="sentence-stack">
+            <div class="sentence-chip">Complete Subject <span class="mark">→</span></div>
+            <div class="sentence-chip">Simple Subject <span class="mark">S</span></div>
+            <div class="sentence-chip">Complete Predicate <span class="mark">→</span></div>
+            <div class="sentence-chip">Simple Predicate <span class="mark">P</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="lessonScreen" class="screen" aria-live="polite">
+      <div class="panel slide-panel">
+        <div class="section-head"><h2 id="slideTitle">Lesson</h2><div class="counter" id="slideCounter">Slide 1 of 10</div></div>
+        <div class="slide-body">
+          <div id="slideContent" class="slide-content"></div>
+          <div class="nav-row">
+            <button class="secondary" id="restartLessonBtn" type="button">Restart Lesson</button>
+            <div class="nav-group"><button class="secondary" id="backBtn" type="button">Back</button><button class="primary" id="nextBtn" type="button">Next</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="quizScreen" class="screen" aria-live="polite">
+      <div class="panel quiz-panel">
+        <div class="section-head"><h2>Lesson 3 Quiz</h2><div class="counter" id="questionCounter">Question 1 of 25</div></div>
+        <div class="quiz-body">
+          <div class="quiz-meta"><span id="difficultyLabel">Easy</span><span id="liveScore">Score: 0</span></div>
+          <div class="track" aria-hidden="true"><div class="fill" id="quizFill"></div></div>
+          <h3 class="question" id="questionText"></h3>
+          <div class="choices" id="choices"></div>
+          <div class="feedback" id="feedback" role="status"></div>
+          <div class="nav-row"><button class="secondary" id="quitQuizBtn" type="button">Review Lesson</button><button class="primary hidden" id="nextQuestionBtn" type="button">Next Question</button></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="resultScreen" class="screen" aria-live="polite">
+      <div class="panel result-panel">
+        <div class="section-head"><h2>Simple Subjects and Predicates Results</h2><div class="counter">Lesson 3 Complete</div></div>
+        <div class="result-body">
+          <div class="center"><div class="score-big" id="resultScore">0% <small>score</small></div><p id="resultMessage" class="lead" style="margin-inline:auto"></p></div>
+          <div class="result-grid"><div class="result-box">Correct<strong id="correctCount">0</strong></div><div class="result-box">Incorrect<strong id="incorrectCount">0</strong></div></div>
+          <div class="result-box"><h3>Topics You Understand</h3><div id="strongTopics" class="topic-list"></div></div>
+          <div class="result-box" style="margin-top:14px"><h3>Topics to Review</h3><div id="reviewTopics" class="topic-list"></div></div>
+          <div class="nav-row"><button class="secondary" id="reviewMistakesBtn" type="button">Review Mistakes</button><div class="nav-group"><button class="secondary" id="reviewLessonBtn" type="button">Review Lesson</button><button class="secondary" id="restartQuizBtn" type="button">Restart This Quiz</button><button class="primary" id="finishBtn" type="button">Finish Tutor</button></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="mistakesScreen" class="screen">
+      <div class="panel result-panel">
+        <div class="section-head"><h2>Review Mistakes</h2><div class="counter" id="mistakeCount">0 Questions</div></div>
+        <div class="result-body"><div id="mistakesList" class="mistakes"></div><div class="nav-row"><button class="primary" id="backToResultsBtn" type="button">Back to Results</button></div></div>
+      </div>
+    </section>
+
+    <section id="completeScreen" class="screen">
+      <div class="panel result-panel">
+        <div class="section-head"><h2>Tutor Complete</h2><div class="counter">Overall Completion</div></div>
+        <div class="result-body center">
+          <div class="eyebrow" style="margin:auto">Lesson 3 Finished</div>
+          <div class="score-big" id="overallScore">0% <small>overall</small></div>
+          <h3>Simple Subjects and Predicates</h3><p id="overallDetail" class="lead" style="margin-inline:auto"></p>
+          <div class="result-box" style="text-align:left;margin:18px 0"><h3>Topics Needing the Most Review</h3><div id="overallReview" class="topic-list"></div></div>
+          <div class="nav-row"><button class="secondary" id="completeHomeBtn" type="button">Home</button><div class="nav-group"><button class="secondary" id="openLessonBtn" type="button">Open Lesson Again</button><button class="primary" id="completeRestartQuizBtn" type="button">Restart Lesson Quiz</button></div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<script>
+(function(){
+  "use strict";
+  const slides = [
+    {title:"WHAT YOU MUST KNOW",html:`<p class="lead">By the end of this lesson, you should be able to:</p><ul><li>Find the <strong>main word or words</strong> in a complete subject.</li><li>Find the <strong>main word or words</strong> in a complete predicate.</li><li>Know what a <strong>simple subject</strong> is.</li><li>Know what a <strong>simple predicate</strong> is.</li><li>Recognize a main verb with one or more helping verbs.</li></ul><div class="remember">⭐ Remember: Simple parts are the main word or words.</div>`},
+    {title:"From Complete to Simple",html:`<div class="cards"><div class="card"><h3>Complete part</h3><p>Contains all the words in the subject or predicate.</p></div><div class="card"><h3>Simple part</h3><p>Contains the main word or words in that complete part.</p></div></div><div class="example">The cute little <strong>puppy</strong> <strong>loved</strong> the toy.<small>“Puppy” and “loved” are the main words.</small></div><div class="remember">⭐ Remember: Complete = all words; simple = main word or words.</div>`},
+    {title:"Simple Subject",html:`<div class="definition">The main word (or words) in the complete subject is called the <strong>simple subject</strong>.</div><div class="example">The frisky brown <strong>puppy</strong> jumped at the noise.<small>“Puppy” is the main word in the complete subject.</small></div><div class="example"><strong>Bob Smith</strong> from New York was visiting at the time.<small>“Bob Smith” is the simple subject.</small></div><div class="remember">⭐ Remember: Simple subject = main word or words in the complete subject.</div>`},
+    {title:"Simple Predicate",html:`<div class="definition">The main word (or words) in the complete predicate is called the <strong>simple predicate</strong>.</div><div class="example">The doorbell <strong>rang.</strong><small>“Rang” is the main word in the complete predicate.</small></div><div class="example">New York <strong>is</strong> Ann’s home too.<small>“Is” is the simple predicate.</small></div><div class="remember">⭐ Remember: Simple predicate = main word or words in the complete predicate.</div>`},
+    {title:"A Simple Predicate Has a Verb",html:`<div class="definition">The simple predicate is made up of at least one <strong>verb</strong>, a word that shows <strong>action or being</strong>.</div><div class="cards"><div class="card"><h3>Action</h3><p>The bulldozer <strong>moved</strong> slowly.</p></div><div class="card"><h3>Being</h3><p>This vehicle <strong>is</strong> an antique.</p></div></div><div class="remember">⭐ Remember: A simple predicate has at least one verb.</div>`},
+    {title:"Helping Verbs Stay with the Main Verb",html:`<div class="definition">The main verb may have one or more <strong>helping verbs</strong>.</div><div class="example">He <strong>has been playing</strong> with the puppy.<small>The simple predicate has helping verbs with the main verb.</small></div><div class="example">Its big scoop <strong>had been pushing</strong> piles of sand.<small>Keep the helping verbs with the main verb.</small></div><div class="remember">⭐ Remember: Simple predicate may be more than one verb word.</div>`},
+    {title:"Examples from the Lesson",html:`<table class="compare"><thead><tr><th>Sentence</th><th>Simple subject</th><th>Simple predicate</th></tr></thead><tbody><tr><td>The doorbell rang.</td><td>doorbell</td><td>rang</td></tr><tr><td>The frisky brown puppy jumped at the noise.</td><td>puppy</td><td>jumped</td></tr><tr><td>He has been playing with the puppy.</td><td>He</td><td>has been playing</td></tr><tr><td>Ann’s dog has grown large.</td><td>dog</td><td>has grown</td></tr></tbody></table><div class="remember">⭐ Remember: Find the main subject word and the verb word or words.</div>`},
+    {title:"Find the Simple Subject",html:`<div class="cards"><div class="card"><h3>1. Read</h3><p>Read the complete subject.</p></div><div class="card"><h3>2. Find</h3><p>Find its main word or words.</p></div></div><div class="example">The <strong>driver</strong> of the huge bulldozer waved to Marty.<small>The simple subject is “driver,” not all the words in the complete subject.</small></div><div class="example"><strong>Marty</strong> noticed everything on the site.</div><div class="remember">⭐ Remember: Look for the main word in the complete subject.</div>`},
+    {title:"Find the Simple Predicate",html:`<div class="cards"><div class="card"><h3>1. Read</h3><p>Read the complete predicate.</p></div><div class="card"><h3>2. Find</h3><p>Find the main verb and any helping verbs.</p></div></div><div class="example">A pool of water <strong>was evaporating</strong> in the sun.<small>“Was evaporating” is the simple predicate.</small></div><div class="example">He <strong>could hear</strong> the bulldozer’s horn.<small>Keep both verb words together.</small></div><div class="remember">⭐ Remember: Main verb + helping verb or verbs = simple predicate.</div>`},
+    {title:"Easy to Confuse",html:`<table class="compare"><thead><tr><th>Part</th><th>What it contains</th><th>Example</th></tr></thead><tbody><tr><td>Complete subject</td><td>All subject words</td><td>The small boy’s dream</td></tr><tr><td>Simple subject</td><td>Main subject word</td><td>dream</td></tr><tr><td>Complete predicate</td><td>All predicate words</td><td>appeared before his eyes</td></tr><tr><td>Simple predicate</td><td>Main verb word or words</td><td>appeared</td></tr></tbody></table><div class="remember">⭐ Remember: Do not copy the whole complete part when only the simple part is asked.</div>`},
+    {title:"How to Mark Your Answers",html:`<div class="definition">Write the <strong>simple subject</strong> and underline it once. Write the <strong>simple predicate</strong> and underline it twice.</div><div class="example">Three <span style="text-decoration:underline;text-decoration-thickness:2px"><strong>customers</strong></span> <span style="text-decoration:underline double;text-decoration-thickness:2px"><strong>had entered</strong></span> the bicycle shop.<small>“Customers” is the simple subject. “Had entered” is the simple predicate.</small></div><p class="small-note">The writing task asks you to write an editorial about bicycles and have a partner identify each simple subject and simple predicate.</p><div class="remember">⭐ Remember: Subject once; predicate twice.</div>`},
+    {title:"QUICK REVIEW",html:`<div class="quick-list"><div class="quick-item"><strong>Simple subject</strong><br>Main word or words in the complete subject.</div><div class="quick-item"><strong>Simple predicate</strong><br>Main word or words in the complete predicate.</div><div class="quick-item"><strong>Verb</strong><br>Shows action or being.</div><div class="quick-item"><strong>Minimum</strong><br>A simple predicate has at least one verb.</div><div class="quick-item"><strong>Helping verbs</strong><br>The main verb may have one or more.</div><div class="quick-item"><strong>Marking</strong><br>Underline subject once; predicate twice.</div></div><div class="remember">⭐ Remember: Main subject word + main verb word or words.</div>`}
+  ];
+
+  const questions = [
+    {q:"What is a simple subject?",c:["All the words in a sentence","The main word or words in the complete subject","The verb and all words after it","At least one helping verb"],a:1,e:"A simple subject is the main word or words in the complete subject.",t:"Simple Subject Rule"},
+    {q:"What is a simple predicate?",c:["The main word or words in the complete predicate","All the words in the complete subject","The first word in the sentence","The person or thing in the sentence"],a:0,e:"A simple predicate is the main word or words in the complete predicate.",t:"Simple Predicate Rule"},
+    {q:"What must a simple predicate contain?",c:["At least one subject","At least one complete thought","At least one verb","At least one name"],a:2,e:"A simple predicate is made up of at least one verb.",t:"Verb Rule"},
+    {q:"According to the lesson, what does a verb show?",c:["A complete subject","A person or place","A main word only","Action or being"],a:3,e:"The lesson defines a verb as a word that shows action or being.",t:"Verb Rule"},
+    {q:"What may the main verb have?",c:["A complete subject","One or more helping verbs","A bicycle or bulldozer","Only one word every time"],a:1,e:"The main verb may have one or more helping verbs.",t:"Helping Verbs"},
+    {q:"What is the simple subject in: The doorbell rang?",c:["doorbell","The doorbell","rang","The"],a:0,e:"“Doorbell” is the main word in the complete subject.",t:"Simple Subject"},
+    {q:"What is the simple predicate in: The doorbell rang?",c:["doorbell","The doorbell","rang","The"],a:2,e:"“Rang” is the main word in the complete predicate.",t:"Simple Predicate"},
+    {q:"How should you underline the two simple parts in the exercise?",c:["Underline both parts once","Underline both parts twice","Underline the subject twice and predicate once","Underline the subject once and predicate twice"],a:3,e:"Underline the simple subject once and the simple predicate twice.",t:"Marking Answers"},
+    {q:"What is the simple subject in: Marty Shaw heard the bulldozer?",c:["bulldozer","Marty Shaw","heard","Marty Shaw heard"],a:1,e:"“Marty Shaw” is the main word group in the complete subject.",t:"Simple Subject"},
+    {q:"What is the simple predicate in: Marty Shaw heard the bulldozer?",c:["Marty Shaw","the bulldozer","heard","heard the bulldozer"],a:2,e:"“Heard” is the main word in the complete predicate.",t:"Simple Predicate"},
+    {q:"What is the simple subject in: The bulldozer moved slowly?",c:["bulldozer","The bulldozer","moved","slowly"],a:0,e:"“Bulldozer” is the main word in the complete subject.",t:"Simple Subject"},
+    {q:"What is the simple predicate in: The bulldozer moved slowly?",c:["bulldozer","moved slowly","slowly","moved"],a:3,e:"“Moved” is the main word in the complete predicate.",t:"Simple Predicate"},
+    {q:"What is the simple subject in: Its big scoop had been pushing piles of sand?",c:["Its big scoop","sand","scoop","piles"],a:2,e:"“Scoop” is the main word in the complete subject.",t:"Simple Subject"},
+    {q:"What is the simple predicate in: Its big scoop had been pushing piles of sand?",c:["pushing piles","had been pushing","been pushing piles of sand","sand"],a:1,e:"Keep the helping verbs with the main verb: “had been pushing.”",t:"Helping Verbs"},
+    {q:"What is the simple subject in: Marty’s eyes sparkled with delight?",c:["eyes","Marty’s eyes","Marty’s","delight"],a:0,e:"“Eyes” is the main word in the complete subject.",t:"Simple Subject"},
+    {q:"What is the simple predicate in: Marty’s eyes sparkled with delight?",c:["with delight","eyes","delight","sparkled"],a:3,e:"“Sparkled” is the main word in the complete predicate.",t:"Simple Predicate"},
+    {q:"What is the simple subject in: The owner of the bicycle shop smiled?",c:["owner","bicycle shop","shop","smiled"],a:0,e:"“Owner” is the main word in the complete subject.",t:"Simple Subject"},
+    {q:"What is the simple predicate in: The owner of the bicycle shop smiled?",c:["owner","the bicycle shop","smiled","shop smiled"],a:2,e:"“Smiled” is the main word in the complete predicate.",t:"Simple Predicate"},
+    {q:"What is the simple subject in: Customers were filling the shop?",c:["shop","Customers","filling","were filling"],a:1,e:"“Customers” is the main word in the complete subject.",t:"Simple Subject"},
+    {q:"What is the simple predicate in: A tall blond girl had been studying one bicycle?",c:["studying one bicycle","girl","bicycle","had been studying"],a:3,e:"The simple predicate includes the helping verbs and main verb: “had been studying.”",t:"Helping Verbs"},
+    {q:"What is the simple subject in: A shiny silver bell hung from its handlebar?",c:["bell","handlebar","silver bell","hung"],a:0,e:"“Bell” is the main word in the complete subject.",t:"Simple Subject"},
+    {q:"What is the simple predicate in: Julie’s sister was buying some reflectors?",c:["buying reflectors","sister","was buying","reflectors"],a:2,e:"“Was buying” includes the helping verb and the main verb.",t:"Helping Verbs"},
+    {q:"What is the simple predicate in: A boy has bought a book on bicycle repair?",c:["bought a book","has bought","boy has","bicycle repair"],a:1,e:"“Has bought” is the main verb with its helping verb.",t:"Helping Verbs"},
+    {q:"What is the simple subject in: Crowds of curious customers have been staring at the unicycle?",c:["customers","curious customers","unicycle","Crowds"],a:3,e:"“Crowds” is the main word in the complete subject.",t:"Simple Subject"},
+    {q:"Which pair is correct for: People have been riding bicycles for about 150 years?",c:["Simple subject: People; simple predicate: have been riding","Simple subject: bicycles; simple predicate: riding","Simple subject: People; simple predicate: bicycles","Simple subject: years; simple predicate: have"],a:0,e:"“People” is the simple subject, and “have been riding” is the simple predicate.",t:"Identify Both Parts"}
+  ];
+
+  const screens=["homeScreen","lessonScreen","quizScreen","resultScreen","mistakesScreen","completeScreen"];
+  const letters=["A","B","C","D"];
+  let slideIndex=0, questionIndex=0, score=0, answered=false, mistakes=[], answers=[];
+  let saved={slide:0,lessonStarted:false,quizStarted:false,completed:false,score:null,mistakes:[]};
+
+  function $(id){return document.getElementById(id)}
+  function show(id){screens.forEach(s=>$(s).classList.toggle("active",s===id));window.scrollTo(0,0)}
+  function safeLoad(){try{const raw=localStorage.getItem("simpleSubjectsPredicatesTutorV1");if(!raw)return;const data=JSON.parse(raw);if(data&&typeof data==="object"){saved={...saved,...data};if(!Number.isInteger(saved.slide)||saved.slide<0||saved.slide>=slides.length)saved.slide=0;if(!Array.isArray(saved.mistakes))saved.mistakes=[]}}catch(e){saved={slide:0,lessonStarted:false,quizStarted:false,completed:false,score:null,mistakes:[]}}}
+  function save(){saved.slide=slideIndex;try{localStorage.setItem("simpleSubjectsPredicatesTutorV1",JSON.stringify(saved))}catch(e){}}
+  function updateHome(){let pct=0,text="Not started",label="Start Learning";if(saved.completed){pct=100;text="Completed · "+saved.score+"%";label="Review Lesson"}else if(saved.quizStarted){pct=80;text="Quiz in progress";label="Continue Quiz"}else if(saved.lessonStarted){pct=Math.max(8,Math.round(((saved.slide+1)/slides.length)*70));text="Slide "+(saved.slide+1)+" of "+slides.length;label="Continue Learning"}$("homeProgressFill").style.width=pct+"%";$("homeProgressText").textContent=text;$("startBtn").textContent=label}
+  function goHome(){updateHome();show("homeScreen")}
+  function renderSlide(){const s=slides[slideIndex];$("slideTitle").textContent=s.title;$("slideCounter").textContent="Slide "+(slideIndex+1)+" of "+slides.length;$("slideContent").innerHTML=s.html;$("backBtn").disabled=slideIndex===0;$("nextBtn").textContent=slideIndex===slides.length-1?"Start Lesson Quiz":"Next";saved.lessonStarted=true;saved.quizStarted=false;save();show("lessonScreen")}
+  function startOrContinue(){if(saved.completed){slideIndex=0;renderSlide()}else if(saved.quizStarted){startQuiz()}else{slideIndex=saved.slide||0;renderSlide()}}
+  function resetQuizState(){questionIndex=0;score=0;answered=false;mistakes=[];answers=[];saved.quizStarted=true;saved.completed=false;saved.score=null;saved.mistakes=[];save()}
+  function startQuiz(restart){if(restart)resetQuizState();else if(!saved.quizStarted||saved.completed)resetQuizState();renderQuestion();show("quizScreen")}
+  function difficulty(){return questionIndex<8?"Easy":questionIndex<18?"Medium":"Hard · Application"}
+  function renderQuestion(){answered=false;const q=questions[questionIndex];$("questionCounter").textContent="Question "+(questionIndex+1)+" of "+questions.length;$("difficultyLabel").textContent=difficulty();$("liveScore").textContent="Score: "+score;$("quizFill").style.width=(questionIndex/questions.length*100)+"%";$("questionText").textContent=q.q;const box=$("choices");box.innerHTML="";q.c.forEach((choice,i)=>{const b=document.createElement("button");b.type="button";b.className="choice";b.innerHTML='<span class="letter">'+letters[i]+'</span><span>'+escapeHtml(choice)+'</span>';b.addEventListener("click",()=>answerQuestion(i));box.appendChild(b)});$("feedback").className="feedback";$("feedback").textContent="";$("nextQuestionBtn").classList.add("hidden")}
+  function answerQuestion(selected){if(answered)return;answered=true;const q=questions[questionIndex],buttons=[...$("choices").children],correct=selected===q.a;buttons.forEach((b,i)=>{b.disabled=true;if(i===q.a)b.classList.add("correct");if(i===selected&&!correct)b.classList.add("wrong")});if(correct)score++;else mistakes.push({index:questionIndex,selected});answers[questionIndex]=selected;const fb=$("feedback");fb.className="feedback show "+(correct?"good":"bad");fb.textContent=(correct?"✅ Correct! ":"❌ Incorrect. The correct answer is "+letters[q.a]+". ")+q.e;$("liveScore").textContent="Score: "+score;$("nextQuestionBtn").textContent=questionIndex===questions.length-1?"See Results":"Next Question";$("nextQuestionBtn").classList.remove("hidden")}
+  function nextQuestion(){if(!answered)return;if(questionIndex<questions.length-1){questionIndex++;renderQuestion()}else{finishQuiz()}}
+  function topicStats(){const all={};questions.forEach((q,i)=>{if(!all[q.t])all[q.t]={right:0,wrong:0};if(answers[i]===q.a)all[q.t].right++;else all[q.t].wrong++});return all}
+  function finishQuiz(){const pct=Math.round(score/questions.length*100);saved.quizStarted=false;saved.completed=true;saved.score=pct;saved.mistakes=mistakes;save();$("resultScore").innerHTML=pct+'% <small>score</small>';$("correctCount").textContent=score;$("incorrectCount").textContent=questions.length-score;$("resultMessage").textContent=pct>=90?"Excellent! You can find simple subjects and predicates very well.":pct>=75?"Good work! Review the few simple parts you missed.":pct>=60?"You are making progress. Review the lesson and your mistakes.":"Review the main subject word and the main verb word or words, then try again.";const stats=topicStats(),strong=[],review=[];Object.keys(stats).forEach(t=>{if(stats[t].wrong===0)strong.push(t);else review.push(t)});renderPills("strongTopics",strong,"No topic was perfect yet. Keep practicing!",false);renderPills("reviewTopics",review,"No review topics — excellent work!",true);$("reviewMistakesBtn").disabled=mistakes.length===0;show("resultScreen")}
+  function renderPills(id,items,empty,isReview){const el=$(id);el.innerHTML="";if(!items.length){el.textContent=empty;el.className="small-note";return}el.className="topic-list";items.forEach(t=>{const s=document.createElement("span");s.className="topic-pill"+(isReview?" review":"");s.textContent=t;el.appendChild(s)})}
+  function reviewMistakes(){const list=$("mistakesList");list.innerHTML="";$("mistakeCount").textContent=mistakes.length+" "+(mistakes.length===1?"Question":"Questions");if(!mistakes.length){list.innerHTML='<p class="lead center">No mistakes to review. Great job!</p>'}else{mistakes.forEach(m=>{const q=questions[m.index],d=document.createElement("article");d.className="mistake";d.innerHTML='<div class="topic">'+escapeHtml(q.t)+'</div><h3>'+escapeHtml(q.q)+'</h3><p><strong>Your answer:</strong> '+letters[m.selected]+'. '+escapeHtml(q.c[m.selected])+'</p><p><strong>Correct answer:</strong> '+letters[q.a]+'. '+escapeHtml(q.c[q.a])+'</p><p>'+escapeHtml(q.e)+'</p>';list.appendChild(d)})}show("mistakesScreen")}
+  function complete(){const pct=saved.score===null?0:saved.score;$("overallScore").innerHTML=pct+'% <small>overall</small>';$("overallDetail").textContent="Lesson 3: "+pct+"% ("+Math.round(pct/100*questions.length)+" of "+questions.length+")";const topics=[...new Set((saved.mistakes||[]).map(m=>questions[m.index]&&questions[m.index].t).filter(Boolean))];renderPills("overallReview",topics,"No topics need review.",true);show("completeScreen")}
+  function escapeHtml(value){return String(value).replace(/[&<>\"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]))}
+  function resetAll(){if(!confirm("Reset all lesson and quiz progress?"))return;try{localStorage.removeItem("simpleSubjectsPredicatesTutorV1")}catch(e){}saved={slide:0,lessonStarted:false,quizStarted:false,completed:false,score:null,mistakes:[]};slideIndex=0;resetQuizState();saved.quizStarted=false;save();goHome()}
+
+  $("homeBtn").addEventListener("click",goHome);$("resetBtn").addEventListener("click",resetAll);$("startBtn").addEventListener("click",startOrContinue);
+  $("restartLessonBtn").addEventListener("click",()=>{slideIndex=0;renderSlide()});$("backBtn").addEventListener("click",()=>{if(slideIndex>0){slideIndex--;renderSlide()}});$("nextBtn").addEventListener("click",()=>{if(slideIndex<slides.length-1){slideIndex++;renderSlide()}else startQuiz(true)});
+  $("nextQuestionBtn").addEventListener("click",nextQuestion);$("quitQuizBtn").addEventListener("click",()=>{slideIndex=0;renderSlide()});$("reviewMistakesBtn").addEventListener("click",reviewMistakes);$("backToResultsBtn").addEventListener("click",()=>show("resultScreen"));
+  $("reviewLessonBtn").addEventListener("click",()=>{slideIndex=0;renderSlide()});$("restartQuizBtn").addEventListener("click",()=>startQuiz(true));$("finishBtn").addEventListener("click",complete);$("completeHomeBtn").addEventListener("click",goHome);$("openLessonBtn").addEventListener("click",()=>{slideIndex=0;renderSlide()});$("completeRestartQuizBtn").addEventListener("click",()=>startQuiz(true));
+  safeLoad();slideIndex=saved.slide||0;mistakes=saved.mistakes||[];updateHome();
+})();
+</script>
+</body>
+</html>

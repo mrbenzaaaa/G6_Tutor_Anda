@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ภาษาไทย Grade 6 — Full Summary Touchscreen</title>
+<style>
+:root{--bg:#f3f6fa;--card:#fff;--ink:#17202a;--line:#dbe2ea;--dark:#16202b;--soft:#e7ecf2;--yellow:#fff3bd;--yellowline:#dfc34a;--green:#168847;--greenbg:#e7f7ed;--red:#c73737;--redbg:#fdeaea;}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Tahoma,"Noto Sans Thai",Arial,sans-serif;background:var(--bg);color:var(--ink)}
+button{font:inherit;touch-action:manipulation;cursor:pointer}
+header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--line);padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.brand{font-size:clamp(20px,2.6vw,34px);font-weight:900}
+.tabs{display:flex;gap:10px} .tab{border:0;border-radius:16px;padding:14px 20px;background:var(--soft);font-weight:900;min-height:52px} .tab.active{background:var(--dark);color:#fff}
+main{width:min(1180px,100%);margin:auto;padding:16px}
+.meta{display:flex;justify-content:space-between;font-size:clamp(16px,2vw,22px);font-weight:800;margin-bottom:8px}
+.progress{height:12px;background:#dce3ea;border-radius:999px;overflow:hidden} .bar{height:100%;background:var(--dark);width:0;transition:.2s}
+.card{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:clamp(24px,4vw,46px);margin-top:16px;min-height:63vh;box-shadow:0 10px 28px rgba(0,0,0,.05);display:flex;flex-direction:column;justify-content:center}
+h1{font-size:clamp(30px,4.7vw,52px);line-height:1.25;margin:0 0 22px} h2{font-size:clamp(25px,3.4vw,38px)} h3{font-size:clamp(22px,2.8vw,31px);margin:20px 0 10px}
+p,li{font-size:clamp(20px,2.6vw,29px);line-height:1.6} li{margin:8px 0}
+.flow,.quote{background:#eef4fa;border-radius:18px;padding:18px;text-align:center;font-size:clamp(21px,2.8vw,31px);line-height:1.5}
+.quote{background:#f7f0ff;font-weight:900}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:14px} .box{background:#f0f3f7;border-radius:18px;padding:20px;text-align:center}
+.vocab{display:grid;grid-template-columns:repeat(4,1fr);gap:10px} .vocab span{background:#f0f3f7;border-radius:14px;padding:12px;text-align:center;font-size:clamp(17px,2vw,24px);font-weight:800}
+.memory4{display:grid;grid-template-columns:1fr 1fr;gap:14px} .memory4 div{background:#f0f3f7;border-radius:16px;padding:18px;font-size:clamp(20px,2.5vw,28px);line-height:1.5}
+.remember{margin-top:26px;background:var(--yellow);border:2px solid var(--yellowline);border-radius:18px;padding:18px 20px;font-size:clamp(21px,2.7vw,30px);font-weight:900} .remember:before{content:"🧠 Remember: "}
+.controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:16px;position:sticky;bottom:0;background:var(--bg);padding-top:10px} .ctrl{border:0;border-radius:18px;min-height:70px;font-size:clamp(19px,2.4vw,28px);font-weight:900} .back,.restart{background:#e3e8ee} .next{background:var(--dark);color:#fff} .ctrl:disabled{opacity:.35}
+.hidden{display:none!important}
+.qhead{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:clamp(18px,2.3vw,26px);font-weight:900} .qtext{font-size:clamp(27px,4vw,44px);line-height:1.35;font-weight:900;margin-bottom:20px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:14px} .choice{border:3px solid #d5dde6;background:#fff;border-radius:20px;min-height:92px;padding:18px 20px;text-align:left;font-size:clamp(19px,2.4vw,28px);font-weight:850} .choice.correct{border-color:var(--green);background:var(--greenbg)} .choice.wrong{border-color:var(--red);background:var(--redbg)} .choice.dim{opacity:.5}
+.feedback{display:none;margin-top:18px;border-radius:18px;padding:18px 20px;font-size:clamp(20px,2.5vw,28px);line-height:1.5;font-weight:850} .feedback.show{display:block} .feedback.good{background:var(--greenbg);border:2px solid var(--green)} .feedback.bad{background:var(--redbg);border:2px solid var(--red)}
+.nextQ,.bigBtn{border:0;border-radius:18px;min-height:68px;padding:16px 20px;background:var(--dark);color:#fff;font-size:clamp(20px,2.5vw,28px);font-weight:900;width:100%;margin-top:16px} .nextQ{display:none} .nextQ.show{display:block}
+.result{text-align:center} .scoreBig{font-size:clamp(64px,11vw,116px);font-weight:1000;line-height:1;margin:14px 0} .wrongWrap{text-align:left} .wrongItem{background:#fff1f1;border:1px solid #efb2b2;border-radius:14px;padding:14px;margin:10px 0;font-size:clamp(16px,2vw,22px);line-height:1.45}
+.note{text-align:center;color:#68737f;font-size:14px;margin:12px}
+@media(max-width:760px){header{align-items:flex-start;flex-direction:column}.tabs{width:100%}.tab{flex:1}main{padding:10px}.card{padding:22px 18px;border-radius:20px}.compare,.memory4,.choices{grid-template-columns:1fr}.vocab{grid-template-columns:1fr 1fr}.controls{gap:8px}.ctrl{font-size:18px;padding:10px 6px;min-height:62px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">📚 ภาษาไทย Grade 6 — Full Summary</div>
+  <div class="tabs">
+    <button id="lessonTab" class="tab active" type="button">บทเรียน</button>
+    <button id="quizTab" class="tab" type="button">Quiz 30 ข้อ</button>
+  </div>
+</header>
+
+<main>
+<section id="lessonSec">
+  <div class="meta"><span id="slideLabel"></span><span id="slidePct"></span></div>
+  <div class="progress"><div id="slideBar" class="bar"></div></div>
+  <div id="slideCard" class="card"></div>
+  <div class="controls">
+    <button id="backBtn" class="ctrl back" type="button">← Back</button>
+    <button id="restartBtn" class="ctrl restart" type="button">↻ Restart</button>
+    <button id="nextBtn" class="ctrl next" type="button">Next →</button>
+  </div>
+</section>
+
+<section id="quizSec" class="hidden">
+  <div id="quizPlay">
+    <div class="qhead"><span id="qCount"></span><span id="liveScore"></span></div>
+    <div class="progress"><div id="quizBar" class="bar"></div></div>
+    <div class="card" style="justify-content:flex-start">
+      <div id="qText" class="qtext"></div>
+      <div id="choices" class="choices"></div>
+      <div id="feedback" class="feedback"></div>
+      <button id="nextQ" class="nextQ" type="button">ข้อต่อไป →</button>
+    </div>
+  </div>
+  <div id="resultBox" class="hidden"></div>
+</section>
+
+<div class="note">เนื้อหาสอนใน HTML เวอร์ชันนี้ใส่ครบตามสรุปที่ ChatGPT ให้ไว้ก่อนหน้า ไม่ย่อหัวข้อสำคัญออก</div>
+</main>
+
+<script>
+"use strict";
+const slides = [{"title": "📚 ติวภาษาไทย Grade 6 — 20 นาที", "subtitle": "จากผาแต้ม...สู่อียิปต์ + หนึ่งในประชาคม", "body": "\n        <h3>วันนี้เราต้องรู้ 8 เรื่องสำคัญ</h3>\n        <ol>\n          <li><b>ผาแต้มสำคัญอย่างไร</b></li>\n          <li><b>ผาแต้มเกี่ยวข้องกับอียิปต์อย่างไร</b></li>\n          <li><b>ภาพเขียน → ตัวอักษร → การสื่อสาร</b></li>\n          <li><b>อียิปต์โบราณ: 3 อาณาจักร + พีระมิด + ฟาโรห์</b></li>\n          <li><b>อาเซียนคืออะไร</b></li>\n          <li><b>ประเทศอินโดนีเซีย</b></li>\n          <li><b>ความสัมพันธ์ไทย–อินโดนีเซีย</b></li>\n          <li><b>วัฒนธรรมและ DO’s / DON’Ts ในอาเซียน + คำศัพท์สำคัญ</b></li>\n        </ol>\n        ", "remember": "ไม่ต้องจำหนังสือทุกบรรทัด — เน้น 8 เรื่องสำคัญ"}, {"title": "เรื่องที่ 1 จากผาแต้ม...สู่อียิปต์", "body": "\n        <h3>ใจความใหญ่ของเรื่อง</h3>\n        <p><b>คนสมัยโบราณที่อยู่ห่างกันมาก สามารถมีวิธีคิดและวิธีสื่อสารที่คล้ายกันได้</b></p>\n        <div class=\"flow\">\n          <b>ผาแต้ม ประเทศไทย</b><br>↓<br>\n          มี <b>ภาพเขียนสียุคก่อนประวัติศาสตร์</b><br>↓<br>\n          ใช้ภาพสื่อความหมาย เพราะสมัยนั้นยังไม่มีตัวอักษร\n        </div>\n        <p>และ</p>\n        <div class=\"flow\">\n          <b>อียิปต์</b><br>↓<br>\n          มีภาพและสิ่งก่อสร้างจากอารยธรรมโบราณ<br>↓<br>\n          ภาพต่าง ๆ แสดงให้เห็นวิถีชีวิตของคนในอดีตเช่นกัน\n        </div>\n        ", "remember": "ผาแต้ม ↔ อียิปต์ = อยู่ไกลกัน แต่ภูมิปัญญาคล้ายกัน"}, {"title": "เรื่องที่ 2 หนึ่งในประชาคม", "body": "\n        <p>เรื่องนี้เล่าผ่าน <b>ตะวัน</b> ซึ่งได้เข้าร่วมโครงการแลกเปลี่ยนนักเรียนและเดินทางไป <b>ประเทศอินโดนีเซีย</b></p>\n        <p>ทำให้เราเรียนรู้เรื่อง</p>\n        <div class=\"flow\"><b>ภาษา + ประเทศ + วัฒนธรรม + อาเซียน + การเคารพความแตกต่าง</b></div>\n        ", "remember": "หนึ่งในประชาคม = เรียนรู้ภาษา ประเทศ วัฒนธรรม และอาเซียน"}, {"title": "1. ผาแต้มสำคัญอย่างไร?", "body": "\n        <h3>เข้าใจง่าย ๆ</h3>\n        <p><b>ผาแต้ม</b> เป็นสถานที่ท่องเที่ยวสำคัญใน <b>จังหวัดอุบลราชธานี</b></p>\n        <p>ชื่อว่า “ผาแต้ม” เพราะมี <b>ภาพเขียนสียุคก่อนประวัติศาสตร์</b></p>\n        <p>ภาพเหล่านี้ทำให้เราเห็น <b>ชีวิตและความเป็นอยู่ของคนในสมัยก่อน</b></p>\n        <p>ที่สำคัญ คนสมัยนั้นยังไม่มีตัวอักษร จึงใช้ <b>การวาดภาพเพื่อสื่อความหมาย</b></p>\n\n        <h3>ต้องจำ</h3>\n        <div class=\"flow\">\n          <b>ผาแต้ม</b><br>→ อุบลราชธานี<br>→ ภาพเขียนสี<br>→ ยุคก่อนประวัติศาสตร์<br>→ แสดงวิถีชีวิต<br>→ ใช้ภาพสื่อความหมาย\n        </div>\n        ", "remember": "ผาแต้ม = แต้มภาพ → เห็นคำว่า “แต้ม” ให้นึกถึงภาพเขียนสี"}, {"title": "2. ผาแต้มกับอียิปต์เกี่ยวข้องกันอย่างไร?", "body": "\n        <h3>เข้าใจง่าย ๆ</h3>\n        <p><b>ณภัทร</b> ไปเที่ยว <b>อียิปต์</b> และเห็นภาพที่แสดงวิถีชีวิตของคนอียิปต์โบราณ</p>\n        <p><b>อิน</b> ไปเที่ยว <b>ผาแต้ม</b> และเห็นภาพเขียนที่แสดงชีวิตของคนโบราณในประเทศไทย</p>\n        <p>แม้อยู่คนละพื้นที่กัน แต่คนโบราณทั้งสองแห่งใช้ <b>ภาพในการถ่ายทอดเรื่องราวและวิถีชีวิต</b> จึงมีความคล้ายคลึงกันอย่างน่ามหัศจรรย์</p>\n\n        <h3>ต้องจำ</h3>\n        <p>ถ้าข้อสอบถามว่า <b>“ภาพเขียนที่ผาแต้มและภาพเขียนที่อียิปต์มีความคล้ายคลึงกันอย่างน่ามหัศจรรย์ หมายความว่าอย่างไร”</b></p>\n        <div class=\"flow\">\n          คนต่างสถานที่<br>→ อยู่ห่างกัน<br>→ แต่ใช้ภาพสื่อความหมายคล้ายกัน<br>→ ภาพสะท้อนวิถีชีวิตของคนในอดีต\n        </div>\n\n        <h3>ระวังสับสน</h3>\n        <p>❌ ไม่ใช่ เพราะผาแต้มกับอียิปต์อยู่ใกล้กัน</p>\n        <p>❌ ไม่ใช่ เพราะมีพีระมิดเหมือนกัน</p>\n        <p>✅ แต่เป็นเพราะ <b>วิธีสื่อสารและถ่ายทอดวิถีชีวิตมีความคล้ายกัน</b></p>\n        ", "remember": "อยู่ไกลกัน แต่ใช้ภาพถ่ายทอดวิถีชีวิตคล้ายกัน"}, {"title": "3. ภาพเขียน → ตัวอักษร → การสื่อสาร", "body": "\n        <p>นี่เป็น <b>เหตุ → ผล</b> ที่สำคัญมาก</p>\n        <div class=\"flow\">\n          สมัยโบราณยังไม่มีตัวอักษร<br>↓<br>\n          จึงใช้ <b>ภาพวาด</b><br>↓<br>\n          เพื่อ <b>สื่อความหมาย</b>\n        </div>\n        <p>ต่อมา ประเทศไทยมีตัวอักษรใช้ในสมัย <b>พ่อขุนรามคำแหงมหาราช</b> และมีการเขียนเรื่องราวลงบน <b>ศิลาจารึก</b></p>\n\n        <h3>ระวัง ข้อนี้มีโอกาสหลอก</h3>\n        <p>ถ้าถามว่า <b>“ทำไมคนสมัยโบราณที่ผาแต้มจึงใช้ภาพวาด?”</b></p>\n        <p>คำตอบหลักคือ ✅ <b>เพราะยังไม่มีการประดิษฐ์ตัวอักษรขึ้นใช้ จึงใช้ภาพสื่อความหมาย</b></p>\n        ", "remember": "ไม่มีอักษร → ใช้ภาพ | มีอักษร → เขียนเรื่องราวได้"}, {"title": "4. อียิปต์โบราณ", "body": "\n        <p>หนังสือแบ่งอารยธรรมอียิปต์โบราณออกเป็น <b>3 ยุคสมัย</b></p>\n        <ul>\n          <li>เริ่มตั้งแต่ประมาณ <b>3,200 ปีก่อนคริสต์ศักราช</b></li>\n          <li>อยู่บริเวณ <b>ลุ่มแม่น้ำไนล์</b></li>\n          <li>แบ่งเป็น <b>อาณาจักรเก่า / อาณาจักรกลาง / อาณาจักรใหม่</b></li>\n        </ul>\n        ", "remember": "อียิปต์ 3 ยุค = เก่า → กลาง → ใหม่"}, {"title": "อาณาจักรเก่า", "body": "\n        <h3>จำเรื่องเด่น</h3>\n        <ul>\n          <li><b>ฟาโรห์มีอำนาจสูงสุด</b></li>\n          <li>นิยมสร้าง <b>พีระมิด</b></li>\n          <li>มีการคิดค้นการทำ <b>มัมมี่</b></li>\n          <li>ประดิษฐ์ <b>อักษรเฮียโรกลิฟิก</b></li>\n          <li>คิดค้น <b>กระดาษปาปิรุส</b></li>\n        </ul>\n        ", "remember": "เก่า = พีระมิด + มัมมี่ + ตัวอักษร"}, {"title": "อาณาจักรกลาง", "body": "\n        <h3>จำเรื่องเด่น</h3>\n        <ul>\n          <li>ยุคทองด้าน <b>เศรษฐกิจ</b></li>\n          <li>พัฒนาระบบ <b>ชลประทาน</b></li>\n          <li>ขุดคลอง</li>\n          <li>เน้นสร้าง <b>วิหารบูชา</b></li>\n          <li>เกิด <b>ฟาโรห์ผู้หญิงคนแรก</b></li>\n        </ul>\n        ", "remember": "กลาง = เศรษฐกิจ + น้ำ + วิหาร"}, {"title": "อาณาจักรใหม่", "body": "\n        <h3>จำเรื่องเด่น</h3>\n        <ul>\n          <li><b>นักบวชมีอำนาจมากขึ้น</b></li>\n          <li>ตกอยู่ใต้การปกครองของชาวต่างชาติ</li>\n          <li>เริ่มมีความเชื่อว่า <b>ฟาโรห์เป็นโอรสของเทพสุริยเทพ</b></li>\n        </ul>\n        ", "remember": "ใหม่ = นักบวช + ความเชื่อ"}, {"title": "พีระมิดกับสฟิงซ์", "body": "\n        <div class=\"compare\">\n          <div class=\"box\"><h3>พีระมิด</h3><p>เป็น <b>สุสาน</b> ที่เก็บพระศพของ <b>ฟาโรห์</b></p></div>\n          <div class=\"box\"><h3>สฟิงซ์</h3><p>รูปแกะสลัก<br><b>หัวเป็นมนุษย์</b><br><b>ร่างกายเป็นสิงโต</b></p></div>\n        </div>\n        <h3>ระวังสับสน</h3>\n        <p><b>พีระมิด = สุสาน</b></p>\n        <p><b>สฟิงซ์ = รูปแกะสลัก</b></p>\n        ", "remember": "พีระมิด = สุสาน | สฟิงซ์ = หัวมนุษย์ ร่างสิงโต"}, {"title": "5. อาเซียนคืออะไร?", "body": "\n        <p><b>อาเซียน (ASEAN)</b> เป็นองค์กรของประเทศในเอเชียตะวันออกเฉียงใต้</p>\n        <p>เพื่อส่งเสริมความร่วมมือด้าน</p>\n        <div class=\"flow\"><b>การเมือง + เศรษฐกิจ + สังคม + วัฒนธรรม</b></div>\n        <p>หนังสือระบุว่ามีสมาชิก <b>10 ประเทศ</b> และรวมตัวเป็นประชาคมอาเซียนใน <b>พ.ศ. 2558</b></p>\n        ", "remember": "ASEAN = ช่วยกัน 4 ด้าน → การเมือง–เศรษฐกิจ–สังคม–วัฒนธรรม"}, {"title": "6. ตะวันกับประเทศอินโดนีเซีย", "body": "\n        <p><b>ตะวัน</b> ได้ไป <b>ประเทศอินโดนีเซีย</b> เพราะได้รับเลือกเข้าโครงการแลกเปลี่ยนนักเรียน</p>\n        <p>เรื่องเน้นว่าตะวันมีความสามารถด้าน <b>ภาษาอังกฤษ</b> และเห็นว่าภาษาอังกฤษช่วยเพิ่มโอกาสในการเลือก <b>อาชีพและอนาคต</b></p>\n        ", "remember": "ตะวัน → แลกเปลี่ยน → อินโดนีเซีย → ภาษาอังกฤษ"}, {"title": "ข้อมูลสำคัญของอินโดนีเซีย", "body": "\n        <ul>\n          <li>มีเกาะจำนวนมาก</li>\n          <li>เกาะใหญ่ที่เป็นหัวใจหลักของประเทศมี <b>5 เกาะ</b></li>\n          <li>เมืองหลวงในเรื่องคือ <b>กรุงจาการ์ตา</b></li>\n          <li>ตั้งอยู่บน <b>เกาะชวา</b></li>\n          <li>ธงชาติ <b>สีแดง–ขาว</b></li>\n          <li>ภาษา <b>บาฮาซาอินโดนีเซีย</b></li>\n          <li>ศาสนาประจำชาติในเรื่องคือ <b>ศาสนาอิสลาม</b></li>\n          <li>สัญลักษณ์ประจำชาติคือ <b>ครุฑ หรือ การูด้า</b></li>\n          <li>เงินสกุล <b>รูเปียห์</b></li>\n        </ul>\n        ", "remember": "จาการ์ตา–ชวา–แดงขาว–บาฮาซา–อิสลาม–การูด้า–รูเปียห์"}, {"title": "7. ไทยกับอินโดนีเซียสัมพันธ์กันอย่างไร?", "body": "\n        <p>นี่เป็นจุดที่ <b>คำถามท้ายเรื่องถามโดยตรง</b></p>\n        <p>ที่หน้าพิพิธภัณฑสถานแห่งชาติ มี <b>ช้างสัมฤทธิ์</b> ตั้งอยู่ และมีจารึกภาษาไทยว่า</p>\n        <div class=\"quote\">“รัชกาลที่ 5 พระราชทานให้”</div>\n        <p>เรื่องจึงชี้ให้เห็นว่าไทยกับอินโดนีเซียมีความสัมพันธ์กันมายาวนาน และกล่าวย้อนถึง <b>สมัยอาณาจักรศรีวิชัย</b></p>\n\n        <h3>ถ้าข้อสอบถาม</h3>\n        <p>“สิ่งใดแสดงว่าไทยกับอินโดนีเซียมีความสัมพันธ์กันมายาวนาน?”</p>\n        <div class=\"flow\"><b>ช้างสัมฤทธิ์ → รัชกาลที่ 5 → พระราชทานให้</b></div>\n        ", "remember": "ช้าง = สัมพันธ์ไทย–อินโดนีเซีย"}, {"title": "8. DO’s / DON’Ts in ASEAN — เคารพผู้อาวุโส", "body": "\n        <ul>\n          <li>ให้ความสำคัญกับ <b>ผู้ใหญ่</b></li>\n          <li>ค้อมตัวหรือศีรษะเล็กน้อยเมื่อผ่านผู้ใหญ่</li>\n          <li>รอผู้อาวุโสเริ่มรับประทานอาหารก่อน</li>\n        </ul>\n        ", "remember": "อาเซียน → เคารพผู้ใหญ่"}, {"title": "การไหว้", "body": "\n        <p>หนังสือระบุการไหว้เป็นวัฒนธรรมร่วมของ</p>\n        <div class=\"flow\"><b>ไทย – ลาว – พม่า – กัมพูชา</b></div>\n        ", "remember": "ไทย ลาว พม่า เขมร → ไหว้"}, {"title": "เมื่อเข้าวัด", "body": "\n        <ul>\n          <li>สำรวม</li>\n          <li>แต่งกายสุภาพ</li>\n          <li>ถอดรองเท้า</li>\n          <li>ไม่สัมผัสตัวพระภิกษุ</li>\n          <li>ไม่วางพระพุทธรูปในที่ต่ำ</li>\n        </ul>\n        ", "remember": "เข้าวัด → สำรวม + สุภาพ + ถอดรองเท้า"}, {"title": "ประเทศมุสลิมที่กล่าวในบท", "body": "\n        <p>หนังสือยก</p>\n        <div class=\"flow\"><b>มาเลเซีย – อินโดนีเซีย – บรูไน</b></div>\n        <p>และกล่าวถึงการแต่งกายสุภาพเมื่อเข้าสุเหร่าหรือมัสยิด รวมถึงข้อควรระวัง เช่น <b>ไม่เดินตัดหน้าผู้ที่กำลังละหมาด</b></p>\n        ", "remember": "มา – อิน – บรู = มาเลเซีย – อินโดนีเซีย – บรูไน"}, {"title": "มือ เท้า และศีรษะ", "body": "\n        <ul>\n          <li>ส่งของด้วย <b>มือขวา</b></li>\n          <li>รับของด้วย <b>สองมือ</b></li>\n          <li>ถือว่า <b>ศีรษะเป็นของสูง</b></li>\n          <li><b>เท้าเป็นของต่ำ</b></li>\n          <li>ไม่สวมรองเท้าเข้าบ้าน</li>\n        </ul>\n        ", "remember": "หัวสูง – เท้าต่ำ"}, {"title": "คำศัพท์ที่ควรสะกดให้ได้", "body": "\n        <p>แบบฝึกหัด <b>“คิดตรอง ลองทำดู”</b> เน้นการเขียนคำจากคำอ่าน จึงมีโอกาสถูกนำไปทดสอบเรื่องการสะกดคำ</p>\n        <div class=\"vocab\">\n          <span>ทอดกฐิน</span><span>อุบลราชธานี</span><span>โอกาส</span><span>ญาติ</span>\n          <span>ธรรมชาติ</span><span>ประวัติศาสตร์</span><span>ชำนาญ</span><span>อุทยาน</span>\n          <span>พระอาทิตย์</span><span>ประดิษฐ์</span><span>อักษรไทย</span><span>มหัศจรรย์</span>\n          <span>รูปถ่าย</span><span>นักโบราณคดี</span><span>สร้างสรรค์</span><span>ภูมิปัญญา</span>\n        </div>\n        ", "remember": "ระวังคำสะกดยาก: ประดิษฐ์ • ประวัติศาสตร์ • มหัศจรรย์ • ภูมิปัญญา"}, {"title": "🚨 สรุปก่อนสอบ 3 นาที — ผาแต้ม", "body": "\n        <div class=\"flow\">\n          <b>ผาแต้ม</b><br>↓<br>\n          อุบลราชธานี<br>↓<br>\n          ภาพเขียนสียุคก่อนประวัติศาสตร์<br>↓<br>\n          แสดงวิถีชีวิตคนโบราณ<br>↓<br>\n          ยังไม่มีตัวอักษร<br>↓<br>\n          จึงใช้ภาพสื่อความหมาย\n        </div>\n        ", "remember": "ผาแต้ม = ภาพ → สื่อความหมาย"}, {"title": "สรุปก่อนสอบ — ผาแต้ม ↔ อียิปต์", "body": "\n        <p>เหมือนกันตรงที่</p>\n        <div class=\"flow\"><b>ใช้ภาพถ่ายทอดเรื่องราวและวิถีชีวิตของคนสมัยโบราณ</b></div>\n        <p>นี่คือหัวใจของชื่อเรื่อง <b>“จากผาแต้ม...สู่อียิปต์”</b></p>\n        ", "remember": "อยู่ไกลกัน แต่ภูมิปัญญาคล้ายกัน"}, {"title": "สรุปก่อนสอบ — อียิปต์ 3 ยุค", "body": "\n        <p><b>เก่า</b> → พีระมิด / มัมมี่ / เฮียโรกลิฟิก / ปาปิรุส</p>\n        <p><b>กลาง</b> → เศรษฐกิจ / ชลประทาน / วิหาร</p>\n        <p><b>ใหม่</b> → นักบวช / ต่างชาติ / ความเชื่อเรื่องฟาโรห์</p>\n        ", "remember": "เก่า–กลาง–ใหม่"}, {"title": "สรุปก่อนสอบ — พีระมิด vs สฟิงซ์", "body": "\n        <p><b>พีระมิด</b> → สุสานฟาโรห์</p>\n        <p><b>สฟิงซ์</b> → หัวมนุษย์ + ร่างสิงโต</p>\n        ", "remember": "พีระมิด = สุสาน | สฟิงซ์ = รูปแกะสลัก"}, {"title": "สรุปก่อนสอบ — ASEAN", "body": "\n        <p><b>ความร่วมมือ 4 ด้าน</b></p>\n        <div class=\"flow\">การเมือง + เศรษฐกิจ + สังคม + วัฒนธรรม</div>\n        ", "remember": "ASEAN = ช่วยกัน 4 ด้าน"}, {"title": "สรุปก่อนสอบ — อินโดนีเซีย", "body": "\n        <div class=\"flow\"><b>จาการ์ตา – ชวา – แดงขาว – บาฮาซา – อิสลาม – การูด้า – รูเปียห์</b></div>\n        ", "remember": "จำเป็นชุดเดียว: จาการ์ตา–ชวา–การูด้า–รูเปียห์"}, {"title": "สรุปก่อนสอบ — ไทย–อินโดนีเซีย", "body": "\n        <div class=\"flow\">\n          <b>ช้างสัมฤทธิ์</b><br>↓<br>\n          มีจารึกภาษาไทย<br>↓<br>\n          <b>รัชกาลที่ 5 พระราชทานให้</b><br>↓<br>\n          แสดงความสัมพันธ์ระหว่างสองประเทศ\n        </div>\n        ", "remember": "ช้าง = สัมพันธ์ไทย–อินโดนีเซีย"}, {"title": "สรุปก่อนสอบ — มารยาทอาเซียน", "body": "\n        <p><b>ผู้ใหญ่</b> → เคารพ</p>\n        <p><b>หัว</b> → สูง</p>\n        <p><b>เท้า</b> → ต่ำ</p>\n        <p><b>เข้าวัด</b> → สำรวม</p>\n        <p><b>ต่างวัฒนธรรม</b> → ต้องเคารพ</p>\n        ", "remember": "ผู้ใหญ่ = เคารพ | หัว = สูง | เท้า = ต่ำ | เข้าวัด = สำรวม"}, {"title": "🧠 SUPER MEMORY", "body": "\n        <div class=\"memory4\">\n          <div>ผาแต้ม = <b>ภาพ → สื่อความหมาย</b></div>\n          <div>อียิปต์ = <b>ฟาโรห์ → พีระมิด</b></div>\n          <div>อินโดนีเซีย = <b>จาการ์ตา → ชวา → การูด้า → รูเปียห์</b></div>\n          <div>อาเซียน = <b>ต่างกันได้ แต่ต้องอยู่ร่วมกันอย่างเคารพ</b></div>\n        </div>\n        ", "remember": "ภาพ • ฟาโรห์ • อินโดนีเซีย • อาเซียน"}];
+const quiz = [{"q": "ผาแต้มอยู่ในจังหวัดใด?", "choices": ["เชียงใหม่", "อุบลราชธานี", "สุโขทัย", "กาญจนบุรี"], "answer": 1, "exp": "ผาแต้มเป็นสถานที่สำคัญในจังหวัดอุบลราชธานี", "topic": "ผาแต้ม"}, {"q": "เหตุใดจึงเรียกสถานที่นี้ว่า “ผาแต้ม”?", "choices": ["เพราะมีภาพเขียนสี", "เพราะมีพีระมิด", "เพราะมีศิลาจารึก", "เพราะอยู่ริมแม่น้ำไนล์"], "answer": 0, "exp": "ผาแต้มมีภาพเขียนสียุคก่อนประวัติศาสตร์", "topic": "ผาแต้ม"}, {"q": "ภาพเขียนที่ผาแต้มช่วยให้เราเข้าใจอะไร?", "choices": ["ชีวิตและความเป็นอยู่ของคนสมัยก่อน", "วิธีสร้างเครื่องบิน", "การใช้คอมพิวเตอร์", "กีฬาสมัยใหม่"], "answer": 0, "exp": "ภาพสะท้อนวิถีชีวิตและความเป็นอยู่ของคนในอดีต", "topic": "ผาแต้ม"}, {"q": "เหตุใดคนสมัยก่อนจึงใช้ภาพวาดสื่อความหมาย?", "choices": ["เพราะยังไม่มีการประดิษฐ์ตัวอักษรขึ้นใช้", "เพราะเขียนหนังสือไม่สวย", "เพราะไม่รู้จักการพูด", "เพราะต้องการตกแต่งอย่างเดียว"], "answer": 0, "exp": "เนื้อเรื่องอธิบายว่ายังไม่มีตัวอักษร จึงใช้ภาพสื่อความหมาย", "topic": "การสื่อสาร"}, {"q": "ผาแต้มกับอียิปต์มีความคล้ายกันมากที่สุดในข้อใด?", "choices": ["ทั้งสองแห่งใช้ภาษาไทย", "ทั้งสองแห่งสร้างพีระมิด", "คนโบราณใช้ภาพถ่ายทอดเรื่องราวและวิถีชีวิต", "ทั้งสองแห่งอยู่ในประเทศเดียวกัน"], "answer": 2, "exp": "ใจความสำคัญคือการใช้ภาพถ่ายทอดเรื่องราวและวิถีชีวิตของคนโบราณ", "topic": "ใจความสำคัญ"}, {"q": "ประเทศไทยมีตัวอักษรใช้ในสมัยของใครตามเนื้อเรื่อง?", "choices": ["รัชกาลที่ 5", "พ่อขุนรามคำแหงมหาราช", "ตะวัน", "ฟาโรห์"], "answer": 1, "exp": "เนื้อเรื่องกล่าวถึงพ่อขุนรามคำแหงมหาราช", "topic": "การสื่อสาร"}, {"q": "เรื่องราวที่เป็นตัวอักษรถูกเขียนไว้บนสิ่งใด?", "choices": ["ศิลาจารึก", "พาสปอร์ต", "ธงชาติ", "พีระมิด"], "answer": 0, "exp": "ในเรื่องกล่าวถึงการเขียนเรื่องราวไว้บนศิลาจารึก", "topic": "การสื่อสาร"}, {"q": "ข้อใดเขียนถูกต้อง?", "choices": ["ประดิฐ", "ประดิษ", "ประดิษฐ์", "ประดิษย์"], "answer": 2, "exp": "คำที่ถูกต้องคือ “ประดิษฐ์”", "topic": "คำศัพท์"}, {"q": "ข้อใดเขียนถูกต้อง?", "choices": ["ประวัติศาสตร์", "ประวัติสาตร์", "ประหวัติศาสตร์", "ประวัติศาตร์"], "answer": 0, "exp": "คำที่ถูกต้องคือ “ประวัติศาสตร์”", "topic": "คำศัพท์"}, {"q": "ข้อใดเขียนถูกต้อง?", "choices": ["มหัดจรรย์", "มหัศจรรย์", "มหัสจรรย์", "มหัศจันย์"], "answer": 1, "exp": "คำที่ถูกต้องคือ “มหัศจรรย์”", "topic": "คำศัพท์"}, {"q": "อารยธรรมอียิปต์โบราณเริ่มประมาณกี่ปีก่อนคริสต์ศักราชตามเอกสาร?", "choices": ["1,000", "2,000", "3,200", "5,000"], "answer": 2, "exp": "เอกสารระบุประมาณ 3,200 ปีก่อนคริสต์ศักราช", "topic": "อียิปต์"}, {"q": "อารยธรรมอียิปต์โบราณอยู่บริเวณใด?", "choices": ["ลุ่มแม่น้ำไนล์", "เกาะชวา", "ผาแต้ม", "กรุงจาการ์ตา"], "answer": 0, "exp": "อียิปต์โบราณอยู่บริเวณลุ่มแม่น้ำไนล์", "topic": "อียิปต์"}, {"q": "อียิปต์โบราณในบทเรียนแบ่งเป็นกี่ยุคสมัย?", "choices": ["2", "3", "4", "5"], "answer": 1, "exp": "แบ่งเป็นอาณาจักรเก่า กลาง และใหม่", "topic": "อียิปต์"}, {"q": "ข้อใดเป็นจุดเด่นของอาณาจักรเก่า?", "choices": ["นิยมสร้างพีระมิด", "นักบวชมีอำนาจมากขึ้น", "รวมตัวเป็นประชาคมอาเซียน", "ตะวันไปแลกเปลี่ยน"], "answer": 0, "exp": "อาณาจักรเก่ามีฟาโรห์ พีระมิด มัมมี่ และอักษรเป็นจุดเด่น", "topic": "อียิปต์"}, {"q": "ข้อใดสัมพันธ์กับอาณาจักรกลาง?", "choices": ["พัฒนาระบบชลประทาน", "นักบวชมีอำนาจมากขึ้น", "การูด้า", "ศิลาจารึกไทย"], "answer": 0, "exp": "อาณาจักรกลางมีการพัฒนาชลประทาน ขุดคลอง และเน้นเศรษฐกิจ", "topic": "อียิปต์"}, {"q": "ข้อใดสัมพันธ์กับอาณาจักรใหม่?", "choices": ["นักบวชมีอำนาจมากขึ้น", "นิยมสร้างพีระมิดเป็นจุดเด่น", "ยังไม่มีตัวอักษร", "เกิดประชาคมอาเซียน"], "answer": 0, "exp": "อาณาจักรใหม่มีนักบวชมีอำนาจมากขึ้นและมีความเชื่อสำคัญ", "topic": "อียิปต์"}, {"q": "พีระมิดมีหน้าที่สำคัญอย่างไร?", "choices": ["เป็นสุสานเก็บพระศพของฟาโรห์", "เป็นโรงเรียน", "เป็นตลาด", "เป็นสนามกีฬา"], "answer": 0, "exp": "พีระมิดเป็นสุสานที่เก็บพระศพของฟาโรห์", "topic": "อียิปต์"}, {"q": "สฟิงซ์มีลักษณะอย่างไร?", "choices": ["หัวมนุษย์ ร่างสิงโต", "หัวสิงโต ร่างมนุษย์", "หัวนก ร่างปลา", "หัวช้าง ร่างม้า"], "answer": 0, "exp": "สฟิงซ์มีหัวเป็นมนุษย์และร่างกายเป็นสิงโต", "topic": "อียิปต์"}, {"q": "อาเซียนส่งเสริมความร่วมมือ 4 ด้านใด?", "choices": ["การเมือง เศรษฐกิจ สังคม วัฒนธรรม", "กีฬา ดนตรี เกม ภาพยนตร์", "เกษตร ทะเล ป่า ภูเขา", "ภาษาอย่างเดียว"], "answer": 0, "exp": "4 ด้านคือ การเมือง เศรษฐกิจ สังคม และวัฒนธรรม", "topic": "อาเซียน"}, {"q": "ในเอกสารระบุว่าอาเซียนมีสมาชิกกี่ประเทศ?", "choices": ["8", "9", "10", "12"], "answer": 2, "exp": "เอกสารระบุสมาชิก 10 ประเทศ", "topic": "อาเซียน"}, {"q": "ในเอกสารระบุว่ารวมตัวเป็นประชาคมอาเซียนใน พ.ศ. ใด?", "choices": ["2548", "2550", "2558", "2568"], "answer": 2, "exp": "เอกสารระบุ พ.ศ. 2558", "topic": "อาเซียน"}, {"q": "ตะวันเดินทางไปประเทศใดในโครงการแลกเปลี่ยน?", "choices": ["อียิปต์", "อินโดนีเซีย", "ญี่ปุ่น", "อินเดีย"], "answer": 1, "exp": "ตะวันได้ไปประเทศอินโดนีเซีย", "topic": "อินโดนีเซีย"}, {"q": "เหตุผลสำคัญที่ตะวันได้รับคัดเลือกคืออะไร?", "choices": ["ใช้ภาษาอังกฤษได้ดี", "วาดภาพเก่ง", "สร้างพีระมิดได้", "เล่นกีฬาเก่ง"], "answer": 0, "exp": "เรื่องระบุว่าการใช้ภาษาอังกฤษของตะวันดี", "topic": "อินโดนีเซีย"}, {"q": "เมืองหลวงของอินโดนีเซียที่ระบุในเรื่องคือข้อใด?", "choices": ["กรุงจาการ์ตา", "กรุงเทพฯ", "ไคโร", "ฮานอย"], "answer": 0, "exp": "ในเรื่องระบุกรุงจาการ์ตา", "topic": "อินโดนีเซีย"}, {"q": "กรุงจาการ์ตาตั้งอยู่บนเกาะใดตามเรื่อง?", "choices": ["เกาะชวา", "เกาะภูเก็ต", "เกาะฮอนชู", "เกาะไต้หวัน"], "answer": 0, "exp": "เรื่องระบุว่ากรุงจาการ์ตาตั้งอยู่บนเกาะชวา", "topic": "อินโดนีเซีย"}, {"q": "ข้อใดจับคู่ข้อมูลอินโดนีเซียได้ถูกต้อง?", "choices": ["แดง–ขาว / รูเปียห์", "เขียว–ขาว / เยน", "น้ำเงิน–แดง / บาท", "แดง–เหลือง / ดอลลาร์"], "answer": 0, "exp": "ในเรื่องระบุธงสีแดง–ขาว และเงินสกุลรูเปียห์", "topic": "อินโดนีเซีย"}, {"q": "สัญลักษณ์ประจำชาติของอินโดนีเซียที่กล่าวในเรื่องคืออะไร?", "choices": ["ครุฑ หรือ การูด้า", "สฟิงซ์", "พีระมิด", "ช้างสัมฤทธิ์"], "answer": 0, "exp": "เรื่องระบุครุฑ หรือ การูด้า", "topic": "อินโดนีเซีย"}, {"q": "สิ่งใดแสดงความสัมพันธ์ระหว่างไทยกับอินโดนีเซียในเรื่อง?", "choices": ["ช้างสัมฤทธิ์ที่รัชกาลที่ 5 พระราชทานให้", "พีระมิดของฟาโรห์", "แม่น้ำไนล์", "ภาพเขียนที่ผาแต้ม"], "answer": 0, "exp": "ช้างสัมฤทธิ์พร้อมจารึกเป็นหลักฐานสำคัญในเรื่อง", "topic": "ไทย–อินโดนีเซีย"}, {"q": "กลุ่มใดถูกกล่าวว่ามีวัฒนธรรมการไหว้ร่วมกัน?", "choices": ["ไทย ลาว พม่า กัมพูชา", "ไทย อินโดนีเซีย บรูไน สิงคโปร์", "อินโดนีเซีย มาเลเซีย ฟิลิปปินส์ สิงคโปร์", "อียิปต์ ไทย ลาว เวียดนาม"], "answer": 0, "exp": "เอกสารระบุไทย ลาว พม่า และกัมพูชา", "topic": "วัฒนธรรมอาเซียน"}, {"q": "ข้อใดสอดคล้องกับมารยาทเรื่อง “มือ เท้า และศีรษะ”?", "choices": ["ส่งของด้วยมือขวา และถือว่าศีรษะเป็นของสูง", "ถือว่าศีรษะเป็นของต่ำ", "ถือว่าเท้าเป็นของสูง", "ต้องสวมรองเท้าเข้าบ้าน"], "answer": 0, "exp": "เอกสารให้ส่งของด้วยมือขวา และถือว่าศีรษะเป็นของสูง เท้าเป็นของต่ำ", "topic": "วัฒนธรรมอาเซียน"}];
+let slideIndex=0, qIndex=0, score=0, answered=false, wrong=[];
+
+const lessonSec=document.getElementById("lessonSec");
+const quizSec=document.getElementById("quizSec");
+const lessonTab=document.getElementById("lessonTab");
+const quizTab=document.getElementById("quizTab");
+
+function renderSlide(){
+  const s=slides[slideIndex];
+  document.getElementById("slideCard").innerHTML =
+    "<h1>"+s.title+"</h1>" + (s.subtitle ? "<h2>"+s.subtitle+"</h2>" : "") +
+    s.body + '<div class="remember">'+s.remember+"</div>" +
+    (slideIndex===slides.length-1 ? '<button id="startQuizBtn" class="bigBtn" type="button">เริ่ม Quiz 30 ข้อ →</button>' : "");
+  const pct=Math.round((slideIndex+1)/slides.length*100);
+  document.getElementById("slideLabel").textContent="Slide "+(slideIndex+1)+" / "+slides.length;
+  document.getElementById("slidePct").textContent=pct+"%";
+  document.getElementById("slideBar").style.width=pct+"%";
+  document.getElementById("backBtn").disabled=slideIndex===0;
+  document.getElementById("nextBtn").disabled=slideIndex===slides.length-1;
+  const sq=document.getElementById("startQuizBtn"); if(sq) sq.addEventListener("click",()=>startQuiz(true));
+  window.scrollTo(0,0);
+}
+function nextSlide(){if(slideIndex<slides.length-1){slideIndex++;renderSlide();}}
+function prevSlide(){if(slideIndex>0){slideIndex--;renderSlide();}}
+function restartLesson(){slideIndex=0;renderSlide();}
+function showLesson(){lessonSec.classList.remove("hidden");quizSec.classList.add("hidden");lessonTab.classList.add("active");quizTab.classList.remove("active");renderSlide();}
+
+function startQuiz(reset){
+  lessonSec.classList.add("hidden");quizSec.classList.remove("hidden");lessonTab.classList.remove("active");quizTab.classList.add("active");
+  if(reset){qIndex=0;score=0;answered=false;wrong=[];}
+  document.getElementById("quizPlay").classList.remove("hidden");
+  document.getElementById("resultBox").classList.add("hidden");
+  renderQuestion();
+}
+function renderQuestion(){
+  answered=false;
+  const q=quiz[qIndex];
+  document.getElementById("qCount").textContent="ข้อ "+(qIndex+1)+" / "+quiz.length;
+  document.getElementById("liveScore").textContent="คะแนน "+score+" / "+qIndex;
+  document.getElementById("quizBar").style.width=Math.round(qIndex/quiz.length*100)+"%";
+  document.getElementById("qText").textContent=q.q;
+  const box=document.getElementById("choices"); box.innerHTML="";
+  const L=["A","B","C","D"];
+  q.choices.forEach((c,i)=>{
+    const b=document.createElement("button"); b.type="button"; b.className="choice";
+    b.innerHTML="<b>"+L[i]+".</b> "+c;
+    b.addEventListener("click",()=>answerQuestion(i));
+    box.appendChild(b);
+  });
+  const fb=document.getElementById("feedback"); fb.className="feedback"; fb.innerHTML="";
+  const nq=document.getElementById("nextQ"); nq.className="nextQ"; nq.textContent=qIndex===quiz.length-1?"ดูสรุปผล →":"ข้อต่อไป →";
+  window.scrollTo(0,0);
+}
+function answerQuestion(i){
+  if(answered)return; answered=true; const q=quiz[qIndex];
+  [...document.querySelectorAll(".choice")].forEach((b,j)=>{b.disabled=true;if(j===q.answer)b.classList.add("correct");else if(j===i)b.classList.add("wrong");else b.classList.add("dim");});
+  const fb=document.getElementById("feedback");
+  if(i===q.answer){score++;fb.className="feedback show good";fb.innerHTML="✅ <b>ถูกต้อง!</b><br>"+q.exp;}
+  else{wrong.push({n:qIndex+1,t:q.topic,q:q.q,chosen:q.choices[i],correct:q.choices[q.answer]});fb.className="feedback show bad";fb.innerHTML="❌ <b>ยังไม่ถูก</b><br>คำตอบที่ถูก: <b>"+q.choices[q.answer]+"</b><br>"+q.exp;}
+  document.getElementById("liveScore").textContent="คะแนน "+score+" / "+(qIndex+1);
+  document.getElementById("nextQ").classList.add("show");
+}
+function nextQuestion(){if(!answered)return;if(qIndex<quiz.length-1){qIndex++;renderQuestion();}else showResult();}
+function showResult(){
+  document.getElementById("quizPlay").classList.add("hidden");
+  const box=document.getElementById("resultBox"); box.classList.remove("hidden");
+  const pct=Math.round(score/quiz.length*100);
+  const counts={}; wrong.forEach(w=>counts[w.t]=(counts[w.t]||0)+1);
+  const weak=Object.keys(counts).sort((a,b)=>counts[b]-counts[a]);
+  const wrongHtml=wrong.length?wrong.map(w=>'<div class="wrongItem"><b>ข้อ '+w.n+' — '+w.t+'</b><br>'+w.q+'<br>ตอบ: '+w.chosen+'<br><b>ที่ถูก: '+w.correct+'</b></div>').join(""):"<p>✅ ไม่มีข้อผิด</p>";
+  box.innerHTML='<div class="card result"><h1>🏁 สรุปผล Quiz</h1><div class="scoreBig">'+score+' / '+quiz.length+'</div><p><b>'+pct+'%</b></p><p><b>ถูก:</b> '+score+' ข้อ | <b>ผิด:</b> '+(quiz.length-score)+' ข้อ</p><p><b>หัวข้อที่ควรทบทวน:</b> '+(weak.length?weak.join(" • "):"ไม่มี 🎉")+'</p><div class="wrongWrap"><h2>เฉลยข้อที่ตอบผิด</h2>'+wrongHtml+'</div><button id="retryBtn" class="bigBtn" type="button">🔄 ทำ Quiz ใหม่</button><button id="reviewBtn" class="bigBtn" style="background:#e3e8ee;color:#17202a" type="button">📚 กลับไปทบทวน Slide</button></div>';
+  document.getElementById("retryBtn").addEventListener("click",()=>startQuiz(true));
+  document.getElementById("reviewBtn").addEventListener("click",()=>{slideIndex=0;showLesson();});
+  window.scrollTo(0,0);
+}
+
+document.getElementById("backBtn").addEventListener("click",prevSlide);
+document.getElementById("nextBtn").addEventListener("click",nextSlide);
+document.getElementById("restartBtn").addEventListener("click",restartLesson);
+lessonTab.addEventListener("click",showLesson);
+quizTab.addEventListener("click",()=>startQuiz(true));
+document.getElementById("nextQ").addEventListener("click",nextQuestion);
+renderSlide();
+</script>
+</body>
+</html>

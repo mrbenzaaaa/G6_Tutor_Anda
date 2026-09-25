@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 6 Vocabulary Lessons 1–3 Touchscreen Tutor</title>
+<style>
+*{box-sizing:border-box}
+:root{
+ --ink:#162033;--navy:#153e7e;--blue:#2e6dd6;--purple:#7c3aed;
+ --soft:#eef5ff;--yellow:#fff3be;--green:#e6f8ec;--pink:#fff0f6;
+ --red:#ffe6e6;--gray:#e9eef5;--shadow:0 12px 35px rgba(35,55,90,.14)
+}
+body{
+ margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);
+ background:linear-gradient(135deg,#fff0f7,#eaf4ff 55%,#f1edff)
+}
+.app{max-width:1080px;margin:auto;min-height:100vh;padding:14px}
+.card{
+ background:#fff;border-radius:24px;box-shadow:var(--shadow);padding:26px;
+ min-height:92vh;display:flex;flex-direction:column
+}
+.top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.badge{display:inline-block;background:#edf3ff;color:#204a93;padding:8px 13px;border-radius:999px;font-weight:900}
+.progressText{font-weight:800;color:#667085}
+.bar{height:10px;background:#e9edf4;border-radius:999px;overflow:hidden;margin:12px 0 22px}
+.bar>div{height:100%;background:linear-gradient(90deg,#4f86e8,#8b5cf6)}
+h1,h2,h3{color:var(--navy);margin-top:0} h1{text-align:center;font-size:2.15rem} h2{font-size:2rem}
+.content{font-size:1.18rem;line-height:1.55;flex:1}
+.center{text-align:center} .big{font-size:1.45rem;font-weight:900}
+.wordHero{text-align:center;padding:18px 10px}
+.wordHero .word{font-size:3.2rem;font-weight:900;color:#5a30b5;letter-spacing:.3px}
+.wordHero .pos{display:inline-block;margin-top:8px;background:#f2ecff;color:#5a30b5;border-radius:999px;padding:7px 12px;font-weight:800}
+.definition{background:var(--soft);border-left:7px solid #5f8fe8;padding:17px 19px;border-radius:14px;margin:16px 0}
+.example{background:var(--green);border-left:7px solid #38a169;padding:17px 19px;border-radius:14px;margin:16px 0}
+.remember{background:var(--yellow);border-left:7px solid #e0b626;padding:16px 18px;border-radius:14px;margin-top:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.lessonBox{padding:18px;border-radius:16px;border:1px solid #e5eaf2;background:#f8fafc}
+.lessonBox h3{margin-bottom:8px}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.pill{background:#f4f6fa;border-radius:999px;padding:7px 10px;font-weight:700}
+.controls{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:22px}
+button{
+ border:0;border-radius:15px;padding:16px 23px;font-size:1.06rem;font-weight:900;
+ cursor:pointer;min-width:135px;touch-action:manipulation
+}
+.primary{background:var(--blue);color:white} .secondary{background:var(--gray);color:#1d2736} .restart{background:#e94770;color:white}
+button:disabled{opacity:.45;cursor:not-allowed}
+.quizMeta{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.score{background:#eef2ff;border-radius:13px;padding:11px 14px;font-weight:900}
+.choice{display:block;width:100%;text-align:left;margin:11px 0;background:#f7f9fc;border:2px solid #dce4ef;color:#1b2636}
+.choice:hover{background:#edf4ff} .choice.correct{background:#dff7e8;border-color:#2da765} .choice.wrong{background:#ffe1e1;border-color:#d64a4a}
+.feedback{min-height:48px;font-size:1.12rem;font-weight:900;margin-top:14px}
+.resultGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+.resultBox{background:#f7f9fc;border-radius:15px;padding:16px;text-align:center}
+.review{background:var(--pink);border-left:7px solid #e14f86;border-radius:14px;padding:16px 18px;margin-top:16px}
+.wordList{columns:3;column-gap:28px;font-size:1.02rem}
+.wordList div{break-inside:avoid;margin:6px 0}
+@media(max-width:760px){
+ .app{padding:8px} .card{padding:17px;border-radius:18px;min-height:96vh}
+ h1{font-size:1.65rem} h2{font-size:1.5rem} .content{font-size:1.05rem}
+ .wordHero .word{font-size:2.4rem}
+ .grid3,.resultGrid{grid-template-columns:1fr} .wordList{columns:2}
+ button{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="app"><div class="card"><div id="screen"></div></div></div>
+
+<script>
+const words = [{"lesson": 1, "word": "antonym", "pos": "noun", "definition": "A word that means the opposite of another word.", "example": "The words up and down are antonyms."}, {"lesson": 1, "word": "concept", "pos": "noun", "definition": "A thought or an idea.", "example": "In 1945, Alan Turing developed the concept of a computer."}, {"lesson": 1, "word": "context", "pos": "noun", "definition": "The words surrounding a word that make its meaning clear; the situation surrounding something.", "example": "Depending upon the context, the word mad can mean \"angry\" or it can mean \"insane.\""}, {"lesson": 1, "word": "derivative", "pos": "noun", "definition": "A word formed from another word.", "example": "The words serving, servant, and service are derivatives of the word serve."}, {"lesson": 1, "word": "effective", "pos": "adjective", "definition": "Able to accomplish a result; useful in bringing about a result; starting at a certain time.", "example": "Draining swamps where mosquitoes breed has been effective in reducing malaria."}, {"lesson": 1, "word": "glossary", "pos": "noun", "definition": "A list of definitions for terms or important words used in a certain text.", "example": "The glossary in the back of our science text defined the terms force, dynamic, and vector."}, {"lesson": 1, "word": "retain", "pos": "verb", "definition": "To hold or keep; to hold in memory.", "example": "Frequent review of new words will help you retain their meanings."}, {"lesson": 1, "word": "specialized", "pos": "adjective", "definition": "Having one use among many possible uses; specific.", "example": "Words like foul and base have specialized meanings in sports."}, {"lesson": 1, "word": "synonym", "pos": "noun", "definition": "A word with the same, or nearly the same, meaning as another word.", "example": "The verbs finish and complete are synonyms."}, {"lesson": 1, "word": "terminology", "pos": "noun", "definition": "Vocabulary particular to a certain subject.", "example": "Megabyte, software, and bug are examples of computer terminology."}, {"lesson": 2, "word": "beastly", "pos": "adjective", "definition": "Awful; very unpleasant; looking like a beast.", "example": "Tony's beastly headache made it hard for him to concentrate on the test."}, {"lesson": 2, "word": "hog", "pos": "noun / verb", "definition": "A greedy or selfish person; to be greedy, take more than one's fair share, or hoard.", "example": "Don't hog all the space at the table!"}, {"lesson": 2, "word": "horseplay", "pos": "noun", "definition": "Rough play.", "example": "Stop that horseplay or somebody will get hurt!"}, {"lesson": 2, "word": "hound", "pos": "verb", "definition": "To pursue or urge repeatedly or insistently.", "example": "She hounded her boyfriend until he agreed to cut his hair."}, {"lesson": 2, "word": "lionize", "pos": "verb", "definition": "To greatly admire; to idolize.", "example": "Sports fans often lionize famous athletes."}, {"lesson": 2, "word": "mammoth", "pos": "adjective", "definition": "Enormous.", "example": "The ship glided toward a mammoth iceberg."}, {"lesson": 2, "word": "parrot", "pos": "verb", "definition": "To imitate without understanding.", "example": "When Max said, \"Three times three is nine,\" his three-year-old brother parroted back, \"Three times three is nine.\""}, {"lesson": 2, "word": "pigheaded", "pos": "adjective", "definition": "Stupidly stubborn.", "example": "The pigheaded child refused to wear a coat, despite the freezing weather."}, {"lesson": 2, "word": "scapegoat", "pos": "noun / verb", "definition": "A person unfairly set up to take blame for others; to unfairly put blame on someone else.", "example": "John and Cody broke the window but tried to make Tim the scapegoat."}, {"lesson": 2, "word": "sheepish", "pos": "adjective", "definition": "Quietly embarrassed or guilty.", "example": "The six-year-old looked sheepish when his mom asked him who ate the cookies."}, {"lesson": 3, "word": "affable", "pos": "adjective", "definition": "Pleasant; friendly.", "example": "My affable neighbor often stops by for a friendly chat."}, {"lesson": 3, "word": "awe", "pos": "noun", "definition": "Wonder, fear, or respect for something impressive.", "example": "The size and beauty of the Grand Canyon filled us with awe."}, {"lesson": 3, "word": "contempt", "pos": "noun", "definition": "Hateful scorn.", "example": "The king was filled with contempt for his subjects who betrayed him."}, {"lesson": 3, "word": "crave", "pos": "verb", "definition": "To need or desire strongly.", "example": "After spending all day alone in the house, the puppy craved human affection."}, {"lesson": 3, "word": "detestable", "pos": "adjective", "definition": "Inspiring or deserving hatred.", "example": "The detestable ruler forced people to work as slaves in his mines."}, {"lesson": 3, "word": "enchanting", "pos": "adjective", "definition": "Charming; having the power to attract.", "example": "The sunset over the pond created an enchanting scene."}, {"lesson": 3, "word": "fascinate", "pos": "verb", "definition": "To capture strong interest or attention.", "example": "Stories about my grandmother's childhood fascinate me because life was so different back then."}, {"lesson": 3, "word": "loathe", "pos": "verb", "definition": "To hate intensely.", "example": "I loathe waiting in line at the supermarket."}, {"lesson": 3, "word": "rave", "pos": "verb", "definition": "To praise enthusiastically; to speak wildly without making any sense.", "example": "She constantly raves about her daughter's great musical talent."}, {"lesson": 3, "word": "recoil", "pos": "verb", "definition": "To shrink back in fear, dislike, or disgust; to move or jerk backward.", "example": "I recoiled from the sight of the bloody cut."}];
+const questions = [{"lesson": 1, "word": "antonym", "q": "Which word means: “A word that means the opposite of another word.”", "choices": ["antonym", "concept", "derivative", "glossary"], "correct": 0, "explanation": "antonym: A word that means the opposite of another word."}, {"lesson": 1, "word": "concept", "q": "Which word means: “A thought or an idea.”", "choices": ["effective", "concept", "retain", "synonym"], "correct": 1, "explanation": "concept: A thought or an idea."}, {"lesson": 1, "word": "context", "q": "Which word means: “The words surrounding a word that make its meaning clear; the situation surrounding something.”", "choices": ["specialized", "terminology", "context", "concept"], "correct": 2, "explanation": "context: The words surrounding a word that make its meaning clear; the situation surrounding something."}, {"lesson": 1, "word": "derivative", "q": "Which word means: “A word formed from another word.”", "choices": ["antonym", "context", "glossary", "derivative"], "correct": 3, "explanation": "derivative: A word formed from another word."}, {"lesson": 1, "word": "effective", "q": "Which word means: “Able to accomplish a result; useful in bringing about a result; starting at a certain time.”", "choices": ["effective", "derivative", "retain", "synonym"], "correct": 0, "explanation": "effective: Able to accomplish a result; useful in bringing about a result; starting at a certain time."}, {"lesson": 1, "word": "glossary", "q": "Which word means: “A list of definitions for terms or important words used in a certain text.”", "choices": ["specialized", "glossary", "terminology", "concept"], "correct": 1, "explanation": "glossary: A list of definitions for terms or important words used in a certain text."}, {"lesson": 1, "word": "retain", "q": "Which word means: “To hold or keep; to hold in memory.”", "choices": ["antonym", "context", "retain", "effective"], "correct": 2, "explanation": "retain: To hold or keep; to hold in memory."}, {"lesson": 1, "word": "specialized", "q": "Which word means: “Having one use among many possible uses; specific.”", "choices": ["derivative", "glossary", "synonym", "specialized"], "correct": 3, "explanation": "specialized: Having one use among many possible uses; specific."}, {"lesson": 1, "word": "synonym", "q": "Which word means: “A word with the same, or nearly the same, meaning as another word.”", "choices": ["synonym", "retain", "terminology", "concept"], "correct": 0, "explanation": "synonym: A word with the same, or nearly the same, meaning as another word."}, {"lesson": 1, "word": "terminology", "q": "Which word means: “Vocabulary particular to a certain subject.”", "choices": ["antonym", "terminology", "context", "effective"], "correct": 1, "explanation": "terminology: Vocabulary particular to a certain subject."}, {"lesson": 2, "word": "beastly", "q": "Which word means: “Awful; very unpleasant; looking like a beast.”", "choices": ["lionize", "parrot", "beastly", "scapegoat"], "correct": 2, "explanation": "beastly: Awful; very unpleasant; looking like a beast."}, {"lesson": 2, "word": "hog", "q": "Which word means: “A greedy or selfish person; to be greedy, take more than one's fair share, or hoard.”", "choices": ["pigheaded", "sheepish", "horseplay", "hog"], "correct": 3, "explanation": "hog: A greedy or selfish person; to be greedy, take more than one's fair share, or hoard."}, {"lesson": 2, "word": "horseplay", "q": "Which word means: “Rough play.”", "choices": ["horseplay", "beastly", "hound", "mammoth"], "correct": 0, "explanation": "horseplay: Rough play."}, {"lesson": 2, "word": "hound", "q": "Which word means: “To pursue or urge repeatedly or insistently.”", "choices": ["lionize", "hound", "parrot", "scapegoat"], "correct": 1, "explanation": "hound: To pursue or urge repeatedly or insistently."}, {"lesson": 2, "word": "lionize", "q": "Which word means: “To greatly admire; to idolize.”", "choices": ["pigheaded", "sheepish", "lionize", "hog"], "correct": 2, "explanation": "lionize: To greatly admire; to idolize."}, {"lesson": 2, "word": "mammoth", "q": "Which word means: “Enormous.”", "choices": ["beastly", "horseplay", "lionize", "mammoth"], "correct": 3, "explanation": "mammoth: Enormous."}, {"lesson": 2, "word": "parrot", "q": "Which word means: “To imitate without understanding.”", "choices": ["parrot", "hound", "mammoth", "scapegoat"], "correct": 0, "explanation": "parrot: To imitate without understanding."}, {"lesson": 2, "word": "pigheaded", "q": "Which word means: “Stupidly stubborn.”", "choices": ["parrot", "pigheaded", "sheepish", "hog"], "correct": 1, "explanation": "pigheaded: Stupidly stubborn."}, {"lesson": 2, "word": "scapegoat", "q": "Which word means: “A person unfairly set up to take blame for others; to unfairly put blame on someone else.”", "choices": ["beastly", "horseplay", "scapegoat", "lionize"], "correct": 2, "explanation": "scapegoat: A person unfairly set up to take blame for others; to unfairly put blame on someone else."}, {"lesson": 2, "word": "sheepish", "q": "Which word means: “Quietly embarrassed or guilty.”", "choices": ["hound", "mammoth", "pigheaded", "sheepish"], "correct": 3, "explanation": "sheepish: Quietly embarrassed or guilty."}, {"lesson": 3, "word": "affable", "q": "Which word means: “Pleasant; friendly.”", "choices": ["affable", "loathe", "recoil", "contempt"], "correct": 0, "explanation": "affable: Pleasant; friendly."}, {"lesson": 3, "word": "awe", "q": "Which word means: “Wonder, fear, or respect for something impressive.”", "choices": ["affable", "awe", "crave", "enchanting"], "correct": 1, "explanation": "awe: Wonder, fear, or respect for something impressive."}, {"lesson": 3, "word": "contempt", "q": "Which word means: “Hateful scorn.”", "choices": ["detestable", "fascinate", "contempt", "rave"], "correct": 2, "explanation": "contempt: Hateful scorn."}, {"lesson": 3, "word": "crave", "q": "Which word means: “To need or desire strongly.”", "choices": ["loathe", "recoil", "awe", "crave"], "correct": 3, "explanation": "crave: To need or desire strongly."}, {"lesson": 3, "word": "detestable", "q": "Which word means: “Inspiring or deserving hatred.”", "choices": ["detestable", "affable", "contempt", "enchanting"], "correct": 0, "explanation": "detestable: Inspiring or deserving hatred."}, {"lesson": 3, "word": "enchanting", "q": "Which word means: “Charming; having the power to attract.”", "choices": ["crave", "enchanting", "fascinate", "rave"], "correct": 1, "explanation": "enchanting: Charming; having the power to attract."}, {"lesson": 3, "word": "fascinate", "q": "Which word means: “To capture strong interest or attention.”", "choices": ["loathe", "recoil", "fascinate", "awe"], "correct": 2, "explanation": "fascinate: To capture strong interest or attention."}, {"lesson": 3, "word": "loathe", "q": "Which word means: “To hate intensely.”", "choices": ["affable", "contempt", "detestable", "loathe"], "correct": 3, "explanation": "loathe: To hate intensely."}, {"lesson": 3, "word": "rave", "q": "Which word means: “To praise enthusiastically; to speak wildly without making any sense.”", "choices": ["rave", "crave", "enchanting", "loathe"], "correct": 0, "explanation": "rave: To praise enthusiastically; to speak wildly without making any sense."}, {"lesson": 3, "word": "recoil", "q": "Which word means: “To shrink back in fear, dislike, or disgust; to move or jerk backward.”", "choices": ["fascinate", "recoil", "rave", "awe"], "correct": 1, "explanation": "recoil: To shrink back in fear, dislike, or disgust; to move or jerk backward."}];
+const lessonNames = {"1": "Lesson 1 — Words About Vocabulary", "2": "Lesson 2 — Words Taken from Animals", "3": "Lesson 3 — Liking and Disliking"};
+
+let mode='cover', wordIndex=0, qIndex=0, score=0, locked=false;
+let stats={1:{right:0,total:0},2:{right:0,total:0},3:{right:0,total:0}};
+
+function progressBar(current,total){
+ return `<div class="bar"><div style="width:${Math.round((current/total)*100)}%"></div></div>`;
+}
+
+function cover(){
+ mode='cover';
+ const lists=[1,2,3].map(n=>{
+   const list=words.filter(w=>w.lesson===n).map(w=>`<span class="pill">${w.word}</span>`).join('');
+   return `<div class="lessonBox"><h3>${lessonNames[n]}</h3><div class="pills">${list}</div></div>`;
+ }).join('');
+ document.getElementById('screen').innerHTML=`
+ <h1>Grade 6 Vocabulary Touchscreen Tutor</h1>
+ <p class="center big">Vocabulary for Achievement — Lessons 1–3</p>
+ <p class="center">30 school vocabulary words • 30-question quiz</p>
+ <div class="grid3">${lists}</div>
+ <div class="remember">⭐ <b>Study plan:</b> Learn the word → meaning → example. Then take one quiz question for each of the 30 words.</div>
+ <div class="controls">
+   <button class="secondary" disabled>← Back</button>
+   <button class="restart" onclick="restartAll()">↻ Restart</button>
+   <button class="primary" onclick="startTutor()">Start Tutor →</button>
+ </div>`;
+}
+
+function startTutor(){wordIndex=0;showWord()}
+
+function showWord(){
+ mode='tutor';
+ const w=words[wordIndex];
+ document.getElementById('screen').innerHTML=`
+ <div class="top">
+   <span class="badge">${lessonNames[w.lesson]}</span>
+   <span class="progressText">Word ${wordIndex+1} of 30</span>
+ </div>
+ ${progressBar(wordIndex+1,30)}
+ <div class="wordHero">
+   <div class="word">${w.word}</div>
+   <div class="pos">${w.pos}</div>
+ </div>
+ <div class="content">
+   <div class="definition"><b>Meaning</b><br>${w.definition}</div>
+   <div class="example"><b>Example from the lesson</b><br>${w.example}</div>
+ </div>
+ <div class="remember">⭐ <b>Remember:</b> ${w.word} = ${w.definition}</div>
+ <div class="controls">
+   <button class="secondary" onclick="prevWord()" ${wordIndex===0?'disabled':''}>← Back</button>
+   <button class="restart" onclick="restartAll()">↻ Restart</button>
+   <button class="primary" onclick="nextWord()">${wordIndex===29?'Final Review →':'Next Word →'}</button>
+ </div>`;
+}
+
+function prevWord(){if(wordIndex>0){wordIndex--;showWord()}}
+function nextWord(){if(wordIndex<29){wordIndex++;showWord()}else{finalReview()}}
+
+function finalReview(){
+ mode='review';
+ const groups=[1,2,3].map(n=>{
+   const items=words.filter(w=>w.lesson===n).map(w=>`<div><b>${w.word}</b> — ${w.definition}</div>`).join('');
+   return `<h3>${lessonNames[n]}</h3><div class="wordList">${items}</div>`;
+ }).join('<hr style="border:0;border-top:1px solid #e5eaf2;margin:22px 0">');
+ document.getElementById('screen').innerHTML=`
+ <div class="top"><span class="badge">FINAL REVIEW</span><span class="progressText">30 Words</span></div>
+ <h2>Quick Review Before the Quiz</h2>
+ <div class="content">${groups}</div>
+ <div class="remember">⭐ <b>Remember:</b> The quiz has exactly 30 questions — one for each vocabulary word.</div>
+ <div class="controls">
+   <button class="secondary" onclick="wordIndex=29;showWord()">← Back</button>
+   <button class="restart" onclick="restartAll()">↻ Restart</button>
+   <button class="primary" onclick="startQuiz()">Start 30-Q Quiz →</button>
+ </div>`;
+}
+
+function startQuiz(){
+ mode='quiz';qIndex=0;score=0;locked=false;
+ stats={1:{right:0,total:0},2:{right:0,total:0},3:{right:0,total:0}};
+ showQuestion();
+}
+
+function showQuestion(){
+ mode='quiz';locked=false;
+ const q=questions[qIndex];
+ document.getElementById('screen').innerHTML=`
+ <div class="quizMeta">
+   <span class="badge">Lesson ${q.lesson} Quiz</span>
+   <span class="progressText">Question ${qIndex+1} of 30</span>
+ </div>
+ ${progressBar(qIndex+1,30)}
+ <div class="score">Score: ${score}/${qIndex}</div>
+ <h2 style="margin-top:20px">${q.q}</h2>
+ <div class="content">
+   ${q.choices.map((c,i)=>`<button class="choice" onclick="answer(${i})">${String.fromCharCode(65+i)}. ${c}</button>`).join('')}
+   <div id="feedback" class="feedback"></div>
+ </div>
+ <div class="controls">
+   <button class="secondary" onclick="reviewQuizWord()">Review Word</button>
+   <button class="restart" onclick="restartAll()">↻ Restart</button>
+   <button id="nextBtn" class="primary" onclick="nextQuestion()" style="visibility:hidden">${qIndex===29?'See Results →':'Next →'}</button>
+ </div>`;
+}
+
+function answer(i){
+ if(locked)return;
+ locked=true;
+ const q=questions[qIndex];
+ stats[q.lesson].total++;
+ const buttons=[...document.querySelectorAll('.choice')];
+ buttons[q.correct].classList.add('correct');
+ if(i===q.correct){
+   score++;stats[q.lesson].right++;
+   document.getElementById('feedback').innerHTML='✅ Correct! '+q.explanation;
+ } else {
+   buttons[i].classList.add('wrong');
+   document.getElementById('feedback').innerHTML='❌ Incorrect. Correct answer: '+String.fromCharCode(65+q.correct)+'. '+q.choices[q.correct]+'. '+q.explanation;
+ }
+ document.querySelector('.score').textContent=`Score: ${score}/${qIndex+1}`;
+ document.getElementById('nextBtn').style.visibility='visible';
+}
+
+function nextQuestion(){
+ if(!locked)return;
+ if(qIndex<29){qIndex++;showQuestion()} else {results()}
+}
+
+function reviewQuizWord(){
+ const target=questions[qIndex].word;
+ const idx=words.findIndex(w=>w.word===target);
+ if(idx>=0){wordIndex=idx;showWord()}
+}
+
+function results(){
+ const pct=Math.round(score/30*100);
+ const weak=[];
+ [1,2,3].forEach(n=>{
+   const s=stats[n];
+   const p=s.total?Math.round(s.right/s.total*100):0;
+   if(p<80) weak.push(`Lesson ${n} (${s.right}/${s.total})`);
+ });
+ const message=pct>=90?'Excellent! Your vocabulary recall is very strong.':
+               pct>=80?'Good job! Review the lesson with the lowest score, then retake the quiz.':
+               'Review the vocabulary slides again, especially the words you mixed up.';
+ document.getElementById('screen').innerHTML=`
+ <h1>30-Question Quiz Complete!</h1>
+ <div class="score" style="font-size:2rem;margin:22px 0">Final Score: ${score}/30 (${pct}%)</div>
+ <div class="content">
+   <p class="big">${message}</p>
+   <div class="resultGrid">
+     <div class="resultBox"><b>Lesson 1</b><br>${stats[1].right}/${stats[1].total} correct</div>
+     <div class="resultBox"><b>Lesson 2</b><br>${stats[2].right}/${stats[2].total} correct</div>
+     <div class="resultBox"><b>Lesson 3</b><br>${stats[3].right}/${stats[3].total} correct</div>
+   </div>
+   <div class="review"><b>Topics to Review:</b> ${weak.length?weak.join(', '):'None — all lessons are at 80% or higher.'}</div>
+ </div>
+ <div class="controls">
+   <button class="secondary" onclick="finalReview()">Review All 30 Words</button>
+   <button class="restart" onclick="restartAll()">↻ Restart All</button>
+   <button class="primary" onclick="startQuiz()">Retake Quiz</button>
+ </div>`;
+}
+
+function restartAll(){mode='cover';wordIndex=0;qIndex=0;score=0;locked=false;cover()}
+cover();
+</script>
+</body>
+</html>

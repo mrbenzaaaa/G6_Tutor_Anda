@@ -1,0 +1,1085 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#173a71">
+  <meta name="description" content="Offline Grade 6 lesson library.">
+  <title>Grade 6 Learning Hub</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23173a71'/%3E%3Cpath d='M14 18h16c4 0 7 3 7 7v25c-2-3-5-5-9-5H14V18zm36 0H34c-4 0-7 3-7 7v25c2-3 5-5 9-5h14V18z' fill='%23fff'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      color-scheme: light;
+      --navy: #173a71;
+      --blue: #2563eb;
+      --ink: #15233b;
+      --muted: #65758b;
+      --line: #dce5f2;
+      --surface: #ffffff;
+      --soft: #f2f6fc;
+      --science: #0f766e;
+      --social: #b45309;
+      --writing: #7c3aed;
+      --shadow: 0 12px 32px rgba(23, 58, 113, 0.09);
+      font-family: Inter, ui-rounded, "SF Pro Rounded", "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 4%, rgba(37, 99, 235, 0.12), transparent 28rem),
+        radial-gradient(circle at 94% 14%, rgba(15, 118, 110, 0.1), transparent 25rem),
+        var(--soft);
+    }
+
+    button, input { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    .topbar {
+      height: 8px;
+      background: linear-gradient(90deg, var(--blue), var(--science) 48%, var(--writing));
+    }
+
+    .page {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 36px 0 52px;
+    }
+
+    header { margin-bottom: 28px; }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--blue);
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      line-height: 1.02;
+      letter-spacing: -0.045em;
+    }
+
+    .intro {
+      max-width: 650px;
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .subject-menu {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .subject-button {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 16px;
+      min-height: 112px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--surface);
+      color: var(--ink);
+      box-shadow: var(--shadow);
+      text-align: left;
+      cursor: pointer;
+      transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    .subject-button:hover {
+      transform: translateY(-3px);
+      border-color: #a9c4ee;
+      box-shadow: 0 16px 30px rgba(23, 58, 113, 0.13);
+    }
+
+    .subject-icon {
+      display: grid;
+      width: 56px;
+      height: 56px;
+      place-items: center;
+      border-radius: 17px;
+      color: #fff;
+      font-size: 1.7rem;
+    }
+
+    .subject-button:nth-child(7n + 1) .subject-icon { background: #dc2626; }
+    .subject-button:nth-child(7n + 2) .subject-icon { background: #2563eb; }
+    .subject-button:nth-child(7n + 3) .subject-icon { background: var(--science); }
+    .subject-button:nth-child(7n + 4) .subject-icon { background: var(--social); }
+    .subject-button:nth-child(7n + 5) .subject-icon { background: #ca8a04; }
+    .subject-button:nth-child(7n + 6) .subject-icon { background: var(--writing); }
+    .subject-button:nth-child(7n + 7) .subject-icon { background: #db2777; }
+
+    .subject-name {
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      font-weight: 850;
+      line-height: 1.25;
+    }
+
+    .subject-arrow {
+      color: var(--blue);
+      font-size: 1.8rem;
+      font-weight: 850;
+    }
+
+    .detail-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .back-button {
+      min-height: 48px;
+      padding: 10px 16px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--surface);
+      color: var(--navy);
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 5px 16px rgba(23, 58, 113, 0.06);
+    }
+
+    .active-subject-title {
+      margin: 0;
+      font-size: clamp(1.45rem, 4vw, 2rem);
+      letter-spacing: -0.025em;
+    }
+
+    .search-panel {
+      position: sticky;
+      z-index: 10;
+      top: 8px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      margin-bottom: 28px;
+      padding: 10px;
+      border: 1px solid rgba(220, 229, 242, 0.9);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.93);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .search-wrap { position: relative; min-width: 0; }
+
+    .search-icon {
+      position: absolute;
+      top: 50%;
+      left: 16px;
+      width: 22px;
+      height: 22px;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    #search {
+      width: 100%;
+      min-height: 52px;
+      padding: 12px 16px 12px 50px;
+      border: 2px solid transparent;
+      border-radius: 13px;
+      outline: none;
+      background: #f5f8fc;
+      color: var(--ink);
+      font-size: 1rem;
+    }
+
+    #search:focus { border-color: var(--blue); background: #fff; }
+
+    #clear-search {
+      min-width: 90px;
+      min-height: 52px;
+      padding: 0 18px;
+      border: 0;
+      border-radius: 13px;
+      background: var(--navy);
+      color: #fff;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    #clear-search:disabled { opacity: 0.42; cursor: default; }
+
+    #result-status {
+      grid-column: 1 / -1;
+      min-height: 20px;
+      padding: 0 8px 2px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 650;
+    }
+
+    .folder-group { margin-bottom: 24px; }
+
+    .folder-title {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 11px;
+      color: #465770;
+      font-size: 0.98rem;
+      font-weight: 850;
+    }
+
+    .folder-title::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: currentColor;
+      opacity: 0.45;
+    }
+
+    .lesson-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px;
+    }
+
+    .lesson-card {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 14px;
+      min-height: 92px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--surface);
+      color: inherit;
+      text-decoration: none;
+      box-shadow: 0 5px 16px rgba(23, 58, 113, 0.045);
+      transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    .lesson-card:hover {
+      transform: translateY(-2px);
+      border-color: #a9c4ee;
+      box-shadow: 0 12px 24px rgba(23, 58, 113, 0.1);
+    }
+
+    .lesson-badge {
+      display: grid;
+      min-width: 48px;
+      min-height: 42px;
+      padding: 8px;
+      place-items: center;
+      border-radius: 13px;
+      background: #edf3fc;
+      color: var(--navy);
+      font-size: 0.78rem;
+      font-weight: 900;
+    }
+
+    .lesson-card[data-kind="Quiz"] .lesson-badge {
+      background: #fff3d9;
+      color: #9a5700;
+    }
+
+    .lesson-title {
+      min-width: 0;
+      font-size: 1rem;
+      font-weight: 800;
+      line-height: 1.4;
+    }
+
+    .open-icon {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border-radius: 12px;
+      background: #f5f8fc;
+      color: var(--blue);
+      font-size: 1.2rem;
+      font-weight: 900;
+    }
+
+    .empty-state {
+      display: none;
+      margin: 34px 0;
+      padding: 42px 20px;
+      border: 1px dashed #b9c7da;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .empty-state.show { display: block; }
+    .empty-state strong { display: block; margin-bottom: 6px; color: var(--ink); }
+
+    footer {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.88rem;
+      text-align: center;
+    }
+
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    .subject-button:focus-visible,
+    .back-button:focus-visible,
+    .lesson-card:focus-visible,
+    #clear-search:focus-visible {
+      outline: 3px solid rgba(37, 99, 235, 0.35);
+      outline-offset: 3px;
+    }
+
+    @media (max-width: 720px) {
+      .page { width: min(100% - 22px, 1120px); padding-top: 26px; }
+      .subject-menu, .lesson-grid { grid-template-columns: 1fr; }
+      .detail-toolbar { align-items: flex-start; flex-direction: column; }
+      .search-panel { top: 5px; }
+    }
+
+    @media (max-width: 440px) {
+      .search-panel { grid-template-columns: 1fr; }
+      #clear-search { min-height: 48px; }
+      .lesson-card { padding: 14px; gap: 11px; }
+      .open-icon { width: 34px; height: 34px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar" aria-hidden="true"></div>
+  <main class="page">
+    <header>
+      <p class="eyebrow">📚 Offline Lesson Library</p>
+      <h1>Grade 6 Learning Hub</h1>
+      <p class="intro">Choose a subject to view its lessons.</p>
+    </header>
+
+    <section id="subject-menu" class="subject-menu" aria-label="Choose a subject"></section>
+
+    <section id="detail-view" hidden aria-label="Subject lessons">
+      <div class="detail-toolbar">
+        <button id="back-button" class="back-button" type="button">← All Subjects</button>
+        <h2 id="active-subject-title" class="active-subject-title"></h2>
+      </div>
+
+      <div class="search-panel" role="search">
+        <div class="search-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m20 20-3.7-3.7"></path>
+          </svg>
+          <label for="search" class="visually-hidden">Search lessons</label>
+          <input id="search" type="search" inputmode="search" autocomplete="off" placeholder="Search lessons, chapters, or units…">
+        </div>
+        <button id="clear-search" type="button" disabled>Clear</button>
+        <div id="result-status" role="status" aria-live="polite"></div>
+      </div>
+
+      <div id="lesson-list"></div>
+      <div id="empty-state" class="empty-state" role="status">
+        <strong>No lessons found</strong>
+        Try another word or clear the search.
+      </div>
+    </section>
+
+    <footer>Works offline · Lesson files remain in their original folders</footer>
+  </main>
+
+  <script>
+    (() => {
+      const catalog = [
+              {
+                      "name": "Health",
+                      "icon": "❤️",
+                      "groups": [
+                              {
+                                      "name": "Chapter 1 › Chapter 1 Lesson 1",
+                                      "items": [
+                                              {
+                                                      "title": "Grade 6 Health - Your Total Health",
+                                                      "path": "Health/Chapter 1/Chapter 1 lesson 1/Final Grade_6_Health_Chapter_1_Lesson_1.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 1 › Chapter 1 Lesson 2",
+                                      "items": [
+                                              {
+                                                      "title": "Grade 6 Health Lesson 2 Health Influences and Risk Factors",
+                                                      "path": "Health/Chapter 1/chapter 1 lesson 2/Final Grade_6_Health_Lesson_2_Health_Influences_and_Risk_Factors.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 1 › Chapter 1 Lesson 3",
+                                      "items": [
+                                              {
+                                                      "title": "Grade 6 Health — Complete Touchscreen Tutor",
+                                                      "path": "Health/Chapter 1/Chapter 1 lesson 3/Final - grade6_health_complete_touchscreen_tutor V3.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 1 › Chapter 1 Lesson 4",
+                                      "items": [
+                                              {
+                                                      "title": "Lesson 4 — Making Decisions and Setting Goals | Touchscreen Tutor v2",
+                                                      "path": "Health/Chapter 1/Chapter 1 lesson 4/Final - lesson4_touchscreen_tutor_v2.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 1 › Chapter 1 Lesson 5",
+                                      "items": [
+                                              {
+                                                      "title": "Grade 6 Health Lesson 5 Choosing Health Services",
+                                                      "path": "Health/Chapter 1/Chapter 1 lesson 5/Final - Grade_6_Health_Lesson_5_Choosing_Health_Services.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 2 › Lesson 1 - Building Charactor",
+                                      "items": [
+                                              {
+                                                      "title": "Grade 6 — Building Character",
+                                                      "path": "Health/Chapter 2/lesson 1 - Building Charactor/Final - Grade6_Building_Character_Touchscreen_Tutor_V2.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 2 › Lesson 2 - Praticing Communication Skills",
+                                      "items": [
+                                              {
+                                                      "title": "Grade 6 — Practicing Communication Skills",
+                                                      "path": "Health/Chapter 2/lesson 2 - Praticing Communication Skills/Final - Grade6_Practicing_Communication_Skills_Tutor.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 2 › Lesson 3 - Family Relationships",
+                                      "items": [
+                                              {
+                                                      "title": "Grade 6 — Family Relationships",
+                                                      "path": "Health/Chapter 2/lesson 3 - Family Relationships/Final - Grade6_Family_Relationships_Touchscreen_Tutor.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 2 › Lesson 4 - Peer Relationships",
+                                      "items": [
+                                              {
+                                                      "title": "Grade 6 — Peer Relationships",
+                                                      "path": "Health/Chapter 2/lesson 4 - Peer Relationships/Final - Grade6_Peer_Relationships_Touchscreen_Tutor.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              }
+                      ]
+              },
+              {
+                      "name": "Language&Art",
+                      "icon": "📖",
+                      "groups": [
+                              {
+                                      "name": "Unit 1 (all Lesson)",
+                                      "items": [
+                                              {
+                                                      "title": "Grade 6 English Summative Test 1 — Touchscreen Tutor",
+                                                      "path": "Language&Art/unit 1 (all lesson)/Final - Grade6_LA Test1 Part&Kinds of Sentences, 14 Sep.html",
+                                                      "kind": "Quiz"
+                                              },
+                                              {
+                                                      "title": "Grade 6 Vocabulary Lessons 1–3 Touchscreen Tutor",
+                                                      "path": "Language&Art/unit 1 (all lesson)/Final - Vocabulary_Lessons1-3_Learn.html",
+                                                      "kind": "Lesson"
+                                              },
+                                              {
+                                                      "title": "Vocabulary Lessons 1–3 — All Multiple Choice",
+                                                      "path": "Language&Art/unit 1 (all lesson)/Final - Vocabulary_Lessons1-3_Quiz.html",
+                                                      "kind": "Quiz"
+                                              },
+                                              {
+                                                      "title": "Vocabulary Lessons 4-6 - Slide Tutor and Quiz",
+                                                      "path": "Language&Art/unit 1 (all lesson)/Final - Vocabulary_Lessons4-6_Learn&Quiz.html",
+                                                      "kind": "Quiz"
+                                              },
+                                              {
+                                                      "title": "Kinds of Sentences Touchscreen Tutor",
+                                                      "path": "Language&Art/unit 1 (all lesson)/Final lesson 1 - Kinds_of_Sentences.html",
+                                                      "kind": "Lesson"
+                                              },
+                                              {
+                                                      "title": "Complete Subjects and Predicates Touchscreen Tutor",
+                                                      "path": "Language&Art/unit 1 (all lesson)/Final lesson 2 - Complete subjects and predicates.html",
+                                                      "kind": "Lesson"
+                                              },
+                                              {
+                                                      "title": "Simple Subjects and Predicates Touchscreen Tutor",
+                                                      "path": "Language&Art/unit 1 (all lesson)/Final lesson 3 - Simple_Subjects_and_Predicates.html",
+                                                      "kind": "Lesson"
+                                              },
+                                              {
+                                                      "title": "Imperatives and Interrogatives Touchscreen Tutor",
+                                                      "path": "Language&Art/unit 1 (all lesson)/Final lesson 4 - Imperatives_and_Interrogatives.html",
+                                                      "kind": "Lesson"
+                                              },
+                                              {
+                                                      "title": "Compound Subjects Touchscreen Tutor",
+                                                      "path": "Language&Art/unit 1 (all lesson)/Final lesson 5 - Compound_Subjects.html",
+                                                      "kind": "Lesson"
+                                              },
+                                              {
+                                                      "title": "Compound Predicates Touchscreen Tutor",
+                                                      "path": "Language&Art/unit 1 (all lesson)/Final lesson 6 - Compound_Predicates.html",
+                                                      "kind": "Lesson"
+                                              },
+                                              {
+                                                      "title": "Compound Sentences Touchscreen Tutor",
+                                                      "path": "Language&Art/unit 1 (all lesson)/Final lesson 7 - Compound_Sentences.html",
+                                                      "kind": "Lesson"
+                                              },
+                                              {
+                                                      "title": "Conjunctions Touchscreen Tutor",
+                                                      "path": "Language&Art/unit 1 (all lesson)/Final lesson 8 - Conjunctions.html",
+                                                      "kind": "Lesson"
+                                              },
+                                              {
+                                                      "title": "Complex Sentences Touchscreen Tutor",
+                                                      "path": "Language&Art/unit 1 (all lesson)/Final lesson 9 - Complex_Sentences.html",
+                                                      "kind": "Lesson"
+                                              },
+                                              {
+                                                      "title": "Fragments and Run-ons Touchscreen Tutor",
+                                                      "path": "Language&Art/unit 1 (all lesson)/Final lesson 10 - Fragments_Runons.html",
+                                                      "kind": "Lesson"
+                                              },
+                                              {
+                                                      "title": "Grade 6 Tutor — Sentence Structures & Story Elements",
+                                                      "path": "Language&Art/unit 1 (all lesson)/Final lesson 11 - Sentence_Structures_and_Story_Elements_Tutor & Quiz.html",
+                                                      "kind": "Quiz"
+                                              },
+                                              {
+                                                      "title": "Sentence Basics Quiz 40",
+                                                      "path": "Language&Art/unit 1 (all lesson)/Final Quiz lesson 1-6 40 question.html",
+                                                      "kind": "Quiz"
+                                              },
+                                              {
+                                                      "title": "Sentence Structures Lessons 7–10 Quiz 40",
+                                                      "path": "Language&Art/unit 1 (all lesson)/Final Quiz Lesson 7-10 40 question.html",
+                                                      "kind": "Quiz"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Unit 2 - nouns",
+                                      "items": [
+                                              {
+                                                      "title": "Grade 6 Nouns — Touchscreen Tutor",
+                                                      "path": "Language&Art/unit 2 - nouns/Final - LA_Unit2_Nouns.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Unit 3 - verbs › Lesson 1-5",
+                                      "items": [
+                                              {
+                                                      "title": "Grade 6 Unit 3 Verbs Touchscreen Tutor",
+                                                      "path": "Language&Art/unit 3 - verbs/lesson 1-5/Final - LA_Unit2_Verbs lesson 1-5.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Unit 3 - verbs › Lesson 6-13",
+                                      "items": [
+                                              {
+                                                      "title": "Grade 6 Unit 3 Verbs Lessons 3.6 to 3.13",
+                                                      "path": "Language&Art/unit 3 - verbs/lesson 6-13/Final - LA_Unit2_Verbs lesson 6-13.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              }
+                      ]
+              },
+              {
+                      "name": "Science",
+                      "icon": "🔬",
+                      "groups": [
+                              {
+                                      "name": "Chapter 1",
+                                      "items": [
+                                              {
+                                                      "title": "Grade 6 Science — Lesson 1 Maps",
+                                                      "path": "Science/chapter 1/Final G6_Science_Lesson1_Maps.html",
+                                                      "kind": "Lesson"
+                                              },
+                                              {
+                                                      "title": "Grade 6 Science — Lesson 2 Technology and Mapmaking",
+                                                      "path": "Science/chapter 1/Final G6_Science_Lesson2_Technology_and_Mapmaking.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 2",
+                                      "items": [
+                                              {
+                                                      "title": "Grade 6 Science - Earth's Structure: Lesson 1",
+                                                      "path": "Science/chapter 2/Final - Lesson1_Earths_Structure_Quiz.html",
+                                                      "kind": "Quiz"
+                                              },
+                                              {
+                                                      "title": "Grade 6 Science Earth's Interior Lesson 2",
+                                                      "path": "Science/chapter 2/Final - Lesson2_Earths_Interior_Quiz.html",
+                                                      "kind": "Quiz"
+                                              },
+                                              {
+                                                      "title": "Grade 6 Science — Lesson 3: Earth's Surface",
+                                                      "path": "Science/chapter 2/Final - Lesson3_Earths_Surface_Quiz.html",
+                                                      "kind": "Quiz"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 3 › Lesson 1",
+                                      "items": [
+                                              {
+                                                      "title": "What Is a Mineral? | Grade 6 Science",
+                                                      "path": "Science/chapter 3/lesson 1/Final - Lesson 1 Grade6_Science_Minerals_Lesson1.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 3 › Lesson 2",
+                                      "items": [
+                                              {
+                                                      "title": "How Are Minerals Identified? | Grade 6 Science",
+                                                      "path": "Science/chapter 3/lesson 2/Final - Grade6_Science_Minerals_Lesson2.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 3 › Lesson 3",
+                                      "items": [
+                                              {
+                                                      "title": "Sources and Uses of Minerals - Touchscreen Tutor",
+                                                      "path": "Science/chapter 3/lesson 3/Final - Lesson 3 Sources_and_Uses_of_Minerals.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 4 › Lesson 1",
+                                      "items": [
+                                              {
+                                                      "title": "Chapter 4 Rocks and the Rock Cycle",
+                                                      "path": "Science/chapter 4/lesson 1/Final - Chapter_4_lesson_1_Rocks_and_Rock_Cycle.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 4 › Lesson 2",
+                                      "items": [
+                                              {
+                                                      "title": "Igneous Rocks Lesson 2 Touchscreen Tutor",
+                                                      "path": "Science/chapter 4/lesson 2/Final - Lesson_2_Igneous_Rocks.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 4 › Lesson 3",
+                                      "items": [
+                                              {
+                                                      "title": "Sedimentary Rocks — Touchscreen Tutor",
+                                                      "path": "Science/chapter 4/lesson 3/Final - Lesson_3_Sedimentary_Rocks.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 4 › Lesson 4",
+                                      "items": [
+                                              {
+                                                      "title": "Metamorphic Rocks Touchscreen Tutor",
+                                                      "path": "Science/chapter 4/lesson 4/Final - Lesson 4 Metamorphic_Rocks.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              }
+                      ]
+              },
+              {
+                      "name": "Social",
+                      "icon": "🌍",
+                      "groups": [
+                              {
+                                      "name": "Chapter 1 Lesson 1",
+                                      "items": [
+                                              {
+                                                      "title": "What Is History? — Grade 6 Touchscreen Tutor",
+                                                      "path": "Social/Chapter 1 lesson 1/Final - Chapter1_Lesson1_What_Is_History.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 1 Lesson 2",
+                                      "items": [
+                                              {
+                                                      "title": "How Does a Historian Work? — Touchscreen Tutor",
+                                                      "path": "Social/Chapter 1 lesson 2/Final - Historian_Work_Touchscreen_Tutor.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 1 Lesson 3",
+                                      "items": [
+                                              {
+                                                      "title": "Lesson 3 — Researching History | Touchscreen Tutor",
+                                                      "path": "Social/Chapter 1 lesson 3/Researching_History_Touchscreen_Tutor.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 2 Lesson 1 Study Geography",
+                                      "items": [
+                                              {
+                                                      "title": "Geography Touchscreen Tutor",
+                                                      "path": "Social/Chapter 2 lesson 1 Study Geography/Final - Geography_Touchscreen_Tutor_40Q.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 2 Lesson 2 Exploring Economics",
+                                      "items": [
+                                              {
+                                                      "title": "Lesson 2: Exploring Economics — Touchscreen Tutor",
+                                                      "path": "Social/Chapter 2 lesson 2 Exploring Economics/Final lesson2_exploring_economics_touchscreen_tutor.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 3 Lesson 1",
+                                      "items": [
+                                              {
+                                                      "title": "Hunter-Gatherers Touchscreen Tutor",
+                                                      "path": "Social/Chapter 3 lesson 1/Final - Chapter 3 Lesson 1 Hunter_Gatherers.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 3 Lesson 2",
+                                      "items": [
+                                              {
+                                                      "title": "Grade 6 Social Studies - Lesson 2: The Agricultural Revolution",
+                                                      "path": "Social/Chapter 3 lesson 2/Final - G6_Social_Lesson2_Agricultural_Revolution_Touchscreen_Tutor.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 4 Lesson 1",
+                                      "items": [
+                                              {
+                                                      "title": "Grade 6 Social Studies — Mesopotamia Lesson 1: The Sumerians",
+                                                      "path": "Social/Chapter 4 lesson 1/Final - G6_Social_Mesopotamia_L1_Sumerians_HIGH_30Q.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 4 Lesson 2",
+                                      "items": [
+                                              {
+                                                      "title": "Grade 6 Social Studies — Mesopotamian Empires Lesson 2",
+                                                      "path": "Social/Chapter 4 lesson 2/Final - G6_Social_Mesopotamian_Empires_L2_HIGH_30Q.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 5 Lesson 1",
+                                      "items": [
+                                              {
+                                                      "title": "Grade 6 Social Studies — Ancient Egypt Lesson 1: The Nile River",
+                                                      "path": "Social/Chapter 5 lesson 1/Final - G6_Social_Ancient_Egypt_L1_Nile_River_HIGH_30Q.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 5 Lesson 2",
+                                      "items": [
+                                              {
+                                                      "title": "G6 Social — Life in Ancient Egypt MEDIUM",
+                                                      "path": "Social/Chapter 5 lesson 2/Final - G6_Social_Ancient_Egypt_L2_MEDIUM_24Slides_30Q.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 5 Lesson 3",
+                                      "items": [
+                                              {
+                                                      "title": "G6 Social — Egypt's Empire MEDIUM",
+                                                      "path": "Social/Chapter 5 lesson 3/Final - G6_Social_Ancient_Egypt_L3_Egypts_Empire_MEDIUM_30Q.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 5 Lesson 4",
+                                      "items": [
+                                              {
+                                                      "title": "G6 Social — The Kingdom of Kush MEDIUM",
+                                                      "path": "Social/Chapter 5 lesson 4/Final - G6_Social_Kingdom_of_Kush_L4_MEDIUM_24Slides_30Q.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              }
+                      ]
+              },
+              {
+                      "name": "Value",
+                      "icon": "⭐",
+                      "groups": [
+                              {
+                                      "name": "Chapter 1.1",
+                                      "items": [
+                                              {
+                                                      "title": "Chapter 1 The World's Greatest Gift Touchscreen Tutor",
+                                                      "path": "Value/Chapter 1.1/Final - Chapter_1_The_Worlds_Greatest_Gift_Touchscreen_Tutor.html",
+                                                      "kind": "Quiz"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "Chapter 1.2",
+                                      "items": [
+                                              {
+                                                      "title": "Chapter 2 Growing Up Touchscreen Tutor",
+                                                      "path": "Value/Chapter 1.2/Final chapter2_growing_up_touchscreen_tutor V2.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              }
+                      ]
+              },
+              {
+                      "name": "Writing",
+                      "icon": "✍️",
+                      "groups": [
+                              {
+                                      "name": "Writing",
+                                      "items": [
+                                              {
+                                                      "title": "Grade 6 Writing Animated Touchscreen Tutor",
+                                                      "path": "Writing/Final - G6_Writing_Animated_Touchscreen_Tutor.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              }
+                      ]
+              },
+              {
+                      "name": "ภาษาไทย",
+                      "icon": "ก",
+                      "groups": [
+                              {
+                                      "name": "1,2 ผาแต้ม ประชาคม",
+                                      "items": [
+                                              {
+                                                      "title": "ภาษาไทย Grade 6 — Full Summary Touchscreen",
+                                                      "path": "ภาษาไทย/1,2 ผาแต้ม ประชาคม/Final - Thai_Grade6_EXACT_FullSummary_Touchscreen_Quiz30.html",
+                                                      "kind": "Quiz"
+                                              }
+                                      ]
+                              },
+                              {
+                                      "name": "3 คำนาม สรรพนาม กริยา",
+                                      "items": [
+                                              {
+                                                      "title": "ภาษาไทย ป.6 — Slide Tutor คำนาม สรรพนาม กริยา",
+                                                      "path": "ภาษาไทย/3 คำนาม สรรพนาม กริยา/Final - Thai_lesson3_noun_pronoun_verb.html",
+                                                      "kind": "Lesson"
+                                              }
+                                      ]
+                              }
+                      ]
+              }
+      ];
+
+      const subjectMenu = document.getElementById("subject-menu");
+      const detailView = document.getElementById("detail-view");
+      const backButton = document.getElementById("back-button");
+      const activeSubjectTitle = document.getElementById("active-subject-title");
+      const searchInput = document.getElementById("search");
+      const clearButton = document.getElementById("clear-search");
+      const resultStatus = document.getElementById("result-status");
+      const lessonList = document.getElementById("lesson-list");
+      const emptyState = document.getElementById("empty-state");
+      let activeSubject = null;
+      let lastSubjectButton = null;
+
+      function normalize(value) {
+        return value.toLocaleLowerCase().trim().replace(/\s+/g, " ");
+      }
+
+      function makeSubjectMenu() {
+        catalog.forEach((subject) => {
+          const button = document.createElement("button");
+          button.className = "subject-button";
+          button.type = "button";
+          button.dataset.subject = subject.name;
+          button.setAttribute("aria-label", `Open ${subject.name}`);
+          button.innerHTML = `
+            <span class="subject-icon" aria-hidden="true">${subject.icon}</span>
+            <span class="subject-name">${subject.name}</span>
+            <span class="subject-arrow" aria-hidden="true">›</span>`;
+          button.addEventListener("click", () => openSubject(subject, button));
+          subjectMenu.appendChild(button);
+        });
+      }
+
+      function renderLessons() {
+        const query = normalize(searchInput.value);
+        let visibleCount = 0;
+        const totalCount = activeSubject.groups.reduce((sum, group) => sum + group.items.length, 0);
+        lessonList.replaceChildren();
+
+        activeSubject.groups.forEach((group) => {
+          const matches = group.items.filter((item) =>
+            normalize(`${activeSubject.name} ${group.name} ${item.title}`).includes(query)
+          );
+          if (!matches.length) return;
+
+          const section = document.createElement("section");
+          section.className = "folder-group";
+          const heading = document.createElement("h3");
+          heading.className = "folder-title";
+          heading.textContent = group.name;
+          const grid = document.createElement("div");
+          grid.className = "lesson-grid";
+
+          matches.forEach((item) => {
+            const link = document.createElement("a");
+            link.className = "lesson-card";
+            link.href = item.path;
+            link.target = "_blank";
+            link.rel = "noopener";
+            link.dataset.kind = item.kind;
+            link.innerHTML = `
+              <span class="lesson-badge">${item.kind}</span>
+              <span class="lesson-title">${item.title}</span>
+              <span class="open-icon" aria-hidden="true">↗</span>`;
+            grid.appendChild(link);
+            visibleCount += 1;
+          });
+
+          section.append(heading, grid);
+          lessonList.appendChild(section);
+        });
+
+        clearButton.disabled = !query;
+        emptyState.classList.toggle("show", visibleCount === 0);
+        resultStatus.textContent = query
+          ? `${visibleCount} ${visibleCount === 1 ? "lesson" : "lessons"} found`
+          : `Showing all ${totalCount} ${totalCount === 1 ? "lesson" : "lessons"}`;
+      }
+
+      function openSubject(subject, button) {
+        activeSubject = subject;
+        lastSubjectButton = button;
+        searchInput.value = "";
+        activeSubjectTitle.textContent = subject.name;
+        subjectMenu.hidden = true;
+        detailView.hidden = false;
+        renderLessons();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        backButton.focus({ preventScroll: true });
+      }
+
+      function showSubjectMenu() {
+        activeSubject = null;
+        searchInput.value = "";
+        lessonList.replaceChildren();
+        emptyState.classList.remove("show");
+        detailView.hidden = true;
+        subjectMenu.hidden = false;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (lastSubjectButton) lastSubjectButton.focus({ preventScroll: true });
+      }
+
+      searchInput.addEventListener("input", renderLessons);
+      searchInput.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          searchInput.value = "";
+          renderLessons();
+        }
+      });
+
+      clearButton.addEventListener("click", () => {
+        searchInput.value = "";
+        renderLessons();
+        searchInput.focus();
+      });
+
+      backButton.addEventListener("click", showSubjectMenu);
+      makeSubjectMenu();
+      showSubjectMenu();
+    })();
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 6 Nouns — Touchscreen Tutor</title>
+<style>
+:root {
+  --bg1:#eef7ff; --bg2:#fff7e8; --card:#ffffff; --ink:#17324d; --muted:#5c7084;
+  --accent:#5b67f1; --accent2:#ff9f43; --green:#16a085; --red:#d64545;
+  --line:#dfe9f3; --yellow:#fff5b8;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--ink)}
+button{font:inherit}
+.app{min-height:100vh;display:flex;flex-direction:column}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 14px;display:flex;gap:10px;align-items:center}
+.brand{font-weight:800;flex:1}
+.progress-wrap{width:min(260px,35vw);height:12px;background:#e8eef5;border-radius:999px;overflow:hidden}
+.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--green));transition:.3s}
+.progress-text{font-size:13px;color:var(--muted);white-space:nowrap}
+.stage{width:min(1100px,96vw);margin:18px auto 100px}
+.slide{display:none;background:var(--card);border-radius:24px;box-shadow:0 16px 50px rgba(30,60,90,.12);padding:clamp(18px,3vw,34px);min-height:72vh;animation:fade .25s ease}
+.slide.active{display:block}
+@keyframes fade{from{opacity:.25;transform:translateY(8px)}to{opacity:1;transform:none}}
+h1{font-size:clamp(28px,4vw,46px);margin:0 0 16px;color:#28406b}
+h2{font-size:clamp(24px,3vw,36px);margin:8px 0}
+h3{margin:12px 0 8px;color:#344f88}
+p,li,td,th{font-size:clamp(16px,1.8vw,20px);line-height:1.45}
+table{width:100%;border-collapse:collapse;margin:14px 0;background:#fff;border-radius:14px;overflow:hidden}
+th,td{border:1px solid var(--line);padding:12px;vertical-align:top}
+th{background:#eef2ff;color:#31416d}
+mark{background:var(--yellow);padding:2px 5px;border-radius:6px;font-weight:800}
+.remember{margin-top:24px;background:linear-gradient(90deg,#fff4b0,#fff9db);border:2px solid #f0d85d;border-radius:16px;padding:14px 18px;font-size:clamp(16px,1.8vw,20px);font-weight:800}
+.navbar{position:fixed;bottom:0;left:0;right:0;z-index:30;background:rgba(255,255,255,.96);border-top:1px solid var(--line);padding:10px;display:flex;gap:10px;justify-content:center}
+.navbtn,.primary,.secondary,.menu-card,.choice,.qa button{border:0;border-radius:16px;cursor:pointer;transition:.18s}
+.navbtn{min-width:120px;padding:14px 18px;background:#eef2f7;color:var(--ink);font-weight:800}
+.navbtn.primary{background:var(--accent);color:#fff}
+.navbtn:hover,.primary:hover,.menu-card:hover,.choice:hover,.qa button:hover{transform:translateY(-1px)}
+.hero{text-align:center;padding:4px 0 14px}
+.big-icon{font-size:64px}
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.menu-card{padding:20px;text-align:left;background:#f7f9ff;border:2px solid #e6e9ff;font-weight:800;font-size:20px;min-height:88px}
+.menu-card span{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--accent);color:white;margin-right:10px}
+.menu-card.special{background:#fff9df;border-color:#f2dd7c}
+.menu-card.quiz-card{background:#eafbf5;border-color:#9fddca}
+.must-know,.example-box,.note,.flow{border-radius:16px;padding:16px;margin:14px 0}
+.must-know{background:#f3f7ff;border-left:6px solid var(--accent)}
+.example-box{background:#f8fbfd;border:1px solid var(--line)}
+.note{background:#fff7ed;border-left:6px solid var(--accent2)}
+.flow{background:#effaf6;border:1px solid #c8eadf;text-align:center;font-size:clamp(18px,2vw,24px)}
+.four-grid,.five-examples,.review-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:14px 0}
+.four-grid>div,.five-examples>div,.review-grid>div{padding:16px;border-radius:14px;background:#f6f8fb;border:1px solid var(--line)}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.panel{background:#f7f9fc;border:1px solid var(--line);padding:16px;border-radius:14px}
+.small{font-size:14px;color:var(--muted)}
+.qa{display:grid;gap:10px}
+.qa.two-col{grid-template-columns:1fr 1fr}
+.qa button{text-align:left;background:#f8fafc;border:1px solid var(--line);padding:14px 16px;color:var(--ink);font-weight:700}
+.qa button span{display:none;margin-top:9px;padding-top:9px;border-top:1px dashed #cbd6e2;font-weight:500}
+.qa button.open span{display:block}
+.instruction{color:var(--muted)}
+.checklist{list-style:none;padding:0}
+.checklist li{padding:8px 0}
+.primary{background:var(--accent);color:white;padding:14px 18px;font-weight:800}
+.secondary{background:#edf1f7;color:var(--ink);padding:14px 18px;font-weight:800}
+.huge{width:100%;font-size:22px;padding:18px}
+.quiz-shell{display:none;background:white;border-radius:24px;box-shadow:0 16px 50px rgba(30,60,90,.12);padding:clamp(18px,3vw,34px);min-height:72vh}
+.quiz-shell.active{display:block}
+.quiz-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.quiz-head .spacer{flex:1}
+.badge{background:#eef2ff;color:#394895;border-radius:999px;padding:8px 12px;font-weight:800}
+.question{font-size:clamp(23px,3vw,34px);font-weight:800;margin:24px 0 16px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.choice{background:#f7f9fc;border:2px solid var(--line);padding:18px;text-align:left;font-weight:800;min-height:72px}
+.choice.correct{background:#e8f8f1;border-color:#70c9a9}
+.choice.wrong{background:#fff0f0;border-color:#e99a9a}
+.choice:disabled{pointer-events:none}
+.feedback{min-height:76px;margin-top:16px;padding:14px;border-radius:14px;display:none}
+.feedback.show{display:block}
+.feedback.good{background:#eaf9f2;color:#126747}
+.feedback.bad{background:#fff1f1;color:#8c2525}
+.quiz-actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.score-box{text-align:center;padding:22px}
+.score-big{font-size:64px;font-weight:900;color:var(--accent)}
+.review-list{max-width:700px;margin:12px auto;text-align:left}
+.hidden{display:none!important}
+@media(max-width:760px){
+  .compare,.choices,.qa.two-col{grid-template-columns:1fr}
+  .navbar{justify-content:stretch}
+  .navbtn{flex:1;min-width:0}
+  .progress-wrap{display:none}
+  .stage{width:98vw;margin-top:8px}
+  .slide,.quiz-shell{border-radius:16px;min-height:78vh;padding:18px}
+  th,td{padding:9px;font-size:16px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand">📘 Grade 6 Nouns Tutor</div>
+    <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="progress-text" id="progressText"></div>
+  </div>
+
+  <main class="stage" id="stage"></main>
+
+  <div class="navbar" id="navbar">
+    <button class="navbtn" onclick="goHome()">🏠 Menu</button>
+    <button class="navbtn" id="backBtn" onclick="prevSlide()">← Back</button>
+    <button class="navbtn primary" id="nextBtn" onclick="nextSlide()">Next →</button>
+    <button class="navbtn" onclick="restartTutor()">↻ Restart</button>
+  </div>
+</div>
+
+<script>
+const slides = [{"id": "home", "lesson": 0, "title": "Grade 6 Nouns — Touchscreen Tutor", "body": "\n        <div class=\"hero\">\n          <div class=\"big-icon\">📘</div>\n          <h2>Choose a lesson to begin</h2>\n          <p>This tutor follows the five noun lessons from your study material.</p>\n        </div>\n        <div class=\"menu-grid\">\n          <button class=\"menu-card\" onclick=\"goToSlide('l1-1')\"><span>1</span>Recognizing Nouns</button>\n          <button class=\"menu-card\" onclick=\"goToSlide('l2-1')\"><span>2</span>Common and Proper Nouns</button>\n          <button class=\"menu-card\" onclick=\"goToSlide('l3-1')\"><span>3</span>Singular and Plural Nouns</button>\n          <button class=\"menu-card\" onclick=\"goToSlide('l4-1')\"><span>4</span>Possessive Nouns</button>\n          <button class=\"menu-card\" onclick=\"goToSlide('l5-1')\"><span>5</span>Plural and Possessive Nouns</button>\n          <button class=\"menu-card special\" onclick=\"goToSlide('review')\"><span>⭐</span>Final Lesson Review</button>\n          <button class=\"menu-card quiz-card\" onclick=\"startFinalQuiz()\"><span>🏁</span>Final 30-Question Quiz</button>\n        </div>\n        ", "remember": "Start with any lesson. You can return to this menu at any time."}, {"id": "l1-1", "lesson": 1, "title": "Lesson 1 — Recognizing Nouns", "body": "\n        <div class=\"must-know\">\n          <h3>What You Must Know</h3>\n          <p><b>A noun is a word that names a person, a place, a thing, or an idea.</b></p>\n          <div class=\"four-grid\">\n            <div><b>Person</b><br>Gina</div>\n            <div><b>Place</b><br>United States</div>\n            <div><b>Thing</b><br>tools</div>\n            <div><b>Idea</b><br>history</div>\n          </div>\n        </div>\n        <p>An idea noun can name something that cannot be touched. The study material gives <b>time</b>, <b>friendship</b>, <b>anger</b>, and <b>summer</b> as examples.</p>\n        <div class=\"flow\"><b>Word</b> → names a person/place/thing/idea → <b>NOUN</b></div>\n        ", "remember": "A noun names a person, place, thing, or idea."}, {"id": "l1-2", "lesson": 1, "title": "Recognizing Nouns — More Than One Word", "body": "\n        <p>A noun can be made up of <b>more than one word</b>.</p>\n        <table>\n          <tr><th>Type</th><th>Examples from the material</th></tr>\n          <tr><td>Person</td><td>baby sitter, Jan Smith, Dr. Jones, President Adams</td></tr>\n          <tr><td>Place</td><td>dining room, Hill School, Pacific Ocean, New Mexico</td></tr>\n          <tr><td>Thing</td><td>fire engine, credit card, look-alike, frying pan</td></tr>\n        </table>\n        <div class=\"example-box\"><b>5 easy examples:</b> baby sitter • Hill School • Pacific Ocean • credit card • frying pan</div>\n        ", "remember": "A noun can be one word or more than one word."}, {"id": "l1-3", "lesson": 1, "title": "Recognizing Nouns — Source Practice 21–26", "body": "\n        <p class=\"instruction\">Find the nouns. Tap each answer to reveal it.</p>\n        <div class=\"qa\">\n          <button onclick=\"toggleAnswer(this)\">21. Inventors have special talents.<span>Answer: <mark>Inventors, talents</mark></span></button>\n          <button onclick=\"toggleAnswer(this)\">22. A clever invention can save time for a person.<span>Answer: <mark>invention, time, person</mark></span></button>\n          <button onclick=\"toggleAnswer(this)\">23. Many years ago people hunted for food.<span>Answer: <mark>years, people, food</mark></span></button>\n          <button onclick=\"toggleAnswer(this)\">24. Then a hunter invented the bow and the arrow.<span>Answer: <mark>hunter, bow, arrow</mark></span></button>\n          <button onclick=\"toggleAnswer(this)\">25. Plants from farms soon became a source for food too.<span>Answer: <mark>Plants, farms, source, food</mark></span></button>\n          <button onclick=\"toggleAnswer(this)\">26. Families moved to villages and traded goods.<span>Answer: <mark>Families, villages, goods</mark></span></button>\n        </div>\n        ", "remember": "Look for the words that name people, places, things, or ideas."}, {"id": "l1-4", "lesson": 1, "title": "Recognizing Nouns — Source Practice 27–31", "body": "\n        <div class=\"qa\">\n          <button onclick=\"toggleAnswer(this)\">27. Now a store sells a meal in a can or a box.<span>Answer: <mark>store, meal, can, box</mark></span></button>\n          <button onclick=\"toggleAnswer(this)\">28. Inventors are always creating new machines or engines.<span>Answer: <mark>Inventors, machines, engines</mark></span></button>\n          <button onclick=\"toggleAnswer(this)\">29. Eli Whitney helped farmers in the United States.<span>Answer: <mark>Eli Whitney, farmers, United States</mark></span></button>\n          <button onclick=\"toggleAnswer(this)\">30. His machine removed seeds from cotton.<span>Answer: <mark>machine, seeds, cotton</mark></span></button>\n          <button onclick=\"toggleAnswer(this)\">31. The curiosity of the inventor has improved life.<span>Answer: <mark>curiosity, inventor, life</mark></span></button>\n        </div>\n        <div class=\"keyword-table\">\n          <h3>Keyword</h3>\n          <table><tr><th>Word</th><th>Meaning</th><th>Memory Tip</th></tr>\n          <tr><td><b>noun</b></td><td>a word that names a person, place, thing, or idea</td><td>Name = noun</td></tr></table>\n        </div>\n        ", "remember": "Names of ideas such as curiosity and life can also be nouns."}, {"id": "l1-end", "lesson": 1, "title": "Lesson 1 Quick Review", "body": "\n        <ul class=\"checklist\">\n          <li>☐ A noun names a person, place, thing, or idea.</li>\n          <li>☐ An idea can be something that cannot be touched.</li>\n          <li>☐ A noun can have more than one word.</li>\n          <li>☐ You can find nouns by asking, “What words name something?”</li>\n        </ul>\n        <button class=\"primary huge\" onclick=\"startLessonQuiz(1)\">Start Lesson 1 Quiz — 15 Questions</button>\n        ", "remember": "Person • Place • Thing • Idea"}, {"id": "l2-1", "lesson": 2, "title": "Lesson 2 — Common and Proper Nouns", "body": "\n        <div class=\"compare\">\n          <div class=\"panel\">\n            <h3>Common Noun</h3>\n            <p><b>A common noun names any person, place, thing, or idea.</b></p>\n          </div>\n          <div class=\"panel\">\n            <h3>Proper Noun</h3>\n            <p><b>A proper noun names a particular person, place, thing, or idea.</b></p>\n            <p><b>A proper noun begins with a capital letter.</b></p>\n          </div>\n        </div>\n        <div class=\"flow\">Any one → <b>common</b> &nbsp;&nbsp;|&nbsp;&nbsp; Particular one → <b>proper</b></div>\n        ", "remember": "Common = any one. Proper = a particular one + capital letter."}, {"id": "l2-2", "lesson": 2, "title": "Common vs. Proper — 5 Source Examples", "body": "\n        <table>\n          <tr><th>Common</th><th>Proper</th></tr>\n          <tr><td>city</td><td><b>Boston</b></td></tr>\n          <tr><td>girl</td><td><b>Amy</b></td></tr>\n          <tr><td>ocean</td><td><b>Indian Ocean</b></td></tr>\n          <tr><td>state</td><td><b>New York</b></td></tr>\n          <tr><td>month</td><td><b>July</b></td></tr>\n        </table>\n        <p>If a proper noun has more than one word, capitalize the <b>important words</b>.</p>\n        <div class=\"example-box\">New Jersey • Gulf of Mexico • Statue of Liberty</div>\n        ", "remember": "Proper nouns name particular people, places, things, or ideas."}, {"id": "l2-3", "lesson": 2, "title": "Family Words as Names", "body": "\n        <p>When a family word is used <b>as a name</b>, capitalize it. Otherwise, do not capitalize it.</p>\n        <div class=\"compare\">\n          <div class=\"panel\"><b>Name use</b><br>Dad<br><span class=\"small\">“...is a hero to Dad.”</span></div>\n          <div class=\"panel\"><b>Not a name</b><br>mom<br><span class=\"small\">“My mom took photos...”</span></div>\n        </div>\n        <p>From the source practice:</p>\n        <div class=\"example-box\"><b>Aunt Mattie</b>, <b>Mom</b>, and my <b>grandfather</b> watched his trip on television.</div>\n        ", "remember": "Family word used as a name → capitalize it."}, {"id": "l2-4", "lesson": 2, "title": "Common and Proper — Source Practice", "body": "\n        <div class=\"qa\">\n          <button onclick=\"toggleAnswer(this)\">1. Edward White was the first American to walk in space.<span>Answer: <mark>Edward White</mark> (proper), <mark>American</mark> (common), <mark>space</mark> (common)</span></button>\n          <button onclick=\"toggleAnswer(this)\">2. The astronaut practiced daily in an airtight room for several hours.<span>Answer: <mark>astronaut, room, hours</mark> (common)</span></button>\n          <button onclick=\"toggleAnswer(this)\">3. Astronaut White walked in space above California.<span>Answer: <mark>White, California</mark> (proper); <mark>space</mark> (common)</span></button>\n          <button onclick=\"toggleAnswer(this)\">4. Could White see the Gulf of Santa Catalina?<span>Answer: <mark>White, Gulf of Santa Catalina</mark> (proper)</span></button>\n          <button onclick=\"toggleAnswer(this)\">5. The astronaut did not want to return to the spacecraft immediately.<span>Answer: <mark>astronaut, spacecraft</mark> (common)</span></button>\n        </div>\n        ", "remember": "Check whether the noun names any one or one particular person/place/thing/idea."}, {"id": "l2-5", "lesson": 2, "title": "Common and Proper — More Source Practice", "body": "\n        <div class=\"qa\">\n          <button onclick=\"toggleAnswer(this)\">6. His pilot convinced White to come back.<span>Answer: <mark>pilot</mark> (common), <mark>White</mark> (proper)</span></button>\n          <button onclick=\"toggleAnswer(this)\">7. The spacecraft orbited Earth before the flight ended.<span>Answer: <mark>spacecraft, flight</mark> (common), <mark>Earth</mark> (proper)</span></button>\n          <button onclick=\"toggleAnswer(this)\">8. A crew and a ship waited patiently in the Atlantic Ocean.<span>Answer: <mark>crew, ship</mark> (common), <mark>Atlantic Ocean</mark> (proper)</span></button>\n          <button onclick=\"toggleAnswer(this)\">9. Aunt Mattie, Mom, and my grandfather watched his trip on television.<span>Answer: <mark>Aunt Mattie, Mom</mark> (proper); <mark>grandfather, trip, television</mark> (common)</span></button>\n        </div>\n        <div class=\"keyword-table\">\n          <table><tr><th>Word</th><th>Meaning</th><th>Memory Tip</th></tr>\n          <tr><td><b>common noun</b></td><td>names any person, place, thing, or idea</td><td>Common = any one</td></tr>\n          <tr><td><b>proper noun</b></td><td>names a particular person, place, thing, or idea</td><td>Proper = particular + capital</td></tr></table>\n        </div>\n        ", "remember": "Proper noun = particular name + capital letter."}, {"id": "l2-end", "lesson": 2, "title": "Lesson 2 Quick Review", "body": "\n        <ul class=\"checklist\">\n          <li>☐ Common noun = any person, place, thing, or idea.</li>\n          <li>☐ Proper noun = a particular person, place, thing, or idea.</li>\n          <li>☐ Proper nouns begin with capital letters.</li>\n          <li>☐ In a multiword proper noun, capitalize the important words.</li>\n          <li>☐ Family word used as a name → capitalize it.</li>\n        </ul>\n        <button class=\"primary huge\" onclick=\"startLessonQuiz(2)\">Start Lesson 2 Quiz — 15 Questions</button>\n        ", "remember": "Any = common. Particular = proper."}, {"id": "l3-1", "lesson": 3, "title": "Lesson 3 — Singular and Plural Nouns", "body": "\n        <div class=\"compare\">\n          <div class=\"panel\"><h3>Singular Noun</h3><p>Names <b>one</b> person, place, thing, or idea.</p></div>\n          <div class=\"panel\"><h3>Plural Noun</h3><p>Names <b>more than one</b> person, place, thing, or idea.</p></div>\n        </div>\n        <table>\n          <tr><th>Singular</th><th>Plural</th></tr>\n          <tr><td>truck</td><td>trucks</td></tr>\n          <tr><td>plant</td><td>plants</td></tr>\n          <tr><td>letter</td><td>letters</td></tr>\n          <tr><td>noise</td><td>noises</td></tr>\n          <tr><td>Jane</td><td>Janes</td></tr>\n        </table>\n        ", "remember": "Singular = one. Plural = more than one."}, {"id": "l3-2", "lesson": 3, "title": "Forming Plurals — s and es", "body": "\n        <table>\n          <tr><th>Singular ending</th><th>Plural form</th><th>Source examples</th></tr>\n          <tr><td>s, ss, ch, sh, x, z</td><td>Add <b>-es</b></td><td>Thomas→Thomases, boss→bosses, porch→porches, bush→bushes, fox→foxes, waltz→waltzes</td></tr>\n          <tr><td>consonant + o</td><td>Add <b>-es</b></td><td>potato→potatoes, veto→vetoes, echo→echoes</td></tr>\n          <tr><td>vowel + o</td><td>Add <b>-s</b></td><td>radio→radios, studio→studios</td></tr>\n        </table>\n        <div class=\"note\">The material also shows some consonant + o words that add only <b>-s</b>: Eskimo→Eskimos, solo→solos, piano→pianos, cello→cellos.</div>\n        ", "remember": "Check the ending of the singular noun before making it plural."}, {"id": "l3-3", "lesson": 3, "title": "Forming Plurals — y, f, and fe", "body": "\n        <table>\n          <tr><th>Ending</th><th>Rule</th><th>Source examples</th></tr>\n          <tr><td>consonant + y</td><td>Change <b>y to i</b> and add <b>-es</b></td><td>baby→babies, party→parties, country→countries</td></tr>\n          <tr><td>vowel + y</td><td>Add <b>-s</b></td><td>day→days, turkey→turkeys</td></tr>\n          <tr><td>f or fe</td><td>Sometimes change <b>f to v</b> and add <b>-s or -es</b></td><td>life→lives, half→halves, wolf→wolves; roof→roofs, chef→chefs</td></tr>\n        </table>\n        ", "remember": "Consonant + y → y becomes i + es. Vowel + y → add s."}, {"id": "l3-4", "lesson": 3, "title": "Special Plural Forms", "body": "\n        <h3>Same spelling in singular and plural</h3>\n        <div class=\"example-box\">moose → moose &nbsp; • &nbsp; salmon → salmon &nbsp; • &nbsp; deer → deer</div>\n        <h3>Different spelling in the plural</h3>\n        <table>\n          <tr><td>child → <b>children</b></td><td>woman → <b>women</b></td><td>tooth → <b>teeth</b></td></tr>\n          <tr><td>man → <b>men</b></td><td>goose → <b>geese</b></td><td>mouse → <b>mice</b></td></tr>\n        </table>\n        ", "remember": "Some plurals stay the same; some change spelling completely."}, {"id": "l3-5", "lesson": 3, "title": "Singular and Plural — Source Practice", "body": "\n        <div class=\"qa compact\">\n          <button onclick=\"toggleAnswer(this)\">1. The new (puppies, puppys) have sharp (tooths, teeth).<span>Answer: <mark>puppies, teeth</mark></span></button>\n          <button onclick=\"toggleAnswer(this)\">2. The gardener weeded the berry (patchs, patches) and planted (tomatos, tomatoes).<span>Answer: <mark>patches, tomatoes</mark></span></button>\n          <button onclick=\"toggleAnswer(this)\">3. Loggers use (axes, axs) to cut (treeses, trees).<span>Answer: <mark>axes, trees</mark></span></button>\n          <button onclick=\"toggleAnswer(this)\">4. The (moose, mooses) heard the (echos, echoes) of (wolves, wolfs).<span>Answer: <mark>moose, echoes, wolves</mark></span></button>\n          <button onclick=\"toggleAnswer(this)\">5. There are four (Bess, Besses) in the (class, classes).<span>Answer: <mark>Besses, classes</mark></span></button>\n        </div>\n        ", "remember": "Use the spelling of the singular noun to decide the plural form."}, {"id": "l3-6", "lesson": 3, "title": "Plural Forms — Source Answers", "body": "\n        <table class=\"answers-table\">\n          <tr><th>#</th><th>Singular</th><th>Answer</th></tr>\n          <tr><td>6</td><td>apple</td><td><mark>apples</mark></td></tr>\n          <tr><td>7</td><td>policy</td><td><mark>policies</mark></td></tr>\n          <tr><td>8</td><td>hero</td><td><mark>heroes</mark></td></tr>\n          <tr><td>9</td><td>watch</td><td><mark>watches</mark></td></tr>\n          <tr><td>10</td><td>wife</td><td><mark>wives</mark></td></tr>\n          <tr><td>11</td><td>dress</td><td><mark>dresses</mark></td></tr>\n          <tr><td>12</td><td>studio</td><td><mark>studios</mark></td></tr>\n          <tr><td>13</td><td>donkey</td><td><mark>donkeys</mark></td></tr>\n          <tr><td>14</td><td>Ross</td><td><mark>Rosses</mark></td></tr>\n          <tr><td>15</td><td>waltz</td><td><mark>waltzes</mark></td></tr>\n        </table>\n        ", "remember": "Plural spelling depends on the noun ending."}, {"id": "l3-7", "lesson": 3, "title": "Singular, Plural, or Both?", "body": "\n        <table>\n          <tr><th>Noun</th><th>Answer</th><th>Noun</th><th>Answer</th></tr>\n          <tr><td>piano</td><td><mark>singular</mark></td><td>Norrises</td><td><mark>plural</mark></td></tr>\n          <tr><td>moose</td><td><mark>singular and plural</mark></td><td>deer</td><td><mark>singular and plural</mark></td></tr>\n          <tr><td>women</td><td><mark>plural</mark></td><td>lilies</td><td><mark>plural</mark></td></tr>\n          <tr><td>dresses</td><td><mark>plural</mark></td><td>alleys</td><td><mark>plural</mark></td></tr>\n        </table>\n        <div class=\"keyword-table\">\n          <table><tr><th>Word</th><th>Meaning</th><th>Memory Tip</th></tr>\n          <tr><td><b>singular noun</b></td><td>names one person, place, thing, or idea</td><td>Single = one</td></tr>\n          <tr><td><b>plural noun</b></td><td>names more than one person, place, thing, or idea</td><td>Plural = more than one</td></tr></table>\n        </div>\n        ", "remember": "Some nouns, such as moose and deer, can look the same in singular and plural."}, {"id": "l3-end", "lesson": 3, "title": "Lesson 3 Quick Review", "body": "\n        <ul class=\"checklist\">\n          <li>☐ Singular = one.</li>\n          <li>☐ Plural = more than one.</li>\n          <li>☐ Most plurals use -s or -es.</li>\n          <li>☐ Consonant + y → change y to i and add -es.</li>\n          <li>☐ Some nouns have the same singular and plural spelling.</li>\n          <li>☐ Some nouns change spelling in the plural.</li>\n        </ul>\n        <button class=\"primary huge\" onclick=\"startLessonQuiz(3)\">Start Lesson 3 Quiz — 15 Questions</button>\n        ", "remember": "Use the singular spelling to choose the plural rule."}, {"id": "l4-1", "lesson": 4, "title": "Lesson 4 — Possessive Nouns", "body": "\n        <p><b>You can change the form of a noun to show ownership, or possession.</b></p>\n        <p><b>A possessive noun names who or what owns or has something.</b></p>\n        <div class=\"flow\">Pat → owns a coat → <b>Pat’s coat</b></div>\n        <div class=\"flow\">babies → blocks belong to them → <b>the babies’ blocks</b></div>\n        ", "remember": "Possessive = shows who or what owns or has something."}, {"id": "l4-2", "lesson": 4, "title": "Rules for Forming Possessive Nouns", "body": "\n        <table>\n          <tr><th>Kind of noun</th><th>Rule</th><th>Source examples</th></tr>\n          <tr><td>Singular noun</td><td>Add apostrophe + s (<b>’s</b>)</td><td>a woman’s gloves, Mr. Ross’s hat, the teacher’s question</td></tr>\n          <tr><td>Plural noun ending in s</td><td>Add only an apostrophe (<b>’</b>)</td><td>the students’ papers, the Williamses’ house, the girls’ pens</td></tr>\n          <tr><td>Plural noun not ending in s</td><td>Add apostrophe + s (<b>’s</b>)</td><td>the men’s umbrellas, the geese’s nest, the children’s uniforms</td></tr>\n        </table>\n        ", "remember": "Singular → ’s. Plural ending in s → ’. Plural not ending in s → ’s."}, {"id": "l4-3", "lesson": 4, "title": "Possessive Nouns — 5 Easy Source Examples", "body": "\n        <div class=\"five-examples\">\n          <div><b>Pat’s coat</b><br>the coat owned by Pat</div>\n          <div><b>babies’ blocks</b><br>the blocks belonging to the babies</div>\n          <div><b>woman’s gloves</b></div>\n          <div><b>students’ papers</b></div>\n          <div><b>children’s uniforms</b></div>\n        </div>\n        <div class=\"compare\">\n          <div class=\"panel\"><b>One owner</b><br>teacher’s question</div>\n          <div class=\"panel\"><b>More than one owner ending in s</b><br>girls’ pens</div>\n        </div>\n        ", "remember": "Find the owner first, then choose the apostrophe rule."}, {"id": "l4-4", "lesson": 4, "title": "Possessive Nouns — Source Practice 1–10", "body": "\n        <div class=\"qa compact two-col\">\n          <button onclick=\"toggleAnswer(this)\">1. ___ toys (children)<span><mark>children’s</mark> — plural possessive</span></button>\n          <button onclick=\"toggleAnswer(this)\">2. the ___ apartment (Ramoses)<span><mark>Ramoses’</mark> — plural possessive</span></button>\n          <button onclick=\"toggleAnswer(this)\">3. the ___ webbed feet (geese)<span><mark>geese’s</mark> — plural possessive</span></button>\n          <button onclick=\"toggleAnswer(this)\">4. a ___ meeting (parents)<span><mark>parents’</mark> — plural possessive</span></button>\n          <button onclick=\"toggleAnswer(this)\">5. ___ office (Dr. Lewis)<span><mark>Dr. Lewis’s</mark> — singular possessive</span></button>\n          <button onclick=\"toggleAnswer(this)\">6. the ___ photocopies (library)<span><mark>library’s</mark> — singular possessive</span></button>\n          <button onclick=\"toggleAnswer(this)\">7. the ___ manes (horses)<span><mark>horses’</mark> — plural possessive</span></button>\n          <button onclick=\"toggleAnswer(this)\">8. the ___ themes (stories)<span><mark>stories’</mark> — plural possessive</span></button>\n          <button onclick=\"toggleAnswer(this)\">9. ___ coat (Mrs. Jones)<span><mark>Mrs. Jones’s</mark> — singular possessive</span></button>\n          <button onclick=\"toggleAnswer(this)\">10. ___ tails (bunnies)<span><mark>bunnies’</mark> — plural possessive</span></button>\n        </div>\n        ", "remember": "Plural ending in s takes only an apostrophe."}, {"id": "l4-5", "lesson": 4, "title": "Possessive Nouns — Source Practice 11–14", "body": "\n        <div class=\"qa\">\n          <button onclick=\"toggleAnswer(this)\">11. During her childhood, ___ dream was to become a doctor. (Elizabeth Blackwell)<span>Answer: <mark>Elizabeth Blackwell’s</mark></span></button>\n          <button onclick=\"toggleAnswer(this)\">12. ___ applications to medical schools were not welcomed. (Women)<span>Answer: <mark>Women’s</mark></span></button>\n          <button onclick=\"toggleAnswer(this)\">13. Her hard work and persistence gained her ___ respect. (professors)<span>Answer: <mark>professors’</mark></span></button>\n          <button onclick=\"toggleAnswer(this)\">14. She helped alter this ___ view of women doctors. (country)<span>Answer: <mark>country’s</mark></span></button>\n        </div>\n        <div class=\"keyword-table\">\n          <table><tr><th>Word</th><th>Meaning</th><th>Memory Tip</th></tr>\n          <tr><td><b>possessive noun</b></td><td>names who or what owns or has something</td><td>Possessive = possession / ownership</td></tr></table>\n        </div>\n        ", "remember": "Ask: Who owns it? Then form the possessive."}, {"id": "l4-end", "lesson": 4, "title": "Lesson 4 Quick Review", "body": "\n        <ul class=\"checklist\">\n          <li>☐ Possessive nouns show ownership or possession.</li>\n          <li>☐ Singular noun → add ’s.</li>\n          <li>☐ Plural noun ending in s → add only ’.</li>\n          <li>☐ Plural noun not ending in s → add ’s.</li>\n        </ul>\n        <button class=\"primary huge\" onclick=\"startLessonQuiz(4)\">Start Lesson 4 Quiz — 15 Questions</button>\n        ", "remember": "Owner first → apostrophe rule second."}, {"id": "l5-1", "lesson": 5, "title": "Lesson 5 — Plural and Possessive Nouns", "body": "\n        <p><b>Do not confuse possessive nouns with ordinary plural nouns.</b></p>\n        <div class=\"compare\">\n          <div class=\"panel\"><h3>Plural</h3><p>Means <b>more than one</b>.</p><p>Most plural nouns end in <b>s</b>.</p></div>\n          <div class=\"panel\"><h3>Possessive</h3><p>Shows <b>ownership</b>.</p><p>A possessive noun has an <b>apostrophe</b> before or after the s.</p></div>\n        </div>\n        ", "remember": "Plural = how many. Possessive = who owns."}, {"id": "l5-2", "lesson": 5, "title": "Plural vs. Possessive — Source Chart", "body": "\n        <table>\n          <tr><th>Kind of noun</th><th>Ending</th><th>Source example</th></tr>\n          <tr><td>Plural (more than one)</td><td>Add -s or -es</td><td>two <b>boys</b>, the <b>Lewises</b></td></tr>\n          <tr><td>Singular possessive (belongs to one)</td><td>Add <b>’s</b></td><td>a <b>boy’s</b> shoe, Kim <b>Lewis’s</b> key, <b>Jess’s</b> locker</td></tr>\n          <tr><td>Plural possessive, plural ends in s</td><td>Add <b>’</b></td><td>two <b>boys’</b> shoes, the <b>Lewises’</b> key</td></tr>\n          <tr><td>Plural possessive, plural does not end in s</td><td>Add <b>’s</b></td><td>the <b>mice’s</b> teeth, the <b>women’s</b> ideas, the <b>men’s</b> team</td></tr>\n        </table>\n        ", "remember": "Apostrophe = ownership clue."}, {"id": "l5-3", "lesson": 5, "title": "Easy-to-Confuse Forms", "body": "\n        <table>\n          <tr><th>Form</th><th>Meaning from the lesson</th></tr>\n          <tr><td><b>boys</b></td><td>more than one boy</td></tr>\n          <tr><td><b>boy’s</b></td><td>belongs to one boy</td></tr>\n          <tr><td><b>boys’</b></td><td>belongs to more than one boy</td></tr>\n        </table>\n        <div class=\"flow\">No apostrophe → usually <b>plural</b> &nbsp;&nbsp; | &nbsp;&nbsp; Apostrophe → <b>possessive</b></div>\n        ", "remember": "boys = many; boy’s = one owner; boys’ = many owners."}, {"id": "l5-4", "lesson": 5, "title": "Plural & Possessive — Source Practice 11–15", "body": "\n        <div class=\"qa\">\n          <button onclick=\"toggleAnswer(this)\">11. Balloon ___ have become popular. (race)<span>Answer: <mark>races</mark> — plural</span></button>\n          <button onclick=\"toggleAnswer(this)\">12. Several ___ are supporting this race. (airport)<span>Answer: <mark>airports</mark> — plural</span></button>\n          <button onclick=\"toggleAnswer(this)\">13. An area is reserved for ___. (spectator)<span>Answer: <mark>spectators</mark> — plural</span></button>\n          <button onclick=\"toggleAnswer(this)\">14. One ___ son is in the race. (spectator)<span>Answer: <mark>spectator’s</mark> — singular possessive</span></button>\n          <button onclick=\"toggleAnswer(this)\">15. The occasion is a ___ delight. (photographer)<span>Answer: <mark>photographer’s</mark> — singular possessive</span></button>\n        </div>\n        ", "remember": "First decide: more than one, or ownership?"}, {"id": "l5-5", "lesson": 5, "title": "Plural & Possessive — Source Practice 16–20", "body": "\n        <div class=\"qa\">\n          <button onclick=\"toggleAnswer(this)\">16. Will all the ___ please climb aboard? (passenger)<span>Answer: <mark>passengers</mark> — plural</span></button>\n          <button onclick=\"toggleAnswer(this)\">17. Many ___ cameras click rapidly. (photographer)<span>Answer: <mark>photographers’</mark> — plural possessive</span></button>\n          <button onclick=\"toggleAnswer(this)\">18. All the ___ friends wave goodbye to them. (passenger)<span>Answer: <mark>passengers’</mark> — plural possessive</span></button>\n          <button onclick=\"toggleAnswer(this)\">19. Soon they cannot hear their ___ voices. (friend)<span>Answer: <mark>friends’</mark> — plural possessive</span></button>\n          <button onclick=\"toggleAnswer(this)\">20. The balloons soar over one ___ house. (passenger)<span>Answer: <mark>passenger’s</mark> — singular possessive</span></button>\n        </div>\n        ", "remember": "Ownership needs an apostrophe."}, {"id": "l5-end", "lesson": 5, "title": "Lesson 5 Quick Review", "body": "\n        <ul class=\"checklist\">\n          <li>☐ Most plural nouns end in s.</li>\n          <li>☐ Possessive nouns have an apostrophe before or after s.</li>\n          <li>☐ Plural = more than one.</li>\n          <li>☐ Possessive = belongs to one or more owners.</li>\n        </ul>\n        <button class=\"primary huge\" onclick=\"startLessonQuiz(5)\">Start Lesson 5 Quiz — 15 Questions</button>\n        ", "remember": "Plural tells number. Possessive tells ownership."}, {"id": "review", "lesson": 6, "title": "Lesson Review — Before the Final Quiz", "body": "\n        <div class=\"review-grid\">\n          <div><b>1. Recognizing Nouns</b><br>Noun = person, place, thing, or idea.</div>\n          <div><b>2. Common & Proper</b><br>Common = any; Proper = particular + capital letter.</div>\n          <div><b>3. Singular & Plural</b><br>Singular = one; Plural = more than one.</div>\n          <div><b>4. Possessive Nouns</b><br>Shows who or what owns or has something.</div>\n          <div><b>5. Plural vs. Possessive</b><br>Plural tells number; possessive uses an apostrophe to show ownership.</div>\n        </div>\n        <h3>Remember These Before the Test</h3>\n        <ul class=\"checklist\">\n          <li>☐ Person • Place • Thing • Idea</li>\n          <li>☐ Proper nouns begin with capital letters.</li>\n          <li>☐ Check the noun ending before forming a plural.</li>\n          <li>☐ Singular possessive → ’s</li>\n          <li>☐ Plural ending in s → ’</li>\n          <li>☐ Plural not ending in s → ’s</li>\n          <li>☐ Apostrophe = ownership clue</li>\n        </ul>\n        <button class=\"primary huge\" onclick=\"startFinalQuiz()\">Start Final Quiz — 30 Questions</button>\n        ", "remember": "Noun type first → rule second."}];
+const lessonQuizzes = {"1": [{"q": "What does a noun name?", "choices": ["Only a person", "A person, place, thing, or idea", "Only a place", "Only a thing"], "a": 1, "e": "The material defines a noun as a word that names a person, place, thing, or idea.", "tag": "Recognizing nouns"}, {"q": "Which source word is an idea noun?", "choices": ["time", "frying pan", "Dr. Jones", "Pacific Ocean"], "a": 0, "e": "The material lists time as an idea that cannot be touched.", "tag": "Recognizing nouns"}, {"q": "Which source example is a person noun?", "choices": ["New Mexico", "credit card", "President Adams", "summer"], "a": 2, "e": "President Adams names a person.", "tag": "Recognizing nouns"}, {"q": "Which source example is a place noun?", "choices": ["Hill School", "look-alike", "baby sitter", "friendship"], "a": 0, "e": "Hill School names a place.", "tag": "Recognizing nouns"}, {"q": "Which source example is a thing noun?", "choices": ["anger", "Pacific Ocean", "frying pan", "Jan Smith"], "a": 2, "e": "Frying pan names a thing.", "tag": "Recognizing nouns"}, {"q": "Can a noun be made up of more than one word?", "choices": ["Yes", "No", "Only proper nouns", "Only idea nouns"], "a": 0, "e": "The material says a noun can be made up of more than one word.", "tag": "Recognizing nouns"}, {"q": "In “Inventors have special talents,” which are the nouns?", "choices": ["Inventors, talents", "have, special", "special, talents", "Inventors, have"], "a": 0, "e": "Inventors and talents name things or people.", "tag": "Recognizing nouns"}, {"q": "In “A clever invention can save time for a person,” which set has all nouns?", "choices": ["clever, save", "invention, time, person", "can, for", "clever, person"], "a": 1, "e": "Invention, time, and person are nouns.", "tag": "Recognizing nouns"}, {"q": "In “Many years ago people hunted for food,” which set has all nouns?", "choices": ["Many, ago", "years, people, food", "hunted, food", "people, hunted"], "a": 1, "e": "Years, people, and food are nouns.", "tag": "Recognizing nouns"}, {"q": "In “Then a hunter invented the bow and the arrow,” which are the nouns?", "choices": ["hunter, bow, arrow", "Then, invented", "invented, bow", "hunter, invented"], "a": 0, "e": "Hunter, bow, and arrow are nouns.", "tag": "Recognizing nouns"}, {"q": "Which set has all nouns from “Plants from farms soon became a source for food too”?", "choices": ["Plants, farms, source, food", "from, soon, too", "became, source", "Plants, became"], "a": 0, "e": "Plants, farms, source, and food are nouns.", "tag": "Recognizing nouns"}, {"q": "Which set has all nouns from “Families moved to villages and traded goods”?", "choices": ["Families, villages, goods", "moved, traded", "to, and", "villages, traded"], "a": 0, "e": "Families, villages, and goods are nouns.", "tag": "Recognizing nouns"}, {"q": "Which set has all nouns from “Now a store sells a meal in a can or a box”?", "choices": ["store, meal, can, box", "Now, sells", "in, or", "store, sells"], "a": 0, "e": "Store, meal, can, and box are nouns.", "tag": "Recognizing nouns"}, {"q": "Which set has all nouns from “Eli Whitney helped farmers in the United States”?", "choices": ["Eli Whitney, farmers, United States", "helped, in", "farmers, helped", "United, helped"], "a": 0, "e": "Those words name a person, people, and a place.", "tag": "Recognizing nouns"}, {"q": "Which set has all nouns from “The curiosity of the inventor has improved life”?", "choices": ["curiosity, inventor, life", "of, has", "improved, life", "curiosity, improved"], "a": 0, "e": "Curiosity, inventor, and life are nouns.", "tag": "Recognizing nouns"}], "2": [{"q": "What does a common noun name?", "choices": ["A particular person only", "Any person, place, thing, or idea", "Only places", "Only ideas"], "a": 1, "e": "A common noun names any person, place, thing, or idea.", "tag": "Common vs proper"}, {"q": "What does a proper noun name?", "choices": ["Any person or thing", "A particular person, place, thing, or idea", "Only an idea", "Only a place"], "a": 1, "e": "A proper noun names a particular person, place, thing, or idea.", "tag": "Common vs proper"}, {"q": "How does a proper noun begin?", "choices": ["With a lowercase letter", "With a number", "With a capital letter", "With an apostrophe"], "a": 2, "e": "The material says a proper noun begins with a capital letter.", "tag": "Common vs proper"}, {"q": "Which is the proper noun paired with city?", "choices": ["Boston", "girl", "month", "state"], "a": 0, "e": "Boston is the proper noun paired with city.", "tag": "Common vs proper"}, {"q": "Which is the common noun paired with Amy?", "choices": ["girl", "ocean", "month", "city"], "a": 0, "e": "Girl is the common noun paired with Amy.", "tag": "Common vs proper"}, {"q": "Which is the proper noun paired with ocean?", "choices": ["New York", "Indian Ocean", "July", "Boston"], "a": 1, "e": "Indian Ocean is the proper noun paired with ocean.", "tag": "Common vs proper"}, {"q": "Which is the proper noun paired with state?", "choices": ["July", "Amy", "New York", "Boston"], "a": 2, "e": "New York is the proper noun paired with state.", "tag": "Common vs proper"}, {"q": "Which is the proper noun paired with month?", "choices": ["July", "New York", "Amy", "Indian Ocean"], "a": 0, "e": "July is the proper noun paired with month.", "tag": "Common vs proper"}, {"q": "For a proper noun with more than one word, what should be capitalized?", "choices": ["Only the last word", "Only the first word", "The important words", "No words"], "a": 2, "e": "The material says to capitalize the important words.", "tag": "Common vs proper"}, {"q": "Which family word is capitalized because it is used as a name?", "choices": ["mom in “My mom...”", "Dad in “...hero to Dad”", "grandfather", "family"], "a": 1, "e": "Dad is used as a name in the source sentence.", "tag": "Family names"}, {"q": "In “Astronaut White walked in space above California,” which are proper nouns?", "choices": ["space only", "White and California", "Astronaut and space", "space and California"], "a": 1, "e": "White and California name particular people/places.", "tag": "Common vs proper"}, {"q": "In “The astronaut did not want to return to the spacecraft,” which are common nouns?", "choices": ["astronaut, spacecraft", "White, California", "Gulf, Santa", "Earth, White"], "a": 0, "e": "Astronaut and spacecraft are common nouns.", "tag": "Common vs proper"}, {"q": "In “The spacecraft orbited Earth before the flight ended,” which is the proper noun?", "choices": ["spacecraft", "flight", "Earth", "ended"], "a": 2, "e": "Earth is the proper noun in the sentence.", "tag": "Common vs proper"}, {"q": "In “A crew and a ship waited in the Atlantic Ocean,” which is the proper noun?", "choices": ["crew", "ship", "Atlantic Ocean", "waited"], "a": 2, "e": "Atlantic Ocean is a particular place.", "tag": "Common vs proper"}, {"q": "In the source sentence with Aunt Mattie and Mom, which family word is NOT used as a name?", "choices": ["Aunt Mattie", "Mom", "grandfather", "Mattie"], "a": 2, "e": "Grandfather is not used as a name in that sentence.", "tag": "Family names"}], "3": [{"q": "What does a singular noun name?", "choices": ["More than one", "One person, place, thing, or idea", "Ownership", "A particular name"], "a": 1, "e": "Singular means one.", "tag": "Singular/plural"}, {"q": "What does a plural noun name?", "choices": ["One only", "More than one person, place, thing, or idea", "Ownership only", "A capitalized name"], "a": 1, "e": "Plural means more than one.", "tag": "Singular/plural"}, {"q": "In most cases, how do you change a singular noun to plural?", "choices": ["Add -s", "Add an apostrophe", "Remove a letter", "Capitalize it"], "a": 0, "e": "The material says in most cases add -s.", "tag": "Plural rules"}, {"q": "What is the plural of porch?", "choices": ["porchs", "porches", "porch's", "porch"], "a": 1, "e": "Nouns ending in ch add -es.", "tag": "Plural rules"}, {"q": "What is the plural of potato in the source chart?", "choices": ["potatos", "potatoes", "potato's", "potato"], "a": 1, "e": "Consonant + o adds -es in this source example.", "tag": "Plural rules"}, {"q": "What is the plural of radio?", "choices": ["radioes", "radios", "radio's", "radies"], "a": 1, "e": "Vowel + o adds -s in the source chart.", "tag": "Plural rules"}, {"q": "What is the plural of baby?", "choices": ["babys", "babies", "babyes", "baby's"], "a": 1, "e": "Consonant + y changes y to i and adds -es.", "tag": "Plural rules"}, {"q": "What is the plural of day?", "choices": ["daies", "days", "dayes", "day's"], "a": 1, "e": "Vowel + y adds -s.", "tag": "Plural rules"}, {"q": "What is the plural of life?", "choices": ["lifes", "lives", "lifees", "life's"], "a": 1, "e": "The source chart shows life → lives.", "tag": "Plural rules"}, {"q": "Which noun has the same spelling in singular and plural?", "choices": ["child", "woman", "moose", "tooth"], "a": 2, "e": "Moose stays moose.", "tag": "Special plurals"}, {"q": "What is the plural of child?", "choices": ["childs", "childes", "children", "childrens"], "a": 2, "e": "The source lists child → children.", "tag": "Special plurals"}, {"q": "What is the plural of goose?", "choices": ["gooses", "geese", "goosees", "goos"], "a": 1, "e": "The source lists goose → geese.", "tag": "Special plurals"}, {"q": "Choose the correct forms: new ___ have sharp ___.", "choices": ["puppys, tooths", "puppies, teeth", "puppies, tooths", "puppys, teeth"], "a": 1, "e": "The source practice answer is puppies, teeth.", "tag": "Source practice"}, {"q": "What is the plural of watch?", "choices": ["watchs", "watches", "watchies", "watch"], "a": 1, "e": "The source practice uses watches.", "tag": "Plural rules"}, {"q": "Which description fits deer?", "choices": ["singular only", "plural only", "singular and plural", "possessive only"], "a": 2, "e": "The material says deer has the same singular and plural spelling.", "tag": "Special plurals"}], "4": [{"q": "What does a possessive noun show?", "choices": ["Only number", "Ownership or possession", "A proper name", "A plural ending"], "a": 1, "e": "A possessive noun names who or what owns or has something.", "tag": "Possessive nouns"}, {"q": "How do you form the possessive of a singular noun?", "choices": ["Add -s only", "Add an apostrophe only", "Add ’s", "Add -es"], "a": 2, "e": "Singular possessive nouns add ’s.", "tag": "Possessive rules"}, {"q": "How do you form the possessive of a plural noun ending in s?", "choices": ["Add ’s", "Add only an apostrophe", "Add -es", "Remove s"], "a": 1, "e": "Plural nouns ending in s add only an apostrophe.", "tag": "Possessive rules"}, {"q": "How do you form the possessive of a plural noun that does not end in s?", "choices": ["Add ’s", "Add only ’", "Add -es", "Add -s"], "a": 0, "e": "Plural nouns not ending in s add ’s.", "tag": "Possessive rules"}, {"q": "Which source example means the coat owned by Pat?", "choices": ["Pats coat", "Pats’ coat", "Pat’s coat", "Pat coat"], "a": 2, "e": "The material gives Pat’s coat.", "tag": "Possessive nouns"}, {"q": "Choose the correct possessive: ___ toys (children)", "choices": ["childrens", "children’s", "childrens’", "children"], "a": 1, "e": "Children is plural and does not end in s, so add ’s.", "tag": "Possessive rules"}, {"q": "Choose the correct possessive: the ___ apartment (Ramoses)", "choices": ["Ramoses’s", "Ramoses’", "Ramos’s", "Ramoses"], "a": 1, "e": "Ramoses is plural ending in s, so add only an apostrophe.", "tag": "Possessive rules"}, {"q": "Choose the correct possessive: the ___ webbed feet (geese)", "choices": ["geeses", "geese’", "geese’s", "geeses’"], "a": 2, "e": "Geese is plural not ending in s, so add ’s.", "tag": "Possessive rules"}, {"q": "Choose the correct possessive: a ___ meeting (parents)", "choices": ["parent’s", "parents", "parents’", "parents’s"], "a": 2, "e": "Parents is plural ending in s, so add only an apostrophe.", "tag": "Possessive rules"}, {"q": "Choose the correct possessive: ___ office (Dr. Lewis)", "choices": ["Dr. Lewis’", "Dr. Lewis’s", "Dr. Lewises", "Dr. Lewis"], "a": 1, "e": "The source rule for a singular noun is to add ’s.", "tag": "Possessive rules"}, {"q": "Choose the correct possessive: the ___ manes (horses)", "choices": ["horses", "horse’s", "horses’", "horses’s"], "a": 2, "e": "Horses is plural ending in s, so add only an apostrophe.", "tag": "Possessive rules"}, {"q": "Choose the correct possessive: ___ tails (bunnies)", "choices": ["bunnies", "bunny’s", "bunnies’", "bunnies’s"], "a": 2, "e": "Bunnies is plural ending in s, so add only an apostrophe.", "tag": "Possessive rules"}, {"q": "Choose the correct form: ___ dream (Elizabeth Blackwell)", "choices": ["Elizabeth Blackwells", "Elizabeth Blackwell’s", "Elizabeth Blackwells’", "Elizabeth Blackwell"], "a": 1, "e": "Elizabeth Blackwell is singular, so add ’s.", "tag": "Source practice"}, {"q": "Choose the correct form: ___ applications (Women)", "choices": ["Womens", "Women’", "Women’s", "Womens’"], "a": 2, "e": "Women is plural not ending in s, so add ’s.", "tag": "Source practice"}, {"q": "Choose the correct form: ___ respect (professors)", "choices": ["professor’s", "professors", "professors’", "professors’s"], "a": 2, "e": "Professors is plural ending in s, so add only an apostrophe.", "tag": "Source practice"}], "5": [{"q": "What is the main difference between plural and possessive nouns?", "choices": ["Plural shows ownership; possessive shows number", "Plural shows more than one; possessive shows ownership", "Both always use apostrophes", "Both always end in s"], "a": 1, "e": "Plural tells number; possessive tells ownership.", "tag": "Plural vs possessive"}, {"q": "Which form means more than one boy?", "choices": ["boy’s", "boys", "boys’", "boy"], "a": 1, "e": "Boys is plural.", "tag": "Plural vs possessive"}, {"q": "Which form means a shoe belonging to one boy?", "choices": ["boys", "boy’s", "boys’", "boyes"], "a": 1, "e": "Boy’s is singular possessive.", "tag": "Plural vs possessive"}, {"q": "Which form means shoes belonging to more than one boy?", "choices": ["boys", "boy’s", "boys’", "boys’s"], "a": 2, "e": "Boys’ is plural possessive.", "tag": "Plural vs possessive"}, {"q": "Which clue usually shows a possessive noun?", "choices": ["A capital letter", "An apostrophe", "A comma", "A question mark"], "a": 1, "e": "The material says possessive nouns have an apostrophe before or after s.", "tag": "Plural vs possessive"}, {"q": "Which source example is plural, not possessive?", "choices": ["a boy’s shoe", "two boys", "two boys’ shoes", "the men’s team"], "a": 1, "e": "Two boys is an ordinary plural noun.", "tag": "Plural vs possessive"}, {"q": "Which source example is singular possessive?", "choices": ["the Lewises", "Kim Lewis’s key", "the Lewises’ key", "two boys"], "a": 1, "e": "Kim Lewis’s key belongs to one person.", "tag": "Plural vs possessive"}, {"q": "Which source example is plural possessive?", "choices": ["Jess’s locker", "the mice’s teeth", "two boys", "the Lewises"], "a": 1, "e": "Mice’s is plural possessive because mice is plural not ending in s.", "tag": "Plural vs possessive"}, {"q": "Complete: Balloon ___ have become popular. (race)", "choices": ["race’s", "races", "races’", "race"], "a": 1, "e": "Races is plural.", "tag": "Source practice"}, {"q": "Complete: Several ___ are supporting this race. (airport)", "choices": ["airport’s", "airports", "airports’", "airport"], "a": 1, "e": "Airports is plural.", "tag": "Source practice"}, {"q": "Complete: An area is reserved for ___. (spectator)", "choices": ["spectator’s", "spectators", "spectators’", "spectator"], "a": 1, "e": "Spectators is plural.", "tag": "Source practice"}, {"q": "Complete: One ___ son is in the race. (spectator)", "choices": ["spectators", "spectator’s", "spectators’", "spectator"], "a": 1, "e": "One spectator owns the son relationship, so use singular possessive.", "tag": "Source practice"}, {"q": "Complete: Many ___ cameras click rapidly. (photographer)", "choices": ["photographers", "photographer’s", "photographers’", "photographer"], "a": 2, "e": "The cameras belong to many photographers.", "tag": "Source practice"}, {"q": "Complete: All the ___ friends wave goodbye to them. (passenger)", "choices": ["passengers", "passenger’s", "passengers’", "passenger"], "a": 2, "e": "The friends belong to the group of passengers.", "tag": "Source practice"}, {"q": "Complete: The balloons soar over one ___ house. (passenger)", "choices": ["passengers", "passenger’s", "passengers’", "passenger"], "a": 1, "e": "One owner uses singular possessive: passenger’s.", "tag": "Source practice"}]};
+const finalQuiz = [{"q": "A noun names a person, place, thing, or ___.", "choices": ["verb", "idea", "sentence", "letter"], "a": 1, "e": "The definition is person, place, thing, or idea.", "tag": "Recognizing nouns"}, {"q": "Which source word is an idea noun?", "choices": ["friendship", "frying pan", "Dr. Jones", "New Mexico"], "a": 0, "e": "Friendship is listed as an idea noun.", "tag": "Recognizing nouns"}, {"q": "Which source example is a thing noun?", "choices": ["credit card", "Pacific Ocean", "Jan Smith", "anger"], "a": 0, "e": "Credit card names a thing.", "tag": "Recognizing nouns"}, {"q": "Can a noun contain more than one word?", "choices": ["Yes", "No", "Only in places", "Only in names"], "a": 0, "e": "The material says a noun can be made up of more than one word.", "tag": "Recognizing nouns"}, {"q": "In “His machine removed seeds from cotton,” which are the nouns?", "choices": ["machine, seeds, cotton", "removed, from", "His, removed", "seeds, removed"], "a": 0, "e": "Machine, seeds, and cotton are nouns.", "tag": "Recognizing nouns"}, {"q": "In “The curiosity of the inventor has improved life,” which are the nouns?", "choices": ["curiosity, inventor, life", "has, improved", "of, the", "inventor, improved"], "a": 0, "e": "Curiosity, inventor, and life are nouns.", "tag": "Recognizing nouns"}, {"q": "A common noun names ___.", "choices": ["any person, place, thing, or idea", "only a particular person", "only a place", "only an idea"], "a": 0, "e": "That is the source definition of a common noun.", "tag": "Common vs proper"}, {"q": "A proper noun names ___.", "choices": ["any thing", "a particular person, place, thing, or idea", "only a person", "only an idea"], "a": 1, "e": "That is the source definition of a proper noun.", "tag": "Common vs proper"}, {"q": "Which proper noun is paired with ocean?", "choices": ["city", "Indian Ocean", "state", "month"], "a": 1, "e": "Indian Ocean is the source proper noun paired with ocean.", "tag": "Common vs proper"}, {"q": "Which is written as a proper noun from the source?", "choices": ["month", "July", "girl", "city"], "a": 1, "e": "July is a particular month name and is capitalized.", "tag": "Common vs proper"}, {"q": "If a family word is used as a name, what does the material say to do?", "choices": ["Add -s", "Capitalize it", "Add an apostrophe", "Make it plural"], "a": 1, "e": "A family word used as a name is capitalized.", "tag": "Family names"}, {"q": "Which is proper in “A crew and a ship waited in the Atlantic Ocean”?", "choices": ["crew", "ship", "Atlantic Ocean", "waited"], "a": 2, "e": "Atlantic Ocean is a particular place.", "tag": "Common vs proper"}, {"q": "A singular noun names ___.", "choices": ["one", "more than one", "ownership", "a sentence"], "a": 0, "e": "Singular means one.", "tag": "Singular/plural"}, {"q": "A plural noun names ___.", "choices": ["one", "more than one", "ownership", "a capital name"], "a": 1, "e": "Plural means more than one.", "tag": "Singular/plural"}, {"q": "What is the plural of porch?", "choices": ["porchs", "porches", "porch’s", "porch"], "a": 1, "e": "Ending ch takes -es.", "tag": "Plural rules"}, {"q": "What is the plural of baby?", "choices": ["babys", "babies", "babyes", "baby’s"], "a": 1, "e": "Consonant + y changes y to i and adds -es.", "tag": "Plural rules"}, {"q": "Which noun stays the same in singular and plural?", "choices": ["woman", "child", "deer", "tooth"], "a": 2, "e": "The source says deer has the same singular and plural spelling.", "tag": "Special plurals"}, {"q": "What is the plural of mouse?", "choices": ["mouses", "mice", "mousees", "mices"], "a": 1, "e": "The source lists mouse → mice.", "tag": "Special plurals"}, {"q": "A possessive noun names ___.", "choices": ["how many", "who or what owns or has something", "a place only", "a capitalized name"], "a": 1, "e": "That is the source definition of a possessive noun.", "tag": "Possessive nouns"}, {"q": "Singular possessive nouns use ___.", "choices": ["-es", "’s", "s’ only", "no apostrophe"], "a": 1, "e": "The rule says add ’s to a singular noun.", "tag": "Possessive rules"}, {"q": "Plural nouns ending in s form the possessive by adding ___.", "choices": ["’s", "only an apostrophe", "-es", "-s"], "a": 1, "e": "Plural nouns ending in s add only an apostrophe.", "tag": "Possessive rules"}, {"q": "Plural nouns not ending in s form the possessive by adding ___.", "choices": ["only ’", "’s", "-es", "-s"], "a": 1, "e": "Plural nouns not ending in s add ’s.", "tag": "Possessive rules"}, {"q": "Choose the correct possessive: ___ toys (children)", "choices": ["childrens", "children’s", "children’", "childrens’"], "a": 1, "e": "Children is plural and does not end in s, so add ’s.", "tag": "Possessive rules"}, {"q": "Choose the correct possessive: ___ respect (professors)", "choices": ["professors", "professor’s", "professors’", "professors’s"], "a": 2, "e": "Professors is plural ending in s, so add only an apostrophe.", "tag": "Possessive rules"}, {"q": "Which form means more than one boy?", "choices": ["boy’s", "boys", "boys’", "boy"], "a": 1, "e": "Boys is plural.", "tag": "Plural vs possessive"}, {"q": "Which form means shoes belonging to more than one boy?", "choices": ["boys", "boy’s", "boys’", "boy"], "a": 2, "e": "Boys’ is plural possessive.", "tag": "Plural vs possessive"}, {"q": "Complete: One ___ son is in the race. (spectator)", "choices": ["spectators", "spectator’s", "spectators’", "spectator"], "a": 1, "e": "One owner uses singular possessive: spectator’s.", "tag": "Plural vs possessive"}, {"q": "Complete: Many ___ cameras click rapidly. (photographer)", "choices": ["photographers", "photographer’s", "photographers’", "photographer"], "a": 2, "e": "The cameras belong to many photographers.", "tag": "Plural vs possessive"}, {"q": "Complete: Soon they cannot hear their ___ voices. (friend)", "choices": ["friends", "friend’s", "friends’", "friend"], "a": 2, "e": "The voices belong to the friends.", "tag": "Plural vs possessive"}, {"q": "What is the best clue that a noun is possessive?", "choices": ["It is long", "It has an apostrophe before or after s", "It is capitalized", "It ends in y"], "a": 1, "e": "The source says possessive nouns have an apostrophe before or after s.", "tag": "Plural vs possessive"}];
+
+let currentSlideIndex = 0;
+let currentMode = 'slides';
+let quizQuestions = [];
+let quizIndex = 0;
+let quizScore = 0;
+let quizAnswered = false;
+let quizTitle = '';
+let wrongTags = {};
+
+const stage = document.getElementById('stage');
+const progressText = document.getElementById('progressText');
+const progressBar = document.getElementById('progressBar');
+const navbar = document.getElementById('navbar');
+const backBtn = document.getElementById('backBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+function renderSlides() {
+  stage.innerHTML = '';
+  slides.forEach((s, i) => {
+    const div = document.createElement('section');
+    div.className = 'slide' + (i===currentSlideIndex ? ' active' : '');
+    div.id = 'slide-' + s.id;
+    div.innerHTML = `<h1>${s.title}</h1>${s.body}<div class="remember">⭐ Remember: ${s.remember}</div>`;
+    stage.appendChild(div);
+  });
+  currentMode='slides';
+  navbar.classList.remove('hidden');
+  updateSlideUI();
+}
+
+function getLessonSlideIndices(lesson) {
+  return slides.map((s,i)=>s.lesson===lesson?i:-1).filter(i=>i>=0);
+}
+
+function updateSlideUI() {
+  document.querySelectorAll('.slide').forEach((el,i)=>el.classList.toggle('active', i===currentSlideIndex));
+  const s = slides[currentSlideIndex];
+  if (s.id === 'home') {
+    progressText.textContent = 'Main Menu';
+    progressBar.style.width = '0%';
+    backBtn.disabled = true;
+    nextBtn.disabled = false;
+    return;
+  }
+  const list = getLessonSlideIndices(s.lesson);
+  const pos = list.indexOf(currentSlideIndex)+1;
+  progressText.textContent = s.lesson===6 ? `Final Review` : `Lesson ${s.lesson} • Slide ${pos} of ${list.length}`;
+  progressBar.style.width = `${Math.max(5,(pos/list.length)*100)}%`;
+  backBtn.disabled = false;
+  nextBtn.disabled = (pos===list.length);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function goToSlide(id) {
+  const idx = slides.findIndex(s=>s.id===id);
+  if(idx>=0) {
+    currentSlideIndex=idx;
+    if(currentMode!=='slides') renderSlides();
+    else updateSlideUI();
+  }
+}
+
+function goHome() {
+  if(currentMode!=='slides') {
+    currentSlideIndex=0;
+    renderSlides();
+  } else {
+    currentSlideIndex=0;
+    updateSlideUI();
+  }
+}
+
+function prevSlide() {
+  if(currentMode!=='slides') return;
+  const s = slides[currentSlideIndex];
+  if(s.id==='home') return;
+  const list = getLessonSlideIndices(s.lesson);
+  const pos = list.indexOf(currentSlideIndex);
+  if(pos>0) currentSlideIndex=list[pos-1];
+  else currentSlideIndex=0;
+  updateSlideUI();
+}
+
+function nextSlide() {
+  if(currentMode!=='slides') return;
+  const s=slides[currentSlideIndex];
+  if(s.id==='home') {
+    goToSlide('l1-1'); return;
+  }
+  const list=getLessonSlideIndices(s.lesson);
+  const pos=list.indexOf(currentSlideIndex);
+  if(pos>=0 && pos<list.length-1) {
+    currentSlideIndex=list[pos+1];
+    updateSlideUI();
+  }
+}
+
+function restartTutor() {
+  quizQuestions=[]; quizIndex=0; quizScore=0; quizAnswered=false; wrongTags={};
+  currentSlideIndex=0;
+  renderSlides();
+}
+
+function toggleAnswer(btn) {
+  btn.classList.toggle('open');
+}
+
+function startLessonQuiz(n) {
+  startQuiz(lessonQuizzes[n], `Lesson ${n} Quiz — 15 Questions`);
+}
+
+function startFinalQuiz() {
+  startQuiz(finalQuiz, 'Final Quiz — 30 Questions');
+}
+
+function startQuiz(questions, title) {
+  currentMode='quiz';
+  quizQuestions=questions;
+  quizIndex=0;
+  quizScore=0;
+  quizAnswered=false;
+  quizTitle=title;
+  wrongTags={};
+  navbar.classList.add('hidden');
+  renderQuizQuestion();
+}
+
+function renderQuizQuestion() {
+  const total=quizQuestions.length;
+  const item=quizQuestions[quizIndex];
+  const pct=((quizIndex)/total)*100;
+  progressBar.style.width=`${pct}%`;
+  progressText.textContent=`Question ${quizIndex+1} of ${total}`;
+  const letters=['A','B','C','D'];
+  stage.innerHTML = `
+    <section class="quiz-shell active">
+      <div class="quiz-head">
+        <button class="secondary" onclick="exitQuiz()">← Back to Menu</button>
+        <span class="badge">${quizTitle}</span>
+        <span class="spacer"></span>
+        <span class="badge">Score: ${quizScore}</span>
+      </div>
+      <div class="question">${item.q}</div>
+      <div class="choices">
+        ${item.choices.map((c,i)=>`<button class="choice" onclick="answerQuiz(${i},this)"><b>${letters[i]}.</b> ${c}</button>`).join('')}
+      </div>
+      <div id="feedback" class="feedback"></div>
+      <div class="quiz-actions">
+        <button id="quizNext" class="primary huge hidden" onclick="nextQuizQuestion()">${quizIndex===total-1?'See Final Score':'Next Question →'}</button>
+      </div>
+    </section>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function answerQuiz(choice, btn) {
+  if(quizAnswered) return;
+  quizAnswered=true;
+  const item=quizQuestions[quizIndex];
+  const buttons=[...document.querySelectorAll('.choice')];
+  buttons.forEach(b=>b.classList.add('disabled'));
+  buttons[item.a].classList.add('correct');
+  const feedback=document.getElementById('feedback');
+  if(choice===item.a) {
+    quizScore++;
+    feedback.className='feedback show good';
+    feedback.innerHTML=`✅ <b>Correct!</b><br>${item.e}`;
+  } else {
+    btn.classList.add('wrong');
+    feedback.className='feedback show bad';
+    const letters=['A','B','C','D'];
+    feedback.innerHTML=`❌ <b>Incorrect.</b> Correct answer: <b>${letters[item.a]}. ${item.choices[item.a]}</b><br>${item.e}`;
+    wrongTags[item.tag]=(wrongTags[item.tag]||0)+1;
+  }
+  document.getElementById('quizNext').classList.remove('hidden');
+}
+
+function nextQuizQuestion() {
+  if(!quizAnswered) return;
+  if(quizIndex < quizQuestions.length-1) {
+    quizIndex++;
+    quizAnswered=false;
+    renderQuizQuestion();
+  } else {
+    renderQuizResult();
+  }
+}
+
+function renderQuizResult() {
+  const total=quizQuestions.length;
+  const percent=Math.round((quizScore/total)*100);
+  progressBar.style.width='100%';
+  progressText.textContent='Quiz Complete';
+  const needsReview=Object.entries(wrongTags).sort((a,b)=>b[1]-a[1]);
+  const reviewHtml=needsReview.length
+    ? `<div class="review-list"><h3>Topics to Review</h3><ul>${needsReview.map(([t,n])=>`<li><b>${t}</b> — ${n} missed</li>`).join('')}</ul></div>`
+    : `<div class="review-list"><h3>Topics to Review</h3><p>No missed topics in this quiz.</p></div>`;
+  stage.innerHTML=`
+    <section class="quiz-shell active">
+      <div class="score-box">
+        <h1>🎉 Quiz Complete!</h1>
+        <div class="score-big">${quizScore} / ${total}</div>
+        <h2>${percent}%</h2>
+        ${reviewHtml}
+        <div class="quiz-actions">
+          <button class="primary huge" onclick="retryQuiz()">Try This Quiz Again</button>
+          <button class="secondary huge" onclick="exitQuiz()">Back to Main Menu</button>
+        </div>
+      </div>
+    </section>`;
+}
+
+function retryQuiz() {
+  startQuiz(quizQuestions, quizTitle);
+}
+
+function exitQuiz() {
+  currentSlideIndex=0;
+  renderSlides();
+}
+
+renderSlides();
+</script>
+</body>
+</html>

@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Grade 6 touchscreen quiz for Language Arts Lessons 7–10.">
+<title>Sentence Structures Lessons 7–10 Quiz 40</title>
+<style>
+:root{--navy:#17335f;--blue:#2471d5;--sky:#eaf4ff;--ink:#18233b;--muted:#61708b;--green:#16835b;--greenbg:#e7f8f0;--red:#bd3131;--redbg:#fff0f0;--yellow:#ffd95a;--line:#d7e3f3;--shadow:0 18px 55px #17335f22}
+*{box-sizing:border-box}html,body{min-height:100%;margin:0}body{font:18px Arial,Helvetica,sans-serif;color:var(--ink);background:radial-gradient(circle at 10% 8%,#fff1aa,transparent 25%),radial-gradient(circle at 90% 5%,#cfe7ff,transparent 28%),linear-gradient(145deg,#f7fbff,#edf5ff 55%,#fff9df)}button{font:inherit;font-weight:850;cursor:pointer}button:focus-visible{outline:4px solid #ff9f1c;outline-offset:3px}.app{min-height:100vh;display:flex;flex-direction:column}.top{display:flex;align-items:center;gap:12px;padding:14px clamp(14px,3vw,32px);background:var(--navy);color:#fff;position:sticky;top:0;z-index:2}.brand{flex:1;font-weight:900}.brand span{color:var(--yellow)}.top button{color:#fff;background:#ffffff18;border:1px solid #ffffff77;border-radius:13px;padding:11px 15px;min-height:46px}main{width:min(980px,calc(100% - 24px));margin:auto;padding:26px 0;flex:1;display:flex;align-items:center}.screen{display:none;width:100%}.screen.active{display:block}.panel{background:#fff;border:1px solid #2471d52b;border-radius:28px;box-shadow:var(--shadow);overflow:hidden}.start-panel{display:grid;grid-template-columns:1.12fr .88fr;min-height:570px}.start-copy{padding:clamp(30px,6vw,64px);display:flex;flex-direction:column;justify-content:center}.start-art{background:linear-gradient(145deg,var(--navy),#275ca5);padding:34px;display:flex;align-items:center}.eyebrow{width:max-content;background:var(--sky);color:var(--blue);border-radius:99px;padding:8px 14px;font-weight:900;font-size:.86rem;text-transform:uppercase}h1{font-size:clamp(2.5rem,7vw,4.8rem);line-height:.96;margin:22px 0 18px;color:var(--navy);letter-spacing:-2px}h2{font-size:clamp(1.5rem,4vw,2.4rem);margin:0}h3{font-size:1.25rem;color:var(--navy)}p{line-height:1.5}.lead{font-size:1.1rem;color:var(--muted)}.summary{display:grid;gap:14px;width:100%}.summary div{background:#fff;border-radius:18px;padding:17px 19px;color:var(--navy);font-weight:900;display:flex;justify-content:space-between}.badge{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--yellow);color:#8a2b19}.primary,.secondary{border:0;border-radius:16px;min-height:56px;padding:14px 24px}.primary{background:var(--blue);color:#fff;box-shadow:0 8px 18px #2471d547}.secondary{background:#eef4fb;color:var(--navy);border:2px solid var(--line)}.start{margin-top:20px;min-width:230px;width:max-content}.frame{min-height:620px;display:flex;flex-direction:column}.head{padding:21px clamp(21px,4vw,40px);background:linear-gradient(90deg,var(--navy),#275ca5);color:#fff;display:flex;align-items:center;gap:15px}.head h2{flex:1}.counter{background:#ffffff24;padding:8px 13px;border-radius:99px;white-space:nowrap;font-weight:900;font-size:.88rem}.body{padding:clamp(24px,5vw,48px);flex:1;display:flex;flex-direction:column}.meta{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-weight:850}.track{height:12px;background:#e5edf7;border-radius:99px;margin:12px 0 8px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),#25b88a);transition:width .25s}.question{font-size:clamp(1.35rem,3vw,2rem);line-height:1.32;margin:18px 0 22px;color:var(--navy)}.choices{display:grid;gap:13px}.choice{width:100%;text-align:left;border:2px solid var(--line);background:#fff;border-radius:17px;padding:15px 18px;min-height:62px;display:flex;gap:14px;align-items:center;color:var(--ink)}.choice:hover:not(:disabled){border-color:var(--blue);background:#f5f9ff}.choice:disabled{cursor:default}.letter{flex:0 0 38px;height:38px;border-radius:11px;background:#eaf2fc;color:var(--blue);display:grid;place-items:center}.choice.correct{border-color:var(--green);background:var(--greenbg)}.choice.correct .letter{background:var(--green);color:#fff}.choice.wrong{border-color:var(--red);background:var(--redbg)}.choice.wrong .letter{background:var(--red);color:#fff}.feedback{display:none;margin-top:18px;border-radius:17px;padding:17px 20px;line-height:1.45;font-weight:700}.feedback.show{display:block}.feedback.good{background:var(--greenbg);color:#096143}.feedback.bad{background:var(--redbg);color:#8d2020}.nav{display:flex;justify-content:flex-end;gap:12px;flex-wrap:wrap;margin-top:24px}.hidden{display:none!important}.score{font-size:clamp(3.5rem,10vw,6rem);line-height:1;color:var(--blue);font-weight:900;margin:18px 0}.score small{font-size:1.2rem;color:var(--muted)}.center{text-align:center}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:18px 0}.box{border:2px solid var(--line);border-radius:18px;padding:18px;background:#fbfdff}.box strong{font-size:1.7rem;display:block;color:var(--navy)}.topics{display:flex;gap:8px;flex-wrap:wrap}.pill{background:var(--sky);border:1px solid #c9def8;border-radius:99px;padding:7px 11px;font-weight:800;font-size:.88rem}.pill.review{background:var(--redbg);color:#8d2020;border-color:#ffc5c5}.mistakes{display:grid;gap:15px}.mistake{border:2px solid var(--line);border-radius:18px;padding:18px;background:#fbfdff}.mistake p{margin:.45rem 0}.topic{color:var(--blue);font-weight:900;font-size:.85rem;text-transform:uppercase}
+@media(max-width:720px){body{font-size:16px}.top{flex-wrap:wrap}.brand{flex-basis:100%}.start-panel{grid-template-columns:1fr}.start-art{order:-1;min-height:245px}.start-copy{padding:30px 24px}.grid{grid-template-columns:1fr}.body{padding:24px 20px}.head{padding:18px 20px;align-items:flex-start}.nav button{width:100%}}
+</style>
+</head>
+<body><div class="app">
+<header class="top"><div class="brand"><span>Grade 6</span> Sentence Structures Quiz</div><button id="homeBtn">Home</button><button id="resetBtn">Reset Quiz</button></header>
+<main>
+<section id="startScreen" class="screen active"><div class="panel start-panel"><div class="start-copy"><div class="eyebrow">Lessons 7–10</div><h1>40-Question Quiz</h1><p class="lead">Choose A, B, C, or D. You will see the answer and explanation immediately after each question.</p><p><strong>Easy:</strong> 1–12 · <strong>Medium:</strong> 13–28 · <strong>Hard:</strong> 29–40</p><button class="primary start" id="startBtn">Start Quiz</button></div><div class="start-art"><div class="summary"><div>Compound Sentences <span class="badge">7</span></div><div>Conjunctions <span class="badge">8</span></div><div>Complex Sentences <span class="badge">9</span></div><div>Fragments + Run-ons <span class="badge">10</span></div></div></div></div></section>
+<section id="quizScreen" class="screen"><div class="panel frame"><div class="head"><h2>Lessons 7–10 Quiz</h2><div class="counter" id="questionCounter"></div></div><div class="body"><div class="meta"><span id="difficulty"></span><span id="liveScore"></span></div><div class="track"><div class="fill" id="quizFill"></div></div><h3 class="question" id="questionText"></h3><div class="choices" id="choices"></div><div id="feedback" class="feedback" role="status"></div><div class="nav"><button class="primary hidden" id="nextBtn">Next Question</button></div></div></div></section>
+<section id="resultScreen" class="screen"><div class="panel frame"><div class="head"><h2>Quiz Results</h2><div class="counter">40 Questions Complete</div></div><div class="body"><div class="center"><div class="score" id="resultScore"></div><p id="resultMessage" class="lead"></p></div><div class="grid"><div class="box">Correct<strong id="correctCount"></strong></div><div class="box">Incorrect<strong id="incorrectCount"></strong></div></div><div class="box"><h3>Topics You Understand</h3><div id="strongTopics" class="topics"></div></div><div class="box" style="margin-top:14px"><h3>Topics to Review</h3><div id="reviewTopics" class="topics"></div></div><div class="nav"><button class="secondary" id="reviewBtn">Review Mistakes</button><button class="primary" id="restartBtn">Restart Quiz</button></div></div></div></section>
+<section id="mistakesScreen" class="screen"><div class="panel frame"><div class="head"><h2>Review Mistakes</h2><div class="counter" id="mistakeCount"></div></div><div class="body"><div id="mistakesList" class="mistakes"></div><div class="nav"><button class="secondary" id="backResultsBtn">Back to Results</button><button class="primary" id="mistakeRestartBtn">Restart Quiz</button></div></div></div></section>
+</main></div>
+<script>
+(()=>{
+"use strict";
+const questions=[
+  {
+    "q": "What does a simple sentence have and express?",
+    "c": [
+      "Two connecting words",
+      "A subject and a predicate, and a complete thought",
+      "Only a subject",
+      "Only a predicate"
+    ],
+    "a": 1,
+    "e": "A simple sentence has a subject and a predicate and expresses a complete thought.",
+    "t": "Lesson 7 · Simple Sentence"
+  },
+  {
+    "q": "What is a compound sentence made up of?",
+    "c": [
+      "Two simple sentences",
+      "Two subjects only",
+      "Two predicates only",
+      "One incomplete thought"
+    ],
+    "a": 0,
+    "e": "A compound sentence is made up of two simple sentences.",
+    "t": "Lesson 7 · Compound Sentence Rule"
+  },
+  {
+    "q": "How are the two simple sentences in a compound sentence joined?",
+    "c": [
+      "By a subject only",
+      "By a predicate only",
+      "By a comma and a connecting word",
+      "By removing both subjects"
+    ],
+    "a": 2,
+    "e": "They are joined by a comma and a connecting word.",
+    "t": "Lesson 7 · Comma and Connecting Word"
+  },
+  {
+    "q": "What are the connecting words and, or, and but called?",
+    "c": [
+      "Predicates",
+      "Conjunctions",
+      "Subjects",
+      "Sentences"
+    ],
+    "a": 1,
+    "e": "The connecting words “and,” “or,” and “but” are called conjunctions.",
+    "t": "Lesson 8 · Conjunction Meaning"
+  },
+  {
+    "q": "Which conjunction is used to add information?",
+    "c": [
+      "And",
+      "Or",
+      "But",
+      "No conjunction"
+    ],
+    "a": 0,
+    "e": "Use “and” to add information.",
+    "t": "Lesson 8 · And"
+  },
+  {
+    "q": "Which conjunction is used to give a choice?",
+    "c": [
+      "And",
+      "But",
+      "Or",
+      "No conjunction"
+    ],
+    "a": 2,
+    "e": "Use “or” to give a choice.",
+    "t": "Lesson 8 · Or"
+  },
+  {
+    "q": "What is a complex sentence made up of?",
+    "c": [
+      "One subject only",
+      "Two simple sentences joined by a subordinating conjunction",
+      "Two predicates joined by and",
+      "Two equal parts joined only by a comma"
+    ],
+    "a": 1,
+    "e": "A complex sentence is made up of two simple sentences joined by a subordinating conjunction.",
+    "t": "Lesson 9 · Complex Sentence Rule"
+  },
+  {
+    "q": "What are and, or, and but called in this lesson?",
+    "c": [
+      "Coordinating conjunctions",
+      "Subordinating conjunctions",
+      "Simple predicates",
+      "Complex subjects"
+    ],
+    "a": 0,
+    "e": "And, or, and but are coordinating conjunctions.",
+    "t": "Lesson 9 · Coordinating Conjunctions"
+  },
+  {
+    "q": "What does a subordinating conjunction do?",
+    "c": [
+      "Makes both parts equal",
+      "Removes one part",
+      "Makes one sentence part less important than the other",
+      "Always makes a compound sentence"
+    ],
+    "a": 2,
+    "e": "It subordinates one sentence part to another, making one part less important.",
+    "t": "Lesson 9 · Subordination"
+  },
+  {
+    "q": "What must a sentence have?",
+    "c": [
+      "Only a subject",
+      "A subject and a predicate",
+      "Only a predicate",
+      "Two commas"
+    ],
+    "a": 1,
+    "e": "A sentence must have a subject and a predicate.",
+    "t": "Lesson 10 · Complete Sentence"
+  },
+  {
+    "q": "What is a sentence fragment?",
+    "c": [
+      "A group missing one or both sentence parts",
+      "Two sentences joined correctly",
+      "A sentence with a compound subject",
+      "A long sentence"
+    ],
+    "a": 0,
+    "e": "A fragment is missing one or both sentence parts and does not express a complete thought.",
+    "t": "Lesson 10 · Fragment Definition"
+  },
+  {
+    "q": "What is a run-on sentence?",
+    "c": [
+      "One short sentence",
+      "A sentence with a subject",
+      "A fragment with no predicate",
+      "Two or more sentences run together with commas or no punctuation"
+    ],
+    "a": 3,
+    "e": "That is the lesson definition of a run-on sentence.",
+    "t": "Lesson 10 · Run-on Definition"
+  },
+  {
+    "q": "What must appear on each side of the connecting word in a compound sentence?",
+    "c": [
+      "A comma only",
+      "A subject and a predicate",
+      "A compound subject only",
+      "A connecting word only"
+    ],
+    "a": 1,
+    "e": "A compound sentence has a subject and a predicate on each side of the connecting word.",
+    "t": "Lesson 7 · Two-Sides Test"
+  },
+  {
+    "q": "Why is Ann and I do research not a compound sentence?",
+    "c": [
+      "It has no predicate",
+      "It has two predicates",
+      "It has a compound subject but only one simple sentence",
+      "It has two simple sentences"
+    ],
+    "a": 2,
+    "e": "“Ann and I” is a compound subject, but the sentence does not contain two simple sentences.",
+    "t": "Lesson 7 · Easy to Confuse"
+  },
+  {
+    "q": "Why is We write reports and read them aloud not a compound sentence?",
+    "c": [
+      "It has one subject with a compound predicate",
+      "It has two separate subjects",
+      "It has no connecting word",
+      "It has two simple sentences"
+    ],
+    "a": 0,
+    "e": "The one subject “We” has the compound predicate “write” and “read.”",
+    "t": "Lesson 7 · Easy to Confuse"
+  },
+  {
+    "q": "Which sentence from the lesson is compound?",
+    "c": [
+      "Dirt, rocks, and stones were cleared from a dark layer of earth.",
+      "Ancient people in Peru made long lines, and they drew huge pictures of animals.",
+      "Peru excites the eye and opens the mind.",
+      "Our travel agents will answer and make reservations."
+    ],
+    "a": 1,
+    "e": "“Ancient people in Peru made long lines” and “they drew huge pictures” are two simple sentences.",
+    "t": "Lesson 7 · Book Exercise"
+  },
+  {
+    "q": "Complete the question: Does he sail ___ swim?",
+    "c": [
+      "and",
+      "but",
+      "no word",
+      "or"
+    ],
+    "a": 3,
+    "e": "“Or” gives a choice between sailing and swimming.",
+    "t": "Lesson 8 · Or"
+  },
+  {
+    "q": "Complete the sentence: I swim, ___ Lee sails.",
+    "c": [
+      "and",
+      "but",
+      "or",
+      "no word"
+    ],
+    "a": 1,
+    "e": "“But” shows the contrast between what I do and what Lee does.",
+    "t": "Lesson 8 · But"
+  },
+  {
+    "q": "Complete the question: Shall we sail now ___ wait until later?",
+    "c": [
+      "and",
+      "but",
+      "or",
+      "no word"
+    ],
+    "a": 2,
+    "e": "“Or” gives a choice between sailing now and waiting.",
+    "t": "Lesson 8 · Or"
+  },
+  {
+    "q": "Complete the sentence: Sailing is a joy ___ not in bad weather.",
+    "c": [
+      "and",
+      "or",
+      "but",
+      "no word"
+    ],
+    "a": 2,
+    "e": "“But” shows contrast.",
+    "t": "Lesson 8 · But"
+  },
+  {
+    "q": "Which is a compound sentence?",
+    "c": [
+      "I spotted the snake.",
+      "After I spotted the snake, it slid away.",
+      "I spotted the snake, and it slid away.",
+      "I spotted the snake before it slid away."
+    ],
+    "a": 2,
+    "e": "The two equal sentence parts are joined by the coordinating conjunction “and.”",
+    "t": "Lesson 9 · Sentence Types"
+  },
+  {
+    "q": "Classify: Snakes have no legs, but they can slither along the ground rapidly.",
+    "c": [
+      "Compound",
+      "Simple",
+      "Complex",
+      "Not a sentence"
+    ],
+    "a": 0,
+    "e": "It is compound because “but” joins two equal sentence parts.",
+    "t": "Lesson 9 · Book Exercise"
+  },
+  {
+    "q": "What is the subordinating conjunction in: The number of snakes is decreasing as people build on open land?",
+    "c": [
+      "Number",
+      "Snakes",
+      "As",
+      "Build"
+    ],
+    "a": 2,
+    "e": "“As” joins the two parts of the complex sentence.",
+    "t": "Lesson 9 · Find the Conjunction"
+  },
+  {
+    "q": "Classify: Although not all snakes are deadly, humans often fear them.",
+    "c": [
+      "Simple",
+      "Complex",
+      "Compound",
+      "Not a sentence"
+    ],
+    "a": 1,
+    "e": "It is complex and begins with the subordinating conjunction “Although.”",
+    "t": "Lesson 9 · Book Exercise"
+  },
+  {
+    "q": "Correct: “My dad works on a pit crew. At the dirt track.”",
+    "c": [
+      "My dad. Works on a pit crew at the dirt track.",
+      "At the dirt track. My dad.",
+      "My dad works on a pit crew at the dirt track.",
+      "My dad works. On a pit crew."
+    ],
+    "a": 2,
+    "e": "The place detail joins the sentence it completes.",
+    "t": "Lesson 10 · Book Exercise: Fragments"
+  },
+  {
+    "q": "Correct: “I have a different job every summer, it is fun.”",
+    "c": [
+      "I have a different job. Every summer it is fun.",
+      "I have a different job every summer. It is fun.",
+      "I have. A different job every summer.",
+      "I have a different job every summer it is fun."
+    ],
+    "a": 1,
+    "e": "The period separates the two complete thoughts.",
+    "t": "Lesson 10 · Book Exercise: Run-ons"
+  },
+  {
+    "q": "Which correction uses two sentences of their own?",
+    "c": [
+      "Uncle Frank and Aunt Jill are writers.",
+      "Uncle Frank is a writer Aunt Jill is one too.",
+      "Uncle Frank is a writer, Aunt Jill is one too.",
+      "Uncle Frank is a writer. Aunt Jill is one too."
+    ],
+    "a": 3,
+    "e": "A period separates each complete thought.",
+    "t": "Lesson 10 · Correct Run-ons"
+  },
+  {
+    "q": "Correct: “My uncle builds skyscrapers. In large cities.”",
+    "c": [
+      "My uncle. Builds skyscrapers in large cities.",
+      "My uncle builds skyscrapers in large cities.",
+      "In large cities. My uncle builds skyscrapers.",
+      "My uncle builds. Skyscrapers in large cities."
+    ],
+    "a": 1,
+    "e": "The broken-off place detail joins the sentence.",
+    "t": "Lesson 10 · Book Exercise: Fragments"
+  },
+  {
+    "q": "How should Ancient people drew these pictures but probably never saw any of them whole be classified?",
+    "c": [
+      "Compound with and",
+      "Compound with or",
+      "Compound with but",
+      "Not compound"
+    ],
+    "a": 3,
+    "e": "It has one subject with a compound predicate, so it is not a compound sentence.",
+    "t": "Lesson 7 · Book Exercise"
+  },
+  {
+    "q": "Which sentence is compound?",
+    "c": [
+      "The pictures are seen best from the air, and now people take photographs of them from airplanes.",
+      "Peru excites the eye and opens the mind.",
+      "A city and ruins are unforgettable.",
+      "Travel agents answer questions and make reservations."
+    ],
+    "a": 0,
+    "e": "Both sides of “and” contain a subject and a predicate.",
+    "t": "Lesson 7 · Book Exercise"
+  },
+  {
+    "q": "Which sentence from the travel Web page is compound?",
+    "c": [
+      "Peru excites the eye and opens the mind.",
+      "The colorful city and the ruins are unforgettable.",
+      "Our agents will answer questions and make reservations.",
+      "You will float down the Amazon River, and you will climb the Andes Mountains."
+    ],
+    "a": 3,
+    "e": "Each side has its own subject “you” and its own predicate.",
+    "t": "Lesson 7 · Travel Web Exercise"
+  },
+  {
+    "q": "Which sentence correctly uses but to show contrast?",
+    "c": [
+      "I want to swim or I am cold.",
+      "I want to swim and I am cold.",
+      "I want to swim I am cold.",
+      "I want to swim, but I am cold."
+    ],
+    "a": 3,
+    "e": "“But” correctly shows the contrast, and the compound sentence uses a comma before it.",
+    "t": "Lesson 8 · Application"
+  },
+  {
+    "q": "Complete the sentence: John ___ Sue both want to go there.",
+    "c": [
+      "and",
+      "or",
+      "but",
+      "no word"
+    ],
+    "a": 0,
+    "e": "“And” joins John and Sue in a compound subject.",
+    "t": "Lesson 8 · Compound Subject"
+  },
+  {
+    "q": "Complete the weather report: Skies are clear, ___ that will change.",
+    "c": [
+      "and",
+      "or",
+      "no word",
+      "but"
+    ],
+    "a": 3,
+    "e": "“But” shows the contrast between clear skies now and the coming change.",
+    "t": "Lesson 8 · Weather Report"
+  },
+  {
+    "q": "Which description fits: If you come upon a snake, do not disturb it?",
+    "c": [
+      "Simple with no conjunction",
+      "Compound joined by but",
+      "Compound joined by or",
+      "Complex joined by if"
+    ],
+    "a": 3,
+    "e": "The sentence is complex and begins with the subordinating conjunction “If.”",
+    "t": "Lesson 9 · Application"
+  },
+  {
+    "q": "Classify: Most pythons swim and climb with ease in their tropical environment.",
+    "c": [
+      "Simple",
+      "Compound",
+      "Complex",
+      "Not a sentence"
+    ],
+    "a": 0,
+    "e": "It is simple; “and” joins the predicates “swim” and “climb.”",
+    "t": "Lesson 9 · Easy to Confuse"
+  },
+  {
+    "q": "Which sentence correctly combines the ideas into a complex sentence and follows the comma tip?",
+    "c": [
+      "Some snakebites are fatal, and people should be cautious.",
+      "Some snakebites are fatal but people should be cautious.",
+      "People should be cautious, some snakebites are fatal.",
+      "Because some snakebites are fatal to humans, people should be cautious around snakes."
+    ],
+    "a": 3,
+    "e": "The sentence begins with “Because,” so a comma follows the first part.",
+    "t": "Lesson 9 · Combining Sentences"
+  },
+  {
+    "q": "Complete: “She designs machines. With moving parts.”",
+    "c": [
+      "She designs machines with moving parts.",
+      "She designs. Machines with moving parts.",
+      "With moving parts. She designs machines.",
+      "She. Designs machines with moving parts."
+    ],
+    "a": 0,
+    "e": "The detail joins the sentence it completes.",
+    "t": "Lesson 10 · Application: Fragments"
+  },
+  {
+    "q": "Which follows the lesson example for Ann's run-on?",
+    "c": [
+      "Ann read their book, she loved it, she will read it again.",
+      "Ann read their book she loved it.",
+      "Ann read their book and loved it. After she reads it again, she will give it to me.",
+      "Ann read. Their book and loved it after she reads."
+    ],
+    "a": 2,
+    "e": "This uses a compound predicate and a complex sentence, as in the lesson.",
+    "t": "Lesson 10 · Application: Combine"
+  },
+  {
+    "q": "Which passage has no fragment or run-on?",
+    "c": [
+      "Workers drove cranes. At the building they lifted stone.",
+      "Workers drove cranes at the building, they lifted stone.",
+      "Workers drove. Cranes at the building.",
+      "Workers drove cranes at the building. They lifted stone."
+    ],
+    "a": 3,
+    "e": "Both complete thoughts are separated correctly.",
+    "t": "Lesson 10 · Application: Proofreading"
+  }
+];
+const letters=["A","B","C","D"],screens=["startScreen","quizScreen","resultScreen","mistakesScreen"],$=id=>document.getElementById(id);
+let index=0,score=0,answered=false,answers=[],mistakes=[];
+function show(id){screens.forEach(s=>$(s).classList.toggle("active",s===id));window.scrollTo(0,0)}
+function start(){index=0;score=0;answered=false;answers=[];mistakes=[];render();show("quizScreen")}
+function level(){return index<12?"Easy":index<28?"Medium":"Hard · Application"}
+function render(){$("questionCounter").textContent="Question "+(index+1)+" of "+questions.length;$("difficulty").textContent=level();$("liveScore").textContent="Score: "+score;$("quizFill").style.width=(index/questions.length*100)+"%";const q=questions[index];$("questionText").textContent=q.q;$("choices").innerHTML="";q.c.forEach((c,i)=>{const b=document.createElement("button");b.className="choice";b.innerHTML='<span class="letter">'+letters[i]+'</span><span>'+esc(c)+'</span>';b.onclick=()=>answer(i);$("choices").appendChild(b)});$("feedback").className="feedback";$("feedback").textContent="";$("nextBtn").classList.add("hidden");answered=false}
+function answer(selected){if(answered)return;answered=true;const q=questions[index],ok=selected===q.a;[...$("choices").children].forEach((b,i)=>{b.disabled=true;if(i===q.a)b.classList.add("correct");if(i===selected&&!ok)b.classList.add("wrong")});answers[index]=selected;if(ok)score++;else mistakes.push({index,selected});$("liveScore").textContent="Score: "+score;const f=$("feedback");f.className="feedback show "+(ok?"good":"bad");f.textContent=(ok?"✅ Correct! ":"❌ Incorrect. The correct answer is "+letters[q.a]+". ")+q.e;$("nextBtn").textContent=index===questions.length-1?"See Results":"Next Question";$("nextBtn").classList.remove("hidden")}
+function next(){if(!answered)return;if(index<questions.length-1){index++;render()}else results()}
+function pills(id,items,empty,review=false){const el=$(id);el.innerHTML="";if(!items.length){el.textContent=empty;return}items.forEach(t=>{const p=document.createElement("span");p.className="pill"+(review?" review":"");p.textContent=t;el.appendChild(p)})}
+function results(){const pct=Math.round(score/questions.length*100);$("resultScore").innerHTML=pct+'% <small>score</small>';$("correctCount").textContent=score;$("incorrectCount").textContent=questions.length-score;$("resultMessage").textContent=pct>=90?"Excellent! You understand the key skills from Lessons 7–10 very well.":pct>=75?"Good work! Review the few sentence skills you missed.":pct>=60?"You are making progress. Review your mistakes, then try again.":"Review compound and complex sentences, conjunctions, fragments, and run-ons, then try again.";const st={};questions.forEach((q,i)=>{st[q.t]??={r:0,w:0};answers[i]===q.a?st[q.t].r++:st[q.t].w++});const strong=[],review=[];Object.keys(st).forEach(t=>(st[t].w?review:strong).push(t));pills("strongTopics",strong,"No topic was perfect yet.");pills("reviewTopics",review,"No review topics — excellent work!",true);$("reviewBtn").disabled=!mistakes.length;show("resultScreen")}
+function reviewMistakes(){const list=$("mistakesList");list.innerHTML="";$("mistakeCount").textContent=mistakes.length+" "+(mistakes.length===1?"Question":"Questions");if(!mistakes.length)list.innerHTML="<p>No mistakes. Great job!</p>";mistakes.forEach(m=>{const q=questions[m.index],d=document.createElement("article");d.className="mistake";d.innerHTML='<div class="topic">'+esc(q.t)+'</div><h3>'+esc(q.q)+'</h3><p><strong>Your answer:</strong> '+letters[m.selected]+'. '+esc(q.c[m.selected])+'</p><p><strong>Correct answer:</strong> '+letters[q.a]+'. '+esc(q.c[q.a])+'</p><p>'+esc(q.e)+'</p>';list.appendChild(d)});show("mistakesScreen")}
+function esc(v){return String(v).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]))}
+$("startBtn").onclick=start;$("nextBtn").onclick=next;$("reviewBtn").onclick=reviewMistakes;$("restartBtn").onclick=start;$("mistakeRestartBtn").onclick=start;$("backResultsBtn").onclick=()=>show("resultScreen");$("homeBtn").onclick=()=>show("startScreen");$("resetBtn").onclick=()=>{if(confirm("Restart the 40-question quiz?"))start()};
+})();
+</script>
+</body>
+</html>

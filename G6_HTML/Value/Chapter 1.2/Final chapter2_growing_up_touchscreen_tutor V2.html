@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#2f5d50">
+  <title>Chapter 2 Growing Up Touchscreen Tutor</title>
+  <style>
+    :root{
+      --ink:#18312c;--muted:#5e716c;--paper:#fffdf8;--green:#2f5d50;
+      --green2:#4b826f;--mint:#dff1e9;--cream:#fff3d7;--gold:#f1b84b;
+      --rose:#f8e3df;--blue:#e3eef8;--line:#cfddd8;--shadow:0 18px 48px rgba(35,68,58,.16);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0}
+    body{font-family:Inter,"Segoe UI",Arial,sans-serif;color:var(--ink);background:
+      radial-gradient(circle at 10% 10%,#edf8f3 0 16%,transparent 17%),
+      radial-gradient(circle at 92% 88%,#fff0c9 0 18%,transparent 19%),#eef4f1;
+      overflow:hidden;-webkit-tap-highlight-color:transparent}
+    button{font:inherit}
+    .app{height:100svh;display:flex;align-items:center;justify-content:center;padding:14px}
+    .shell{width:min(1180px,100%);height:min(920px,calc(100svh - 28px));background:var(--paper);
+      border:1px solid rgba(47,93,80,.16);border-radius:26px;box-shadow:var(--shadow);
+      overflow:hidden;display:flex;flex-direction:column}
+    .topbar{display:flex;align-items:center;gap:14px;padding:14px 20px;background:var(--green);color:white}
+    .brand{font-weight:850;letter-spacing:.02em;white-space:nowrap}
+    .progress-track{height:10px;background:rgba(255,255,255,.22);border-radius:999px;flex:1;overflow:hidden}
+    .progress-fill{height:100%;width:0;background:var(--gold);border-radius:inherit;transition:width .25s ease}
+    .counter{font-weight:750;white-space:nowrap;font-size:.92rem}
+    .stage{flex:1;overflow:auto;overscroll-behavior:contain;padding:clamp(20px,3vw,42px)}
+    .slide{max-width:1030px;margin:auto;animation:rise .28s ease}
+    @keyframes rise{from{opacity:.25;transform:translateY(8px)}to{opacity:1;transform:none}}
+    h1,h2,h3,p{margin-top:0}
+    h1{font-size:clamp(2rem,5vw,4.6rem);line-height:1.02;margin-bottom:18px}
+    h2{font-size:clamp(1.7rem,3.4vw,3rem);line-height:1.08;margin-bottom:20px;color:#244f43}
+    h3{font-size:1.1rem;margin-bottom:8px;color:#274f45}
+    p,li,td,th{font-size:clamp(1rem,1.6vw,1.2rem);line-height:1.48}
+    .lead{font-size:clamp(1.15rem,2vw,1.45rem);color:var(--muted);max-width:800px}
+    .eyebrow{display:inline-flex;background:var(--mint);color:var(--green);font-weight:850;
+      padding:7px 12px;border-radius:999px;margin-bottom:16px;text-transform:uppercase;font-size:.78rem;letter-spacing:.1em}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .card{background:white;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 6px 18px rgba(35,68,58,.06)}
+    .card.tint{background:var(--mint)} .card.cream{background:var(--cream)} .card.rose{background:var(--rose)} .card.blue{background:var(--blue)}
+    .big-number{font-size:2.2rem;font-weight:900;color:var(--green);line-height:1}
+    .growth-result{font-size:1.28em;font-weight:950;color:#1f624e;line-height:1.15}
+    .quote{font-family:Georgia,serif;font-size:clamp(1.25rem,2.3vw,1.75rem);line-height:1.45;
+      padding:22px;border-left:7px solid var(--gold);background:var(--cream);border-radius:0 18px 18px 0}
+    .chips{display:flex;flex-wrap:wrap;gap:9px;margin:12px 0}
+    .chip{padding:8px 12px;border-radius:999px;background:var(--blue);border:1px solid #bed5e8;font-weight:700}
+    .arrowline{display:flex;align-items:stretch;gap:9px;flex-wrap:wrap;margin:18px 0}
+    .step{flex:1;min-width:150px;padding:15px;border-radius:15px;background:var(--mint);font-weight:750;text-align:center}
+    .arrow{align-self:center;font-size:1.5rem;color:var(--green2);font-weight:900}
+    .remember{margin-top:22px;background:#fff4cf;border:2px solid #efd277;border-radius:16px;padding:14px 17px;
+      font-weight:800;font-size:clamp(1rem,1.7vw,1.18rem)}
+    .note{border-left:5px solid #d08842;background:#fff4e7;padding:13px 15px;border-radius:0 12px 12px 0}
+    .checklist{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+    .checklist li{position:relative;padding-left:34px}
+    .checklist li:before{content:"✓";position:absolute;left:0;top:0;color:#2d7a58;font-weight:950}
+    .table-wrap{overflow-x:auto;border-radius:16px;border:1px solid var(--line);background:white}
+    table{border-collapse:collapse;width:100%;min-width:720px}
+    table.key-table{min-width:0}
+    .key-table th:first-child,.key-table td:first-child{width:120px;text-align:center;font-weight:850;white-space:nowrap}
+    .truefalse-table th:first-child,.truefalse-table td:first-child{width:60px;text-align:center}
+    .truefalse-table th:last-child,.truefalse-table td:last-child{width:110px;text-align:center;font-weight:900}
+    th{background:var(--green);color:white;text-align:left;padding:12px 13px}
+    td{padding:11px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+    tr:nth-child(even) td{background:#f5faf7}
+    .wheel{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0}
+    .wheel div{min-height:110px;border-radius:16px;padding:13px 8px;display:flex;align-items:center;justify-content:center;text-align:center;
+      color:#173a31;font-weight:850;border:1px solid rgba(47,93,80,.18)}
+    .wheel div:nth-child(1){background:#dff1e9}.wheel div:nth-child(2){background:#f8e3df}.wheel div:nth-child(3){background:#e3eef8}
+    .wheel div:nth-child(4){background:#fff3d7}.wheel div:nth-child(5){background:#e9e3f5}
+    .vs{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:stretch}
+    .vs-label{align-self:center;font-size:1.4rem;font-weight:900;color:var(--green)}
+    .mini{font-size:.93rem;color:var(--muted)}
+    .footer{padding:12px 16px;background:#f7faf8;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:space-between}
+    .navgroup{display:flex;gap:10px}
+    .btn{border:0;border-radius:14px;min-height:52px;padding:12px 20px;font-weight:850;cursor:pointer;transition:transform .12s,filter .12s}
+    .btn:active{transform:scale(.98)} .btn:hover{filter:brightness(.98)}
+    .btn.primary{background:var(--green);color:white}.btn.secondary{background:#e8efec;color:var(--ink)}
+    .btn.gold{background:var(--gold);color:#34290f}.btn:disabled{opacity:.42;cursor:not-allowed}
+    .answer-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:20px}
+    .answer{min-height:70px;text-align:left;border:2px solid var(--line);background:white;border-radius:16px;padding:15px;
+      font-weight:720;cursor:pointer;color:var(--ink)}
+    .answer:hover{border-color:var(--green2);background:#f5faf7}.answer.correct{background:#dff5e7;border-color:#3a9a60}.answer.wrong{background:#fde6e2;border-color:#cc5f4f}
+    .letter{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:10px;background:#e9f1ee;margin-right:9px;font-weight:900}
+    .feedback{margin-top:17px;border-radius:16px;padding:16px 18px;font-size:1.08rem;line-height:1.5}
+    .feedback.good{background:#dff5e7;border:1px solid #91cda8}.feedback.bad{background:#fde6e2;border:1px solid #e2a198}
+    .quiz-meta{display:flex;gap:10px;flex-wrap:wrap}.tag{background:var(--mint);padding:7px 11px;border-radius:999px;font-weight:800}
+    .score-ring{width:170px;height:170px;border-radius:50%;margin:8px auto 20px;display:grid;place-items:center;text-align:center;
+      background:conic-gradient(var(--green) var(--score,0%),#dfe9e5 0);position:relative}
+    .score-ring:after{content:"";position:absolute;width:130px;height:130px;border-radius:50%;background:var(--paper)}
+    .score-ring span{z-index:1;font-size:2rem;font-weight:950}.center{text-align:center}.hidden{display:none!important}
+    .tiny-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.tiny-grid .card{padding:13px}
+    @media(max-width:760px){
+      .app{padding:0}.shell{height:100svh;border:0;border-radius:0}.topbar{padding:10px 12px}.brand{display:none}
+      .stage{padding:20px 15px}.grid,.grid.three,.answer-grid,.tiny-grid{grid-template-columns:1fr}
+      .wheel{grid-template-columns:1fr 1fr}.wheel div:last-child{grid-column:1/-1}.vs{grid-template-columns:1fr}.vs-label{text-align:center}
+      .footer{padding:10px;flex-wrap:wrap}.navgroup{flex:1}.btn{min-height:50px;padding:10px 14px;flex:1}
+    }
+    @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="shell" aria-label="Chapter 2 Growing Up tutor">
+      <header class="topbar">
+        <div class="brand">Growing Up</div>
+        <div class="progress-track" aria-hidden="true"><div id="progressFill" class="progress-fill"></div></div>
+        <div id="counter" class="counter">Slide 1</div>
+      </header>
+      <div id="lessonStage" class="stage"></div>
+      <div id="quizStage" class="stage hidden"></div>
+      <footer id="lessonFooter" class="footer">
+        <button class="btn secondary" id="restartLesson">↺ Restart</button>
+        <div class="navgroup">
+          <button class="btn secondary" id="backBtn">← Back</button>
+          <button class="btn primary" id="nextBtn">Next →</button>
+        </div>
+      </footer>
+      <footer id="quizFooter" class="footer hidden">
+        <button class="btn secondary" id="returnLesson">← Return to Lesson</button>
+        <button class="btn gold hidden" id="nextQuestion">Next Question →</button>
+      </footer>
+    </section>
+  </main>
+  <script>
+  "use strict";
+  const slides = [
+    {
+      title:"Chapter 2 — Growing Up",
+      html:`<span class="eyebrow">15–20 Minute Lesson</span><h1>Growing Up</h1>
+        <p class="lead">Learn how Jesus grew, faced ordinary challenges, developed in every area, and used His time and opportunities well.</p>
+        <div class="quote"><strong>Luke 2:52</strong><br>“And Jesus grew in wisdom and stature, and in favor with God and man.” <span class="mini">NIV</span></div>`,
+      remember:"Jesus grew in wisdom, stature, and favor with God and man."
+    },
+    {
+      title:"What You Must Know",
+      html:`<span class="eyebrow">Part 1</span><h2>What You Must Know</h2>
+        <ul class="checklist"><li>Jesus’ childhood challenges: poverty, Nazareth, education, temptation, and criticism.</li>
+        <li>Luke 2:40 and Luke 2:52 describe His growth.</li><li>The five areas in the Total Development chart.</li>
+        <li>Why every area needs equal attention.</li><li>Fiction about Jesus versus the true Temple story.</li>
+        <li>The Personal Inventory, Yes/No review, and Profile acrostic activities.</li></ul>`,
+      remember:"Know the challenges, the five development areas, and the review activities."
+    },
+    {
+      title:"Growing Is More Than Height",
+      html:`<span class="eyebrow">Easy Lesson</span><h2>Growing Is More Than Height</h2>
+        <div class="grid"><div class="card tint"><h3>Dwarfism</h3><p>A person’s height is much less than the average height for people of the same age and population.</p></div>
+        <div class="card cream"><h3>Gigantism</h3><p>The opposite: the person grows too much.</p></div></div>
+        <div class="arrowline"><div class="step">Dwarfism or gigantism</div><div class="arrow">←</div><div class="step">One cause: growth hormone disorders</div></div>
+        <p class="mini">The material also says millions of children are born every day: many die too soon, others become elderly, most remain anonymous, and a minority stands out.</p>`,
+      remember:"Physical growth can be too little or too much; one cause is a growth hormone disorder."
+    },
+    {
+      title:"Unique, Yet Facing Normal Challenges",
+      html:`<h2>Unique, Yet Facing Normal Challenges</h2><div class="vs">
+        <div class="card blue"><h3>How He looked</h3><p>The young Jesus looked like an ordinary child.</p></div><div class="vs-label">AND</div>
+        <div class="card cream"><h3>Who He was</h3><p>He was the most unique person to walk the Earth: God in human form.</p></div></div>
+        <div class="card" style="margin-top:16px"><p>His childhood and adolescence were quite normal. He faced the same challenges and temptations as other young people His age. His perfect character made suffering feel worse—like dirt showing more clearly on clean white cloth. He could have used His powers, but not for His own benefit; this was a great temptation.</p></div>`,
+      remember:"Jesus faced real challenges and did not use His powers for His own benefit."
+    },
+    {
+      title:"Challenge 1 — Poverty",
+      html:`<h2>Challenge 1 — Poverty</h2>
+        <div class="card cream"><p>Jesus was <strong>extremely poor</strong>. When Jesus’ parents presented Him at the Temple, they only offered <strong>“a pair of doves or two young pigeons” as the Law commanded (Luke 2:24).</strong> If they had been wealthy they could have brought a lamb as an offering.</p></div>
+        <div class="arrowline"><div class="step">Extremely poor</div><div class="arrow">→</div><div class="step">“A pair of doves or two young pigeons” as the Law commanded (Luke 2:24)</div><div class="arrow">→</div><div class="step">A wealthy family could have brought a lamb</div></div>
+        <div class="quote"><strong>“Foxes have dens, and birds have nests, but the Son of Man has no place to lay His head” (Luke 9:58).</strong></div>`,
+      remember:"The doves or pigeons showed His family’s poverty; a wealthy family could bring a lamb."
+    },
+    {
+      title:"Challenge 2 — Nazareth",
+      html:`<h2>Challenge 2 — Nazareth</h2><p>People might choose a city for what it offers. The material gives these examples:</p>
+        <div class="chips"><span class="chip">New York → diversity</span><span class="chip">Tokyo → technology</span><span class="chip">Rio de Janeiro → beauty</span>
+        <span class="chip">Jericho → antiquity</span><span class="chip">Rome → monuments</span><span class="chip">Paris → culture</span></div>
+        <div class="grid"><div class="card rose"><h3>Jesus’ town</h3><p>He lived in Nazareth, a small town with a bad reputation.</p></div>
+        <div class="quote">“Nazareth! Can anything good come from there?” <span class="mini">John 1:46</span></div></div>`,
+      remember:"Jesus grew up in Nazareth, a small town with a bad reputation."
+    },
+    {
+      title:"Challenge 3 — Education",
+      html:`<h2>Challenge 3 — Education</h2><p>Jesus did not attend a “super college” or go often to the schools of the Pharisees and Sadducees. The material names:</p>
+        <div class="chips"><span class="chip">University of Cape Town</span><span class="chip">Makerere University</span><span class="chip">University of Nairobi</span>
+        <span class="chip">University of Ghana</span><span class="chip">Addis Ababa University</span><span class="chip">University of Oxford</span><span class="chip">Harvard University</span></div>
+        <p>It says He never went to school—but clearly says this is <strong>not an excuse</strong> for the student not to go.</p>
+        <div class="grid"><div class="quote"><strong>Luke 2:40</strong><br>“And the child grew and became strong; he was filled with wisdom, and the grace of God was on him.”</div>
+        <div class="quote"><strong>Luke 2:52</strong><br>“And Jesus grew in wisdom and stature, and in favor with God and man.”</div></div>`,
+      remember:"Luke 2:40 and 2:52 show Jesus growing strong, wise, and in God’s and people’s favor."
+    },
+    {
+      title:"Key Quotations from the Book",
+      html:`<span class="eyebrow">Exact Book Wording</span><h2>Key Quotations from the Book</h2>
+        <p>Study each sentence in full. The wording below is kept exactly as provided in the book and is not shortened.</p>
+        <div class="table-wrap"><table class="key-table"><thead><tr><th>Reference</th><th>Exact Key Quotation</th></tr></thead><tbody>
+        <tr><td>Luke 2:24</td><td><strong>“a pair of doves or two young pigeons” as the Law commanded (Luke 2:24).</strong></td></tr>
+        <tr><td>Luke 9:58</td><td><strong>“Foxes have dens, and birds have nests, but the Son of Man has no place to lay His head” (Luke 9:58).</strong></td></tr>
+        <tr><td>John 1:46</td><td><strong>“Nazareth! Can anything good come from there?” (John 1:46).</strong></td></tr>
+        <tr><td>Luke 2:40</td><td><strong>“And the child grew and became strong; he was filled with wisdom, and the grace of God was on him” (Luke 2:40).</strong></td></tr>
+        <tr><td>Luke 2:52</td><td><strong>“And Jesus grew in wisdom and stature, and in favor with God and man” (Luke 2:52).</strong></td></tr>
+        </tbody></table></div>`,
+      remember:"Read and remember all five key quotations in their complete book wording."
+    },
+    {
+      title:"Understanding the Poverty Quotations",
+      html:`<span class="eyebrow">Where It Comes From</span><h2>Understanding the Poverty Quotations</h2>
+        <div class="grid"><div class="card cream"><h3>Luke 2:24 — What happened?</h3>
+        <p>When Jesus’ parents presented Him at the Temple, they offered <strong>“a pair of doves or two young pigeons” as the Law commanded (Luke 2:24).</strong></p>
+        <p><strong>Why the book includes it:</strong> The lesson says Jesus was <strong>extremely poor</strong>. If His parents had been wealthy, they could have brought a lamb as an offering.</p></div>
+        <div class="card blue"><h3>Luke 9:58 — Who was Jesus answering?</h3>
+        <p>Later, at the start of Jesus’ public work, a man wanted to follow Him. Jesus answered:</p>
+        <p><strong>“Foxes have dens, and birds have nests, but the Son of Man has no place to lay His head” (Luke 9:58).</strong></p>
+        <p><strong>Why the book includes it:</strong> The answer continues the lesson’s explanation of Jesus’ poverty.</p></div></div>`,
+      remember:"Luke 2:24 and Luke 9:58 are used in the lesson as evidence that Jesus was extremely poor."
+    },
+    {
+      title:"Understanding the Nazareth Conversation",
+      html:`<span class="eyebrow">Who Said It and Why</span><h2>Understanding the Nazareth Conversation</h2>
+        <div class="arrowline"><div class="step">Philip told Nathanael that he had found the Messiah</div><div class="arrow">→</div>
+        <div class="step">Nathanael heard that He was connected with Nazareth</div><div class="arrow">→</div>
+        <div class="step">Nathanael questioned whether anything good could come from there</div></div>
+        <div class="quote"><strong>“Nazareth! Can anything good come from there?” (John 1:46).</strong></div>
+        <div class="card rose" style="margin-top:16px"><h3>What should you understand?</h3><p>Jesus did not choose a famous or impressive city for His childhood and adolescence. He lived in Nazareth, which the lesson describes as a <strong>small town with a bad reputation</strong>. Nathanael’s question is the evidence the book gives for that reputation.</p></div>`,
+      remember:"Nathanael’s question shows the bad reputation Nazareth had in the lesson."
+    },
+    {
+      title:"Understanding the Growth Verses",
+      html:`<span class="eyebrow">Why Luke 2:40 and 2:52 Appear</span><h2>Understanding the Growth Verses</h2>
+        <p>The lesson asks: If Jesus did not attend a great school, what was His secret? It then uses two verses from Luke to show His progress.</p>
+        <div class="grid"><div class="card tint"><h3>Luke 2:40 — Growth as a child</h3>
+        <p><strong>“And the child grew and became strong; he was filled with wisdom, and the grace of God was on him” (Luke 2:40).</strong></p>
+        <p>This verse shows growth, strength, wisdom, and God’s grace.</p></div>
+        <div class="card cream"><h3>Luke 2:52 — Growth in several relationships</h3>
+        <p><strong>“And Jesus grew in wisdom and stature, and in favor with God and man” (Luke 2:52).</strong></p>
+        <p>This verse shows wisdom, physical growth, His relationship with God, and His relationship with people.</p></div></div>
+        <div class="note" style="margin-top:16px"><strong>How the verses connect to the chapter:</strong> The book uses them to introduce the idea that Jesus grew in all aspects, leading into the Total Development chart.</div>`,
+      remember:"Luke 2:40 and 2:52 explain Jesus’ progress and lead into Total Development."
+    },
+    {
+      title:"Total Development",
+      html:`<h2>Total Development</h2><p>Growth includes several connected areas. The chart organizes them into five:</p>
+        <div class="wheel" aria-label="Five areas of total development"><div>Biological<br>You + body</div><div>Psychological<br>You + mind</div>
+        <div>Social<br>You + others</div><div>Intellect<br>You + actions</div><div>Spirit<br>You + God</div></div>
+        <div class="note"><strong>Source inconsistency:</strong> One paragraph lists “biological, psychological, social, cultural, and spiritual,” while the Total Development chart uses <strong>Intellect</strong> instead of cultural. The material is inconsistent, so both wordings are shown.</div>`,
+      remember:"The chart uses Biological, Psychological, Social, Intellect, and Spirit."
+    },
+    {
+      title:"Chart Study — Body and Mind",
+      html:`<h2>Chart Study — Body and Mind</h2><div class="table-wrap"><table><thead><tr><th>Reality</th><th>Relationship</th><th>Need</th><th>Means of Satisfaction</th><th>Useful Activities</th></tr></thead><tbody>
+        <tr><td><strong>Biological</strong></td><td>You and your body</td><td>Physiological</td><td>Air, food, water, sleep</td><td>Physical exercise, playing sports, sleeping</td></tr>
+        <tr><td><strong>Psychological</strong></td><td>You and your mind</td><td>Emotional</td><td>Love, affection, acceptance</td><td>Observe, meditate, take classes</td></tr>
+        </tbody></table></div>`,
+      remember:"Biological is body and physiological needs; Psychological is mind and emotional needs."
+    },
+    {
+      title:"Chart Study — Others, Actions, and God",
+      html:`<h2>Chart Study — Others, Actions, and God</h2><div class="table-wrap"><table><thead><tr><th>Reality</th><th>Relationship</th><th>Need</th><th>Means of Satisfaction</th><th>Useful Activities</th></tr></thead><tbody>
+        <tr><td><strong>Social</strong></td><td>You and others</td><td>Attitudinal</td><td>Security, moral, friendship</td><td>Participate in events; talk with parents and friends</td></tr>
+        <tr><td><strong>Intellect</strong></td><td>You and your actions</td><td>Intellectual</td><td>Study, experience</td><td>Read, watch movies, travel</td></tr>
+        <tr><td><strong>Spirit</strong></td><td>You and God</td><td>Spiritual</td><td>God, faith</td><td>Pray, read the Bible, talk with God</td></tr>
+        </tbody></table></div>`,
+      remember:"Social connects to others, Intellect to actions, and Spirit to God."
+    },
+    {
+      title:"Balance Every Area",
+      html:`<h2>Balance Every Area</h2><p>Dr. Augusto Cesar Maia Santos, a Brazilian Clinical Psychologist, says we must pay equal attention to all our subsystems.</p>
+        <div class="grid three"><div class="card tint"><h3>Body only</h3><p>Do not focus only on the body like the “gym generation.”</p></div>
+        <div class="card rose"><h3>Emotion only</h3><p>Do not seek only pleasure and adrenaline.</p></div><div class="card cream"><h3>Religion only</h3><p>Do not become a religious fanatic.</p></div>
+        <div class="card blue"><h3>Social status only</h3><p>Do not make status the most important thing.</p></div>
+        <div class="card"><h3>Books or computers only</h3><p>Do not become only a “book worm” or fanatical computer addict.</p></div></div>`,
+      remember:"Healthy development gives equal attention to every subsystem."
+    },
+    {
+      title:"How Jesus Developed — Physical and Psychological",
+      html:`<h2>How Jesus Developed</h2><div class="grid"><div class="card tint"><div class="big-number">01</div><h3>Physical</h3>
+        <p>He worked in a workshop with His father, walked the countryside, went climbing, went swimming in a lake, and <strong class="growth-result">grew strong</strong>.</p></div>
+        <div class="card rose"><div class="big-number">02</div><h3>Psychological</h3><p>He looked for the best way to live and became a <strong class="growth-result">“genius.”</strong></p></div></div>`,
+      remember:"Physical growth came through active work and movement; psychological growth sought the best way to live."
+    },
+    {
+      title:"How Jesus Developed — Social, Intellectual, Spiritual",
+      html:`<h2>How Jesus Developed</h2><div class="grid three"><div class="card blue"><h3>Social</h3><p>He interacted with His parents and friends and became a <strong class="growth-result">Friend</strong>.</p></div>
+        <div class="card cream"><h3>Intellectual</h3><p>He read available “books” (scrolls), observed nature and people, and became a <strong class="growth-result">wise Man</strong>.</p></div>
+        <div class="card tint"><h3>Spiritual</h3><p>He prayed, read the Hebrew Bible, and became—He already was—a <strong class="growth-result">holy Man</strong>.</p></div></div>`,
+      remember:"He grew through relationships, reading and observing, prayer, and the Hebrew Bible."
+    },
+    {
+      title:"Character Under Pressure",
+      html:`<h2>Character Under Pressure</h2><div class="arrowline"><div class="step">Friends thought He was too “correct”</div><div class="arrow">→</div>
+        <div class="step">They criticized and made fun of Him</div><div class="arrow">→</div><div class="step">He stayed patient, good, and polite</div></div>
+        <div class="quote">“Oh, why? Do You want to teach us a lesson on what’s right and wrong?”</div>
+        <p>When invited to do something bad, Jesus did not go along with it.</p>`,
+      remember:"When friends pressured or mocked Him, Jesus remained patient, good, and polite."
+    },
+    {
+      title:"Fiction or True Story",
+      html:`<h2>Fiction or True Story?</h2><div class="vs"><div class="card rose"><h3>Pure fantasy</h3><p>Stories say Jesus made clay birds fly or spent His youth in India studying with gurus.</p></div>
+        <div class="vs-label">VS</div><div class="card tint"><h3>Recorded in Luke 2:41–50</h3><p>The Temple story shows His intelligence as He responded to hard questions from doctors in Religion.</p></div></div>
+        <p style="margin-top:16px">The material says His childhood was not very different from other children of His time. The main difference was His behavior and how He lived.</p>`,
+      remember:"Clay birds and India are called fantasy; Luke 2:41–50 records the true Temple story."
+    },
+    {
+      title:"Imitate Jesus",
+      html:`<h2>Imitate Jesus</h2><p>Jesus took advantage of childhood and adolescence to <strong>study, work, meditate, and grow in every way</strong>.</p>
+        <div class="arrowline"><div class="step">Use your time</div><div class="arrow">+</div><div class="step">Use your opportunities</div><div class="arrow">→</div>
+        <div class="step">Healthy • balanced • sociable • wise • friend of God</div></div>
+        <div class="card blue"><h3>Personal Inventory activity</h3><p>Knowing Jesus can change how people see themselves and others. The student should fill out the chart honestly to discover whether they are changing and growing.</p></div>`,
+      remember:"Good use of time and opportunities supports balanced growth."
+    },
+    {
+      title:"True or False Answer Summary",
+      html:`<span class="eyebrow">Complete Answer Key</span><h2>True or False Answer Summary</h2>
+        <div class="table-wrap"><table class="truefalse-table"><thead><tr><th>#</th><th>Statement</th><th>Answer</th></tr></thead><tbody>
+        <tr><td>1</td><td>I spent my teenage years in Nazareth.</td><td>True</td></tr>
+        <tr><td>2</td><td>Sometimes I played with my cousin John, Aunt Elizabeth’s son.</td><td>False</td></tr>
+        <tr><td>3</td><td>Since I was little I performed miracles to amuse my friends.</td><td>False</td></tr>
+        <tr><td>4</td><td>When I turned 12 I traveled with my parents to Jerusalem.</td><td>True</td></tr>
+        <tr><td>5</td><td>I didn’t attend the schools in Jerusalem, but I liked to study the Bible.</td><td>True</td></tr>
+        <tr><td>6</td><td>My earthly father is an excellent lawyer.</td><td>False</td></tr>
+        <tr><td>7</td><td>Nazareth is a great city.</td><td>False</td></tr>
+        <tr><td>8</td><td>People say that I’m very smart.</td><td>True</td></tr>
+        </tbody></table></div>`,
+      remember:"The complete answer pattern is T, F, F, T, T, F, F, T."
+    },
+    {
+      title:"Lesson Review — Profile Acrostic",
+      html:`<span class="eyebrow">Review Questions Taught</span><h2>Profile: J E S U S C H R I S T</h2>
+        <p>The activity gives one clue for each letter. First identify what the clue asks, then use the listed Bible verse. The supplied lesson text does not clearly give every answer, so do not guess from outside knowledge.</p>
+        <div class="table-wrap"><table><thead><tr><th>Letter</th><th>Source clue</th></tr></thead><tbody>
+        <tr><td>J</td><td>City Jesus visited when He was twelve years old (Luke 2:42, 43).</td></tr>
+        <tr><td>E</td><td>Jesus’ aunt, John the Baptist’s mother (Luke 1:36).</td></tr>
+        <tr><td>S</td><td>Mount where Jesus was crucified (Luke 23:33).</td></tr>
+        <tr><td>U</td><td>All who heard young Jesus in the temple courts were amazed at His ______ (Luke 2:47).</td></tr>
+        <tr><td>S</td><td>People told by an angel they would find the Messiah lying in a manger (Luke 2:8).</td></tr>
+        <tr><td>C</td><td>Something soldiers made Jesus wear, made out of thorns (Mark 15:17).</td></tr>
+        <tr><td>H</td><td>Jesus wants you to love God with all your _____ (Luke 10:27).</td></tr>
+        <tr><td>R</td><td>Title often used for Jesus that means “Teacher” (John 1:38).</td></tr>
+        <tr><td>I</td><td>Another name for Jesus that means “God with us” (Matthew 1:23).</td></tr>
+        <tr><td>S</td><td>What Jesus is for all sinners (1 Timothy 4:10).</td></tr>
+        <tr><td>T</td><td>One of Jesus’ apostles (John 11:16).</td></tr></tbody></table></div>`,
+      remember:"Match each clue to its verse; several answers are not stated clearly in the supplied text."
+    },
+    {
+      title:"Important Vocabulary",
+      html:`<span class="eyebrow">Part 3</span><h2>Important Vocabulary</h2>
+        <p class="note"><strong>Teacher vocabulary:</strong> the prompt’s teacher-vocabulary field was not filled in. This information is not provided clearly in the study material.</p>
+        <div class="table-wrap"><table><thead><tr><th>Vocabulary</th><th>Meaning from the Material</th><th>Simple Memory Tip</th></tr></thead><tbody>
+        <tr><td><strong>Dwarfism</strong></td><td>Height much less than the average for the same age and population.</td><td>Much less height</td></tr>
+        <tr><td><strong>Gigantism</strong></td><td>The opposite: the person grows too much.</td><td>Grows too much</td></tr>
+        <tr><td><strong>Biological</strong></td><td>You and your body; physiological needs.</td><td>Body</td></tr>
+        <tr><td><strong>Psychological</strong></td><td>You and your mind; emotional needs.</td><td>Mind</td></tr>
+        <tr><td><strong>Social</strong></td><td>You and others; attitudinal needs.</td><td>Others</td></tr>
+        <tr><td><strong>Intellect</strong></td><td>You and your actions; intellectual needs.</td><td>Actions and study</td></tr>
+        <tr><td><strong>Spirit</strong></td><td>You and God; spiritual needs.</td><td>God and faith</td></tr>
+        </tbody></table></div>`,
+      remember:"Body, mind, others, actions, and God organize the five chart categories."
+    },
+    {
+      title:"Easy-to-Confuse Points",
+      html:`<span class="eyebrow">Part 4</span><h2>Easy-to-Confuse Points</h2><div class="grid">
+        <div class="card"><h3>Dwarfism ↔ Gigantism</h3><p>Much less height ↔ grows too much.</p></div>
+        <div class="card"><h3>Psychological ↔ Intellectual</h3><p>Mind and emotional needs ↔ actions, study, and experience.</p></div>
+        <div class="card"><h3>Fiction ↔ Recorded story</h3><p>Clay birds and India ↔ Temple questions in Luke 2:41–50.</p></div>
+        <div class="card"><h3>Paragraph ↔ Chart</h3><p>The paragraph says cultural; the chart says Intellect. The source is inconsistent.</p></div></div>`,
+      remember:"Compare the exact relationship, need, and evidence instead of relying only on a label."
+    },
+    {
+      title:"Memory Tricks and Exam Focus",
+      html:`<span class="eyebrow">Parts 5 and 6</span><h2>Memory Tricks and Exam Focus</h2>
+        <div class="grid"><div class="card tint"><h3>Five relationships</h3><p><strong>Body → Mind → Others → Actions → God</strong><br>Biological → Psychological → Social → Intellect → Spirit</p></div>
+        <div class="card cream"><h3>Growth verses</h3><p><strong>2:40</strong> → grew, strong, wisdom, grace<br><strong>2:52</strong> → wisdom, stature, favor with God and man</p></div>
+        <div class="card blue"><h3>Challenge evidence</h3><p>Poverty → doves/pigeons<br>Town → Nazareth<br>Pressure → stayed patient and good</p></div>
+        <div class="card rose"><h3>Story check</h3><p>Fantasy → clay birds / India<br>True record → Temple, Luke 2:41–50</p></div></div>
+        <p class="note"><strong>Exam focus:</strong> memorize the verse ideas, chart categories and rows, evidence of poverty and Nazareth’s reputation, and fiction-versus-true-story examples. Understand why balance matters.</p>`,
+      remember:"Use the evidence pairs and five relationships to recall the lesson quickly."
+    },
+    {
+      title:"Remember These Before the Test",
+      html:`<span class="eyebrow">Final 4-Minute Review</span><h2>Remember These Before the Test</h2>
+        <ul class="checklist"><li>Luke 2:40: Jesus grew strong, was filled with wisdom, and had God’s grace.</li>
+        <li>Luke 2:52: wisdom, stature, favor with God and man.</li><li>Doves or pigeons showed poverty; a wealthy family could bring a lamb.</li>
+        <li>Nazareth was a small town with a bad reputation.</li><li>The Total Development chart: Biological, Psychological, Social, Intellect, Spirit.</li>
+        <li>Give equal attention to every area; do not focus on only one subsystem.</li><li>Under criticism, Jesus stayed patient, good, and polite.</li>
+        <li>Clay birds and India are fantasy; Luke 2:41–50 is the true Temple story.</li>
+        <li>Use time and opportunities to become healthy, balanced, sociable, wise, and a friend of God.</li>
+        <li>In review questions, use evidence from the lesson and do not guess when the source is unclear.</li></ul>
+        <div class="center" style="margin-top:22px"><button class="btn gold" onclick="startQuiz()">Start 30-Question Quiz →</button></div>`,
+      remember:"Balance every area, choose good behavior, and support answers with lesson evidence."
+    }
+  ];
+
+  const questions = [
+    {q:"According to Luke 2:52, in what four ways did Jesus grow?",o:["Wisdom, stature, favor with God, and favor with man","Power, money, travel, and fame","Height, speed, strength, and wealth","School, work, play, and sleep"],a:0,e:"Luke 2:52 names wisdom, stature, and favor with God and man.",t:"Growth verses"},
+    {q:"Where did Jesus spend His childhood and adolescence?",o:["Rome","Nazareth","Paris","Jericho"],a:1,e:"The lesson says He lived in Nazareth.",t:"Nazareth"},
+    {q:"What does dwarfism mean in the material?",o:["A person becomes elderly","A person grows too much","Height is much less than average for the same age and population","A person has no emotional needs"],a:2,e:"The source defines dwarfism as height much less than the relevant average.",t:"Growth vocabulary"},
+    {q:"What does gigantism mean in the material?",o:["The person is very wise","The person stays anonymous","The person grows less than average","The person grows too much"],a:3,e:"Gigantism is described as the opposite of dwarfism: growing too much.",t:"Growth vocabulary"},
+    {q:"What did Jesus’ parents offer when presenting Him at the Temple?",o:["A pair of doves or two young pigeons","A lamb and a dove","Food and water","A scroll"],a:0,e:"Luke 2:24 is used as evidence that His family was poor.",t:"Poverty"},
+    {q:"What could a wealthy family have brought as the Temple offering?",o:["A book","A lamb","A nest","A clay bird"],a:1,e:"The material says a wealthy family could have brought a lamb.",t:"Poverty"},
+    {q:"Which verse says the Son of Man had no place to lay His head?",o:["Luke 2:40","John 1:46","Luke 9:58","Luke 2:52"],a:2,e:"That sentence is quoted from Luke 9:58.",t:"Poverty"},
+    {q:"Where does the recorded true childhood story take place?",o:["In India","In a university","At a lake","At the Temple"],a:3,e:"Luke 2:41–50 records the Temple story.",t:"True story"},
+    {q:"How did Jesus respond when friends criticized or mocked Him?",o:["He stayed patient, good, and polite","He used His powers","He joined them in doing bad things","He left Nazareth immediately"],a:0,e:"The lesson says He never lost patience and continued being good and polite.",t:"Character"},
+    {q:"What is the main rule for total development?",o:["Develop only the strongest area","Give equal attention to all subsystems","Focus only on status","Choose only physical exercise"],a:1,e:"The psychologist in the lesson says every subsystem needs equal attention.",t:"Balanced development"},
+
+    {q:"In the chart, which category means “You and others”?",o:["Biological","Psychological","Social","Spirit"],a:2,e:"Social is the relationship between you and others.",t:"Development chart"},
+    {q:"Which kind of need belongs to Psychological development?",o:["Physiological","Spiritual","Intellectual","Emotional"],a:3,e:"Psychological development is connected to emotional needs.",t:"Development chart"},
+    {q:"What are the means of satisfaction listed for Social development?",o:["Security, moral, friendship","Air, food, water, sleep","God, faith","Study, experience"],a:0,e:"The Social row lists security, moral, and friendship.",t:"Development chart"},
+    {q:"Which means of satisfaction belongs to Intellect?",o:["Love, affection, acceptance","Study, experience","God, faith","Security, moral, friendship"],a:1,e:"The Intellect row lists study and experience.",t:"Development chart"},
+    {q:"Which activities belong to Spirit in the chart?",o:["Exercise and sports","Observe and take classes","Pray, read the Bible, and talk with God","Read, watch movies, and travel"],a:2,e:"Those three activities appear in the Spirit row.",t:"Development chart"},
+    {q:"Which set shows Jesus’ physical activities from the source?",o:["Reading scrolls and observing people","Praying and reading the Bible","Talking only with friends","Workshop work, walking, climbing, and swimming"],a:3,e:"All four activities are listed under Physical development.",t:"Jesus’ development"},
+    {q:"What did Jesus do for intellectual development?",o:["Read scrolls and observed nature and people","Sought only pleasure and adrenaline","Focused only on status","Made clay birds fly"],a:0,e:"The source links reading and observing with becoming wise.",t:"Jesus’ development"},
+    {q:"What is listed under Jesus’ psychological development?",o:["He traveled to every named university","He looked for the best way to live","He made a crown","He focused only on His body"],a:1,e:"The material says He looked for the best way to live and became a “genius.”",t:"Jesus’ development"},
+    {q:"How did Jesus grow socially?",o:["By studying with gurus","By avoiding everyone","By interacting with parents and friends","By seeking status"],a:2,e:"Interaction with His parents and friends is listed under Social development.",t:"Jesus’ development"},
+    {q:"What did Jesus do for spiritual development?",o:["Watched movies and traveled","Played sports only","Attended Harvard","Prayed and read the Hebrew Bible"],a:3,e:"Prayer and reading the Hebrew Bible are listed under Spiritual development.",t:"Jesus’ development"},
+
+    {q:"Which word differs between the paragraph’s list and the Total Development chart?",o:["The paragraph says cultural; the chart says Intellect","The paragraph says body; the chart says air","The paragraph says Spirit; the chart says Nazareth","The paragraph says wisdom; the chart says stature"],a:0,e:"The source is inconsistent: one list uses cultural, while the chart uses Intellect.",t:"Source inconsistency"},
+    {q:"Why was using His powers a great temptation for Jesus?",o:["He needed to impress His teachers","They should not be used for His own benefit","He wanted to move to Rome","His friends asked for a lesson"],a:1,e:"The material says His powers should not have been used for His own benefit.",t:"Temptation"},
+    {q:"Why does the material compare Jesus’ suffering with dirt on a clean white cloth?",o:["Nazareth was a clean city","His family sold cloth","His perfect character made wrong stand out more clearly","He worked only with white cloth"],a:2,e:"The comparison explains why suffering and temptation were sharper for His perfect character.",t:"Temptation"},
+    {q:"What evidence shows Nazareth had a bad reputation?",o:["The list of universities","The Temple offering","The Total Development chart","Nathanael’s question: “Can anything good come from there?”"],a:3,e:"John 1:46 is quoted as evidence of Nazareth’s reputation.",t:"Nazareth"},
+    {q:"How does the material classify stories about clay birds and studying in India?",o:["Pure fantasy","Total Development","Personal Inventory","A Temple record"],a:0,e:"Both are presented as fanciful works of fiction—“Pure fantasy!”",t:"Fiction versus truth"},
+    {q:"What does Luke 2:41–50 show about young Jesus?",o:["His family’s wealth","His intelligence in responding to hard Temple questions","His interest in status","His growth hormone disorder"],a:1,e:"The recorded story shows His intelligence before the doctors in Religion.",t:"True story"},
+    {q:"Which review statement is supported by the supplied material?",o:["Jesus attended Harvard","Jesus lived in Rome","At twelve, Jesus traveled with His parents to Jerusalem","Jesus amused friends with miracles"],a:2,e:"The review and acrostic clue connect age twelve with Jerusalem.",t:"Lesson review"},
+    {q:"What answer fits the review statement “Since I was little I performed miracles to amuse my friends”?",o:["Yes, because it is in Luke 2:52","Yes, because His friends requested it","The source does not discuss fantasy","No; the material calls such childhood miracle stories fantasy"],a:3,e:"The lesson explicitly calls those fanciful childhood miracle stories “Pure fantasy!”",t:"Lesson review"},
+    {q:"Which example warns against focusing only on physical development?",o:["The “gym generation”","The Personal Inventory","The Temple doctors","The doves and pigeons"],a:0,e:"The source uses the “gym generation” as the body-only example.",t:"Balanced development"},
+    {q:"According to the ending, what can good use of time and opportunities help a person become?",o:["Famous, wealthy, and powerful","Healthy, balanced, sociable, wise, and a friend of God","A student at every named university","Focused on only one subsystem"],a:1,e:"Those five outcomes are stated in the lesson’s conclusion.",t:"Lesson conclusion"}
+  ];
+
+  let slideIndex=0, questionIndex=0, score=0, locked=false, wrongTopics=[];
+  const lessonStage=document.getElementById("lessonStage"), quizStage=document.getElementById("quizStage");
+  const progressFill=document.getElementById("progressFill"), counter=document.getElementById("counter");
+  const backBtn=document.getElementById("backBtn"), nextBtn=document.getElementById("nextBtn");
+  const lessonFooter=document.getElementById("lessonFooter"), quizFooter=document.getElementById("quizFooter");
+  const nextQuestion=document.getElementById("nextQuestion");
+
+  function renderLesson(){
+    const s=slides[slideIndex];
+    lessonStage.innerHTML=`<article class="slide">${s.html}<div class="remember">⭐ Remember: ${s.remember}</div></article>`;
+    lessonStage.scrollTop=0; counter.textContent=`Slide ${slideIndex+1} of ${slides.length}`;
+    progressFill.style.width=`${((slideIndex+1)/slides.length)*100}%`;
+    backBtn.disabled=slideIndex===0; nextBtn.textContent=slideIndex===slides.length-1?"Start Quiz →":"Next →";
+  }
+  function moveSlide(delta){
+    if(delta>0 && slideIndex===slides.length-1){startQuiz();return}
+    slideIndex=Math.max(0,Math.min(slides.length-1,slideIndex+delta));renderLesson();
+  }
+  function startQuiz(){
+    questionIndex=0;score=0;locked=false;wrongTopics=[];
+    lessonStage.classList.add("hidden");lessonFooter.classList.add("hidden");quizStage.classList.remove("hidden");quizFooter.classList.remove("hidden");
+    renderQuestion();
+  }
+  function renderQuestion(){
+    if(questionIndex>=questions.length){renderResults();return}
+    locked=false;nextQuestion.classList.add("hidden");
+    const item=questions[questionIndex], level=questionIndex<10?"Easy":questionIndex<20?"Medium":"Hard";
+    quizStage.innerHTML=`<article class="slide"><div class="quiz-meta"><span class="tag">${level}</span><span class="tag">${item.t}</span></div>
+      <h2 style="margin-top:18px">${questionIndex+1}. ${item.q}</h2><div class="answer-grid">${item.o.map((x,i)=>`<button class="answer" data-choice="${i}"><span class="letter">${"ABCD"[i]}</span>${x}</button>`).join("")}</div><div id="feedback"></div></article>`;
+    quizStage.querySelectorAll(".answer").forEach(b=>b.addEventListener("click",()=>answerQuestion(Number(b.dataset.choice))));
+    quizStage.scrollTop=0;counter.textContent=`Question ${questionIndex+1} of ${questions.length}`;
+    progressFill.style.width=`${((questionIndex+1)/questions.length)*100}%`;
+  }
+  function answerQuestion(choice){
+    if(locked)return;locked=true;const item=questions[questionIndex];
+    const buttons=[...quizStage.querySelectorAll(".answer")];buttons.forEach(b=>b.disabled=true);
+    buttons[item.a].classList.add("correct");
+    const correct=choice===item.a;
+    if(correct)score++;else{buttons[choice].classList.add("wrong");wrongTopics.push(item.t)}
+    document.getElementById("feedback").innerHTML=`<div class="feedback ${correct?"good":"bad"}"><strong>${correct?"✅ Correct":"❌ Incorrect"}</strong><br>
+      Correct answer: <strong>${"ABCD"[item.a]}. ${item.o[item.a]}</strong><br><span class="mini">${item.e}</span></div>`;
+    nextQuestion.textContent=questionIndex===questions.length-1?"See Results →":"Next Question →";nextQuestion.classList.remove("hidden");
+  }
+  function renderResults(){
+    const pct=Math.round(score/questions.length*100), unique=[...new Set(wrongTopics)];
+    const message=pct>=90?"Excellent review!":pct>=75?"Strong work—review the missed topics once more.":pct>=60?"Good start—use the topic list for a focused review.":"Return to the lesson and try again—you can improve.";
+    quizStage.innerHTML=`<article class="slide center"><span class="eyebrow">Quiz Complete</span><h2>Your Result</h2>
+      <div class="score-ring" style="--score:${pct}%"><span>${pct}%</span></div><p class="lead" style="margin-inline:auto"><strong>${score} / ${questions.length}</strong><br>${message}</p>
+      <div class="card" style="text-align:left;max-width:680px;margin:20px auto"><h3>Topics to Review</h3>${unique.length?`<div class="chips">${unique.map(t=>`<span class="chip">${t}</span>`).join("")}</div>`:"<p>No weak topics recorded. Great job!</p>"}</div>
+      <div class="navgroup" style="justify-content:center;flex-wrap:wrap"><button class="btn gold" onclick="startQuiz()">↺ Restart Quiz</button><button class="btn primary" onclick="showLesson(0)">Return to Lesson</button></div></article>`;
+    counter.textContent="Final Score";progressFill.style.width="100%";nextQuestion.classList.add("hidden");quizStage.scrollTop=0;
+  }
+  function showLesson(index=0){
+    slideIndex=index;quizStage.classList.add("hidden");quizFooter.classList.add("hidden");lessonStage.classList.remove("hidden");lessonFooter.classList.remove("hidden");renderLesson();
+  }
+  document.getElementById("restartLesson").addEventListener("click",()=>{slideIndex=0;renderLesson()});
+  backBtn.addEventListener("click",()=>moveSlide(-1));nextBtn.addEventListener("click",()=>moveSlide(1));
+  nextQuestion.addEventListener("click",()=>{if(!locked)return;questionIndex++;renderQuestion()});
+  document.getElementById("returnLesson").addEventListener("click",()=>showLesson(slideIndex));
+  document.addEventListener("keydown",e=>{if(!quizStage.classList.contains("hidden"))return;if(e.key==="ArrowRight")moveSlide(1);if(e.key==="ArrowLeft")moveSlide(-1)});
+  renderLesson();
+  </script>
+</body>
+</html>

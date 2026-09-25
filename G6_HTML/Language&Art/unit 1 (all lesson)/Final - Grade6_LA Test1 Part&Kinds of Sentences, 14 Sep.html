@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 6 English Summative Test 1 — Touchscreen Tutor</title>
+<style>
+*{box-sizing:border-box}
+:root{
+  --ink:#172033;--blue:#2867d6;--blue2:#173f88;--soft:#eef5ff;
+  --yellow:#fff4c2;--pink:#ffe8f1;--green:#e7f8ee;--red:#ffe5e5;
+  --gray:#eef1f5;--shadow:0 10px 30px rgba(32,55,90,.14)
+}
+body{
+  margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);
+  background:linear-gradient(135deg,#ffe8f3 0%,#e9f3ff 55%,#f5f0ff 100%);
+}
+.app{max-width:1120px;margin:auto;min-height:100vh;padding:18px}
+.card{
+  background:white;border-radius:24px;box-shadow:var(--shadow);padding:28px;
+  min-height:82vh;display:flex;flex-direction:column
+}
+.topline{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.badge{
+  display:inline-block;background:#edf3ff;color:#214d9b;padding:8px 13px;
+  border-radius:999px;font-weight:800;font-size:.96rem
+}
+.progress{font-weight:800;color:#5c6678}
+.progressbar{height:10px;background:#e8edf5;border-radius:999px;overflow:hidden;margin:12px 0 22px}
+.progressbar>div{height:100%;background:linear-gradient(90deg,#4e82e8,#8b5cf6);width:0}
+h1,h2,h3{color:var(--blue2);margin-top:0}
+h1{font-size:2.25rem;text-align:center}
+h2{font-size:2rem}
+h3{font-size:1.3rem}
+.subtitle{text-align:center;font-size:1.15rem;color:#626c7a}
+.content{font-size:1.22rem;line-height:1.58;flex:1}
+.big{font-size:1.48rem;font-weight:800}
+.section-title{
+  border-left:8px solid #8b5cf6;background:#f6f3ff;padding:13px 16px;
+  border-radius:12px;margin-bottom:18px;font-weight:900;color:#4d2aa5
+}
+.remember{margin-top:22px;background:var(--yellow);border-left:8px solid #efbd28;padding:16px 18px;border-radius:14px;font-size:1.12rem}
+.example{background:var(--soft);padding:15px 17px;border-radius:14px;margin:12px 0}
+.warning{background:var(--red);padding:15px 17px;border-radius:14px;margin:12px 0}
+.tip{background:var(--green);padding:15px 17px;border-radius:14px;margin:12px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mini{background:#f8fafc;padding:15px;border-radius:14px;border:1px solid #e5e9f0}
+.controls{display:flex;gap:12px;justify-content:space-between;margin-top:22px;flex-wrap:wrap}
+button{
+  border:0;border-radius:15px;padding:16px 24px;font-size:1.08rem;font-weight:800;
+  cursor:pointer;min-width:135px;touch-action:manipulation
+}
+button:disabled{opacity:.45;cursor:not-allowed}
+.primary{background:var(--blue);color:#fff}
+.secondary{background:#e9edf3;color:#1d2736}
+.restart{background:#ec4770;color:#fff}
+.choice{
+  display:block;width:100%;text-align:left;margin:11px 0;padding:17px;
+  background:#f6f8fc;border:2px solid #dce4f0;border-radius:15px;color:#1c2736
+}
+.choice:hover{background:#edf4ff}
+.choice.correct{background:#dff7e8;border-color:#2da765}
+.choice.wrong{background:#ffe1e1;border-color:#d64a4a}
+.feedback{font-size:1.17rem;font-weight:800;margin-top:16px;min-height:38px}
+.scorebox{text-align:center;font-size:1.28rem;font-weight:900;padding:12px;background:#eef2ff;border-radius:13px}
+.quiztag{display:inline-block;background:#f0eaff;color:#6037b4;padding:7px 11px;border-radius:999px;font-size:.95rem;font-weight:800;margin-bottom:10px}
+.cover-list{max-width:700px;margin:22px auto}
+.cover-list .mini{margin:10px 0}
+.small{font-size:.96rem;color:#667085}
+ol,ul{padding-left:28px}
+@media(max-width:720px){
+  .app{padding:10px}.card{padding:18px;min-height:94vh;border-radius:18px}
+  h1{font-size:1.75rem}h2{font-size:1.55rem}.content{font-size:1.07rem}
+  .grid{grid-template-columns:1fr}.controls{gap:8px}button{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="app"><div class="card"><div id="screen"></div></div></div>
+
+<script>
+const slides = [
+{
+section:"START",
+title:"Grade 6 English — Summative Test 1",
+html:`<p class="big" style="text-align:center">Test Date: September 14, 2026</p>
+<p style="text-align:center">15–20 Minute Review + 40-Question Touchscreen Quiz</p>
+<div class="cover-list">
+  <div class="mini"><b>Part 1:</b> Vocabulary for Achievement — Lessons 1–3</div>
+  <div class="mini"><b>Part 2:</b> Parts of the Sentence</div>
+  <div class="mini"><b>Part 3:</b> Kinds of Sentences</div>
+  <div class="mini"><b>Part 4:</b> Reading Comprehension</div>
+</div>
+<div class="warning"><b>Important:</b> The exact Vocabulary for Achievement Lesson 1–3 word lists are not available in the uploaded material I could find, so this tutor does <b>not invent vocabulary words</b>. The grammar and reading practice are ready now.</div>`,
+remember:"Know the 4 test areas before you begin."
+},
+{
+section:"PART 1 — VOCABULARY FOR ACHIEVEMENT",
+title:"Vocabulary Lessons 1–3 — Source Needed",
+html:`<p>Your test includes <b>Vocabulary for Achievement — Lessons 1–3</b>.</p>
+<p>To review this section correctly, study the exact words, meanings, synonyms/antonyms, and sentence use from your school book or worksheet.</p>
+<div class="warning"><b>No guessing:</b> The exact lesson word lists are not shown in the available material, so no outside vocabulary has been added.</div>
+<div class="tip"><b>Best study method when you add the pages:</b> Word → short meaning → clue/synonym → one sentence.</div>`,
+remember:"Use the exact school word list for Lessons 1–3."
+},
+{
+section:"PART 2 — PARTS OF THE SENTENCE",
+title:"Simple Subject",
+html:`<p>The <b>simple subject</b> is the main noun or pronoun that tells who or what the sentence is about.</p>
+<div class="example"><b>The little brown dog</b> barked loudly.<br>Simple subject: <b>dog</b></div>
+<div class="example"><b>My best friends</b> play basketball.<br>Simple subject: <b>friends</b></div>`,
+remember:"Simple subject = the main noun or pronoun."
+},
+{
+section:"PART 2 — PARTS OF THE SENTENCE",
+title:"Simple Predicate",
+html:`<p>The <b>simple predicate</b> is the main verb or verb phrase that tells what the subject does or is.</p>
+<div class="example">The little brown dog <b>barked</b> loudly.<br>Simple predicate: <b>barked</b></div>
+<div class="example">My best friends <b>are playing</b> basketball.<br>Simple predicate: <b>are playing</b></div>`,
+remember:"Simple predicate = the main verb or verb phrase."
+},
+{
+section:"PART 2 — PARTS OF THE SENTENCE",
+title:"Complete Subject",
+html:`<p>The <b>complete subject</b> includes the simple subject and all the words that describe it.</p>
+<div class="example"><b>The three excited students</b> entered the room.<br>Complete subject: <b>The three excited students</b></div>`,
+remember:"Complete subject = simple subject + describing words."
+},
+{
+section:"PART 2 — PARTS OF THE SENTENCE",
+title:"Complete Predicate",
+html:`<p>The <b>complete predicate</b> includes the verb and all the words that tell what the subject does or is.</p>
+<div class="example">The three excited students <b>entered the room quietly</b>.<br>Complete predicate: <b>entered the room quietly</b></div>`,
+remember:"Complete predicate = verb + all words that complete the action or state."
+},
+{
+section:"PART 2 — PARTS OF THE SENTENCE",
+title:"Subject vs. Predicate",
+html:`<div class="grid">
+<div class="mini"><b>Subject</b><br>Who or what the sentence is about.</div>
+<div class="mini"><b>Predicate</b><br>What the subject does or is.</div>
+</div>
+<div class="example"><b>Our science teacher</b> | <b>explained the experiment clearly.</b></div>
+<p>Complete subject: <b>Our science teacher</b><br>Complete predicate: <b>explained the experiment clearly</b></p>`,
+remember:"WHO/WHAT → subject. DOES/IS → predicate."
+},
+{
+section:"PART 2 — PARTS OF THE SENTENCE",
+title:"Compound Subject",
+html:`<p>A <b>compound subject</b> has two or more simple subjects that share the same predicate.</p>
+<div class="example"><b>Mia and Noah</b> finished the project.</div>
+<p>Simple subjects: <b>Mia</b> and <b>Noah</b></p>`,
+remember:"Compound subject = 2 or more subjects sharing one predicate."
+},
+{
+section:"PART 2 — PARTS OF THE SENTENCE",
+title:"Compound Predicate",
+html:`<p>A <b>compound predicate</b> has two or more verbs or verb phrases that share the same subject.</p>
+<div class="example">The students <b>opened their books and read the story</b>.</div>
+<p>Main actions: <b>opened</b> and <b>read</b></p>`,
+remember:"Compound predicate = 1 subject doing 2 or more actions."
+},
+{
+section:"PART 2 — PARTS OF THE SENTENCE",
+title:"Compound Subject + Compound Predicate",
+html:`<p>A sentence can have both a compound subject and a compound predicate.</p>
+<div class="example"><b>Ben and Ana</b> <b>washed the dishes and cleaned the table</b>.</div>
+<p>Compound subject: Ben and Ana<br>Compound predicate: washed the dishes and cleaned the table</p>`,
+remember:"Two subjects + two actions can appear in the same sentence."
+},
+{
+section:"PART 3 — KINDS OF SENTENCES",
+title:"Declarative Sentence",
+html:`<p>A <b>declarative sentence</b> makes a statement or gives information.</p>
+<div class="example">The library closes at five o’clock.</div>
+<p>It usually ends with a <b>period (.)</b>.</p>`,
+remember:"Declarative = declares or tells something."
+},
+{
+section:"PART 3 — KINDS OF SENTENCES",
+title:"Interrogative Sentence",
+html:`<p>An <b>interrogative sentence</b> asks a question.</p>
+<div class="example">Where did you put my notebook?</div>
+<p>It ends with a <b>question mark (?)</b>.</p>`,
+remember:"Interrogative = asks a question."
+},
+{
+section:"PART 3 — KINDS OF SENTENCES",
+title:"Imperative Sentence",
+html:`<p>An <b>imperative sentence</b> gives a command, request, direction, or instruction.</p>
+<div class="example">Please close the door.</div>
+<div class="example">Turn left at the corner.</div>
+<p>The subject <b>you</b> is often understood but not written.</p>`,
+remember:"Imperative = tells someone to do something."
+},
+{
+section:"PART 3 — KINDS OF SENTENCES",
+title:"Exclamatory Sentence",
+html:`<p>An <b>exclamatory sentence</b> shows strong feeling or excitement.</p>
+<div class="example">What an amazing performance!</div>
+<p>It usually ends with an <b>exclamation mark (!)</b>.</p>`,
+remember:"Exclamatory = strong feeling!"
+},
+{
+section:"PART 3 — KINDS OF SENTENCES",
+title:"Do Not Use Punctuation Alone",
+html:`<p>Sentence type depends on <b>purpose</b>, not only punctuation.</p>
+<div class="example">Please help me with this. → <b>Imperative</b> because it is a request.</div>
+<div class="example">You finished already! → <b>Exclamatory</b> because it shows strong feeling.</div>`,
+remember:"Ask: Is it telling, asking, commanding/requesting, or exclaiming?"
+},
+{
+section:"PART 4 — READING COMPREHENSION",
+title:"Reading Strategy",
+html:`<ol>
+<li>Read the question carefully.</li>
+<li>Look for key words in the passage.</li>
+<li>Use evidence from the passage.</li>
+<li>For main idea, ask: “What is most of the passage about?”</li>
+<li>For inference, combine clues from the text.</li>
+</ol>`,
+remember:"Answer from the passage, not from your own opinion."
+},
+{
+section:"PART 4 — READING COMPREHENSION",
+title:"Main Idea vs. Supporting Detail",
+html:`<div class="grid">
+<div class="mini"><b>Main Idea</b><br>The most important point of the whole passage or paragraph.</div>
+<div class="mini"><b>Supporting Detail</b><br>A fact or example that explains or supports the main idea.</div>
+</div>`,
+remember:"Main idea = big message. Detail = proof or example."
+},
+{
+section:"PART 4 — READING COMPREHENSION",
+title:"Context Clues",
+html:`<p>When you do not know a word, look at the words and sentences around it.</p>
+<div class="example">Lena was <b>exhausted</b> after running for an hour, so she sat down to rest.</div>
+<p>The clues suggest <b>exhausted</b> means very tired.</p>`,
+remember:"Use nearby clues to figure out an unfamiliar word."
+},
+{
+section:"PART 4 — READING COMPREHENSION",
+title:"Inference",
+html:`<p>An <b>inference</b> is a reasonable conclusion based on clues in the text.</p>
+<div class="example">The sidewalk was wet, and Sam carried a dripping umbrella.</div>
+<p>Inference: It probably rained recently.</p>`,
+remember:"Inference = text clues + careful thinking."
+},
+{
+section:"FINAL CHECK",
+title:"2-Minute Final Cram",
+html:`<div class="grid">
+<div class="mini"><b>Simple subject</b><br>Main noun/pronoun</div>
+<div class="mini"><b>Simple predicate</b><br>Main verb/verb phrase</div>
+<div class="mini"><b>Complete subject</b><br>Subject + describing words</div>
+<div class="mini"><b>Complete predicate</b><br>Verb + all words completing it</div>
+<div class="mini"><b>Compound subject</b><br>2+ subjects</div>
+<div class="mini"><b>Compound predicate</b><br>2+ actions</div>
+<div class="mini"><b>Declarative</b><br>Statement</div>
+<div class="mini"><b>Interrogative</b><br>Question</div>
+<div class="mini"><b>Imperative</b><br>Command/request</div>
+<div class="mini"><b>Exclamatory</b><br>Strong feeling</div>
+</div>`,
+remember:"WHO/WHAT → subject. DOES/IS → predicate. PURPOSE → sentence type."
+}
+];
+
+const questions = [
+{part:"Parts of the Sentence",q:"What is the simple subject in “The tall boy runs every morning”?",a:["tall","boy","runs","morning"],c:1,e:"The main noun the sentence is about is “boy.”"},
+{part:"Parts of the Sentence",q:"What is the simple predicate in “The tall boy runs every morning”?",a:["boy","tall boy","runs","every morning"],c:2,e:"The main verb is “runs.”"},
+{part:"Parts of the Sentence",q:"What is the complete subject in “The noisy little birds sang outside”?",a:["birds","The noisy little birds","sang","sang outside"],c:1,e:"The complete subject includes the main noun and all words describing it."},
+{part:"Parts of the Sentence",q:"What is the complete predicate in “The noisy little birds sang outside”?",a:["birds","little birds","sang","sang outside"],c:3,e:"The complete predicate includes the verb and the words that complete it."},
+{part:"Parts of the Sentence",q:"Which sentence has a compound subject?",a:["Liam runs quickly.","Liam and Maya run quickly.","Liam runs and jumps.","Run quickly, Liam."],c:1,e:"“Liam and Maya” are two subjects."},
+{part:"Parts of the Sentence",q:"Which sentence has a compound predicate?",a:["Ella and Ben laughed.","Ella laughed loudly.","Ella laughed and clapped.","Ella is cheerful."],c:2,e:"One subject, Ella, does two actions: laughed and clapped."},
+{part:"Parts of the Sentence",q:"In “Tom and Kai washed and dried the dishes,” what is true?",a:["Simple subject only","Compound subject only","Compound predicate only","Both compound subject and compound predicate"],c:3,e:"Tom and Kai are two subjects, and washed and dried are two actions."},
+{part:"Parts of the Sentence",q:"What is the simple subject in “My new blue backpack is heavy”?",a:["My","new","backpack","heavy"],c:2,e:"“Backpack” is the main noun."},
+{part:"Parts of the Sentence",q:"What is the simple predicate in “The players are practicing after school”?",a:["players","are","are practicing","after school"],c:2,e:"The verb phrase is “are practicing.”"},
+{part:"Parts of the Sentence",q:"Which is the complete subject in “Several hungry cats waited by the door”?",a:["cats","hungry cats","Several hungry cats","waited by the door"],c:2,e:"All words describing the main subject belong in the complete subject."},
+{part:"Kinds of Sentences",q:"Which is declarative?",a:["Please sit down.","Where are you going?","The bus arrives at seven.","What a great day!"],c:2,e:"It makes a statement."},
+{part:"Kinds of Sentences",q:"Which is interrogative?",a:["Open your book.","The book is open.","Why is the book open?","What a beautiful book!"],c:2,e:"It asks a question."},
+{part:"Kinds of Sentences",q:"Which is imperative?",a:["Finish your homework.","I finished my homework.","Did you finish your homework?","What difficult homework!"],c:0,e:"It gives a command."},
+{part:"Kinds of Sentences",q:"Which is exclamatory?",a:["The game is over.","Is the game over?","End the game now.","What an exciting game!"],c:3,e:"It shows strong feeling."},
+{part:"Kinds of Sentences",q:"“Please pass the salt.” is what kind of sentence?",a:["Declarative","Interrogative","Imperative","Exclamatory"],c:2,e:"It is a polite request, so it is imperative."},
+{part:"Kinds of Sentences",q:"“You won the contest!” is what kind of sentence?",a:["Declarative","Interrogative","Imperative","Exclamatory"],c:3,e:"It expresses strong feeling or excitement."},
+{part:"Kinds of Sentences",q:"“Can you tell me the time?” is what kind of sentence?",a:["Declarative","Interrogative","Imperative","Exclamatory"],c:1,e:"It asks a question."},
+{part:"Kinds of Sentences",q:"“The museum is closed today.” is what kind of sentence?",a:["Declarative","Interrogative","Imperative","Exclamatory"],c:0,e:"It gives information."},
+{part:"Kinds of Sentences",q:"Which sentence is imperative even though it ends with a period?",a:["The window is open.","Please open the window.","Is the window open?","What a large window!"],c:1,e:"It gives a request."},
+{part:"Kinds of Sentences",q:"Which sentence has the subject “you” understood?",a:["You are ready.","Please stand in line.","Are you ready?","You won!"],c:1,e:"Imperative sentences often have an understood subject “you.”"},
+{part:"Parts of the Sentence",q:"What is the complete predicate in “Our friendly teacher read the story aloud”?",a:["teacher","Our friendly teacher","read","read the story aloud"],c:3,e:"The predicate includes the action and what follows it."},
+{part:"Parts of the Sentence",q:"What is the simple subject in “Three bright stars appeared above us”?",a:["Three","bright","stars","appeared"],c:2,e:"The main noun is “stars.”"},
+{part:"Parts of the Sentence",q:"What is the simple predicate in “Three bright stars appeared above us”?",a:["stars","appeared","above","us"],c:1,e:"The main verb is “appeared.”"},
+{part:"Parts of the Sentence",q:"Which sentence has a compound subject?",a:["The dog barked and ran.","The dog and cat slept.","The dog slept quietly.","Sleep quietly."],c:1,e:"Dog and cat are two subjects."},
+{part:"Parts of the Sentence",q:"Which sentence has a compound predicate?",a:["Amy and Zoe sing.","Amy sings and dances.","Amy sings softly.","Amy is a singer."],c:1,e:"Amy performs two actions."},
+{part:"Parts of the Sentence",q:"Which sentence has BOTH a compound subject and compound predicate?",a:["Max and Leo run.","Max runs and jumps.","Max and Leo run and jump.","Max runs fast."],c:2,e:"Two subjects share two actions."},
+{part:"Kinds of Sentences",q:"What is the purpose of a declarative sentence?",a:["Ask a question","Give a command","Make a statement","Show strong feeling"],c:2,e:"Declarative sentences state information."},
+{part:"Kinds of Sentences",q:"What is the purpose of an interrogative sentence?",a:["Ask a question","Give a command","Make a statement","Show strong feeling"],c:0,e:"Interrogative sentences ask questions."},
+{part:"Kinds of Sentences",q:"What is the purpose of an imperative sentence?",a:["Tell a joke","Give a command or request","Show surprise only","Ask a question"],c:1,e:"Imperative sentences direct or request action."},
+{part:"Kinds of Sentences",q:"What is the purpose of an exclamatory sentence?",a:["Show strong feeling","Give directions only","Ask for information","State a fact calmly"],c:0,e:"Exclamatory sentences express strong emotion."},
+{part:"Reading Comprehension",q:"Read: “Nina packed a raincoat and umbrella before leaving home. Dark clouds covered the sky.” What can you infer?",a:["It was snowing.","Nina expected rain.","Nina was going swimming.","The day was very hot."],c:1,e:"The raincoat, umbrella, and dark clouds suggest she expected rain."},
+{part:"Reading Comprehension",q:"Read: “Marcus practiced the piano every day for a month. At the recital, he played the song without stopping.” What helped Marcus succeed?",a:["He bought a new piano.","He practiced every day.","He skipped the recital.","He changed the song."],c:1,e:"The passage directly says he practiced every day."},
+{part:"Reading Comprehension",q:"Read: “The puppy hid under the chair when thunder shook the windows.” Why did the puppy probably hide?",a:["It was hungry.","It was excited.","It was frightened.","It wanted to sleep."],c:2,e:"The thunder is a clue that the puppy was frightened."},
+{part:"Reading Comprehension",q:"Read: “The class planted seeds, watered them, and placed them near sunlight. Two weeks later, small green shoots appeared.” What is the main idea?",a:["The class learned to cook.","The seeds grew after being cared for.","The students painted pots.","The room was dark."],c:1,e:"Most of the passage is about planting and growing seeds."},
+{part:"Reading Comprehension",q:"Read: “Aiden was exhausted after the long hike and rested on a bench.” What does “exhausted” most likely mean?",a:["Very tired","Very excited","Very angry","Very hungry"],c:0,e:"The clues “long hike” and “rested” show he was very tired."},
+{part:"Reading Comprehension",q:"Read: “The road was slick, so Dad drove slowly.” What does “slick” most likely mean?",a:["Dry","Slippery","Wide","Empty"],c:1,e:"Driving slowly is a clue that the road was slippery."},
+{part:"Reading Comprehension",q:"Read: “Sofia checked the map twice before choosing the trail.” What can you infer?",a:["She wanted to avoid getting lost.","She hated maps.","She knew the trail perfectly.","She was indoors."],c:0,e:"Checking the map suggests she wanted to make sure of the route."},
+{part:"Reading Comprehension",q:"Read: “The cafeteria introduced reusable trays to reduce the amount of trash thrown away each day.” What is the main idea?",a:["The cafeteria wants to reduce waste.","The cafeteria serves breakfast.","Students dislike trays.","Trash is collected weekly."],c:0,e:"The sentence focuses on reducing trash."},
+{part:"Reading Comprehension",q:"Read: “Jay whispered because the baby was sleeping nearby.” Why did Jay whisper?",a:["He had a sore throat.","He did not want to wake the baby.","He was far away.","He was angry."],c:1,e:"The passage directly connects whispering with the sleeping baby."},
+{part:"Reading Comprehension",q:"Read: “The team lost its first two games, but the players continued practicing and later won three games in a row.” Which idea is best supported?",a:["Practice can help improvement.","The team stopped playing.","Winning is always easy.","The players never lost."],c:0,e:"The team kept practicing and then improved its results."}
+];
+
+let slideIndex=0,qIndex=0,score=0,locked=false,mode="lesson";
+
+function bar(current,total){
+  return `<div class="progressbar"><div style="width:${Math.round(current/total*100)}%"></div></div>`;
+}
+function renderLesson(){
+  mode="lesson";
+  const s=slides[slideIndex];
+  document.getElementById("screen").innerHTML=`
+    <div class="topline">
+      <span class="badge">${s.section}</span>
+      <span class="progress">Slide ${slideIndex+1} of ${slides.length}</span>
+    </div>
+    ${bar(slideIndex+1,slides.length)}
+    <h2>${s.title}</h2>
+    <div class="content">${s.html}</div>
+    <div class="remember">⭐ <b>Remember:</b> ${s.remember}</div>
+    <div class="controls">
+      <button class="secondary" onclick="prevSlide()" ${slideIndex===0?'disabled':''}>← Back</button>
+      <button class="restart" onclick="restartAll()">↻ Restart</button>
+      <button class="primary" onclick="nextSlide()">${slideIndex===slides.length-1?'Start 40-Q Quiz →':'Next →'}</button>
+    </div>`;
+}
+function prevSlide(){if(slideIndex>0){slideIndex--;renderLesson()}}
+function nextSlide(){
+  if(slideIndex<slides.length-1){slideIndex++;renderLesson()}
+  else{qIndex=0;score=0;renderQuestion()}
+}
+function renderQuestion(){
+  mode="quiz";locked=false;
+  const q=questions[qIndex];
+  document.getElementById("screen").innerHTML=`
+    <div class="topline">
+      <span class="quiztag">${q.part}</span>
+      <span class="progress">Question ${qIndex+1} of ${questions.length}</span>
+    </div>
+    ${bar(qIndex+1,questions.length)}
+    <div class="scorebox">Score: ${score}/${qIndex}</div>
+    <h2 style="margin-top:20px">${q.q}</h2>
+    <div class="content">
+      ${q.a.map((x,i)=>`<button class="choice" onclick="answer(${i})">${String.fromCharCode(65+i)}. ${x}</button>`).join("")}
+      <div class="feedback" id="feedback"></div>
+    </div>
+    <div class="controls">
+      <button class="secondary" onclick="reviewCurrentPart()">Review Lesson</button>
+      <button class="restart" onclick="restartAll()">↻ Restart</button>
+      <button class="primary" id="nextQ" onclick="nextQuestion()" style="visibility:hidden">${qIndex===questions.length-1?'See Result →':'Next →'}</button>
+    </div>`;
+}
+function answer(i){
+  if(locked)return;
+  locked=true;
+  const q=questions[qIndex];
+  const btns=[...document.querySelectorAll(".choice")];
+  btns[q.c].classList.add("correct");
+  if(i===q.c){
+    score++;
+    document.getElementById("feedback").innerHTML="✅ Correct! "+q.e;
+  }else{
+    btns[i].classList.add("wrong");
+    document.getElementById("feedback").innerHTML="❌ Incorrect. Correct answer: "+String.fromCharCode(65+q.c)+". "+q.a[q.c]+". "+q.e;
+  }
+  document.querySelector(".scorebox").textContent=`Score: ${score}/${qIndex+1}`;
+  document.getElementById("nextQ").style.visibility="visible";
+}
+function nextQuestion(){
+  if(!locked)return;
+  if(qIndex<questions.length-1){qIndex++;renderQuestion()}else{renderResult()}
+}
+function reviewCurrentPart(){
+  const part=questions[qIndex].part;
+  const target=part==="Parts of the Sentence" ? "PART 2 — PARTS OF THE SENTENCE":
+               part==="Kinds of Sentences" ? "PART 3 — KINDS OF SENTENCES":
+               "PART 4 — READING COMPREHENSION";
+  const idx=slides.findIndex(s=>s.section===target);
+  slideIndex=idx>=0?idx:0;renderLesson();
+}
+function renderResult(){
+  const pct=Math.round(score/questions.length*100);
+  const msg=pct>=90?"Excellent! You are very well prepared for the grammar and reading sections.":
+            pct>=75?"Good job! Review the questions you missed, then retake the quiz.":
+            "Review the lesson slides again, especially the rules you missed.";
+  document.getElementById("screen").innerHTML=`
+    <h1>Quiz Complete!</h1>
+    <div class="scorebox" style="font-size:2rem;margin:28px 0">Final Score: ${score}/${questions.length} (${pct}%)</div>
+    <div class="content">
+      <p class="big">${msg}</p>
+      <div class="warning"><b>Vocabulary reminder:</b> Add the exact Vocabulary for Achievement Lessons 1–3 pages before the test so this section can be reviewed with the correct school word list.</div>
+    </div>
+    <div class="controls">
+      <button class="secondary" onclick="slideIndex=0;renderLesson()">Review Lesson</button>
+      <button class="restart" onclick="restartAll()">↻ Restart All</button>
+      <button class="primary" onclick="qIndex=0;score=0;renderQuestion()">Retake Quiz</button>
+    </div>`;
+}
+function restartAll(){slideIndex=0;qIndex=0;score=0;locked=false;renderLesson()}
+renderLesson();
+</script>
+</body>
+</html>

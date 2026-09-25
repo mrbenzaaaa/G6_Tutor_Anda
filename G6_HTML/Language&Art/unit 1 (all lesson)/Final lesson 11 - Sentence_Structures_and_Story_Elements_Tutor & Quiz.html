@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Grade 6 Tutor — Sentence Structures & Story Elements</title>
+  <style>
+    :root{
+      --ink:#17324d;--muted:#597188;--blue:#2764e7;--purple:#7c3aed;
+      --mint:#16a085;--orange:#f97316;--yellow:#fff4be;--paper:#fff;
+      --line:#dbe7f2;--good:#087f5b;--bad:#c92a2a;--shadow:0 16px 48px rgba(24,50,77,.13)
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0}
+    body{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:var(--ink);background:linear-gradient(135deg,#eef6ff,#f7f0ff 48%,#fff7e6);overflow:hidden}
+    button{font:inherit}
+    .app{height:100%;display:grid;grid-template-rows:auto 1fr auto;max-width:1200px;margin:auto;padding:14px 18px 16px;gap:12px}
+    header{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.9);border:1px solid rgba(255,255,255,.75);border-radius:20px;padding:10px 16px;box-shadow:0 8px 26px rgba(24,50,77,.08)}
+    .logo{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;font-size:25px;box-shadow:0 8px 18px rgba(39,100,231,.25)}
+    .head-copy{min-width:0;flex:1}.head-copy h1{font-size:clamp(16px,2.2vw,23px);margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.head-copy p{margin:2px 0 0;color:var(--muted);font-size:13px}
+    .counter{font-weight:800;color:var(--blue);background:#eaf1ff;padding:9px 13px;border-radius:999px;white-space:nowrap}
+    .progress{height:8px;background:#e8eef5;border-radius:99px;overflow:hidden;margin-top:7px}.progress>div{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width .35s ease}
+    main{min-height:0;position:relative}
+    .screen{height:100%;display:none;animation:arrive .32s ease}.screen.active{display:block}
+    @keyframes arrive{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    .card{height:100%;background:rgba(255,255,255,.96);border:1px solid #fff;border-radius:28px;box-shadow:var(--shadow);padding:clamp(18px,3vw,36px);display:flex;flex-direction:column;overflow:auto}
+    .eyebrow{display:inline-flex;align-self:flex-start;gap:8px;align-items:center;color:var(--purple);font-weight:900;text-transform:uppercase;letter-spacing:.08em;font-size:12px;background:#f0e9ff;padding:7px 11px;border-radius:999px}
+    h2{font-size:clamp(28px,4.2vw,52px);line-height:1.05;margin:12px 0 14px;letter-spacing:-.03em}h3{font-size:clamp(19px,2.6vw,29px);margin:8px 0;color:var(--blue)}
+    p,li{font-size:clamp(16px,1.7vw,21px);line-height:1.45}.lead{font-size:clamp(18px,2vw,25px);color:var(--muted);margin:0 0 18px;max-width:900px}
+    strong,.key{color:var(--purple)}
+    .grid{display:grid;gap:14px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}.five{grid-template-columns:repeat(5,minmax(0,1fr))}
+    .tile{border:2px solid var(--line);border-radius:18px;padding:15px;background:#fbfdff;min-width:0}.tile.blue{background:#edf4ff;border-color:#bfd4ff}.tile.purple{background:#f5efff;border-color:#dcc9ff}.tile.mint{background:#ebfbf7;border-color:#b7ece0}.tile.orange{background:#fff3e9;border-color:#ffd2b1}
+    .tile .icon{font-size:30px}.tile h3{margin:5px 0 4px}.tile p{margin:0;font-size:clamp(15px,1.5vw,18px)}
+    .formula{font-weight:900;font-size:clamp(20px,2.4vw,31px);text-align:center;padding:15px;border-radius:18px;background:linear-gradient(90deg,#eaf1ff,#f1e9ff);margin:10px 0}
+    .example{border-left:7px solid var(--mint);background:#edfbf7;border-radius:12px;padding:12px 16px;margin:10px 0;font-size:clamp(17px,1.8vw,22px)}
+    .clause{display:inline-block;padding:4px 8px;border-radius:8px;margin:2px}.ind{background:#dbeafe;color:#1646a0}.dep{background:#fde5f2;color:#9d174d}.join{color:var(--orange);font-weight:900}
+    .flow{display:flex;align-items:stretch;gap:8px;margin:12px 0}.flow .step{flex:1;text-align:center;padding:12px 8px;border-radius:15px;background:#eef5ff;border:2px solid #ccddff;font-weight:800}.arrow{display:grid;place-items:center;font-size:24px;color:var(--orange);font-weight:900}
+    table{width:100%;border-collapse:separate;border-spacing:0;border:2px solid var(--line);border-radius:16px;overflow:hidden;font-size:clamp(14px,1.45vw,18px)}th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}th{background:#eaf1ff;color:#174ea6}tr:last-child td{border-bottom:0}
+    .remember{margin-top:auto;background:var(--yellow);border:2px solid #f0d75d;border-radius:16px;padding:11px 15px;font-size:clamp(15px,1.5vw,19px);font-weight:800;color:#684d00}
+    .checklist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 18px;margin:8px 0}.check{background:#f5f9fc;border-radius:12px;padding:9px 12px;font-size:clamp(15px,1.5vw,18px)}
+    footer{display:flex;justify-content:space-between;align-items:center;gap:12px}.nav-group{display:flex;gap:10px}
+    .btn{border:0;border-radius:16px;padding:13px 22px;min-height:52px;font-weight:900;cursor:pointer;transition:transform .12s,filter .12s;box-shadow:0 7px 16px rgba(24,50,77,.13)}.btn:hover{filter:brightness(.98)}.btn:active{transform:scale(.97)}.btn:disabled{opacity:.42;cursor:not-allowed;box-shadow:none}.primary{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff}.secondary{background:#fff;color:var(--ink);border:2px solid var(--line)}.restart{background:#fff3e8;color:#a74600;border:2px solid #ffd3b0}
+    .quiz-card{max-width:940px;margin:auto}.level{font-weight:900;padding:7px 11px;border-radius:999px;background:#ebfbf7;color:var(--good);align-self:flex-start}.question{font-size:clamp(24px,3.5vw,40px);line-height:1.18;margin:18px 0}.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.choice{display:flex;align-items:center;gap:12px;text-align:left;border:2px solid var(--line);border-radius:17px;background:#fbfdff;padding:14px;min-height:70px;font-size:clamp(16px,1.8vw,21px);cursor:pointer}.choice:hover{border-color:#8fb2ff;background:#f1f6ff}.choice .letter{min-width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:#eaf1ff;color:var(--blue);font-weight:900}.choice.correct{border-color:#55c49b;background:#e9fbf4}.choice.incorrect{border-color:#ff9a9a;background:#fff0f0}.choice.locked{cursor:default}.feedback{display:none;margin-top:14px;border-radius:16px;padding:12px 15px;font-size:clamp(16px,1.6vw,20px);font-weight:800}.feedback.show{display:block}.feedback.good{background:#e9fbf4;color:var(--good)}.feedback.bad{background:#fff0f0;color:var(--bad)}
+    .score-pill{font-weight:900;background:#f0e9ff;color:var(--purple);padding:8px 12px;border-radius:999px}.result-score{font-size:clamp(55px,10vw,100px);font-weight:1000;line-height:1;color:var(--purple);margin:12px 0}.review-list{display:grid;gap:8px;margin:10px 0}.review-item{background:#fff5e9;border:2px solid #ffd5ad;padding:10px 13px;border-radius:13px;font-weight:800}
+    .plot-mountain{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;align-items:end;gap:6px;height:190px;margin:8px 0}.stage{border-radius:14px 14px 4px 4px;color:#fff;text-align:center;padding:8px 5px;font-weight:900;display:flex;align-items:flex-end;justify-content:center}.s1{height:38%;background:#3b82f6}.s2{height:65%;background:#6366f1}.s3{height:100%;background:#8b5cf6}.s4{height:65%;background:#ec4899}.s5{height:38%;background:#f97316}
+    .mini{font-size:14px;color:var(--muted)}.center{text-align:center}.hidden{display:none!important}
+    @media(max-width:760px){.app{padding:8px;gap:8px}.head-copy p{display:none}.counter{font-size:12px;padding:7px 9px}.card{border-radius:20px;padding:17px}.two,.three,.five,.choices{grid-template-columns:1fr}.five{display:grid}.flow{display:grid;grid-template-columns:1fr}.arrow{transform:rotate(90deg)}.plot-mountain{height:155px}.stage{font-size:12px;padding:5px 2px}.checklist{grid-template-columns:1fr}.btn{padding:11px 14px;min-height:48px}.restart{font-size:0}.restart:after{content:"↻";font-size:22px}footer{gap:6px}.nav-group{gap:6px}}
+    @media(max-height:700px) and (min-width:761px){.app{padding:8px 14px;gap:7px}.card{padding:18px 26px}h2{font-size:34px;margin:7px 0 9px}p,li{font-size:16px}.tile{padding:10px}.remember{padding:8px 12px}.plot-mountain{height:135px}.btn{min-height:45px;padding:9px 18px}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="logo">✦</div>
+    <div class="head-copy">
+      <h1>Sentence Structures & Story Elements</h1>
+      <p>Grade 6 • 15–20 minute Animated Touchscreen Tutor</p>
+      <div class="progress"><div id="progressBar"></div></div>
+    </div>
+    <div class="counter" id="counter">Slide 1 of 20</div>
+    <div class="score-pill hidden" id="scorePill">Score: 0</div>
+  </header>
+
+  <main>
+    <section id="lessonScreen" class="screen active"><article class="card" id="slideCard"></article></section>
+    <section id="quizScreen" class="screen"><article class="card quiz-card" id="quizCard"></article></section>
+    <section id="resultScreen" class="screen"><article class="card quiz-card" id="resultCard"></article></section>
+  </main>
+
+  <footer>
+    <button class="btn restart" id="restartBtn">↻ Restart</button>
+    <div class="nav-group">
+      <button class="btn secondary" id="backBtn">← Back</button>
+      <button class="btn primary" id="nextBtn">Next →</button>
+    </div>
+  </footer>
+</div>
+
+<script>
+const slides = [
+  {
+    tag:'Welcome', title:'Two Skills, One Strong Reader',
+    body:`<p class="lead">Today you will learn how sentences are built and how stories are organized.</p>
+    <div class="grid two"><div class="tile blue"><div class="icon">🧩</div><h3>Topic 1</h3><p><strong>Simple, compound, and complex sentences</strong></p></div><div class="tile purple"><div class="icon">📖</div><h3>Topic 2</h3><p><strong>Title, author, characters, conflict, setting, and plot</strong></p></div></div>
+    <div class="formula">Learn → Review → Take the 40-question quiz</div>`,
+    remember:'Sentence structure tells how ideas connect. Story elements tell how a story works.'
+  },
+  {
+    tag:'What You Must Know', title:'Your Learning Targets',
+    body:`<div class="checklist">
+      <div class="check">✓ Find an <strong>independent clause</strong>.</div><div class="check">✓ Find a <strong>dependent clause</strong>.</div>
+      <div class="check">✓ Identify three sentence structures.</div><div class="check">✓ Use commas with joined clauses.</div>
+      <div class="check">✓ Name the main story elements.</div><div class="check">✓ Put five plot stages in order.</div>
+      <div class="check">✓ Explain <strong>setting</strong> as where and when.</div><div class="check">✓ Explain <strong>conflict</strong> as the main struggle.</div>
+    </div><p class="lead center">The quiz begins easy, then becomes medium and hard.</p>`,
+    remember:'Know the definitions, the differences, the order, and the clues.'
+  },
+  {
+    tag:'Topic 1 • Building Blocks', title:'Clauses Build Sentences',
+    body:`<div class="grid two"><div class="tile blue"><h3>Independent clause</h3><p>Has a <strong>subject</strong> and a <strong>verb</strong> and expresses a complete thought. It can stand alone.</p><div class="example"><span class="clause ind">Lena reads.</span></div></div><div class="tile purple"><h3>Dependent clause</h3><p>Has a subject and a verb but does <strong>not</strong> express a complete thought. It cannot stand alone.</p><div class="example"><span class="clause dep">Because Lena reads...</span></div></div></div>
+    <div class="formula">Independent = complete &nbsp; | &nbsp; Dependent = needs help</div>`,
+    remember:'Ask: “Can these words stand alone as a complete thought?”'
+  },
+  {
+    tag:'Topic 1 • Simple', title:'Simple Sentence = One Complete Idea',
+    body:`<div class="formula">1 independent clause</div><p class="lead">A simple sentence has one independent clause. It may be short or long.</p>
+    <div class="example"><span class="clause ind">The puppy slept.</span></div>
+    <div class="example"><span class="clause ind">Mia and Ben packed their bags and checked the map.</span></div>
+    <div class="tile mint"><p>The second example is still <strong>simple</strong>. It has one complete idea, even though it has more than one subject or verb.</p></div>`,
+    remember:'Do not count words. Count independent clauses: simple = one.'
+  },
+  {
+    tag:'Topic 1 • Compound', title:'Compound Sentence = Two Equal Ideas',
+    body:`<div class="formula">independent clause + comma + FANBOYS + independent clause</div>
+    <p class="lead"><strong>FANBOYS:</strong> for, and, nor, but, or, yet, so</p>
+    <div class="example"><span class="clause ind">I wanted to play outside</span><span class="join">, but </span><span class="clause ind">rain began.</span></div>
+    <div class="grid two"><div class="tile blue"><h3>Left side</h3><p>Can stand alone.</p></div><div class="tile purple"><h3>Right side</h3><p>Can also stand alone.</p></div></div>`,
+    remember:'Compound = complete + complete. Use a comma before FANBOYS.'
+  },
+  {
+    tag:'Topic 1 • Complex', title:'Complex Sentence = Main Idea + Helper Idea',
+    body:`<div class="formula">1 independent clause + at least 1 dependent clause</div>
+    <div class="example"><span class="clause dep">Because the rain stopped</span>, <span class="clause ind">we went outside.</span></div>
+    <div class="example"><span class="clause ind">We went outside</span> <span class="clause dep">because the rain stopped.</span></div>
+    <p class="lead">Common dependent markers include <strong>because, when, while, before, after, if, although,</strong> and <strong>since</strong>.</p>`,
+    remember:'If the dependent clause comes first, place a comma after it.'
+  },
+  {
+    tag:'Easy-to-Confuse', title:'Compare the Three Structures',
+    body:`<table><thead><tr><th>Structure</th><th>Clause pattern</th><th>Example</th></tr></thead><tbody>
+      <tr><td><strong>Simple</strong></td><td>1 independent</td><td>The bell rang.</td></tr>
+      <tr><td><strong>Compound</strong></td><td>2 independent</td><td>The bell rang, so we left.</td></tr>
+      <tr><td><strong>Complex</strong></td><td>1 independent + 1 dependent</td><td>When the bell rang, we left.</td></tr>
+    </tbody></table><div class="formula">Count complete thoughts—not verbs, length, or commas.</div>`,
+    remember:'Simple = 1 complete. Compound = 2 complete. Complex = complete + incomplete.'
+  },
+  {
+    tag:'Exam Focus', title:'Comma Clues and Common Traps',
+    body:`<div class="grid two"><div class="tile mint"><h3>Correct</h3><p><strong>Compound:</strong> I was tired, but I finished.</p><p><strong>Complex:</strong> When I finished, I rested.</p></div><div class="tile orange"><h3>Watch out!</h3><p><strong>Fragment:</strong> Because I was tired.</p><p><strong>Run-on:</strong> I was tired I finished.</p></div></div>
+    <div class="flow"><div class="step">Find clauses</div><div class="arrow">→</div><div class="step">Test each thought</div><div class="arrow">→</div><div class="step">Name the structure</div></div>`,
+    remember:'A dependent clause alone is a fragment because its thought is unfinished.'
+  },
+  {
+    tag:'Quick Check', title:'Try the Clause Test',
+    body:`<div class="grid three"><div class="tile blue"><h3>1</h3><p>Birds sang.</p><p><strong>Simple</strong>: one complete thought.</p></div><div class="tile purple"><h3>2</h3><p>Birds sang, and the sun rose.</p><p><strong>Compound</strong>: two complete thoughts.</p></div><div class="tile mint"><h3>3</h3><p>As the sun rose, birds sang.</p><p><strong>Complex</strong>: dependent + independent.</p></div></div>
+    <p class="lead center">Cover the answers with your hand. Name each structure, then check.</p>`,
+    remember:'Look for the pattern behind the words.'
+  },
+  {
+    tag:'Topic 2 • Big Picture', title:'The Main Elements of a Story',
+    body:`<div class="grid three"><div class="tile blue"><div class="icon">🏷️</div><h3>Title & Author</h3><p>Name and writer</p></div><div class="tile purple"><div class="icon">🧑‍🤝‍🧑</div><h3>Characters</h3><p>Who is in it?</p></div><div class="tile mint"><div class="icon">🗺️</div><h3>Setting</h3><p>Where and when?</p></div><div class="tile orange"><div class="icon">⚡</div><h3>Conflict</h3><p>What is the struggle?</p></div><div class="tile blue"><div class="icon">📈</div><h3>Plot</h3><p>What happens?</p></div></div>`,
+    remember:'Ask: name, writer, who, where/when, problem, and events.'
+  },
+  {
+    tag:'Story Elements', title:'Title, Author, and Characters',
+    body:`<div class="grid three"><div class="tile blue"><h3>Title</h3><p>The <strong>name</strong> of the story.</p></div><div class="tile purple"><h3>Author</h3><p>The person who <strong>wrote</strong> the story.</p></div><div class="tile mint"><h3>Characters</h3><p>The people, animals, or beings that take part in the story.</p></div></div>
+    <div class="example"><strong>Example:</strong> In “Maya and the Missing Map,” Maya and her teammate Leo are characters.</div>`,
+    remember:'Title = name. Author = writer. Characters = who takes part.'
+  },
+  {
+    tag:'Story Elements', title:'Setting and Conflict',
+    body:`<div class="grid two"><div class="tile blue"><h3>Setting</h3><p>The <strong>place</strong> and <strong>time</strong> of a story.</p><div class="example">A school library on Friday afternoon</div></div><div class="tile orange"><h3>Conflict</h3><p>The main <strong>problem</strong> or <strong>struggle</strong> that moves the story.</p><div class="example">Maya cannot find the map her team needs.</div></div></div>
+    <div class="formula">Setting = where + when &nbsp; | &nbsp; Conflict = struggle</div>`,
+    remember:'Setting surrounds the action; conflict pushes the action forward.'
+  },
+  {
+    tag:'Story Elements', title:'Plot = The Main Events in Order',
+    body:`<p class="lead">The <strong>plot</strong> is the sequence of main events in a story. Events connect through cause and effect.</p>
+    <div class="flow"><div class="step">Maya needs the map</div><div class="arrow">→</div><div class="step">The map is missing</div><div class="arrow">→</div><div class="step">She searches</div><div class="arrow">→</div><div class="step">She finds it</div></div>
+    <div class="tile mint"><p><strong>Cause → Effect:</strong> Because the map is missing, Maya begins to search.</p></div>`,
+    remember:'Plot is not one event. It is the connected sequence of important events.'
+  },
+  {
+    tag:'Plot • Five Stages', title:'The Plot Mountain',
+    body:`<div class="plot-mountain"><div class="stage s1">1<br>Exposition</div><div class="stage s2">2<br>Rising Action</div><div class="stage s3">3<br>Climax</div><div class="stage s4">4<br>Falling Action</div><div class="stage s5">5<br>Resolution</div></div>
+    <div class="flow"><div class="step">Story begins</div><div class="arrow">→</div><div class="step">Problem grows</div><div class="arrow">→</div><div class="step">Turning point</div><div class="arrow">→</div><div class="step">Results</div><div class="arrow">→</div><div class="step">Ending</div></div>`,
+    remember:'E–R–C–F–R: Exposition, Rising Action, Climax, Falling Action, Resolution.'
+  },
+  {
+    tag:'Plot • Meaning', title:'What Each Plot Stage Does',
+    body:`<table><thead><tr><th>Stage</th><th>Easy meaning</th></tr></thead><tbody>
+      <tr><td><strong>Exposition</strong></td><td>Introduces important characters and setting.</td></tr>
+      <tr><td><strong>Rising Action</strong></td><td>Events build the conflict and tension.</td></tr>
+      <tr><td><strong>Climax</strong></td><td>The major turning point; tension is highest.</td></tr>
+      <tr><td><strong>Falling Action</strong></td><td>Events show what happens after the climax.</td></tr>
+      <tr><td><strong>Resolution</strong></td><td>The conflict is settled and the story ends.</td></tr>
+    </tbody></table>`,
+    remember:'The climax is the turning point—not simply the last event.'
+  },
+  {
+    tag:'Worked Example', title:'One Story Across Five Stages',
+    body:`<table><thead><tr><th>Stage</th><th>“Maya and the Missing Map”</th></tr></thead><tbody>
+      <tr><td><strong>Exposition</strong></td><td>Maya and Leo are in the school library before a treasure hunt.</td></tr>
+      <tr><td><strong>Rising Action</strong></td><td>Their map is missing. They search tables, folders, and shelves.</td></tr>
+      <tr><td><strong>Climax</strong></td><td>Maya spots the map behind a shelf just before the hunt starts.</td></tr>
+      <tr><td><strong>Falling Action</strong></td><td>She gets the map and brings it to Leo.</td></tr>
+      <tr><td><strong>Resolution</strong></td><td>They begin the hunt with their map.</td></tr>
+    </tbody></table>`,
+    remember:'Match each event to the job of its stage.'
+  },
+  {
+    tag:'Keywords', title:'Vocabulary Summary',
+    body:`<table><thead><tr><th>Term</th><th>Meaning</th><th>Memory tip</th></tr></thead><tbody>
+      <tr><td><strong>Independent clause</strong></td><td>A complete thought with a subject and verb</td><td>Independent = stands alone</td></tr>
+      <tr><td><strong>Dependent clause</strong></td><td>An incomplete thought with a subject and verb</td><td>Dependent = needs help</td></tr>
+      <tr><td><strong>Simple</strong></td><td>One independent clause</td><td>Simple = one</td></tr>
+      <tr><td><strong>Compound</strong></td><td>Two independent clauses joined</td><td>Two equal ideas</td></tr>
+      <tr><td><strong>Complex</strong></td><td>Independent + dependent clause</td><td>Main + helper</td></tr>
+      <tr><td><strong>Setting</strong></td><td>Where and when</td><td>Place + time</td></tr>
+      <tr><td><strong>Conflict</strong></td><td>Main problem or struggle</td><td>Problem pushes plot</td></tr>
+      <tr><td><strong>Plot</strong></td><td>Sequence of main events</td><td>Events in order</td></tr>
+    </tbody></table>`,
+    remember:'Use the memory-tip column for a fast test review.'
+  },
+  {
+    tag:'Easy-to-Confuse', title:'Do Not Mix These Up',
+    body:`<div class="grid two"><div class="tile blue"><h3>Title vs. Plot</h3><p><strong>Title:</strong> the story's name</p><p><strong>Plot:</strong> the main events</p></div><div class="tile purple"><h3>Setting vs. Conflict</h3><p><strong>Setting:</strong> where and when</p><p><strong>Conflict:</strong> the struggle</p></div><div class="tile mint"><h3>Climax vs. Resolution</h3><p><strong>Climax:</strong> major turning point</p><p><strong>Resolution:</strong> conflict is settled</p></div><div class="tile orange"><h3>Compound vs. Complex</h3><p><strong>Compound:</strong> complete + complete</p><p><strong>Complex:</strong> complete + incomplete</p></div></div>`,
+    remember:'Compare each pair by asking what job it does.'
+  },
+  {
+    tag:'Final 4-Minute Review', title:'Remember These Before the Test',
+    body:`<div class="checklist"><div class="check">☐ Simple = 1 independent clause</div><div class="check">☐ Compound = 2 independent clauses</div><div class="check">☐ Complex = independent + dependent</div><div class="check">☐ FANBOYS can join equal ideas</div><div class="check">☐ Setting = where and when</div><div class="check">☐ Conflict = main struggle</div><div class="check">☐ Plot = events in order</div><div class="check">☐ E–R–C–F–R plot order</div></div>
+    <div class="formula">Sentence: count complete thoughts &nbsp; | &nbsp; Story: identify each element's job</div>`,
+    remember:'If you can explain each checklist item aloud, you are ready.'
+  },
+  {
+    tag:'Lesson Review', title:'Final Review Before the Quiz',
+    body:`<div class="grid two"><div class="tile blue"><h3>Sentence Structures</h3><p><strong>Simple:</strong> 1 independent clause</p><p><strong>Compound:</strong> 2 independent clauses</p><p><strong>Complex:</strong> independent + dependent</p></div><div class="tile purple"><h3>Story Elements</h3><p><strong>Title/Author:</strong> name/writer</p><p><strong>Characters:</strong> who</p><p><strong>Setting:</strong> where + when</p><p><strong>Conflict:</strong> struggle</p><p><strong>Plot:</strong> main events</p></div></div>
+    <div class="formula">Plot order: Exposition → Rising Action → Climax → Falling Action → Resolution</div>
+    <p class="center"><strong>Tap “Start Quiz” when you are ready.</strong></p>`,
+    remember:'Pause, say the three sentence patterns and five plot stages, then begin.'
+  }
+];
+
+const quiz = [
+  {l:'Easy',t:'Sentence Structures',q:'How many independent clauses are in a simple sentence?',c:['Zero','One','Two','Three'],a:1,e:'A simple sentence has one independent clause.'},
+  {l:'Easy',t:'Story Elements',q:'Which story element tells where and when the story happens?',c:['Setting','Conflict','Title','Author'],a:0,e:'Setting gives the place and time.'},
+  {l:'Easy',t:'Sentence Structures',q:'Which sentence is simple?',c:['The dog barked.','The dog barked, and I woke up.','When the dog barked, I woke up.','Because the dog barked.'],a:0,e:'It has one complete thought.'},
+  {l:'Easy',t:'Story Elements',q:'What is the title of a story?',c:['The person who wrote it','The name of the story','The main struggle','The final event'],a:1,e:'The title is the story’s name.'},
+  {l:'Easy',t:'Story Elements',q:'Who is the author?',c:['The main character','The reader','The person who wrote the story','The person with the problem'],a:2,e:'The author is the writer.'},
+  {l:'Easy',t:'Sentence Structures',q:'Which word is part of FANBOYS?',c:['Because','When','But','Although'],a:2,e:'“But” is one of the FANBOYS conjunctions.'},
+  {l:'Easy',t:'Story Elements',q:'What are characters?',c:['The places in a story','The people, animals, or beings in a story','The five plot stages','The name of the story'],a:1,e:'Characters take part in the story.'},
+  {l:'Easy',t:'Story Elements',q:'What is the main problem or struggle called?',c:['Setting','Author','Conflict','Title'],a:2,e:'Conflict is the main problem or struggle.'},
+  {l:'Easy',t:'Story Elements',q:'What is plot?',c:['The sequence of main events','Only the ending','The name of the writer','The place only'],a:0,e:'Plot is the main events in order.'},
+  {l:'Easy',t:'Plot Stages',q:'Which plot stage comes first?',c:['Climax','Resolution','Exposition','Falling Action'],a:2,e:'Exposition begins the plot.'},
+
+  {l:'Medium',t:'Sentence Structures',q:'Which sentence is compound?',c:['The class cheered.','The class cheered, and the coach smiled.','When the class cheered, the coach smiled.','Because the class cheered.'],a:1,e:'It joins two independent clauses with “and.”'},
+  {l:'Medium',t:'Sentence Structures',q:'Which sentence is complex?',c:['We ate lunch.','We ate lunch, and we talked.','After we ate lunch, we talked.','We ate a quick lunch.'],a:2,e:'It has a dependent clause and an independent clause.'},
+  {l:'Medium',t:'Sentence Structures',q:'Which group of words is a dependent clause?',c:['The rain stopped.','Because the rain stopped','We opened the door.','Mia and Leo laughed.'],a:1,e:'It has an unfinished thought beginning with “because.”'},
+  {l:'Medium',t:'Sentence Structures',q:'Choose the correct punctuation.',c:['I was hungry so, I ate.','I was hungry, so I ate.','I was hungry so I, ate.','I was hungry, so, I ate.'],a:1,e:'Use a comma before FANBOYS joining two complete thoughts.'},
+  {l:'Medium',t:'Sentence Structures',q:'“Mia and Ben packed their bags and checked the map.” What structure is it?',c:['Simple','Compound','Complex','Fragment'],a:0,e:'It has only one independent clause.'},
+  {l:'Medium',t:'Plot Stages',q:'In which stage do events build the conflict and tension?',c:['Exposition','Rising Action','Falling Action','Resolution'],a:1,e:'Rising action builds the conflict.'},
+  {l:'Medium',t:'Plot Stages',q:'What is the climax?',c:['The introduction','The major turning point','The story title','The final sentence'],a:1,e:'The climax is the major turning point.'},
+  {l:'Medium',t:'Plot Stages',q:'What happens during falling action?',c:['Characters and setting are introduced','The conflict first appears','Events show what happens after the climax','The title is explained'],a:2,e:'Falling action follows the climax.'},
+  {l:'Medium',t:'Plot Stages',q:'Which stage settles the conflict and ends the story?',c:['Exposition','Rising Action','Climax','Resolution'],a:3,e:'The resolution settles the conflict.'},
+  {l:'Medium',t:'Story Elements',q:'“At midnight in an empty train station” is an example of which element?',c:['Character','Setting','Conflict','Plot'],a:1,e:'It tells both time and place.'},
+
+  {l:'Hard',t:'Sentence Structures',q:'Which sentence has two independent clauses?',c:['Although the wind blew, we walked.','The wind blew, but we kept walking.','Because the wind blew.','The strong wind blew all night.'],a:1,e:'Both sides of “but” can stand alone.'},
+  {l:'Hard',t:'Sentence Structures',q:'Why is “Because I missed the bus.” a fragment?',c:['It has too many verbs.','It is a question.','It is a dependent clause with an unfinished thought.','It has two independent clauses.'],a:2,e:'The word “because” leaves the thought unfinished.'},
+  {l:'Hard',t:'Sentence Structures',q:'Which rewrite correctly makes a complex sentence?',c:['The game ended, and we went home.','When the game ended, we went home.','The game ended; we went home.','The game ended. We went home.'],a:1,e:'It joins a dependent clause to an independent clause.'},
+  {l:'Hard',t:'Sentence Structures',q:'“The baby laughed, and her brother clapped.” Why is it compound?',c:['It is long.','It has two verbs.','It has two independent clauses joined by “and.”','It begins with a dependent marker.'],a:2,e:'Each side is a complete thought.'},
+  {l:'Hard',t:'Story Elements',q:'A hero must find a lost key before sunset. Which part is the conflict?',c:['The hero','Before sunset','The need to find the lost key','The story’s name'],a:2,e:'The missing key creates the main struggle.'},
+  {l:'Hard',t:'Plot Stages',q:'Maya spots the missing map behind a shelf just before the hunt starts. Which stage is this?',c:['Exposition','Rising Action','Climax','Resolution'],a:2,e:'This is the story’s major turning point.'},
+  {l:'Hard',t:'Plot Stages',q:'After Maya finds the map, she carries it back to Leo. Which stage is this?',c:['Exposition','Climax','Falling Action','Resolution'],a:2,e:'It shows what happens after the climax.'},
+  {l:'Hard',t:'Plot Stages',q:'Choose the correct plot order.',c:['Exposition → Climax → Rising Action → Resolution → Falling Action','Rising Action → Exposition → Climax → Falling Action → Resolution','Exposition → Rising Action → Climax → Falling Action → Resolution','Exposition → Falling Action → Climax → Rising Action → Resolution'],a:2,e:'The correct order is E–R–C–F–R.'},
+  {l:'Hard',t:'Story Elements',q:'Which choice correctly compares setting and conflict?',c:['Setting is who; conflict is where.','Setting is where and when; conflict is the struggle.','Setting is the ending; conflict is the title.','Setting and conflict mean the same thing.'],a:1,e:'Setting gives place/time; conflict gives the struggle.'},
+  {l:'Hard',t:'Sentence Structures',q:'“While Leo checked the folder, Maya searched the shelf.” What is its structure?',c:['Simple','Compound','Complex','Run-on'],a:2,e:'It has one dependent clause and one independent clause.'},
+  {l:'Hard',t:'Sentence Structures',q:'Which sentence is compound rather than complex?',c:['The lights went out, but we stayed calm.','Although the lights went out, we stayed calm.','When the lights went out, we waited.','Because the room became dark.'],a:0,e:'It joins two independent clauses with “but.”'},
+  {l:'Hard',t:'Sentence Structures',q:'“After practice ended, the team cleaned the room.” How many independent clauses does it have?',c:['Zero','One','Two','Three'],a:1,e:'“The team cleaned the room” is the one independent clause.'},
+  {l:'Hard',t:'Sentence Structures',q:'Which sentence uses the comma correctly?',c:['Before, the movie started we found our seats.','Before the movie started we, found our seats.','Before the movie started, we found our seats.','Before the movie, started we found our seats.'],a:2,e:'A comma follows the dependent clause when it comes first.'},
+  {l:'Hard',t:'Sentence Structures',q:'Which sentence is simple even though it has two verbs?',c:['Nina wrote, and Leo checked.','When Nina wrote, Leo checked.','Because Nina wrote the answer.','Nina opened her notebook and wrote the answer.'],a:3,e:'It has one independent clause with two verbs.'},
+  {l:'Hard',t:'Sentence Structures',q:'Which sentence begins with a dependent clause?',c:['Although the path was steep, we kept walking.','The path was steep, but we kept walking.','The steep path curved uphill.','We kept walking along the path.'],a:0,e:'“Although the path was steep” cannot stand alone.'},
+  {l:'Hard',t:'Story Elements',q:'A story takes place in a village during winter. Which element does this information describe?',c:['Conflict','Characters','Setting','Resolution'],a:2,e:'The village is the place and winter is the time.'},
+  {l:'Hard',t:'Story Elements',q:'Kai and his sister search for their missing dog. Who are the characters named in this sentence?',c:['The dog only','Kai and his sister','The missing dog and winter','The author and reader'],a:1,e:'Kai and his sister are the named participants.'},
+  {l:'Hard',t:'Plot Stages',q:'A character tries three different ways to solve a problem, but each attempt makes it harder. Which stage is this?',c:['Exposition','Climax','Resolution','Rising Action'],a:3,e:'These events build the conflict and tension.'},
+  {l:'Hard',t:'Plot Stages',q:'Which event is most likely part of the resolution?',c:['The main characters are introduced.','The conflict is settled and the story ends.','The problem becomes more difficult.','The major turning point happens.'],a:1,e:'Resolution settles the conflict and closes the story.'},
+  {l:'Hard',t:'Plot Stages',q:'Which statement correctly compares climax and resolution?',c:['Climax is the turning point; resolution settles the conflict.','Climax introduces the setting; resolution builds tension.','Climax and resolution are the same stage.','Climax is the title; resolution is the author.'],a:0,e:'The climax turns the action; the resolution settles it.'}
+];
+
+let slideIndex=0, questionIndex=0, score=0, answered=false;
+const misses={};
+const lessonScreen=document.getElementById('lessonScreen');
+const quizScreen=document.getElementById('quizScreen');
+const resultScreen=document.getElementById('resultScreen');
+const slideCard=document.getElementById('slideCard');
+const quizCard=document.getElementById('quizCard');
+const resultCard=document.getElementById('resultCard');
+const counter=document.getElementById('counter');
+const progressBar=document.getElementById('progressBar');
+const scorePill=document.getElementById('scorePill');
+const backBtn=document.getElementById('backBtn');
+const nextBtn=document.getElementById('nextBtn');
+const restartBtn=document.getElementById('restartBtn');
+
+function showOnly(screen){[lessonScreen,quizScreen,resultScreen].forEach(s=>s.classList.toggle('active',s===screen));}
+function renderSlide(){
+  showOnly(lessonScreen); scorePill.classList.add('hidden');
+  const s=slides[slideIndex];
+  slideCard.innerHTML=`<div class="eyebrow">${s.tag}</div><h2>${s.title}</h2>${s.body}<div class="remember">⭐ Remember: ${s.remember}</div>`;
+  counter.textContent=`Slide ${slideIndex+1} of ${slides.length}`;
+  progressBar.style.width=`${((slideIndex+1)/slides.length)*100}%`;
+  backBtn.disabled=slideIndex===0;
+  nextBtn.textContent=slideIndex===slides.length-1?'Start Quiz →':'Next →';
+  backBtn.classList.remove('hidden');nextBtn.classList.remove('hidden');
+}
+function startQuiz(){questionIndex=0;score=0;answered=false;Object.keys(misses).forEach(k=>delete misses[k]);scorePill.textContent='Score: 0';scorePill.classList.remove('hidden');renderQuestion();}
+function renderQuestion(){
+  showOnly(quizScreen);answered=false;const x=quiz[questionIndex];
+  quizCard.innerHTML=`<div class="level">${x.l} • ${x.t}</div><div class="question">${questionIndex+1}. ${x.q}</div><div class="choices">${x.c.map((v,i)=>`<button class="choice" data-i="${i}"><span class="letter">${'ABCD'[i]}</span><span>${v}</span></button>`).join('')}</div><div class="feedback" id="feedback"></div>`;
+  quizCard.querySelectorAll('.choice').forEach(b=>b.addEventListener('click',()=>answer(Number(b.dataset.i))));
+  counter.textContent=`Question ${questionIndex+1} of ${quiz.length}`;
+  progressBar.style.width=`${((questionIndex+1)/quiz.length)*100}%`;
+  backBtn.classList.add('hidden');nextBtn.classList.add('hidden');
+}
+function answer(choice){
+  if(answered)return;answered=true;const x=quiz[questionIndex];const buttons=[...quizCard.querySelectorAll('.choice')];
+  buttons.forEach((b,i)=>{b.classList.add('locked');b.disabled=true;if(i===x.a)b.classList.add('correct');});
+  const feedback=document.getElementById('feedback');
+  if(choice===x.a){score++;buttons[choice].classList.add('correct');feedback.className='feedback show good';feedback.innerHTML=`✅ Correct! ${x.e}`;}
+  else{buttons[choice].classList.add('incorrect');misses[x.t]=(misses[x.t]||0)+1;feedback.className='feedback show bad';feedback.innerHTML=`❌ Incorrect. Correct answer: <strong>${'ABCD'[x.a]}. ${x.c[x.a]}</strong><br>${x.e}`;}
+  scorePill.textContent=`Score: ${score}`;
+  nextBtn.textContent=questionIndex===quiz.length-1?'See Results →':'Next Question →';nextBtn.classList.remove('hidden');
+}
+function nextQuestion(){if(!answered)return;if(questionIndex<quiz.length-1){questionIndex++;renderQuestion();}else{showResults();}}
+function showResults(){
+  showOnly(resultScreen);counter.textContent='Quiz Complete';progressBar.style.width='100%';backBtn.classList.add('hidden');nextBtn.classList.add('hidden');scorePill.classList.add('hidden');
+  const pct=Math.round(score/quiz.length*100);let msg=pct>=90?'Excellent work!':pct>=75?'Strong work!':pct>=60?'Good effort—review the weak spots.':'Keep practicing—you can improve!';
+  const weak=Object.entries(misses).sort((a,b)=>b[1]-a[1]);
+  resultCard.innerHTML=`<div class="eyebrow">Final Score</div><h2>${msg}</h2><div class="result-score">${score}/${quiz.length}</div><p class="lead">You scored <strong>${pct}%</strong>.</p><h3>Topics to Review</h3><div class="review-list">${weak.length?weak.map(([t,n])=>`<div class="review-item">${t}: ${n} question${n>1?'s':''} missed</div>`).join(''):'<div class="review-item" style="background:#e9fbf4;border-color:#55c49b">None — you answered every question correctly!</div>'}</div><div class="remember">⭐ Remember: Review mistakes, explain the rule aloud, then try again.</div>`;
+}
+function restart(){slideIndex=0;questionIndex=0;score=0;answered=false;renderSlide();}
+
+backBtn.addEventListener('click',()=>{if(lessonScreen.classList.contains('active')&&slideIndex>0){slideIndex--;renderSlide();}});
+nextBtn.addEventListener('click',()=>{if(lessonScreen.classList.contains('active')){if(slideIndex<slides.length-1){slideIndex++;renderSlide();}else startQuiz();}else if(quizScreen.classList.contains('active'))nextQuestion();});
+restartBtn.addEventListener('click',restart);
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'&&!nextBtn.classList.contains('hidden'))nextBtn.click();if(e.key==='ArrowLeft'&&!backBtn.classList.contains('hidden')&&!backBtn.disabled)backBtn.click();});
+renderSlide();
+</script>
+</body>
+</html>
