@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Grade 1 Science - Chapter 2 Lesson 2: Which Animals Have a Backbone?</title>
+<style>
+:root{
+  --bg1:#eef8ff;
+  --bg2:#fff8e8;
+  --ink:#24324a;
+  --muted:#667085;
+  --line:#d9e7f5;
+  --blue:#4f8df7;
+  --green:#35b77e;
+  --yellow:#ffcc4d;
+  --orange:#ff9f43;
+  --pink:#ff7eb6;
+  --purple:#8b7cf6;
+  --teal:#33c4c4;
+  --white:#ffffff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  min-height:100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 12% 0%, #fff0a6 0%, transparent 18%),
+    radial-gradient(circle at 95% 0%, #ffd5ea 0%, transparent 20%),
+    linear-gradient(180deg,var(--bg1),var(--bg2));
+}
+.wrap{max-width:1080px;margin:0 auto;padding:14px 14px 28px}
+.topbar{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.brand{
+  padding:10px 16px;border-radius:20px;
+  background:rgba(255,255,255,.82);
+  border:2px solid rgba(255,255,255,.96);
+  box-shadow:0 10px 24px rgba(51,84,124,.08);
+  font-size:clamp(18px,2vw,24px);
+  font-weight:800;
+}
+.progress{
+  padding:10px 16px;border-radius:999px;
+  background:linear-gradient(135deg,#ffffff,#eef6ff);
+  border:2px solid #d7e6ff;
+  box-shadow:0 10px 24px rgba(79,141,247,.10);
+  font-size:clamp(16px,1.8vw,22px);
+  font-weight:800;
+}
+.slide{display:none}
+.slide.active{display:block}
+.card{
+  position:relative;
+  overflow:hidden;
+  background:rgba(255,255,255,.96);
+  border:2px solid rgba(255,255,255,.95);
+  border-radius:28px;
+  padding:24px;
+  box-shadow:0 18px 42px rgba(63,93,138,.12);
+}
+.card::before{
+  content:"";
+  position:absolute;left:0;right:0;top:0;height:10px;
+  background:linear-gradient(90deg,var(--blue),var(--green),var(--yellow),var(--pink),var(--purple));
+}
+.hero{
+  display:flex;gap:18px;align-items:center;flex-wrap:wrap;
+}
+.heroIcon{
+  width:92px;height:92px;border-radius:24px;flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center;
+  font-size:50px;color:#fff;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  box-shadow:0 12px 28px rgba(79,141,247,.25);
+}
+h1,h2,h3{margin:0 0 12px}
+h1{font-size:clamp(30px,5vw,52px);line-height:1.1}
+h2{font-size:clamp(28px,4vw,42px);line-height:1.12}
+h3{font-size:clamp(22px,3vw,30px)}
+p,li,td,th,div{
+  font-size:clamp(20px,2.25vw,28px);
+  line-height:1.42;
+}
+.small{font-size:clamp(16px,1.75vw,19px);color:var(--muted)}
+.badge{
+  display:inline-block;padding:8px 14px;border-radius:999px;
+  background:#edf5ff;border:2px solid #dbe8ff;color:#1f5ec7;
+  font-weight:800;
+}
+.highlight{font-weight:800;color:#145fe6}
+.grid2,.grid3,.grid4,.grid5{display:grid;gap:16px}
+.grid2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.grid4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.grid5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.box{
+  border-radius:22px;padding:18px;border:2px solid var(--line);background:#f9fbff;
+}
+.box.blue{background:#edf5ff}
+.box.green{background:#edfff6}
+.box.yellow{background:#fff9e6}
+.box.orange{background:#fff4ea}
+.box.pink{background:#fff0f8}
+.box.purple{background:#f5f2ff}
+.box.teal{background:#edffff}
+.box.center{text-align:center}
+.labelBig{font-size:clamp(24px,2.6vw,34px);font-weight:800}
+.note{
+  background:#f6fbff;border:2px dashed #bad6ff;padding:14px 16px;border-radius:18px;
+}
+.remember{
+  margin-top:18px;
+  background:linear-gradient(135deg,#fff5c4,#ffe79d);
+  border:2px solid #ffd76d;
+  border-radius:20px;
+  padding:16px 18px;
+  font-weight:800;
+}
+.pills{display:flex;gap:10px;flex-wrap:wrap}
+.pill{
+  padding:10px 14px;border-radius:999px;
+  border:2px solid #dce9ff;background:#f3f8ff;
+  font-weight:800;
+}
+table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0;
+  overflow:hidden;
+  border-radius:18px;
+}
+th,td{
+  border:2px solid #e1ebf6;
+  padding:12px 14px;
+  vertical-align:top;
+  background:#fff;
+}
+th{background:#ebf4ff;font-weight:800}
+.controls{
+  display:flex;justify-content:space-between;gap:12px;margin-top:16px;
+  position:sticky;bottom:8px;
+}
+button{
+  border:none;border-radius:18px;padding:14px 18px;
+  font-size:clamp(18px,2vw,24px);
+  font-weight:800;cursor:pointer;touch-action:manipulation;
+  box-shadow:0 8px 18px rgba(60,90,140,.12);
+}
+.btnBack{background:#edf3fa;color:#2f3d53}
+.btnRestart{background:linear-gradient(135deg,#ffe8d0,#ffd7ac);color:#7a4a00}
+.btnMain{background:linear-gradient(135deg,var(--blue),#6ba4ff);color:#fff}
+.answerGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.answer{
+  min-height:82px;padding:14px 16px;text-align:left;
+  background:#fff;border:3px solid #dce8f5;color:var(--ink)
+}
+.answer.correct{background:#ecfff4;border-color:#38b982}
+.answer.incorrect{background:#fff1f3;border-color:#ea5b78}
+.feedback{
+  margin-top:16px;padding:16px;border-radius:20px;background:#f9fcff;border:2px solid #dce8f5
+}
+.score{
+  font-size:clamp(48px,7vw,82px);
+  line-height:1;
+  font-weight:900;
+  color:#2454c9;
+}
+.footerBtns{display:flex;gap:12px;flex-wrap:wrap}
+.center{text-align:center}
+.listNum li{margin:6px 0}
+@media (max-width:760px){
+  .grid2,.grid3,.grid4,.grid5,.answerGrid{grid-template-columns:1fr}
+  .card{padding:18px}
+  .heroIcon{width:78px;height:78px;font-size:42px}
+  .controls{position:static}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand">🐾 Grade 1 Science • Chapter 2 • Lesson 2</div>
+    <div class="progress" id="progress">Slide 1</div>
+  </div>
+
+  <div id="app"></div>
+
+  <div class="controls">
+    <button id="backBtn" class="btnBack">← Back</button>
+    <button id="restartBtn" class="btnRestart">↻ Restart</button>
+    <button id="nextBtn" class="btnMain">Next →</button>
+  </div>
+</div>
+
+<script>
+const lessons = [
+{
+  title:"Which Animals Have a Backbone?",
+  icon:"🦴",
+  content:`
+    <div class="hero">
+      <div class="heroIcon">🦴</div>
+      <div>
+        <p><span class="badge">Lesson 2</span></p>
+        <p><strong>Some animals have a <span class="highlight">backbone</span>.</strong></p>
+        <p>In this lesson, we learn about <strong>mammals, fish, amphibians, reptiles, and birds</strong>.</p>
+      </div>
+    </div>`,
+  remember:"Some animals have a backbone."
+},
+{
+  title:"Two Main Animal Groups",
+  icon:"🐾",
+  content:`
+    <div class="grid2">
+      <div class="box blue center">
+        <div class="labelBig">Animals with backbones</div>
+      </div>
+      <div class="box pink center">
+        <div class="labelBig">Animals without backbones</div>
+      </div>
+    </div>
+    <p>There are <strong>two main groups</strong> of animals.</p>
+    <p>Most animals on Earth <strong>do not have backbones</strong>. Most animals on Earth are <strong>insects</strong>.</p>
+    <p>A <strong>sea jelly</strong> does not have a backbone.</p>`,
+  remember:"One group has backbones. One group does not."
+},
+{
+  title:"Five Groups with Backbones",
+  icon:"⭐",
+  content:`
+    <div class="grid5">
+      <div class="box yellow center"><div class="labelBig">mammals</div></div>
+      <div class="box teal center"><div class="labelBig">fish</div></div>
+      <div class="box green center"><div class="labelBig">birds</div></div>
+      <div class="box orange center"><div class="labelBig">reptiles</div></div>
+      <div class="box purple center"><div class="labelBig">amphibians</div></div>
+    </div>
+    <p>These are the <strong>five main groups</strong> of animals with backbones.</p>
+    <p>Animals with backbones are usually <strong>larger</strong> than animals without backbones.</p>`,
+  remember:"5 groups: mammals, fish, birds, reptiles, amphibians."
+},
+{
+  title:"Mammals",
+  icon:"🐶",
+  content:`
+    <div class="grid2">
+      <div class="box yellow"><p><strong>Hair or fur</strong></p></div>
+      <div class="box green"><p><strong>Mother mammals produce milk</strong> to feed their young</p></div>
+    </div>
+    <p>Mammals that live where it is very cold have <strong>layers of fat</strong> to keep them warm and may also have <strong>thicker fur</strong>.</p>
+    <div class="pills">
+      <div class="pill">dog</div>
+      <div class="pill">cow</div>
+      <div class="pill">elephant</div>
+    </div>`,
+  remember:"Mammals have hair or fur and feed milk to their young."
+},
+{
+  title:"Fish",
+  icon:"🐟",
+  content:`
+    <div class="grid2">
+      <div class="box blue"><p>Fish have <strong>fins</strong> and live only in <strong>water</strong>.</p></div>
+      <div class="box teal"><p>Fish use <strong>gills</strong> to breathe.</p></div>
+    </div>
+    <p>They do not breathe through noses like mammals.</p>
+    <p>Most fish have <strong>scales</strong>. Scales help protect fish from <strong>injury</strong>.</p>`,
+  remember:"Fish live in water and use gills to breathe."
+},
+{
+  title:"Amphibians",
+  icon:"🐸",
+  content:`
+    <p>Amphibians live in <strong>water and on land</strong>.</p>
+    <div class="grid2">
+      <div class="box green"><p>Some have <strong>smooth, wet skin</strong>.</p></div>
+      <div class="box orange"><p>Others have <strong>dry, bumpy skin</strong>.</p></div>
+    </div>
+    <p>Amphibians lay their <strong>eggs in water or moist places</strong>.</p>
+    <div class="pills">
+      <div class="pill">frog</div>
+      <div class="pill">toad</div>
+      <div class="pill">salamander</div>
+    </div>`,
+  remember:"Amphibians live in water and on land."
+},
+{
+  title:"Reptiles",
+  icon:"🐍",
+  content:`
+    <p>Reptiles have <strong>dry, scaly skin</strong>.</p>
+    <p>The <strong>scales protect</strong> their bodies.</p>
+    <p>Reptiles are <strong>born on land</strong>.</p>
+    <div class="note"><strong>Example from the lesson:</strong> Snakes use their muscles and scales to move.</div>`,
+  remember:"Reptiles have dry, scaly skin."
+},
+{
+  title:"Birds",
+  icon:"🐦",
+  content:`
+    <p>Birds have <strong>feathers and wings</strong>.</p>
+    <p>Wings and feathers help birds <strong>fly</strong>.</p>
+    <p>Feathers help keep birds <strong>warm and dry</strong>.</p>
+    <p>Birds have <strong>lightweight bones</strong> and <strong>strong muscles</strong>. This also helps them fly.</p>
+    <p>Some birds <strong>do not fly</strong>.</p>
+    <div class="pills">
+      <div class="pill">hummingbird</div>
+      <div class="pill">penguin</div>
+      <div class="pill">robin</div>
+    </div>`,
+  remember:"Birds have feathers and wings."
+},
+{
+  title:"Important Vocabulary Table",
+  icon:"📚",
+  content:`
+    <table>
+      <tr><th>Word</th><th>Meaning from the lesson</th><th>Easy Example</th></tr>
+      <tr><td><strong>mammal</strong></td><td>An animal with hair or fur. Mother mammals produce milk to feed their young.</td><td>dog, cow, elephant</td></tr>
+      <tr><td><strong>fish</strong></td><td>An animal with fins that lives only in water.</td><td>fish use gills to breathe</td></tr>
+      <tr><td><strong>gill</strong></td><td>A body part fish use to breathe.</td><td>fish use gills</td></tr>
+      <tr><td><strong>scale</strong></td><td>A hard covering that helps protect a fish or reptile.</td><td>fish scales help protect from injury</td></tr>
+      <tr><td><strong>amphibian</strong></td><td>An animal that lives in water and on land.</td><td>frog, toad, salamander</td></tr>
+      <tr><td><strong>reptile</strong></td><td>An animal with dry, scaly skin.</td><td>reptiles are born on land</td></tr>
+      <tr><td><strong>bird</strong></td><td>An animal with feathers and wings.</td><td>birds use wings and feathers to help them fly</td></tr>
+    </table>`,
+  remember:"Know the vocabulary words and meanings."
+},
+{
+  title:"Easy-to-Confuse",
+  icon:"🤔",
+  content:`
+    <table>
+      <tr><th>This</th><th>That</th></tr>
+      <tr><td><strong>fish</strong><br>live only in water<br>use gills to breathe</td><td><strong>amphibians</strong><br>live in water and on land</td></tr>
+      <tr><td><strong>amphibians</strong><br>smooth, wet skin or dry, bumpy skin</td><td><strong>reptiles</strong><br>dry, scaly skin</td></tr>
+      <tr><td><strong>mammals</strong><br>hair or fur, milk for young</td><td><strong>birds</strong><br>feathers and wings</td></tr>
+    </table>`,
+  remember:"Read the animal group clues carefully."
+},
+{
+  title:"Teacher Study Guide — 8 Important Points",
+  icon:"📖",
+  content:`
+    <ol class="listNum">
+      <li><strong>Vocabulary:</strong> mammal, fish, gill, scale, amphibian, reptile, and bird</li>
+      <li><strong>Animal Groups:</strong> One group of animals has a backbone, and the other group does not have a backbone.</li>
+      <li><strong>Animal Groups with a backbone:</strong> mammals, fish, birds, reptiles, and amphibians</li>
+      <li><strong>Mammals:</strong> They have fur, and they produce milk to feed their babies. For example: dogs, cows, and elephants.</li>
+      <li><strong>Fish:</strong> They have fins to help them move around, and live only in water. They use their gills to breathe. Some have scales on their bodies for protection.</li>
+      <li><strong>Amphibians:</strong> They live on land and water. They have smooth and wet skin, but some have dry and bumpy skin. They lay eggs in water or wet places. For example: frogs, toads, and salamanders.</li>
+      <li><strong>Reptiles:</strong> They have dry and scaly skin. The scales protect them. Reptiles are born on land.</li>
+      <li><strong>Birds:</strong> They have feathers and wings to help them fly, and to protect them from the warm and cold weather.</li>
+    </ol>`,
+  remember:"This slide includes the teacher study guide points."
+}
+];
+
+const quiz = [
+  {q:"How many main groups of animals are there?", a:["1","2","5","7"], c:1, why:"The lesson says there are two main groups of animals.", t:"Two main animal groups"},
+  {q:"Which animals have a backbone?", a:["mammals, fish, birds, reptiles, amphibians","insects, sea jellies, worms, spiders, crabs","plants, fish, birds, mammals, frogs","mammals, insects, birds, worms, reptiles"], c:0, why:"These are the five main groups of animals with backbones.", t:"Five groups with backbones"},
+  {q:"Most animals on Earth do not have ____.", a:["fur","wings","backbones","fins"], c:2, why:"The lesson says most animals on Earth do not have backbones.", t:"Animals without backbones"},
+  {q:"What is a mammal?", a:["an animal with feathers","an animal with hair or fur","an animal with scales only","an animal that lives only in water"], c:1, why:"Mammals have hair or fur.", t:"Mammals"},
+  {q:"What do mother mammals produce to feed their young?", a:["water","eggs","milk","scales"], c:2, why:"Mother mammals produce milk to feed their young.", t:"Mammals"},
+  {q:"Which animal is a mammal?", a:["dog","fish","frog","bird"], c:0, why:"A dog is one example of a mammal.", t:"Mammals"},
+  {q:"Where do fish live?", a:["only on land","only in water","in trees","under rocks on land"], c:1, why:"Fish live only in water.", t:"Fish"},
+  {q:"What do fish use to breathe?", a:["wings","gills","fur","feet"], c:1, why:"Fish use gills to breathe.", t:"Fish"},
+  {q:"What helps protect fish from injury?", a:["scales","milk","feathers","fur"], c:0, why:"Scales help protect fish from injury.", t:"Fish"},
+  {q:"Which sentence about amphibians is correct?", a:["They live only in water.","They live on land and in water.","They have feathers and wings.","They are born only in nests."], c:1, why:"Amphibians live in water and on land.", t:"Amphibians"},
+  {q:"Where do amphibians lay eggs?", a:["in water or moist places","only on trees","inside shells on land","in the air"], c:0, why:"Amphibians lay eggs in water or moist places.", t:"Amphibians"},
+  {q:"Which animal is an amphibian?", a:["snake","penguin","frog","cow"], c:2, why:"A frog is an amphibian.", t:"Amphibians"},
+  {q:"What kind of skin do reptiles have?", a:["smooth and wet skin","dry and scaly skin","hair and fur","feather skin"], c:1, why:"Reptiles have dry, scaly skin.", t:"Reptiles"},
+  {q:"What do reptile scales do?", a:["help them produce milk","protect them","help them fly","keep them in water only"], c:1, why:"The scales protect reptiles.", t:"Reptiles"},
+  {q:"Where are reptiles born?", a:["in water","on land","in the air","inside a fish"], c:1, why:"Reptiles are born on land.", t:"Reptiles"},
+  {q:"What do birds have?", a:["fins and gills","feathers and wings","smooth wet skin","fur and scales"], c:1, why:"Birds have feathers and wings.", t:"Birds"},
+  {q:"What do feathers help birds do?", a:["produce milk","breathe in water","keep warm and dry","lay eggs in water"], c:2, why:"Feathers help keep birds warm and dry.", t:"Birds"},
+  {q:"Which group helps birds fly?", a:["fur and fat","gills and fins","wings and feathers","scales and skin"], c:2, why:"Wings and feathers help birds fly.", t:"Birds"},
+  {q:"Which animal does not have a backbone?", a:["cow","sea jelly","fish","bird"], c:1, why:"A sea jelly does not have a backbone.", t:"Animals without backbones"},
+  {q:"Which sentence is correct?", a:["Fish live only on land.","Mammals produce milk to feed their young.","Birds have gills.","Reptiles have smooth, wet skin."], c:1, why:"Mammals produce milk to feed their young.", t:"Review facts"}
+];
+
+const screens = [...lessons.map(x=>({type:"lesson",...x})), {type:"quiz"}, {type:"result"}];
+let current = 0;
+let quizIndex = 0;
+let score = 0;
+let answered = false;
+let wrongTopics = [];
+
+const app = document.getElementById("app");
+const progress = document.getElementById("progress");
+const backBtn = document.getElementById("backBtn");
+const restartBtn = document.getElementById("restartBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+function render(){
+  const screen = screens[current];
+  app.innerHTML = "";
+  if(screen.type === "lesson"){
+    app.innerHTML = `
+      <section class="slide active">
+        <div class="card">
+          <div class="hero">
+            <div class="heroIcon">${screen.icon}</div>
+            <div>
+              <h2>${screen.title}</h2>
+              <div class="small">Friendly, easy, and colorful learning slide</div>
+            </div>
+          </div>
+          <div style="margin-top:14px">${screen.content}</div>
+          <div class="remember">⭐ Remember: ${screen.remember}</div>
+        </div>
+      </section>
+    `;
+    progress.textContent = `Slide ${current + 1} of ${lessons.length}`;
+    backBtn.style.visibility = current === 0 ? "hidden" : "visible";
+    nextBtn.style.display = "inline-block";
+    nextBtn.textContent = current === lessons.length - 1 ? "Start Quiz →" : "Next →";
+  } else if(screen.type === "quiz"){
+    renderQuiz();
+    progress.textContent = "Quiz";
+    backBtn.style.visibility = "hidden";
+    nextBtn.style.display = "none";
+  } else {
+    renderResult();
+    progress.textContent = "Finished";
+    backBtn.style.visibility = "hidden";
+    nextBtn.style.display = "none";
+  }
+}
+
+function renderQuiz(){
+  const item = quiz[quizIndex];
+  const level = quizIndex < 7 ? "Easy" : quizIndex < 14 ? "Medium" : "Challenge";
+  const letters = ["A","B","C","D"];
+  app.innerHTML = `
+    <section class="slide active">
+      <div class="card">
+        <div class="hero">
+          <div class="heroIcon">❓</div>
+          <div>
+            <h2>Question ${quizIndex + 1} of ${quiz.length}</h2>
+            <div class="badge">${level}</div>
+          </div>
+        </div>
+        <p style="margin-top:16px"><strong>${item.q}</strong></p>
+        <div class="answerGrid">
+          ${item.a.map((ans, i)=>`<button class="answer" data-i="${i}"><strong>${letters[i]}.</strong> ${ans}</button>`).join("")}
+        </div>
+        <div id="feedback"></div>
+      </div>
+    </section>
+  `;
+  [...document.querySelectorAll(".answer")].forEach(btn => {
+    btn.addEventListener("click", ()=> chooseAnswer(Number(btn.dataset.i)));
+  });
+}
+
+function chooseAnswer(i){
+  if(answered) return;
+  answered = true;
+  const item = quiz[quizIndex];
+  const letters = ["A","B","C","D"];
+  const buttons = [...document.querySelectorAll(".answer")];
+  buttons.forEach(b => b.disabled = true);
+
+  if(i === item.c){
+    score++;
+    buttons[i].classList.add("correct");
+  } else {
+    buttons[i].classList.add("incorrect");
+    buttons[item.c].classList.add("correct");
+    wrongTopics.push(item.t);
+  }
+
+  document.getElementById("feedback").innerHTML = `
+    <div class="feedback">
+      ${i === item.c ? "✅ <strong>Correct!</strong>" : "❌ <strong>Incorrect.</strong>"}<br>
+      <strong>Correct Answer:</strong> ${letters[item.c]}. ${item.a[item.c]}<br>
+      <strong>Why:</strong> ${item.why}<br><br>
+      <button class="btnMain" id="nextQ">${quizIndex === quiz.length - 1 ? "See My Score" : "Next Question →"}</button>
+    </div>
+  `;
+  document.getElementById("nextQ").onclick = () => {
+    answered = false;
+    if(quizIndex < quiz.length - 1){
+      quizIndex++;
+      renderQuiz();
+    } else {
+      current = screens.length - 1;
+      render();
+    }
+  };
+}
+
+function renderResult(){
+  let message = "";
+  if(score >= 18) message = "🌟 Excellent! You remember the lesson very well!";
+  else if(score >= 15) message = "👏 Great job! Review a few words again.";
+  else if(score >= 10) message = "🙂 Good try! Review the lesson one more time.";
+  else message = "💪 Keep practicing! Go back to the lesson and try again.";
+
+  const topics = [...new Set(wrongTopics)];
+  app.innerHTML = `
+    <section class="slide active">
+      <div class="card center">
+        <div class="hero" style="justify-content:center">
+          <div class="heroIcon">🏆</div>
+          <div><h2>Your Score</h2></div>
+        </div>
+        <p class="score">${score} / 20</p>
+        <p><strong>${message}</strong></p>
+        <h3>Topics to Review</h3>
+        <p>${topics.length ? topics.join(", ") : "None — great job!"}</p>
+        <div class="footerBtns" style="justify-content:center">
+          <button class="btnMain" id="reviewBtn">Review Lesson</button>
+          <button class="btnMain" id="againBtn">Try Quiz Again</button>
+          <button class="btnRestart" id="restartBtn2">Restart Tutor</button>
+        </div>
+      </div>
+    </section>
+  `;
+  document.getElementById("reviewBtn").onclick = ()=> { current = 0; render(); };
+  document.getElementById("againBtn").onclick = ()=> { quizIndex = 0; score = 0; answered = false; wrongTopics = []; current = lessons.length; render(); };
+  document.getElementById("restartBtn2").onclick = restartAll;
+}
+
+function restartAll(){
+  current = 0;
+  quizIndex = 0;
+  score = 0;
+  answered = false;
+  wrongTopics = [];
+  render();
+}
+
+backBtn.onclick = ()=>{
+  if(current > 0 && screens[current].type === "lesson"){
+    current--;
+    render();
+  }
+};
+nextBtn.onclick = ()=>{
+  if(current < lessons.length - 1){
+    current++;
+    render();
+  } else {
+    current = lessons.length;
+    render();
+  }
+};
+restartBtn.onclick = restartAll;
+
+render();
+</script>
+</body>
+</html>

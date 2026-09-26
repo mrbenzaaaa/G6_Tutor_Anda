@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Grade 1 Science - Chapter 2 Lesson 1: What Are Animals?</title>
+<style>
+:root{
+  --bg1:#eef8ff;
+  --bg2:#fff8e8;
+  --ink:#24324a;
+  --muted:#667085;
+  --line:#d9e7f5;
+  --blue:#4f8df7;
+  --green:#36b37e;
+  --yellow:#ffcc4d;
+  --orange:#ff9f43;
+  --pink:#ff7eb6;
+  --purple:#8b7cf6;
+  --red:#ef5b6c;
+  --teal:#34c5c5;
+  --white:#ffffff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  min-height:100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 10% 0%, #fff0a6 0%, transparent 18%),
+    radial-gradient(circle at 100% 0%, #ffd5ea 0%, transparent 20%),
+    linear-gradient(180deg,var(--bg1),var(--bg2));
+}
+.wrap{max-width:1080px;margin:0 auto;padding:14px 14px 28px}
+.topbar{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.brand{
+  padding:10px 16px;border-radius:20px;
+  background:rgba(255,255,255,.82);
+  border:2px solid rgba(255,255,255,.96);
+  box-shadow:0 10px 24px rgba(51,84,124,.08);
+  font-size:clamp(18px,2vw,24px);
+  font-weight:800;
+}
+.progress{
+  padding:10px 16px;border-radius:999px;
+  background:linear-gradient(135deg,#ffffff,#eef6ff);
+  border:2px solid #d7e6ff;
+  box-shadow:0 10px 24px rgba(79,141,247,.10);
+  font-size:clamp(16px,1.8vw,22px);
+  font-weight:800;
+}
+.slide{display:none}
+.slide.active{display:block}
+.card{
+  position:relative;
+  overflow:hidden;
+  background:rgba(255,255,255,.96);
+  border:2px solid rgba(255,255,255,.95);
+  border-radius:28px;
+  padding:24px;
+  box-shadow:0 18px 42px rgba(63,93,138,.12);
+}
+.card::before{
+  content:"";
+  position:absolute;left:0;right:0;top:0;height:10px;
+  background:linear-gradient(90deg,var(--blue),var(--green),var(--yellow),var(--pink),var(--purple));
+}
+.hero{
+  display:flex;gap:18px;align-items:center;flex-wrap:wrap;
+}
+.heroIcon{
+  width:92px;height:92px;border-radius:24px;flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center;
+  font-size:50px;color:#fff;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  box-shadow:0 12px 28px rgba(79,141,247,.25);
+}
+h1,h2,h3{margin:0 0 12px}
+h1{font-size:clamp(30px,5vw,52px);line-height:1.1}
+h2{font-size:clamp(28px,4vw,42px);line-height:1.12}
+h3{font-size:clamp(22px,3vw,30px)}
+p,li,td,th,div{
+  font-size:clamp(20px,2.25vw,28px);
+  line-height:1.42;
+}
+.small{font-size:clamp(16px,1.75vw,19px);color:var(--muted)}
+.badge{
+  display:inline-block;padding:8px 14px;border-radius:999px;
+  background:#edf5ff;border:2px solid #dbe8ff;color:#1f5ec7;
+  font-weight:800;
+}
+.highlight{font-weight:800;color:#145fe6}
+.grid2,.grid3,.grid4{display:grid;gap:16px}
+.grid2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.grid4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.box{
+  border-radius:22px;padding:18px;border:2px solid var(--line);background:#f9fbff;
+}
+.box.blue{background:#edf5ff}
+.box.green{background:#edfff6}
+.box.yellow{background:#fff9e6}
+.box.orange{background:#fff4ea}
+.box.pink{background:#fff0f8}
+.box.purple{background:#f5f2ff}
+.box.teal{background:#edffff}
+.box.center{text-align:center}
+.labelBig{font-size:clamp(24px,2.6vw,34px);font-weight:800}
+.note{
+  background:#f6fbff;border:2px dashed #bad6ff;padding:14px 16px;border-radius:18px;
+}
+.remember{
+  margin-top:18px;
+  background:linear-gradient(135deg,#fff5c4,#ffe79d);
+  border:2px solid #ffd76d;
+  border-radius:20px;
+  padding:16px 18px;
+  font-weight:800;
+}
+.pills{display:flex;gap:10px;flex-wrap:wrap}
+.pill{
+  padding:10px 14px;border-radius:999px;
+  border:2px solid #dce9ff;background:#f3f8ff;
+  font-weight:800;
+}
+table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0;
+  overflow:hidden;
+  border-radius:18px;
+}
+th,td{
+  border:2px solid #e1ebf6;
+  padding:12px 14px;
+  vertical-align:top;
+  background:#fff;
+}
+th{background:#ebf4ff;font-weight:800}
+.checklist .item{margin:8px 0}
+.controls{
+  display:flex;justify-content:space-between;gap:12px;margin-top:16px;
+  position:sticky;bottom:8px;
+}
+button{
+  border:none;border-radius:18px;padding:14px 18px;
+  font-size:clamp(18px,2vw,24px);
+  font-weight:800;cursor:pointer;touch-action:manipulation;
+  box-shadow:0 8px 18px rgba(60,90,140,.12);
+}
+.btnBack{background:#edf3fa;color:#2f3d53}
+.btnRestart{background:linear-gradient(135deg,#ffe8d0,#ffd7ac);color:#7a4a00}
+.btnMain{background:linear-gradient(135deg,var(--blue),#6ba4ff);color:#fff}
+.answerGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.answer{
+  min-height:82px;padding:14px 16px;text-align:left;
+  background:#fff;border:3px solid #dce8f5;color:var(--ink)
+}
+.answer.correct{background:#ecfff4;border-color:#38b982}
+.answer.incorrect{background:#fff1f3;border-color:#ea5b78}
+.feedback{
+  margin-top:16px;padding:16px;border-radius:20px;background:#f9fcff;border:2px solid #dce8f5
+}
+.score{
+  font-size:clamp(48px,7vw,82px);
+  line-height:1;
+  font-weight:900;
+  color:#2454c9;
+}
+.footerBtns{display:flex;gap:12px;flex-wrap:wrap}
+.center{text-align:center}
+.listNum li{margin:6px 0}
+@media (max-width:760px){
+  .grid2,.grid3,.grid4,.answerGrid{grid-template-columns:1fr}
+  .card{padding:18px}
+  .heroIcon{width:78px;height:78px;font-size:42px}
+  .controls{position:static}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand">🐾 Grade 1 Science • Chapter 2 • Lesson 1</div>
+    <div class="progress" id="progress">Slide 1</div>
+  </div>
+
+  <div id="app"></div>
+
+  <div class="controls">
+    <button id="backBtn" class="btnBack">← Back</button>
+    <button id="restartBtn" class="btnRestart">↻ Restart</button>
+    <button id="nextBtn" class="btnMain">Next →</button>
+  </div>
+</div>
+
+<script>
+const lessons = [
+{
+  title:"What Are Animals?",
+  icon:"🐾",
+  content:`
+    <div class="hero">
+      <div class="heroIcon">🐾</div>
+      <div>
+        <p><span class="badge">Lesson 1</span></p>
+        <p><strong>Animals are <span class="highlight">living things</span>.</strong></p>
+        <p>In this lesson, we will learn about <strong>animals, backbone, shell, and insect</strong>.</p>
+      </div>
+    </div>
+    <div class="note"><strong>Teacher Study Guide:</strong> This lesson fully includes the teacher study points.</div>`,
+  remember:"Animals are living things."
+},
+{
+  title:"Animals Are Living Things",
+  icon:"🌱",
+  content:`
+    <div class="box green">
+      <p><strong>Animals are living things.</strong></p>
+      <p>The lesson also says animals need <strong>food, water, and air</strong>.</p>
+      <p>Plants and animals are living things.</p>
+    </div>`,
+  remember:"Animals are living things."
+},
+{
+  title:"Animal Needs",
+  icon:"💧",
+  content:`
+    <div class="grid3">
+      <div class="box blue center"><div class="labelBig">🌬️ Air</div></div>
+      <div class="box teal center"><div class="labelBig">💧 Water</div></div>
+      <div class="box yellow center"><div class="labelBig">🍎 Food</div></div>
+    </div>
+    <p><strong>Animal needs:</strong> air, water, and food.</p>`,
+  remember:"Animals need air, water, and food."
+},
+{
+  title:"Backbone",
+  icon:"🦴",
+  content:`
+    <div class="box blue">
+      <p><strong>Backbone:</strong> Some animals have a <strong>chain of bones in their back</strong>. This is called the <strong>backbone</strong>.</p>
+      <p>It helps the animal <strong>move</strong>.</p>
+    </div>`,
+  remember:"Backbone = chain of bones in the back."
+},
+{
+  title:"Shell",
+  icon:"🐚",
+  content:`
+    <div class="box green">
+      <p><strong>Shell:</strong> Some animals have <strong>hard coverings for protection</strong> called a <strong>shell</strong>.</p>
+    </div>
+    <div class="pills">
+      <div class="pill">Clams have shells.</div>
+      <div class="pill">Snails have shells.</div>
+      <div class="pill">A turtle has a shell.</div>
+    </div>`,
+  remember:"Shell = hard covering for protection."
+},
+{
+  title:"Insect",
+  icon:"🐝",
+  content:`
+    <div class="grid3">
+      <div class="box purple center"><div class="labelBig">3 body parts</div></div>
+      <div class="box yellow center"><div class="labelBig">6 legs</div></div>
+      <div class="box pink center"><div class="labelBig">No backbone</div></div>
+    </div>
+    <p><strong>Insect:</strong> An insect is an animal with <strong>3 body parts</strong> and <strong>6 legs</strong>.</p>
+    <p>They do not have backbones; <strong>they have shells</strong>.</p>`,
+  remember:"Insect = 3 body parts + 6 legs."
+},
+{
+  title:"Animals Without Backbones",
+  icon:"🪼",
+  content:`
+    <p><strong>Some animals without backbones are:</strong></p>
+    <div class="pills">
+      <div class="pill">butterflies</div>
+      <div class="pill">octopuses</div>
+      <div class="pill">earthworms</div>
+      <div class="pill">jellyfish</div>
+    </div>`,
+  remember:"Some animals do not have backbones."
+},
+{
+  title:"Animals Move",
+  icon:"🏃",
+  content:`
+    <p>Animals move in many ways.</p>
+    <table>
+      <tr><th>Animal</th><th>How it moves</th></tr>
+      <tr><td>shark</td><td>swims</td></tr>
+      <tr><td>snake</td><td>crawls</td></tr>
+      <tr><td>kangaroo</td><td>jumps</td></tr>
+      <tr><td>ladybug</td><td>crawls and flies</td></tr>
+    </table>
+    <p>Most animals can move.</p>`,
+  remember:"Animals move in many ways."
+},
+{
+  title:"Why Animals Move",
+  icon:"🛡️",
+  content:`
+    <div class="grid2">
+      <div class="box orange"><p><strong>To get food and water</strong></p></div>
+      <div class="box pink"><p><strong>To stay safe</strong></p></div>
+    </div>
+    <p>Rabbits run from coyotes. Frogs jump into ponds to get away from raccoons.</p>
+    <p>A snail moves slowly. A sea sponge does not move.</p>`,
+  remember:"Animals move to get what they need and stay safe."
+},
+{
+  title:"Common Insects",
+  icon:"🦋",
+  content:`
+    <table>
+      <tr><td>cricket</td><td>butterfly</td><td>grasshopper</td></tr>
+      <tr><td>beetle</td><td>dragonfly</td><td>moth</td></tr>
+      <tr><td>fly</td><td>ant</td><td>stink bug</td></tr>
+    </table>
+    <p>A <strong>bee</strong> is an insect.</p>`,
+  remember:"These are common insects."
+},
+{
+  title:"Important Vocabulary Table",
+  icon:"📝",
+  content:`
+    <table>
+      <tr><th>Word</th><th>Meaning from teacher study / lesson</th><th>Easy Example</th><th>Memory Tip</th></tr>
+      <tr><td><strong>living things</strong></td><td>Animals are living things.</td><td>Animals need air, water, and food.</td><td>Living things need things to live.</td></tr>
+      <tr><td><strong>backbone</strong></td><td>A chain of bones in the back. It helps the animal move.</td><td>Some animals have a backbone.</td><td>Back + bone.</td></tr>
+      <tr><td><strong>shell</strong></td><td>A hard covering for protection.</td><td>Clams and snails have shells.</td><td>Hard cover = shell.</td></tr>
+      <tr><td><strong>insect</strong></td><td>An animal with 3 body parts and 6 legs. It does not have a backbone.</td><td>A bee is an insect.</td><td>3 body parts + 6 legs.</td></tr>
+    </table>`,
+  remember:"This table comes from the teacher study and lesson."
+},
+{
+  title:"Easy-to-Confuse",
+  icon:"🤔",
+  content:`
+    <table>
+      <tr><th>This</th><th>That</th></tr>
+      <tr><td><strong>Backbone</strong><br>chain of bones in the back</td><td><strong>Shell</strong><br>hard covering for protection</td></tr>
+      <tr><td><strong>Insect</strong><br>3 body parts and 6 legs</td><td><strong>Other animals</strong><br>may not have 3 body parts and 6 legs</td></tr>
+    </table>`,
+  remember:"Backbone is bones. Shell is a hard covering."
+},
+{
+  title:"Teacher Study Guide — 7 Important Points",
+  icon:"📖",
+  content:`
+    <ol class="listNum">
+      <li><strong>Vocabulary:</strong> Living things, backbone, shell, and insect</li>
+      <li><strong>Animals are living things.</strong></li>
+      <li><strong>Animal needs:</strong> air, water, and food</li>
+      <li><strong>Backbone:</strong> a chain of bones in the back; it helps the animal move</li>
+      <li><strong>Shell:</strong> a hard covering for protection</li>
+      <li><strong>Insect:</strong> an animal with 3 body parts and 6 legs; insects do not have backbones; they have shells</li>
+      <li><strong>Some animals without backbones:</strong> butterflies, octopuses, earthworms, and jellyfish</li>
+    </ol>`,
+  remember:"These 7 points are the teacher study guide."
+}
+];
+
+const quiz = [
+  {q:"Which word means a chain of bones in an animal's back?", a:["shell","backbone","insect","living things"], c:1, why:"A backbone is a chain of bones in the back.", t:"Backbone"},
+  {q:"Animals are ____.", a:["shells","living things","backbones","insects"], c:1, why:"The teacher study guide says animals are living things.", t:"Animals are living things"},
+  {q:"What do animals need?", a:["air, water, and food","shells and legs","wings and fins","backbones only"], c:0, why:"The teacher study guide says animals need air, water, and food.", t:"Animal needs"},
+  {q:"What is a backbone?", a:["a hard covering","a chain of bones in the back","3 body parts","6 legs"], c:1, why:"A backbone is a chain of bones in the back.", t:"Backbone"},
+  {q:"What does a backbone help an animal do?", a:["make food","move","grow wings","make a shell"], c:1, why:"The teacher study guide says it helps the animal move.", t:"Backbone"},
+  {q:"What is a shell?", a:["a chain of bones","a hard covering for protection","a kind of leg","air and water"], c:1, why:"A shell is a hard covering for protection.", t:"Shell"},
+  {q:"An insect has how many body parts?", a:["2","3","4","6"], c:1, why:"The teacher study guide says an insect has 3 body parts.", t:"Insect"},
+  {q:"An insect has how many legs?", a:["2","4","6","8"], c:2, why:"The teacher study guide says an insect has 6 legs.", t:"Insect"},
+  {q:"Do insects have backbones?", a:["yes","no","only some","the study does not say"], c:1, why:"The teacher study guide says insects do not have backbones.", t:"Insect"},
+  {q:"Which animal is named as an insect?", a:["bee","turtle","fox","octopus"], c:0, why:"The lesson says a bee is an insect.", t:"Common insects"},
+  {q:"Which animal does not have a backbone?", a:["horse","butterfly","shark","turtle"], c:1, why:"A butterfly is one of the animals without a backbone in this lesson.", t:"Animals without backbones"},
+  {q:"Which group has only animals without backbones?", a:["butterflies, octopuses, earthworms, jellyfish","horses, foxes, fish, turtles","bees, sharks, frogs, rabbits","snakes, kangaroos, ladybugs, clams"], c:0, why:"Butterflies, octopuses, earthworms, and jellyfish are animals without backbones in this lesson.", t:"Animals without backbones"},
+  {q:"Which animal swims?", a:["snake","kangaroo","shark","ladybug"], c:2, why:"The lesson says a shark swims.", t:"Animals move"},
+  {q:"Which animal jumps?", a:["shark","snake","ladybug","kangaroo"], c:3, why:"The lesson says a kangaroo jumps.", t:"Animals move"},
+  {q:"Which animal crawls and flies?", a:["shark","ladybug","snail","frog"], c:1, why:"The lesson says a ladybug crawls and flies.", t:"Animals move"},
+  {q:"Most animals move to get ____.", a:["shells","backbones","food and water","3 body parts"], c:2, why:"The lesson says most animals move to get food and water.", t:"Why animals move"},
+  {q:"Animals also move to ____.", a:["stay safe","be plants","make wings","be insects"], c:0, why:"The lesson says animals also move to stay safe.", t:"Why animals move"},
+  {q:"Which animal has a shell?", a:["snail","fox","horse","ant"], c:0, why:"The lesson says snails have shells.", t:"Shell"},
+  {q:"A turtle has ____.", a:["only a shell","only a backbone","a backbone and a shell","3 body parts and 6 legs"], c:2, why:"The lesson says a turtle has a backbone and a shell.", t:"Backbone and shell"},
+  {q:"Which sentence is correct?", a:["A shell is a chain of bones.","A backbone is a hard covering.","An insect has 3 body parts and 6 legs.","Animals do not need food."], c:2, why:"That matches the teacher study guide.", t:"Review facts"}
+];
+
+const screens = [...lessons.map(x=>({type:"lesson",...x})), {type:"quiz"}, {type:"result"}];
+let current = 0;
+let quizIndex = 0;
+let score = 0;
+let answered = false;
+let wrongTopics = [];
+
+const app = document.getElementById("app");
+const progress = document.getElementById("progress");
+const backBtn = document.getElementById("backBtn");
+const restartBtn = document.getElementById("restartBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+function render(){
+  const screen = screens[current];
+  app.innerHTML = "";
+  if(screen.type === "lesson"){
+    app.innerHTML = `
+      <section class="slide active">
+        <div class="card">
+          <div class="hero">
+            <div class="heroIcon">${screen.icon}</div>
+            <div>
+              <h2>${screen.title}</h2>
+              <div class="small">Friendly, easy, and colorful learning slide</div>
+            </div>
+          </div>
+          <div style="margin-top:14px">${screen.content}</div>
+          <div class="remember">⭐ Remember: ${screen.remember}</div>
+        </div>
+      </section>
+    `;
+    progress.textContent = `Slide ${current + 1} of ${lessons.length}`;
+    backBtn.style.visibility = current === 0 ? "hidden" : "visible";
+    nextBtn.style.display = "inline-block";
+    nextBtn.textContent = current === lessons.length - 1 ? "Start Quiz →" : "Next →";
+  } else if(screen.type === "quiz"){
+    renderQuiz();
+    progress.textContent = "Quiz";
+    backBtn.style.visibility = "hidden";
+    nextBtn.style.display = "none";
+  } else {
+    renderResult();
+    progress.textContent = "Finished";
+    backBtn.style.visibility = "hidden";
+    nextBtn.style.display = "none";
+  }
+}
+
+function renderQuiz(){
+  const item = quiz[quizIndex];
+  const level = quizIndex < 7 ? "Easy" : quizIndex < 14 ? "Medium" : "Challenge";
+  const letters = ["A","B","C","D"];
+  app.innerHTML = `
+    <section class="slide active">
+      <div class="card">
+        <div class="hero">
+          <div class="heroIcon">❓</div>
+          <div>
+            <h2>Question ${quizIndex + 1} of ${quiz.length}</h2>
+            <div class="badge">${level}</div>
+          </div>
+        </div>
+        <p style="margin-top:16px"><strong>${item.q}</strong></p>
+        <div class="answerGrid">
+          ${item.a.map((ans, i)=>`<button class="answer" data-i="${i}"><strong>${letters[i]}.</strong> ${ans}</button>`).join("")}
+        </div>
+        <div id="feedback"></div>
+      </div>
+    </section>
+  `;
+  [...document.querySelectorAll(".answer")].forEach(btn => {
+    btn.addEventListener("click", ()=> chooseAnswer(Number(btn.dataset.i)));
+  });
+}
+
+function chooseAnswer(i){
+  if(answered) return;
+  answered = true;
+  const item = quiz[quizIndex];
+  const letters = ["A","B","C","D"];
+  const buttons = [...document.querySelectorAll(".answer")];
+  buttons.forEach(b => b.disabled = true);
+
+  if(i === item.c){
+    score++;
+    buttons[i].classList.add("correct");
+  } else {
+    buttons[i].classList.add("incorrect");
+    buttons[item.c].classList.add("correct");
+    wrongTopics.push(item.t);
+  }
+
+  document.getElementById("feedback").innerHTML = `
+    <div class="feedback">
+      ${i === item.c ? "✅ <strong>Correct!</strong>" : "❌ <strong>Incorrect.</strong>"}<br>
+      <strong>Correct Answer:</strong> ${letters[item.c]}. ${item.a[item.c]}<br>
+      <strong>Why:</strong> ${item.why}<br><br>
+      <button class="btnMain" id="nextQ">${quizIndex === quiz.length - 1 ? "See My Score" : "Next Question →"}</button>
+    </div>
+  `;
+  document.getElementById("nextQ").onclick = () => {
+    answered = false;
+    if(quizIndex < quiz.length - 1){
+      quizIndex++;
+      renderQuiz();
+    } else {
+      current = screens.length - 1;
+      render();
+    }
+  };
+}
+
+function renderResult(){
+  let message = "";
+  if(score >= 18) message = "🌟 Excellent! You remember the lesson very well!";
+  else if(score >= 15) message = "👏 Great job! Review a few words again.";
+  else if(score >= 10) message = "🙂 Good try! Read the Final Review one more time.";
+  else message = "💪 Keep practicing! Go back to the lesson and try again.";
+
+  const topics = [...new Set(wrongTopics)];
+  app.innerHTML = `
+    <section class="slide active">
+      <div class="card center">
+        <div class="hero" style="justify-content:center">
+          <div class="heroIcon">🏆</div>
+          <div><h2>Your Score</h2></div>
+        </div>
+        <p class="score">${score} / 20</p>
+        <p><strong>${message}</strong></p>
+        <h3>Topics to Review</h3>
+        <p>${topics.length ? topics.join(", ") : "None — great job!"}</p>
+        <div class="footerBtns" style="justify-content:center">
+          <button class="btnMain" id="reviewBtn">Review Lesson</button>
+          <button class="btnMain" id="againBtn">Try Quiz Again</button>
+          <button class="btnRestart" id="restartBtn2">Restart Tutor</button>
+        </div>
+      </div>
+    </section>
+  `;
+  document.getElementById("reviewBtn").onclick = ()=> { current = 0; render(); };
+  document.getElementById("againBtn").onclick = ()=> { quizIndex = 0; score = 0; answered = false; wrongTopics = []; current = lessons.length; render(); };
+  document.getElementById("restartBtn2").onclick = restartAll;
+}
+
+function restartAll(){
+  current = 0;
+  quizIndex = 0;
+  score = 0;
+  answered = false;
+  wrongTopics = [];
+  render();
+}
+
+backBtn.onclick = ()=>{
+  if(current > 0 && screens[current].type === "lesson"){
+    current--;
+    render();
+  }
+};
+nextBtn.onclick = ()=>{
+  if(current < lessons.length - 1){
+    current++;
+    render();
+  } else {
+    current = lessons.length;
+    render();
+  }
+};
+restartBtn.onclick = restartAll;
+
+render();
+</script>
+</body>
+</html>

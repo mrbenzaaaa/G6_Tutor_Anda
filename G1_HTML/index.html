@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>Learning Hub</title>
+<style>
+:root{--bg:#f6f8fc;--card:#fff;--text:#172033;--muted:#60708c;--accent:#3157d5;--accent2:#eef2ff;--line:#dfe5f0;--shadow:0 8px 24px rgba(30,46,90,.09);--radius:20px}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,"Helvetica Neue",sans-serif;line-height:1.45}
+button,input,a{font:inherit}
+button,a{-webkit-tap-highlight-color:transparent}
+.shell{width:min(1080px,100%);margin:auto;padding:clamp(18px,4vw,40px)}
+header{text-align:center;margin:12px 0 28px}
+h1{font-size:clamp(2rem,6vw,3.5rem);margin:0 0 6px;letter-spacing:-.03em}
+.subject-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:18px}
+.subject-card{min-height:112px;border:1px solid var(--line);background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:clamp(1.25rem,3vw,1.7rem);font-weight:800;color:var(--text);cursor:pointer;touch-action:manipulation}
+.subject-card:hover{transform:translateY(-2px)}
+.subject-card:active{transform:translateY(0)}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:4px solid #91a8ff;outline-offset:3px}
+.hidden{display:none!important}
+.toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:22px}
+.back{min-height:48px;padding:10px 16px;border:1px solid var(--line);border-radius:14px;background:var(--card);font-weight:700;cursor:pointer}
+.subject-title{font-size:clamp(1.65rem,4vw,2.4rem);margin:0;flex:1 1 220px}
+.searchbar{display:grid;grid-template-columns:1fr auto;gap:10px;margin:0 0 24px}
+.searchbar input{min-width:0;min-height:52px;border:1px solid var(--line);border-radius:14px;background:#fff;padding:12px 16px;color:var(--text)}
+.clear{min-height:52px;padding:0 18px;border:0;border-radius:14px;background:var(--accent2);color:#233e9d;font-weight:800;cursor:pointer}
+.group{margin:0 0 28px}
+.group h2{font-size:1.15rem;margin:0 0 10px;color:var(--muted)}
+.lesson-list{display:grid;gap:10px}
+.lesson{display:block;background:var(--card);border:1px solid var(--line);border-radius:15px;padding:16px 18px;color:var(--text);font-weight:700;text-decoration:none;box-shadow:0 3px 12px rgba(30,46,90,.05);min-height:56px}
+.lesson:hover{border-color:#9eb0ec;background:#fbfcff}
+.empty{padding:28px;text-align:center;border:1px dashed #bcc7da;border-radius:16px;color:var(--muted);font-weight:700;background:#fff}
+@media(max-width:520px){.shell{padding:16px}.subject-grid{gap:12px}.subject-card{min-height:96px}.searchbar{grid-template-columns:1fr}.clear{width:100%}}
+@media(prefers-reduced-motion:no-preference){.subject-card,.lesson,.back,.clear{transition:transform .16s ease,border-color .16s ease,background-color .16s ease}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<main class="shell">
+  <section id="subjectsView" aria-labelledby="mainTitle">
+    <header><h1 id="mainTitle">Choose a Subject</h1></header>
+    <div id="subjectGrid" class="subject-grid"></div>
+  </section>
+
+  <section id="lessonsView" class="hidden" aria-labelledby="subjectTitle">
+    <div class="toolbar">
+      <button id="backBtn" class="back" type="button" aria-label="Back to all subjects">← All Subjects</button>
+      <h1 id="subjectTitle" class="subject-title"></h1>
+    </div>
+    <div class="searchbar" role="search">
+      <label for="searchInput" class="hidden">Search lessons in this subject</label>
+      <input id="searchInput" type="search" autocomplete="off" placeholder="Search lessons, chapter, unit…" aria-label="Search lessons in this subject">
+      <button id="clearBtn" class="clear" type="button">Clear</button>
+    </div>
+    <div id="lessonGroups"></div>
+    <div id="noResults" class="empty hidden" role="status">No lessons found</div>
+  </section>
+</main>
+<script>
+const DATA={"Science": {"Chapter 2": [{"title": "Chapter 2 Lesson 1: What Are Animals?", "href": "Science/G1_Science_CH2_L1_What_are_Animal.html"}, {"title": "Chapter 2 Lesson 2: Which Animals Have a Backbone?", "href": "Science/G1_Science_CH2_L2_Backbone.html"}, {"title": "Chapter 2 Lesson 3: How Do Animals Grow and Change?", "href": "Science/G1_Science_CH2_L3_How%20Do%20Animals%20Grow%20and%20Change.html"}]}};
+const subjectsView=document.getElementById('subjectsView');
+const lessonsView=document.getElementById('lessonsView');
+const subjectGrid=document.getElementById('subjectGrid');
+const subjectTitle=document.getElementById('subjectTitle');
+const lessonGroups=document.getElementById('lessonGroups');
+const searchInput=document.getElementById('searchInput');
+const clearBtn=document.getElementById('clearBtn');
+const backBtn=document.getElementById('backBtn');
+const noResults=document.getElementById('noResults');
+let currentSubject=null;
+
+function makeSubjectButtons(){
+  Object.keys(DATA).forEach(subject=>{
+    const b=document.createElement('button'); b.type='button'; b.className='subject-card'; b.textContent=subject;
+    b.addEventListener('click',()=>openSubject(subject)); subjectGrid.appendChild(b);
+  });
+}
+function openSubject(subject){
+  currentSubject=subject; searchInput.value=''; subjectTitle.textContent=subject;
+  subjectsView.classList.add('hidden'); lessonsView.classList.remove('hidden');
+  renderLessons(''); backBtn.focus();
+}
+function renderLessons(query){
+  lessonGroups.textContent=''; let shown=0; const q=query.trim().toLocaleLowerCase();
+  const groups=DATA[currentSubject]||{};
+  Object.entries(groups).forEach(([group,lessons])=>{
+    const matches=lessons.filter(l=>(l.title+' '+group).toLocaleLowerCase().includes(q));
+    if(!matches.length)return;
+    const sec=document.createElement('section'); sec.className='group';
+    const h=document.createElement('h2'); h.textContent=group; sec.appendChild(h);
+    const list=document.createElement('div'); list.className='lesson-list';
+    matches.forEach(l=>{
+      const a=document.createElement('a'); a.className='lesson'; a.href=l.href; a.target='_blank'; a.rel='noopener'; a.textContent=l.title;
+      list.appendChild(a); shown++;
+    });
+    sec.appendChild(list); lessonGroups.appendChild(sec);
+  });
+  noResults.classList.toggle('hidden',shown!==0);
+}
+function showSubjects(){
+  currentSubject=null; searchInput.value=''; lessonGroups.textContent=''; noResults.classList.add('hidden');
+  lessonsView.classList.add('hidden'); subjectsView.classList.remove('hidden');
+  const first=subjectGrid.querySelector('button'); if(first) first.focus();
+}
+searchInput.addEventListener('input',()=>renderLessons(searchInput.value));
+clearBtn.addEventListener('click',()=>{searchInput.value='';renderLessons('');searchInput.focus();});
+backBtn.addEventListener('click',showSubjects);
+makeSubjectButtons();
+</script>
+</body>
+</html>
