@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#4336b8">
+  <title>Staying Healthy as You Age | Grade 6 Touchscreen Tutor</title>
+  <style>
+    :root { --ink:#20284c; --muted:#66708d; --purple:#5846c8; --purple-dark:#4336a9; --lavender:#ece8ff; --cyan:#dff7fb; --peach:#fff0da; --green:#dcf7e5; --pink:#ffe6ed; --white:#fff; --line:#e5e8f3; --shadow:0 22px 55px rgba(47,43,118,.14); }
+    * { box-sizing:border-box; }
+    html { -webkit-text-size-adjust:100%; }
+    body { margin:0; background:radial-gradient(circle at 4% 5%,#ddd8ff 0,transparent 33%),radial-gradient(circle at 98% 95%,#d0f4f9 0,transparent 30%),#f7f8fd; color:var(--ink); font:500 17px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif; min-height:100vh; }
+    button { font:inherit; cursor:pointer; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+    button:focus-visible { outline:4px solid #ffb73d; outline-offset:3px; }
+    .shell { width:min(1240px,calc(100% - 32px)); margin:18px auto; display:grid; grid-template-columns:280px minmax(0,1fr); min-height:min(840px,calc(100svh - 36px)); gap:18px; }
+    .rail { background:linear-gradient(160deg,#5745cb,#3f339a); color:white; border-radius:28px; padding:30px 25px; display:flex; flex-direction:column; box-shadow:var(--shadow); overflow:hidden; position:relative; }
+    .rail::before,.rail::after { content:""; position:absolute; border-radius:50%; border:2px solid rgba(255,255,255,.14); pointer-events:none; }
+    .rail::before { width:250px; height:250px; top:-140px; right:-130px; }.rail::after{width:300px;height:300px;bottom:-210px;left:-140px;}
+    .brand { font-size:14px; font-weight:900; letter-spacing:.14em; text-transform:uppercase; opacity:.85; }
+    .rail h1 { font-size:clamp(27px,2.6vw,38px); line-height:1.13; margin:35px 0 16px; letter-spacing:-.04em; }
+    .rail p { color:#e6e1ff; font-size:15px; margin:0; }
+    .time-pill { align-self:flex-start; border:1px solid #ab9eff; border-radius:999px; padding:8px 13px; font-weight:800; font-size:13px; margin:24px 0 34px; color:white; background:#ffffff17; }
+    .section-steps { display:grid; gap:18px; margin-top:auto; position:relative; }
+    .phase { display:flex; gap:12px; align-items:center; opacity:.5; font-weight:800; font-size:15px; }
+    .phase.active,.phase.done { opacity:1; }
+    .phase-number { display:grid; place-items:center; width:34px; height:34px; flex:none; border-radius:12px; background:#ffffff29; border:1px solid #ffffff32; }
+    .phase.active .phase-number { background:white; color:var(--purple-dark); }
+    .phase.done .phase-number { background:#8df0be; color:#1a6b49; }
+    .tiny-note { color:#dbd6ff;font-size:12px;margin-top:24px; }
+    .main { min-width:0; background:white; border:1px solid #ffffff; border-radius:28px; box-shadow:var(--shadow); display:flex; flex-direction:column; overflow:hidden; height:min(840px,calc(100svh - 36px)); min-height:640px; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; padding:21px 29px 15px; gap:16px; }
+    .status { display:flex; align-items:center; gap:10px; color:var(--purple-dark); text-transform:uppercase; font-size:12px; font-weight:900; letter-spacing:.12em; }
+    .dot { width:11px; height:11px; border-radius:50%; background:#feae61; box-shadow:0 0 0 5px #fff0db; }
+    .count { color:#65708d; font-size:14px; font-weight:800; white-space:nowrap; }
+    .track { margin:0 29px; height:9px; background:#edf0f8; border-radius:40px; overflow:hidden; }
+    .fill { height:100%; width:0%; border-radius:40px; background:linear-gradient(90deg,#7264e4,#39c3cd); transition:width .3s ease; }
+    .canvas { flex:1; min-height:0; overflow-y:auto; overscroll-behavior:contain; padding:28px 36px 14px; scrollbar-width:thin; scrollbar-color:#cfc9f9 #f8f9fc; }
+    .eyebrow { color:var(--purple); font-size:12px; text-transform:uppercase; letter-spacing:.16em; font-weight:900; }
+    h2 { font-size:clamp(27px,3vw,40px); line-height:1.12; letter-spacing:-.038em; margin:9px 0 13px; }
+    .lead { color:#5b6483; font-size:18px; margin:0 0 22px; }
+    p { margin:0 0 14px; }
+    strong { font-weight:900; color:#4133a4; }
+    .tile-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; margin:18px 0; }
+    .tile-grid.three { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .tile { background:#f4f3ff; border-radius:18px; padding:17px; border:1px solid #e8e4ff; min-width:0; }
+    .tile.cyan { background:#eafafd;border-color:#d6f2f7; }.tile.peach{background:#fff6e9;border-color:#ffedd6;}.tile.green{background:#eafaf0;border-color:#d8f2e2;}.tile.pink{background:#fff0f5;border-color:#fbdde7;}
+    .tile b { display:block; color:#29325c; font-size:17px; margin-bottom:6px; }.tile span{font-size:15px;display:block;line-height:1.45;color:#4a5574;}
+    .arrowline { display:flex; gap:9px; align-items:stretch; margin:18px 0; }.step { flex:1; display:grid; place-items:center; text-align:center; background:#eeeaff; border-radius:16px; min-height:85px; padding:12px; font-weight:800; font-size:15px; }.arrow{align-self:center;font-size:24px;color:#7d6df1;font-weight:900;}
+    .callout { padding:15px 19px;border-left:5px solid #8b7ae6;background:#f4f2ff;border-radius:0 16px 16px 0;margin:15px 0;font-size:16px; }
+    .tagrow { display:flex; flex-wrap:wrap; gap:9px; margin:13px 0 20px; }.tag { border:1px solid #ddd9ff;border-radius:999px;background:#f4f2ff;padding:6px 12px;font-weight:800;color:#4c3db1;font-size:14px; }
+    table { border-collapse:separate; border-spacing:0; width:100%; font-size:14px; margin:14px 0 22px; border:1px solid #e1e5f4;border-radius:15px;overflow:hidden; }
+    th,td{ text-align:left; padding:11px 13px; vertical-align:top; border-bottom:1px solid #e7eaf4; } th{ background:#eae7ff;color:#322582;font-size:13px;letter-spacing:.015em;}tr:nth-child(even) td{background:#f9faff;}tr:last-child td{border-bottom:0;}
+    td:first-child { font-weight:800; color:#2f3764; }
+    .factlist { margin:12px 0 18px; padding-left:22px; }.factlist li { margin-bottom:8px; padding-left:2px; }
+    .remember { margin:0 30px 16px; padding:14px 18px; border-radius:17px; background:linear-gradient(90deg,#fff3ca,#fff8e7); border:1px solid #ffe3a7; color:#5f421b; display:flex;align-items:flex-start;gap:9px;font-size:15px;line-height:1.4; }
+    .remember b { flex:none; color:#795016; }
+    .bottom { border-top:1px solid #eff0f6; padding:15px 29px 20px; display:flex; align-items:center; gap:12px; background:white; }
+    .nav { display:flex; align-items:center; justify-content:center; min-height:55px; border:0; border-radius:16px; padding:10px 22px; font-weight:900; font-size:16px; transition:transform .1s,background .15s; }
+    .nav:active,.option:active { transform:scale(.98); }
+    .nav.secondary { background:#f0f1fb;color:#4e5790; }.nav.primary{ background:var(--purple);color:white;min-width:147px;box-shadow:0 8px 20px #5947c52b;}.nav.primary:hover{background:var(--purple-dark);}
+    .nav.minor { background:transparent;color:#7c84a0;padding:8px 12px; }.nav:disabled{opacity:.38;cursor:not-allowed;box-shadow:none;}
+    .bottom .spacer{flex:1;}
+    .quizmeta {display:flex;gap:9px;flex-wrap:wrap;margin:16px 0;}.bubble{border-radius:999px;background:#eaf0ff;color:#3e4c86;font-weight:900;font-size:13px;padding:6px 12px;}.bubble.easy{background:#def5e7;color:#267649;}.bubble.medium{background:#fff1d6;color:#8a5b18;}.bubble.hard{background:#ffe4ec;color:#9c3254;}
+    .question { font-size:clamp(22px,2.6vw,30px);line-height:1.28;font-weight:900;letter-spacing:-.017em;margin:10px 0 20px; }
+    .choices {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:18px;}
+    .option {display:flex;text-align:left;align-items:center;gap:12px;border:2px solid #e4e8f5;background:#fafbff;border-radius:17px;padding:15px;min-height:88px;color:#303958;font-size:16px;font-weight:750;}.option:hover:not(:disabled){background:#f1efff;border-color:#a99afa;}.option:disabled{cursor:default;}.option .letter{flex:none;display:grid;place-items:center;width:35px;height:35px;border-radius:11px;background:#e9e6ff;color:#5040ba;font-weight:950;}.option.correct{background:#e3faeb;border-color:#58c889;color:#15683b;}.option.correct .letter{background:#b9efd0;color:#15683b;}.option.wrong{background:#ffebef;border-color:#f28aa3;color:#a0274a;}.option.wrong .letter{background:#ffd2de;color:#a0274a;}
+    .feedback {padding:15px 17px;border-radius:17px;border:1px solid #c8ecd6;background:#effcf3;font-size:15px;}.feedback.bad{background:#fff1f3;border-color:#ffcbd5;}.feedback b{font-size:18px;display:block;color:#236d45;}.feedback.bad b{color:#ae3155;}.feedback p{margin:4px 0 0;}
+    .final-score {text-align:center;padding:8px 0 18px;}.score-ring{width:150px;height:150px;border-radius:50%;background:conic-gradient(#5d4ed2 var(--score),#e9e9f5 0);display:grid;place-items:center;margin:16px auto;}.score-ring>div{width:125px;height:125px;border-radius:50%;background:white;display:grid;place-items:center;font-size:36px;font-weight:950;color:#4436ab;}.review-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}.review-item{background:#fff6e8;border:1px solid #fbe3ba;border-radius:14px;padding:12px;font-size:15px;font-weight:800;}.review-item.ok{background:#eaf9ed;border-color:#cdeed7;}
+    .checklist {list-style:none;padding:0;margin:12px 0;}.checklist li{padding:11px 13px;border-radius:12px;background:#f6f7fd;margin:8px 0;}.checklist li::before{content:'☐';color:#7769db;font-weight:900;margin-right:10px;}
+    .small{font-size:14px;color:var(--muted);}.nowrap{white-space:nowrap;}
+    @media (max-width:950px){.shell{grid-template-columns:1fr;max-width:840px;margin:10px auto;width:calc(100% - 20px);gap:10px;}.rail{min-height:auto;padding:14px 20px;border-radius:20px;display:block;}.brand{font-size:11px}.rail h1{font-size:23px;margin:5px 0 2px}.rail p,.time-pill,.section-steps,.tiny-note{display:none;}.main{height:calc(100svh - 112px);min-height:550px;border-radius:20px;}.canvas{padding:21px 24px 10px}.remember{margin:0 22px 12px}.bottom{padding:12px 20px 16px}.topbar{padding:15px 22px 11px}.track{margin:0 22px}}
+    @media (max-width:600px){body{font-size:16px}.shell{width:calc(100% - 12px);margin:6px auto;gap:7px}.rail{padding:10px 16px;border-radius:16px}.rail h1{font-size:20px}.brand{font-size:10px}.main{height:calc(100svh - 82px);min-height:460px;border-radius:16px}.canvas{padding:17px 16px 7px}.topbar{padding:13px 15px 10px}.track{margin:0 15px}h2{font-size:26px}.lead{font-size:16px}.tile-grid,.tile-grid.three,.choices,.review-grid{grid-template-columns:1fr}.tile{padding:13px}.choices{gap:9px}.option{min-height:68px;padding:10px 12px}.remember{margin:0 12px 8px;padding:11px 13px;font-size:13px}.bottom{padding:10px 12px 12px;gap:7px}.nav{font-size:14px;min-height:49px;padding:9px 13px;border-radius:13px}.nav.primary{min-width:104px}.nav.minor{padding:7px 6px}table{font-size:12px}th,td{padding:8px 7px}.arrowline{gap:4px}.step{font-size:12px;padding:7px;min-height:65px}.arrow{font-size:17px}.question{font-size:22px}}
+    @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail" aria-label="Lesson overview">
+      <div class="brand">Grade 6 • Touchscreen Tutor</div>
+      <h1>Staying Healthy<br>as You Age</h1>
+      <p>Adulthood stages, three ways to measure age, and habits for good health.</p>
+      <div class="time-pill">⏱ Teaching: about 15–20 minutes</div>
+      <div class="section-steps">
+        <div class="phase active" id="phaseTeach"><span class="phase-number">1</span><span>Teaching slides</span></div>
+        <div class="phase" id="phaseReview"><span class="phase-number">2</span><span>Final review</span></div>
+        <div class="phase" id="phaseQuiz"><span class="phase-number">3</span><span>30-question quiz</span></div>
+      </div>
+      <div class="tiny-note">Based only on the supplied textbook pages.</div>
+    </aside>
+
+    <main class="main" aria-label="Interactive lesson">
+      <header class="topbar"><div class="status"><span class="dot"></span><span id="modeLabel">Learning time</span></div><div class="count" id="counter">Slide 1 of 23</div></header>
+      <div class="track" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress"><div class="fill" id="progressFill"></div></div>
+      <section class="canvas" id="canvas" tabindex="-1" aria-live="polite"></section>
+      <div class="remember" id="remember"><b>⭐ Remember</b><span id="rememberText"></span></div>
+      <footer class="bottom">
+        <button class="nav secondary" id="backBtn" type="button">← Back</button>
+        <button class="nav minor" id="restartBtn" type="button">↺ Restart</button>
+        <span class="spacer"></span>
+        <button class="nav primary" id="nextBtn" type="button">Next →</button>
+      </footer>
+    </main>
+  </div>
+  <script>
+  'use strict';
+  const slides = [
+    {title:'What You Must Know',eyebrow:'Textbook Lesson 5 • Lesson map',body:`<p class="lead">People continue to learn and develop throughout adulthood.</p><div class="tile-grid three"><div class="tile"><b>🪜 Stages</b><span>Early, middle, and late adulthood</span></div><div class="tile cyan"><b>📏 Measuring age</b><span>Chronological, biological, and social age</span></div><div class="tile green"><b>💚 Staying healthy</b><span>Physical, mental, and social health as people age</span></div></div><p><strong>Teacher vocabulary:</strong> chronological age, biological age, and social age.</p><div class="callout"><b>Big idea:</b> Practicing good health skills helps people remain healthy throughout early, middle, and late adulthood.</div>`,remember:'Three key topics: adulthood stages • 3 types of age • healthy choices.'},
+    {title:'Adulthood Is Still a Time of Change',eyebrow:'Topic 1 • Main idea',body:`<p>Reaching adulthood does <strong>not</strong> mean a person stops changing.</p><div class="tile-grid three"><div class="tile"><b>Physical</b><span>The body changes gradually as a person ages.</span></div><div class="tile cyan"><b>Mental</b><span>People continue learning and developing new skills.</span></div><div class="tile peach"><b>Social</b><span>New relationships may include marriage or parenthood.</span></div></div><div class="callout">The textbook says milestones such as a career, marriage, or raising a family <strong>do not happen the same way for everyone</strong>.</div>`,remember:'Adults keep changing physically, mentally, and socially.'},
+    {title:'Each Adult Has a Unique Path',eyebrow:'Topic 1 • Different life choices',body:`<p>Adult experiences are not identical. The textbook gives these comparisons:</p><div class="tile-grid"><div class="tile pink"><b>Marriage</b><span>Some marry later in life; some may never marry.</span></div><div class="tile green"><b>Children</b><span>Some adults have many children; others have none.</span></div><div class="tile cyan"><b>Career</b><span>Some stay in one career; others change careers many times.</span></div><div class="tile peach"><b>Milestones</b><span>Not everyone reaches milestones at the same time.</span></div></div><p>Each person’s path through adulthood is <strong>unique</strong>.</p>`,remember:'There is no one path through adult life.'},
+    {title:'Early Adulthood',eyebrow:'Topic 1 • Education, work, relationships',body:`<div class="tile-grid"><div class="tile cyan"><b>Education and work</b><span>Some young adults continue education; others finish school and begin first jobs.</span></div><div class="tile"><b>Career choices</b><span>They may try several jobs before settling on a career path.</span></div><div class="tile pink"><b>Relationships</b><span>They form close relationships, sometimes including marriage or starting a family.</span></div><div class="tile green"><b>Different timing</b><span>Some marry later or never marry.</span></div></div>`,remember:'Early adulthood: education, first jobs, career choices, close relationships.'},
+    {title:'Early Habits Can Help Later',eyebrow:'Topic 1 • Good health choices',body:`<p>The textbook says it is important to begin habits in <strong>early adulthood</strong> that support good health later in life.</p><div class="arrowline"><div class="step">Healthful diet</div><span class="arrow">+</span><div class="step">Staying active</div><span class="arrow">→</span><div class="step">Good health later</div></div><div class="tile green"><b>Two positive steps named in the book</b><span>Eat a healthful diet and stay active.</span></div>`,remember:'Good habits early = healthful food and activity.'},
+    {title:'Middle Adulthood',eyebrow:'Topic 1 • Work and contribution',body:`<p>In <strong>middle adulthood</strong>, many people have settled down in work and personal life.</p><div class="tile-grid"><div class="tile"><b>Achievement</b><span>May want to achieve and be recognized.</span></div><div class="tile cyan"><b>Careers</b><span>May focus on advancing careers.</span></div><div class="tile pink"><b>Families</b><span>May focus on raising families.</span></div><div class="tile green"><b>Communities</b><span>May focus on helping communities and contributing to the world.</span></div></div>`,remember:'Middle adulthood often focuses on achievement, family, and contribution.'},
+    {title:'Middle Adulthood: Reflection',eyebrow:'Topic 1 • Looking ahead',body:`<p>People may think about what they have done during the first half of life and what they want to do next.</p><div class="tile-grid"><div class="tile cyan"><b>One choice</b><span>Make major changes in life.</span></div><div class="tile peach"><b>Another choice</b><span>Get the most out of the path already chosen.</span></div></div><p>Many middle-aged adults renew their commitment to a <strong>healthful diet</strong> and remaining <strong>physically active</strong>.</p>`,remember:'Middle adulthood can bring reflection, choices, and renewed healthy habits.'},
+    {title:'Late Adulthood',eyebrow:'Topic 1 • Around age 65',body:`<div class="callout">The textbook says <strong>late adulthood begins around age 65</strong>.</div><div class="tile-grid"><div class="tile"><b>Retirement</b><span>People often retire from jobs and pursue new interests.</span></div><div class="tile cyan"><b>Activities</b><span>Some travel or visit parks; some become more active than when younger.</span></div><div class="tile green"><b>New contributions</b><span>Some start new careers or do volunteer work.</span></div><div class="tile peach"><b>Health</b><span>Maintaining good physical health is still important.</span></div></div>`,remember:'Late adulthood starts around 65; new interests and activity can continue.'},
+    {title:'Late Adulthood: Looking Back',eyebrow:'Topic 1 • Reflection',body:`<p>Late adulthood may be a time of <strong>reflection</strong>.</p><div class="arrowline"><div class="step">Think about life</div><span class="arrow">→</span><div class="step">Ask if potential was fulfilled</div><span class="arrow">→</span><div class="step">May feel content</div></div><p>The book says older adults who are satisfied with what they have done may feel <strong>content</strong> at this stage.</p>`,remember:'Late adulthood may include reflection and feeling content.'},
+    {title:'Three Ways to Measure Age',eyebrow:'Topic 2 • Overview',body:`<p class="lead">Age in years may be different from the age suggested by health or behavior.</p><div class="tile-grid three"><div class="tile"><b><strong>Chronological age</strong></b><span>Years</span></div><div class="tile cyan"><b><strong>Biological age</strong></b><span>Body health and how parts work</span></div><div class="tile peach"><b><strong>Social age</strong></b><span>Lifestyle and connections</span></div></div><div class="callout">The textbook mentions the saying, “You’re only as old as you feel.” It says many people in late adulthood feel young because they have maintained good health.</div>`,remember:'Chronological = years; biological = body; social = lifestyle/connections.'},
+    {title:'Chronological Age',eyebrow:'Topic 2 • Teacher vocabulary 1',body:`<div class="callout"><strong>Chronological age</strong> is a person’s <strong>age measured in years</strong>.</div><p>It does <strong>not</strong> reflect the person’s health.</p><div class="tile-grid"><div class="tile"><b>Same number</b><span>Two people can be the same chronological age.</span></div><div class="tile cyan"><b>Different people</b><span>They can differ physically, mentally, and socially.</span></div></div>`,remember:'Chronological age = number of years, not a health score.'},
+    {title:'Biological Age',eyebrow:'Topic 2 • Teacher vocabulary 2',body:`<div class="callout"><strong>Biological age</strong> is determined by how well various <strong>body parts are working</strong>.</div><p>It focuses on the physical condition of the body and on overall health.</p><div class="arrowline"><div class="step">How well body parts work</div><span class="arrow">+</span><div class="step">Overall physical health</div><span class="arrow">→</span><div class="step">Biological age</div></div>`,remember:'Biological age = body condition and how well its parts work.'},
+    {title:'Biological Age: Textbook Example',eyebrow:'Topic 2 • Same years, different health',body:`<div class="tile-grid"><div class="tile pink"><b>Person A: age 50</b><span>Has arthritis.</span></div><div class="tile green"><b>Person B: age 50</b><span>Is in good health.</span></div></div><p>According to the textbook, the 50-year-old with arthritis would have an <strong>older biological age</strong>.</p><div class="callout">The book says <strong>heredity</strong>, <strong>environment</strong>, and <strong>behavior</strong> play roles in biological age. Healthful choices may give a person a younger biological age.</div>`,remember:'Two 50-year-olds can have different biological ages.'},
+    {title:'Social Age',eyebrow:'Topic 2 • Teacher vocabulary 3',body:`<div class="callout"><strong>Social age</strong> is measured by a person’s <strong>lifestyle</strong> and <strong>connections with others</strong>.</div><div class="tile-grid"><div class="tile cyan"><b>Lifestyle</b><span>The way a person lives.</span></div><div class="tile peach"><b>Connections</b><span>Relationships with other people.</span></div></div><p>The book gives two young adults who are the same age to show how social age can differ.</p>`,remember:'Social age = lifestyle + connections with other people.'},
+    {title:'Social Age: Two 22-Year-Olds',eyebrow:'Topic 2 • Compare the source examples',body:`<div class="tile-grid"><div class="tile cyan"><b>Young Adult A • 22 years old</b><span>Still attending college and living at home.</span></div><div class="tile green"><b>Young Adult B • 22 years old</b><span>Has a job, gotten married, and started a family.</span></div></div><div class="arrowline"><div class="step">Same chronological age</div><span class="arrow">→</span><div class="step">Different lifestyles</div><span class="arrow">→</span><div class="step">Different social ages</div></div><p>The textbook says <strong>Young Adult B might have an older social age</strong>.</p>`,remember:'Both are 22; the married person with job/family may have an older social age.'},
+    {title:'Good Physical Health for Older Adults',eyebrow:'Topic 3 • Staying healthy',body:`<p><strong>Wellness</strong>, or balanced health, matters for older people just as for teens.</p><div class="tile-grid"><div class="tile green"><b>Be physically active</b><span>Activity helps maintain good health.</span></div><div class="tile cyan"><b>Eat healthful foods</b><span>Good food is another way to protect physical health.</span></div></div><div class="callout">The book says older adults who care for their physical health may have a <strong>biological age younger than their age in years</strong>.</div>`,remember:'Physical activity + healthy food can support a younger biological age.'},
+    {title:'Mental Health and Medical Care',eyebrow:'Topic 3 • Good mental health',body:`<p>The textbook says good <strong>mental health</strong> is part of biological age, too.</p><div class="tile-grid"><div class="tile pink"><b>Possible risk</b><span>Older adults may be at risk for mental problems such as depression.</span></div><div class="tile green"><b>Regular medical care</b><span>Can help find and treat mental-health problems.</span></div><div class="tile cyan"><b>Other support</b><span>Being involved in social and physical activities can also help.</span></div></div>`,remember:'Mental health matters; medical care and activities can help.'},
+    {title:'Social Health and Staying Active',eyebrow:'Topic 3 • Friends and activities',body:`<p>Older adults can have better total health when they stay involved with <strong>friends</strong> and activities they enjoy.</p><div class="tagrow"><span class="tag">Tennis</span><span class="tag">Softball</span><span class="tag">Hiking</span><span class="tag">Biking</span><span class="tag">Dancing</span><span class="tag">Walking</span></div><div class="tile green"><b>What does the book say?</b><span>Regular physical activity can help older adults maintain good health and reduce their <strong>social age</strong> and <strong>biological age</strong>.</span></div>`,remember:'Stay involved with friends and active hobbies for better social health.'},
+    {title:'Show Respect for Older Adults',eyebrow:'Topic 3 • Good character',body:`<p>The textbook’s <strong>Developing Good Character</strong> box is about <strong>respect</strong>.</p><div class="tile-grid"><div class="tile"><b>Experience</b><span>Their bodies may not move as fast as yours, but older adults have wisdom and experience to share.</span></div><div class="tile cyan"><b>Respect</b><span>Listen to older adults.</span></div><div class="tile green"><b>Good manners</b><span>Speak in a polite manner.</span></div></div><p>The book asks students to think of topics they could discuss with older adults.</p>`,remember:'Show respect by listening and speaking politely.'},
+    {title:'Three Teacher Vocabulary Words',eyebrow:'Keywords • Definitions and memory tips',body:`<p class="lead">All three teacher words are highlighted in the source.</p><table><thead><tr><th>Word</th><th>Textbook meaning</th><th>Memory clue</th></tr></thead><tbody><tr><td><strong>chronological age</strong></td><td>Your age measured in years. It does not reflect your health.</td><td>Count years</td></tr><tr><td><strong>biological age</strong></td><td>Determined by how well various body parts are working; focuses on the physical condition of a person’s body along with overall health.</td><td>Check body and health</td></tr><tr><td><strong>social age</strong></td><td>Measured by your lifestyle and the connections you have with others.</td><td>Look at lifestyle and people</td></tr></tbody></table><div class="arrowline"><div class="step">Years</div><span class="arrow">≠</span><div class="step">Body condition</div><span class="arrow">≠</span><div class="step">Social lifestyle</div></div>`,remember:'Chronological = years; biological = body; social = connections.'},
+    {title:'Easy-to-Confuse Points',eyebrow:'Exam focus • Comparisons',body:`<table><thead><tr><th>Compare</th><th>Remember</th></tr></thead><tbody><tr><td>Chronological vs. biological</td><td>Years lived vs. how well body parts work.</td></tr><tr><td>Chronological vs. social</td><td>Years lived vs. lifestyle and relationships.</td></tr><tr><td>Biological vs. social</td><td>Physical condition/health vs. lifestyle/connections.</td></tr><tr><td>Early vs. middle adulthood</td><td>First jobs and close relationships vs. careers, families, recognition, and contributions.</td></tr><tr><td>Middle vs. late adulthood</td><td>Reflection about life choices vs. a stage beginning around 65, often with retirement and new interests.</td></tr><tr><td>Physical vs. mental vs. social health</td><td>Activity/food vs. mental problems and care vs. friends and shared activities.</td></tr></tbody></table>`,remember:'The age number is only chronological; body and social life tell different stories.'},
+    {title:'Exam Focus and Reading Check',eyebrow:'Final review • What to remember',body:`<ul class="factlist"><li><strong>Definitions:</strong> chronological, biological, social age.</li><li><strong>Examples:</strong> two 50-year-olds with different health; two 22-year-olds with different lifestyles.</li><li><strong>Adult stages:</strong> early (education/jobs/relationships), middle (career/family/contribution), late (around 65, retirement/new interests/reflection).</li><li><strong>Factors:</strong> heredity, environment, behavior can affect biological age.</li><li><strong>Health:</strong> physical activity, healthy foods, mental-health care, friendships, enjoyable activities.</li><li><strong>Respect:</strong> listen to older adults and speak politely.</li></ul><div class="callout"><b>Reading Check from the book:</b> What are some ways older adults can stay physically active throughout their lifetime?<p style="margin:5px 0 0"><b>Answer:</b> Play tennis or softball, hike, bike, dance, or walk.</p></div>`,remember:'Know all three ages, examples, stages, healthy habits, and Reading Check.'},
+    {title:'Remember These Before the Test',eyebrow:'Final 4-minute review • Last slide',body:`<p class="lead">Read every checkpoint, then start the quiz.</p><ul class="checklist"><li>Adults continue physical, mental, and social changes.</li><li>Early adulthood often brings education, jobs, and relationships.</li><li>Middle adulthood often focuses on achievement, family, community, and reflection.</li><li>Late adulthood begins around 65 and may bring retirement, new interests, and reflection.</li><li>Chronological = years; biological = body condition; social = lifestyle and connections.</li><li>Remember the textbook’s ages 50 and 22 examples.</li><li>Healthy food, physical activity, medical care, friends, and respect matter.</li></ul><p class="small">Ready? Tap <b>Start Quiz</b> to answer 30 questions from easy to hard.</p>`,remember:'Years • Body • People — know the three types of age.'}
+  ];
+  
+  const questions = [
+    // EASY 1–10
+    {q:'What is chronological age?',a:['Your social connections','Your age measured in years','How well your body parts work','Your career path'],c:1,why:'Chronological age measures age in years.',topic:'Vocabulary',level:'Easy'},
+    {q:'What is biological age?',a:['Only the number of birthdays','Only your career choices','How well the body works and its overall physical health','Only your relationships'],c:2,why:'Biological age depends on body functioning and health.',topic:'Vocabulary',level:'Easy'},
+    {q:'What is social age?',a:['Your lifestyle and connections with others','Your age measured in years','Only physical condition','Only the age of retirement'],c:0,why:'The textbook defines social age through lifestyle and connections.',topic:'Vocabulary',level:'Easy'},
+    {q:'Around what age does late adulthood begin, according to the book?',a:['22','50','The first job','65'],c:3,why:'Late adulthood begins around age 65 in the textbook.',topic:'Adult stages',level:'Easy'},
+    {q:'What is the main idea of Stages of Adulthood?',a:['People stop learning after their first job','People continue to learn and develop through adulthood','All adults follow the same life path','Chronological age always shows health'],c:1,why:'The source says people continue to learn and develop throughout adulthood.',topic:'Adult stages',level:'Easy'},
+    {q:'Which activities are common in early adulthood in the textbook?',a:['Only retirement','Only reflection on life','Continuing education or starting first jobs','Only volunteer work after age 65'],c:2,why:'Early adults may still study or begin their first jobs.',topic:'Adult stages',level:'Easy'},
+    {q:'Which is a common middle-adulthood focus in the lesson?',a:['Career advancement, raising family, or helping community','Learning to talk','Starting first school year','Having the same career as everyone'],c:0,why:'These are examples given for middle adulthood.',topic:'Adult stages',level:'Easy'},
+    {q:'Which activity might happen in late adulthood?',a:['Only first jobs','Only school exams','Everyone having children','Retiring and pursuing new interests'],c:3,why:'The book says many people retire and pursue new interests.',topic:'Adult stages',level:'Easy'},
+    {q:'Which habits does the textbook encourage in early adulthood?',a:['Avoid activity and friends','Eat a healthful diet and stay active','Stop learning new skills','Focus only on chronological age'],c:1,why:'A healthful diet and staying active are two positive steps.',topic:'Health',level:'Easy'},
+    {q:'What mental-health problem does the book mention as a risk for older adults?',a:['Only an older social age','A new career path','Depression','A late marriage'],c:2,why:'The textbook mentions depression as a possible mental-health problem.',topic:'Health',level:'Easy'},
+  
+    // MEDIUM 11–20
+    {q:'Two people are both 50 years old but have different health. What does this show?',a:['Chronological age alone does not describe health','They must have the same biological age','They must have the same social age','They must have the same career'],c:0,why:'People of the same chronological age can differ in health.',topic:'Age comparison',level:'Medium'},
+    {q:'Which 50-year-old has the older biological age in the book’s example?',a:['The one who hikes','The one with a healthy diet','The one who sees friends','The one with arthritis'],c:3,why:'The book says the person with arthritis would have an older biological age.',topic:'Biological age',level:'Medium'},
+    {q:'Which three factors does the book name as affecting biological age?',a:['Career, marriage, retirement','Tennis, biking, hiking','Heredity, environment, behavior','College, job, family'],c:2,why:'Heredity, environment, and behavior are named in the source.',topic:'Biological age',level:'Medium'},
+    {q:'What may help someone have a younger biological age?',a:['Having the same birthday as a friend','Making healthful choices','Ignoring physical health','Only changing careers'],c:1,why:'The book says healthful choices may produce a younger biological age.',topic:'Biological age',level:'Medium'},
+    {q:'Two 22-year-olds have different lifestyles. Who might have the older social age?',a:['The one still at college and living at home','Both must have the same social age','Neither can have a social age','The one with a job, marriage, and family'],c:3,why:'The textbook says the second person might have an older social age.',topic:'Social age',level:'Medium'},
+    {q:'What can help find and treat mental-health problems in older adults?',a:['Regular medical care','Avoiding all activities','Only chronological age','Retiring at the same age'],c:0,why:'The book says regular medical care can identify and treat problems.',topic:'Health',level:'Medium'},
+    {q:'What two steps does the book name for good physical health?',a:['Changing jobs and marriage','Eating healthful foods and being physically active','Staying in one career and retiring','Only asking about age'],c:1,why:'Physical activity and healthy food are the two steps named.',topic:'Health',level:'Medium'},
+    {q:'How can older adults support social health?',a:['Stop visiting friends','Avoid enjoyable activities','Stay involved with friends and activities','Only count the years of life'],c:2,why:'The lesson emphasizes friends and activities people enjoy.',topic:'Health',level:'Medium'},
+    {q:'Which list contains sports or activities named in the textbook?',a:['Tennis, softball, hiking, biking, dancing, walking','Only reading and writing','Only driving and studying','Only working in one job'],c:0,why:'All six activities appear in the source.',topic:'Activities',level:'Medium'},
+    {q:'What can regular physical activity help reduce, according to the book?',a:['Only chronological age','The number of birthdays','The number of careers','Social age and biological age'],c:3,why:'The text says regular physical activity can reduce social and biological age.',topic:'Age comparison',level:'Medium'},
+  
+    // HARD 21–30
+    {q:'Two adults reach milestones at different times. Which statement best matches the textbook?',a:['Everyone must marry young','Everyone must have the same career','Each adult follows a unique path','Adults stop changing after school'],c:2,why:'The book says no two people are exactly alike in their adult paths.',topic:'Adult stages',level:'Hard'},
+    {q:'A middle-aged adult thinks about the first half of life and changes direction. What is this an example of?',a:['Reflection and making new choices','Chronological age changing backward','The first stage of adulthood','Only a social age measurement'],c:0,why:'Middle adulthood can include thinking about earlier life and making changes.',topic:'Adult stages',level:'Hard'},
+    {q:'An older adult retires, then volunteers or starts a new career. Which stage is described?',a:['Early adulthood','Only middle adulthood','The first job period','Late adulthood'],c:3,why:'The lesson says some people in late adulthood volunteer or start new careers.',topic:'Adult stages',level:'Hard'},
+    {q:'Which statement correctly separates biological and social age?',a:['Both only count years','Biological looks at the body; social looks at lifestyle and connections','Biological only means marriage; social only means health','Both always equal chronological age'],c:1,why:'They use different measures: body health vs. lifestyle and connections.',topic:'Age comparison',level:'Hard'},
+    {q:'Two people are 22. One lives at home and studies; one works, is married, and has a family. What may differ?',a:['Their chronological ages','Their number of birthdays','Their social ages','Their biological ages must be identical'],c:2,why:'The textbook uses this example to explain differences in social age.',topic:'Social age',level:'Hard'},
+    {q:'Two people are 50; one has arthritis and one is in good health. What would the book say?',a:['The person with arthritis has an older biological age','Both must be identical in biological age','The person with arthritis has an older chronological age','Both have different chronological ages'],c:0,why:'The book contrasts the two 50-year-olds by their biological ages.',topic:'Biological age',level:'Hard'},
+    {q:'An older adult hikes with friends and stays active. Which idea does this support?',a:['Chronological age stops increasing','Activity is only for young adults','Social and physical activities can support health','Friends have no connection to wellness'],c:2,why:'The textbook links friends and activity to better total health.',topic:'Health',level:'Hard'},
+    {q:'Why are diet and staying active encouraged in early adulthood?',a:['They cause everyone to marry','They help build good health later in life','They keep chronological age from changing','They replace all medical care'],c:1,why:'The book says healthy habits can contribute to good health later.',topic:'Health',level:'Hard'},
+    {q:'Which answer correctly responds to the textbook’s Reading Check?',a:['Avoid walking after retirement','Only count chronological years','Stay out of all sports','Walk, dance, bike, hike, or play tennis and softball'],c:3,why:'These are examples of activities named in the textbook.',topic:'Activities',level:'Hard'},
+    {q:'How does the textbook suggest showing respect for older adults?',a:['Listen and speak politely','Ignore their experiences','Only talk about chronological age','Avoid talking with them'],c:0,why:'The good-character box recommends listening and polite speaking.',topic:'Good character',level:'Hard'}
+  ];
+
+  let state = {mode:'slide',index:0,qi:0,answers:Array(questions.length).fill(null)};
+  const $ = (id) => document.getElementById(id);
+  const canvas = $('canvas');
+  const escapeHtml = (s) => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const score = () => state.answers.reduce((n,a,i)=>n+(a===questions[i].c?1:0),0);
+  const isReview = () => state.mode==='slide' && state.index>=slides.length-2;
+  function phaseUI(){
+    const n = state.mode==='quiz'||state.mode==='result'?2:isReview()?1:0;
+    ['phaseTeach','phaseReview','phaseQuiz'].forEach((id,i)=>{const e=$(id);e.classList.toggle('active',i===n);e.classList.toggle('done',i<n);});
+  }
+  function render(){
+    phaseUI();
+    if(state.mode==='slide') renderSlide();
+    else if(state.mode==='quiz') renderQuiz();
+    else renderResult();
+    canvas.scrollTop=0;
+    $('progress').setAttribute('aria-valuenow',Math.round(parseFloat($('progressFill').style.width)||0));
+  }
+  function chrome(mode,counter,percent,remember,nextLabel){
+    $('modeLabel').textContent=mode;
+    $('counter').textContent=counter;
+    $('progressFill').style.width=percent+'%';
+    $('rememberText').textContent=remember;
+    $('nextBtn').textContent=nextLabel;
+  }
+  function renderSlide(){
+    const s=slides[state.index];
+    canvas.innerHTML=`<div class="eyebrow">${s.eyebrow}</div><h2>${s.title}</h2>${s.body}`;
+    chrome(isReview()?'Final review':'Learning time',`Slide ${state.index+1} of ${slides.length}`,100*(state.index+1)/slides.length,s.remember,state.index===slides.length-1?'Start Quiz →':'Next →');
+    $('backBtn').disabled=state.index===0;
+    $('nextBtn').disabled=false;
+  }
+  function renderQuiz(){
+    const q=questions[state.qi],chosen=state.answers[state.qi],done=chosen!==null;
+    const choices=q.a.map((option,i)=>{
+      const cls=done?(i===q.c?' correct':i===chosen?' wrong':''):'';
+      return `<button type="button" class="option${cls}" data-choice="${i}" ${done?'disabled':''} aria-label="Option ${'ABCD'[i]}: ${escapeHtml(option)}"><span class="letter">${'ABCD'[i]}</span><span>${escapeHtml(option)}</span></button>`;
+    }).join('');
+    const feedback=done?`<div class="feedback ${chosen===q.c?'':'bad'}" role="status"><b>${chosen===q.c?'✅ Correct!':'❌ Incorrect'}</b><p><strong>Correct answer: ${'ABCD'[q.c]}.</strong> ${escapeHtml(q.a[q.c])}</p><p>${escapeHtml(q.why)}</p></div>`:'';
+    canvas.innerHTML=`<div class="eyebrow">Practice • ${escapeHtml(q.topic)}</div><h2>Check Your Understanding</h2><div class="quizmeta"><span class="bubble ${q.level.toLowerCase()}">${q.level}</span><span class="bubble">Score: ${score()} / ${questions.length}</span></div><div class="question">${escapeHtml(q.q)}</div><div class="choices">${choices}</div>${feedback}`;
+    canvas.querySelectorAll('[data-choice]').forEach(btn=>btn.addEventListener('click',()=>answerQuestion(Number(btn.dataset.choice))));
+    chrome('Quiz time',`Question ${state.qi+1} of ${questions.length}`,100*(state.qi+1)/questions.length,done?'Learn from the explanation, then move on.':'Choose A, B, C, or D. Feedback appears after you answer.',state.qi===questions.length-1?'See Results →':'Next Question →');
+    $('backBtn').disabled=false;
+    $('nextBtn').disabled=!done;
+  }
+  function answerQuestion(choice){
+    if(state.mode!=='quiz'||state.answers[state.qi]!==null)return;
+    state.answers[state.qi]=choice;
+    render();
+  }
+  function renderResult(){
+    const total=score(),pct=Math.round(total*100/questions.length);
+    const missed={}; questions.forEach((q,i)=>{if(state.answers[i]!==q.c)missed[q.topic]=(missed[q.topic]||0)+1;});
+    const areas=Object.entries(missed).sort((a,b)=>b[1]-a[1]);
+    const review=areas.length?areas.map(([name,count])=>`<div class="review-item">📘 ${escapeHtml(name)} <span class="small">(${count} to review)</span></div>`).join(''):'<div class="review-item ok">🌟 Great work — no missed topics!</div>';
+    canvas.innerHTML=`<div class="eyebrow">Quiz complete • Your result</div><div class="final-score"><h2>Nice Work!</h2><p class="lead">You finished all 30 questions.</p><div class="score-ring" style="--score:${pct}%"><div>${total}/30</div></div><p><strong>${pct}% correct</strong></p></div><h3>Topics to Review</h3><div class="review-grid">${review}</div><p class="small" style="margin-top:18px">Use Back to revisit your last answer, or Restart to study the whole lesson again.</p>`;
+    chrome('Quiz complete','Final score',100,'Your results show what to review before the test.','Review Quiz ←');
+    $('backBtn').disabled=false;
+    $('nextBtn').disabled=false;
+  }
+  function next(){
+    if(state.mode==='slide'){
+      if(state.index<slides.length-1)state.index++;
+      else {state.mode='quiz';state.qi=0;}
+    } else if(state.mode==='quiz'){
+      if(state.answers[state.qi]===null)return;
+      if(state.qi<questions.length-1)state.qi++;
+      else state.mode='result';
+    } else {state.mode='quiz';state.qi=questions.length-1;}
+    render();
+  }
+  function back(){
+    if(state.mode==='slide')state.index=Math.max(0,state.index-1);
+    else if(state.mode==='quiz'){
+      if(state.qi===0){state.mode='slide';state.index=slides.length-1;}
+      else state.qi--;
+    }
+    else {state.mode='quiz';state.qi=questions.length-1;}
+    render();
+  }
+  function restart(){
+    if(state.mode==='slide'&&state.index===0)return;
+    if(!window.confirm('Restart the lesson and clear your quiz answers?'))return;
+    state={mode:'slide',index:0,qi:0,answers:Array(questions.length).fill(null)};
+    render();
+  }
+  $('nextBtn').addEventListener('click',next);
+  $('backBtn').addEventListener('click',back);
+  $('restartBtn').addEventListener('click',restart);
+  window.addEventListener('keydown',e=>{
+    if(e.target.closest('button'))return;
+    if(e.key==='ArrowRight'&&!$('nextBtn').disabled)next();
+    if(e.key==='ArrowLeft'&&!$('backBtn').disabled)back();
+  });
+  render();
+  </script>
+</body>
+</html>

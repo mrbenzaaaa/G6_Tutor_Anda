@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#4336b8">
+  <title>Changes During Puberty | Grade 6 Touchscreen Tutor</title>
+  <style>
+    :root { --ink:#20284c; --muted:#66708d; --purple:#5846c8; --purple-dark:#4336a9; --lavender:#ece8ff; --cyan:#dff7fb; --peach:#fff0da; --green:#dcf7e5; --pink:#ffe6ed; --white:#fff; --line:#e5e8f3; --shadow:0 22px 55px rgba(47,43,118,.14); }
+    * { box-sizing:border-box; }
+    html { -webkit-text-size-adjust:100%; }
+    body { margin:0; background:radial-gradient(circle at 4% 5%,#ddd8ff 0,transparent 33%),radial-gradient(circle at 98% 95%,#d0f4f9 0,transparent 30%),#f7f8fd; color:var(--ink); font:500 17px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif; min-height:100vh; }
+    button { font:inherit; cursor:pointer; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+    button:focus-visible { outline:4px solid #ffb73d; outline-offset:3px; }
+    .shell { width:min(1240px,calc(100% - 32px)); margin:18px auto; display:grid; grid-template-columns:280px minmax(0,1fr); min-height:min(840px,calc(100svh - 36px)); gap:18px; }
+    .rail { background:linear-gradient(160deg,#5745cb,#3f339a); color:white; border-radius:28px; padding:30px 25px; display:flex; flex-direction:column; box-shadow:var(--shadow); overflow:hidden; position:relative; }
+    .rail::before,.rail::after { content:""; position:absolute; border-radius:50%; border:2px solid rgba(255,255,255,.14); pointer-events:none; }
+    .rail::before { width:250px; height:250px; top:-140px; right:-130px; }.rail::after{width:300px;height:300px;bottom:-210px;left:-140px;}
+    .brand { font-size:14px; font-weight:900; letter-spacing:.14em; text-transform:uppercase; opacity:.85; }
+    .rail h1 { font-size:clamp(27px,2.6vw,38px); line-height:1.13; margin:35px 0 16px; letter-spacing:-.04em; }
+    .rail p { color:#e6e1ff; font-size:15px; margin:0; }
+    .time-pill { align-self:flex-start; border:1px solid #ab9eff; border-radius:999px; padding:8px 13px; font-weight:800; font-size:13px; margin:24px 0 34px; color:white; background:#ffffff17; }
+    .section-steps { display:grid; gap:18px; margin-top:auto; position:relative; }
+    .phase { display:flex; gap:12px; align-items:center; opacity:.5; font-weight:800; font-size:15px; }
+    .phase.active,.phase.done { opacity:1; }
+    .phase-number { display:grid; place-items:center; width:34px; height:34px; flex:none; border-radius:12px; background:#ffffff29; border:1px solid #ffffff32; }
+    .phase.active .phase-number { background:white; color:var(--purple-dark); }
+    .phase.done .phase-number { background:#8df0be; color:#1a6b49; }
+    .tiny-note { color:#dbd6ff;font-size:12px;margin-top:24px; }
+    .main { min-width:0; background:white; border:1px solid #ffffff; border-radius:28px; box-shadow:var(--shadow); display:flex; flex-direction:column; overflow:hidden; height:min(840px,calc(100svh - 36px)); min-height:640px; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; padding:21px 29px 15px; gap:16px; }
+    .status { display:flex; align-items:center; gap:10px; color:var(--purple-dark); text-transform:uppercase; font-size:12px; font-weight:900; letter-spacing:.12em; }
+    .dot { width:11px; height:11px; border-radius:50%; background:#feae61; box-shadow:0 0 0 5px #fff0db; }
+    .count { color:#65708d; font-size:14px; font-weight:800; white-space:nowrap; }
+    .track { margin:0 29px; height:9px; background:#edf0f8; border-radius:40px; overflow:hidden; }
+    .fill { height:100%; width:0%; border-radius:40px; background:linear-gradient(90deg,#7264e4,#39c3cd); transition:width .3s ease; }
+    .canvas { flex:1; min-height:0; overflow-y:auto; overscroll-behavior:contain; padding:28px 36px 14px; scrollbar-width:thin; scrollbar-color:#cfc9f9 #f8f9fc; }
+    .eyebrow { color:var(--purple); font-size:12px; text-transform:uppercase; letter-spacing:.16em; font-weight:900; }
+    h2 { font-size:clamp(27px,3vw,40px); line-height:1.12; letter-spacing:-.038em; margin:9px 0 13px; }
+    .lead { color:#5b6483; font-size:18px; margin:0 0 22px; }
+    p { margin:0 0 14px; }
+    strong { font-weight:900; color:#4133a4; }
+    .tile-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; margin:18px 0; }
+    .tile-grid.three { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .tile { background:#f4f3ff; border-radius:18px; padding:17px; border:1px solid #e8e4ff; min-width:0; }
+    .tile.cyan { background:#eafafd;border-color:#d6f2f7; }.tile.peach{background:#fff6e9;border-color:#ffedd6;}.tile.green{background:#eafaf0;border-color:#d8f2e2;}.tile.pink{background:#fff0f5;border-color:#fbdde7;}
+    .tile b { display:block; color:#29325c; font-size:17px; margin-bottom:6px; }.tile span{font-size:15px;display:block;line-height:1.45;color:#4a5574;}
+    .arrowline { display:flex; gap:9px; align-items:stretch; margin:18px 0; }.step { flex:1; display:grid; place-items:center; text-align:center; background:#eeeaff; border-radius:16px; min-height:85px; padding:12px; font-weight:800; font-size:15px; }.arrow{align-self:center;font-size:24px;color:#7d6df1;font-weight:900;}
+    .callout { padding:15px 19px;border-left:5px solid #8b7ae6;background:#f4f2ff;border-radius:0 16px 16px 0;margin:15px 0;font-size:16px; }
+    .tagrow { display:flex; flex-wrap:wrap; gap:9px; margin:13px 0 20px; }.tag { border:1px solid #ddd9ff;border-radius:999px;background:#f4f2ff;padding:6px 12px;font-weight:800;color:#4c3db1;font-size:14px; }
+    table { border-collapse:separate; border-spacing:0; width:100%; font-size:14px; margin:14px 0 22px; border:1px solid #e1e5f4;border-radius:15px;overflow:hidden; }
+    th,td{ text-align:left; padding:11px 13px; vertical-align:top; border-bottom:1px solid #e7eaf4; } th{ background:#eae7ff;color:#322582;font-size:13px;letter-spacing:.015em;}tr:nth-child(even) td{background:#f9faff;}tr:last-child td{border-bottom:0;}
+    td:first-child { font-weight:800; color:#2f3764; }
+    .factlist { margin:12px 0 18px; padding-left:22px; }.factlist li { margin-bottom:8px; padding-left:2px; }
+    .remember { margin:0 30px 16px; padding:14px 18px; border-radius:17px; background:linear-gradient(90deg,#fff3ca,#fff8e7); border:1px solid #ffe3a7; color:#5f421b; display:flex;align-items:flex-start;gap:9px;font-size:15px;line-height:1.4; }
+    .remember b { flex:none; color:#795016; }
+    .bottom { border-top:1px solid #eff0f6; padding:15px 29px 20px; display:flex; align-items:center; gap:12px; background:white; }
+    .nav { display:flex; align-items:center; justify-content:center; min-height:55px; border:0; border-radius:16px; padding:10px 22px; font-weight:900; font-size:16px; transition:transform .1s,background .15s; }
+    .nav:active,.option:active { transform:scale(.98); }
+    .nav.secondary { background:#f0f1fb;color:#4e5790; }.nav.primary{ background:var(--purple);color:white;min-width:147px;box-shadow:0 8px 20px #5947c52b;}.nav.primary:hover{background:var(--purple-dark);}
+    .nav.minor { background:transparent;color:#7c84a0;padding:8px 12px; }.nav:disabled{opacity:.38;cursor:not-allowed;box-shadow:none;}
+    .bottom .spacer{flex:1;}
+    .quizmeta {display:flex;gap:9px;flex-wrap:wrap;margin:16px 0;}.bubble{border-radius:999px;background:#eaf0ff;color:#3e4c86;font-weight:900;font-size:13px;padding:6px 12px;}.bubble.easy{background:#def5e7;color:#267649;}.bubble.medium{background:#fff1d6;color:#8a5b18;}.bubble.hard{background:#ffe4ec;color:#9c3254;}
+    .question { font-size:clamp(22px,2.6vw,30px);line-height:1.28;font-weight:900;letter-spacing:-.017em;margin:10px 0 20px; }
+    .choices {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:18px;}
+    .option {display:flex;text-align:left;align-items:center;gap:12px;border:2px solid #e4e8f5;background:#fafbff;border-radius:17px;padding:15px;min-height:88px;color:#303958;font-size:16px;font-weight:750;}.option:hover:not(:disabled){background:#f1efff;border-color:#a99afa;}.option:disabled{cursor:default;}.option .letter{flex:none;display:grid;place-items:center;width:35px;height:35px;border-radius:11px;background:#e9e6ff;color:#5040ba;font-weight:950;}.option.correct{background:#e3faeb;border-color:#58c889;color:#15683b;}.option.correct .letter{background:#b9efd0;color:#15683b;}.option.wrong{background:#ffebef;border-color:#f28aa3;color:#a0274a;}.option.wrong .letter{background:#ffd2de;color:#a0274a;}
+    .feedback {padding:15px 17px;border-radius:17px;border:1px solid #c8ecd6;background:#effcf3;font-size:15px;}.feedback.bad{background:#fff1f3;border-color:#ffcbd5;}.feedback b{font-size:18px;display:block;color:#236d45;}.feedback.bad b{color:#ae3155;}.feedback p{margin:4px 0 0;}
+    .final-score {text-align:center;padding:8px 0 18px;}.score-ring{width:150px;height:150px;border-radius:50%;background:conic-gradient(#5d4ed2 var(--score),#e9e9f5 0);display:grid;place-items:center;margin:16px auto;}.score-ring>div{width:125px;height:125px;border-radius:50%;background:white;display:grid;place-items:center;font-size:36px;font-weight:950;color:#4436ab;}.review-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}.review-item{background:#fff6e8;border:1px solid #fbe3ba;border-radius:14px;padding:12px;font-size:15px;font-weight:800;}.review-item.ok{background:#eaf9ed;border-color:#cdeed7;}
+    .checklist {list-style:none;padding:0;margin:12px 0;}.checklist li{padding:11px 13px;border-radius:12px;background:#f6f7fd;margin:8px 0;}.checklist li::before{content:'☐';color:#7769db;font-weight:900;margin-right:10px;}
+    .small{font-size:14px;color:var(--muted);}.nowrap{white-space:nowrap;}
+    @media (max-width:950px){.shell{grid-template-columns:1fr;max-width:840px;margin:10px auto;width:calc(100% - 20px);gap:10px;}.rail{min-height:auto;padding:14px 20px;border-radius:20px;display:block;}.brand{font-size:11px}.rail h1{font-size:23px;margin:5px 0 2px}.rail p,.time-pill,.section-steps,.tiny-note{display:none;}.main{height:calc(100svh - 112px);min-height:550px;border-radius:20px;}.canvas{padding:21px 24px 10px}.remember{margin:0 22px 12px}.bottom{padding:12px 20px 16px}.topbar{padding:15px 22px 11px}.track{margin:0 22px}}
+    @media (max-width:600px){body{font-size:16px}.shell{width:calc(100% - 12px);margin:6px auto;gap:7px}.rail{padding:10px 16px;border-radius:16px}.rail h1{font-size:20px}.brand{font-size:10px}.main{height:calc(100svh - 82px);min-height:460px;border-radius:16px}.canvas{padding:17px 16px 7px}.topbar{padding:13px 15px 10px}.track{margin:0 15px}h2{font-size:26px}.lead{font-size:16px}.tile-grid,.tile-grid.three,.choices,.review-grid{grid-template-columns:1fr}.tile{padding:13px}.choices{gap:9px}.option{min-height:68px;padding:10px 12px}.remember{margin:0 12px 8px;padding:11px 13px;font-size:13px}.bottom{padding:10px 12px 12px;gap:7px}.nav{font-size:14px;min-height:49px;padding:9px 13px;border-radius:13px}.nav.primary{min-width:104px}.nav.minor{padding:7px 6px}table{font-size:12px}th,td{padding:8px 7px}.arrowline{gap:4px}.step{font-size:12px;padding:7px;min-height:65px}.arrow{font-size:17px}.question{font-size:22px}}
+    @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail" aria-label="Lesson overview">
+      <div class="brand">Grade 6 • Touchscreen Tutor</div>
+      <h1>Changes<br>During Puberty</h1>
+      <p>A simple guide to growing, feeling, and relating to others.</p>
+      <div class="time-pill">⏱ Teaching: about 15–20 minutes</div>
+      <div class="section-steps">
+        <div class="phase active" id="phaseTeach"><span class="phase-number">1</span><span>Teaching slides</span></div>
+        <div class="phase" id="phaseReview"><span class="phase-number">2</span><span>Final review</span></div>
+        <div class="phase" id="phaseQuiz"><span class="phase-number">3</span><span>30-question quiz</span></div>
+      </div>
+      <div class="tiny-note">Based only on the supplied textbook pages.</div>
+    </aside>
+
+    <main class="main" aria-label="Interactive lesson">
+      <header class="topbar"><div class="status"><span class="dot"></span><span id="modeLabel">Learning time</span></div><div class="count" id="counter">Slide 1 of 22</div></header>
+      <div class="track" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress"><div class="fill" id="progressFill"></div></div>
+      <section class="canvas" id="canvas" tabindex="-1" aria-live="polite"></section>
+      <div class="remember" id="remember"><b>⭐ Remember</b><span id="rememberText"></span></div>
+      <footer class="bottom">
+        <button class="nav secondary" id="backBtn" type="button">← Back</button>
+        <button class="nav minor" id="restartBtn" type="button">↺ Restart</button>
+        <span class="spacer"></span>
+        <button class="nav primary" id="nextBtn" type="button">Next →</button>
+      </footer>
+    </main>
+  </div>
+  <script>
+  'use strict';
+  const slides = [
+    { title:'What You Must Know', eyebrow:'Start here • Lesson map', body:`<p class="lead">This lesson covers the changes you may experience during your teen years.</p><div class="tile-grid three"><div class="tile"><b>🧍 Physical</b><span>Growth and changes to the body</span></div><div class="tile cyan"><b>💭 Mental / Emotional</b><span>Changes in thinking and feelings</span></div><div class="tile peach"><b>🤝 Social</b><span>Changes in relationships and community life</span></div></div><p>Also learn the four teacher vocabulary words: <strong>adolescence</strong>, <strong>puberty</strong>, <strong>hormones</strong>, and <strong>community service</strong>.</p><div class="callout">Main idea: <strong>Adolescence is a time of rapid change and growth.</strong></div>`, remember:'Three big areas: body • thoughts and feelings • relationships.' },
+    { title:'Adolescence: A New Stage', eyebrow:'Topic 1 • Growing up', body:`<p class="lead"><strong>Adolescence</strong> is the stage of life between childhood and adulthood, usually beginning somewhere between ages <strong>11 and 15</strong>.</p><div class="arrowline"><div class="step">Childhood</div><span class="arrow">→</span><div class="step">Adolescence</div><span class="arrow">→</span><div class="step">Adulthood</div></div><div class="tile-grid"><div class="tile"><b>Rapid change</b><span>You will grow faster than at any time since infancy.</span></div><div class="tile cyan"><b>Discovery</b><span>You meet new people, explore new ideas, and take on new responsibilities.</span></div></div><p>The object of this journey of discovery is <strong>you</strong>. These years are a chance to practice for life on your own when you become an adult.</p>`, remember:'Adolescence = childhood → adulthood; it usually begins at ages 11–15.' },
+    { title:'Puberty and Hormones', eyebrow:'Topic 2 • Important vocabulary', body:`<div class="tile-grid"><div class="tile"><b><strong>Puberty</strong></b><span>“The time during which you develop the physical characteristics of an adult.”</span></div><div class="tile cyan"><b><strong>Hormones</strong></b><span>“Chemical substances made in the glands of your body.”</span></div></div><div class="arrowline"><div class="step">Endocrine system releases hormones</div><span class="arrow">→</span><div class="step">Hormones send signals</div><span class="arrow">→</span><div class="step">Body prepares for adulthood</div></div><p>Hormones regulate the way the body functions. The physical changes of puberty are caused by internal factors.</p>`, remember:'Puberty = adult physical characteristics; hormones = body signals.' },
+    { title:'Growth Spurts and Body Shape', eyebrow:'Topic 3 • Physical changes', body:`<p class="lead">One of the first signs of puberty is often a <strong>growth spurt</strong>: a sudden, rapid increase in height.</p><div class="tile-grid"><div class="tile"><b>Growing taller</b><span>Your body shape begins to change as you grow.</span></div><div class="tile peach"><b>Boys</b><span>Shoulders become wider; bodies grow more muscular.</span></div><div class="tile pink"><b>Girls</b><span>Hips become wider; breasts develop.</span></div><div class="tile green"><b>Both</b><span>Girls and boys may gain or lose weight as their bodies change.</span></div></div><p>The book says changes in weight during puberty are <strong>normal and no cause for concern</strong>.</p>`, remember:'Growth spurt = sudden height increase. Body changes happen during puberty.' },
+    { title:'Physical Changes: Females', eyebrow:'Topic 3 • The textbook diagram', body:`<p class="lead">The textbook diagram identifies these changes for females.</p><div class="tile-grid"><div class="tile pink"><b>Body growth</b><span>Development of breasts; increase in body fat; wider hips</span></div><div class="tile"><b>Reproductive changes</b><span>Formation of mature eggs; beginning of menstrual cycles</span></div><div class="tile cyan"><b>Hormones</b><span>Increased levels of female hormones</span></div><div class="tile peach"><b>Also in the diagram</b><span>Acne, body hair, increased perspiration, and pubic hair</span></div></div>`, remember:'Female diagram: breasts, body fat, wider hips, mature eggs, menstrual cycles.' },
+    { title:'Physical Changes: Males', eyebrow:'Topic 3 • The textbook diagram', body:`<p class="lead">The textbook diagram identifies these changes for males.</p><div class="tile-grid"><div class="tile cyan"><b>Body growth</b><span>Broadened shoulders; muscle development</span></div><div class="tile"><b>Face and voice</b><span>Facial hair; deeper voice</span></div><div class="tile peach"><b>Reproductive changes</b><span>Production of sperm cells; enlargement of external genitals</span></div><div class="tile green"><b>Also in the diagram</b><span>Increased levels of male hormones, acne, body hair, increased perspiration, and pubic hair</span></div></div>`, remember:'Male diagram: shoulders, muscles, facial hair, deeper voice, sperm cells.' },
+    { title:'What Do Both Diagrams Show?', eyebrow:'Topic 3 • Compare and remember', body:`<p>These physical changes appear on <strong>both</strong> the female and male sides of the textbook diagram.</p><div class="tagrow"><span class="tag">Acne</span><span class="tag">Body hair</span><span class="tag">Increased perspiration</span><span class="tag">Pubic hair</span></div><table><thead><tr><th>Female diagram</th><th>Male diagram</th></tr></thead><tbody><tr><td>Development of breasts</td><td>Facial hair</td></tr><tr><td>Wider hips</td><td>Deeper voice</td></tr><tr><td>Formation of mature eggs</td><td>Production of sperm cells</td></tr><tr><td>Beginning of menstrual cycles</td><td>Muscle development</td></tr></tbody></table>`, remember:'Acne, body hair, perspiration, and pubic hair appear on both sides.' },
+    { title:'When Does Puberty Begin?', eyebrow:'Topic 3 • Ages and pace', body:`<div class="tile-grid"><div class="tile pink"><b>Most girls</b><span>Puberty begins between <strong>8 and 13</strong> years.</span></div><div class="tile cyan"><b>Many boys</b><span>Puberty begins between <strong>10 and 15</strong> years.</span></div></div><div class="callout">The textbook says it starts at <strong>different times for everyone</strong>. Some teens begin early; others experience changes much later.</div><p>Everyone experiences puberty at their <strong>own time and pace</strong>.</p><p class="small">These are the age ranges printed in the supplied textbook.</p>`, remember:'Girls: 8–13. Boys: 10–15. Everyone has a different pace.' },
+    { title:'Changes in Thinking', eyebrow:'Topic 4 • Mental changes', body:`<p class="lead">Adolescence also changes the way you <strong>think</strong>.</p><div class="arrowline"><div class="step">Brain expands right before puberty</div><span class="arrow">→</span><div class="step">Planning and reasoning develop</div><span class="arrow">→</span><div class="step">Mental skills improve</div></div><div class="tile-grid"><div class="tile"><b>Skills improve</b><span>Thinking critically and expressing yourself</span></div><div class="tile cyan"><b>You also begin</b><span>Developing personal ideals and values</span></div></div>`, remember:'Thinking changes: planning, reasoning, critical thinking, self-expression.' },
+    { title:'Changes in Feelings', eyebrow:'Topic 4 • Emotional changes', body:`<p>Hormones that cause body changes also affect your <strong>emotions</strong>.</p><div class="tile-grid"><div class="tile peach"><b>Mood swings</b><span>Sudden shifts from happiness to sadness or anger</span></div><div class="tile pink"><b>Disagreements</b><span>You may feel you have more disagreements with family and friends.</span></div><div class="tile green"><b>What can help?</b><span>Talk to a trusted adult and talk about your feelings.</span></div><div class="tile cyan"><b>Another textbook tip</b><span>Listening to music can be a good way to deal with mood swings.</span></div></div><p>The textbook calls these emotional changes a <strong>normal part of adolescence</strong>. You may also learn new ways to manage your feelings.</p>`, remember:'Mood swings are normal; talking to a trusted adult can help.' },
+    { title:'New Feelings and Attraction', eyebrow:'Topic 4 • Emotional changes', body:`<p class="lead">During your teen years, you may begin to feel <strong>attraction toward others</strong>.</p><div class="tile-grid"><div class="tile pink"><b>New interests</b><span>Feelings, combined with body changes, may lead to an interest in dating.</span></div><div class="tile cyan"><b>Different timing</b><span>Not everyone is ready for dating at the same age.</span></div></div><p>As with other changes, people may experience these feelings at different times.</p>`, remember:'New feelings may develop; people are not ready for dating at the same age.' },
+    { title:'Social Changes', eyebrow:'Topic 5 • Relationships', body:`<p class="lead">Teen years may change the way you relate to <strong>other people</strong>.</p><div class="tile-grid three"><div class="tile"><b>Parents</b><span>Your relationship may change as you become more independent.</span></div><div class="tile cyan"><b>Friends</b><span>Friendships may become more important to you.</span></div><div class="tile peach"><b>World</b><span>You may want new experiences and to expand your world.</span></div></div><div class="callout">The book says you may want to spend <strong>less time with your parents</strong> as friendships become more important.</div>`, remember:'Social change = growing independence and changing relationships.' },
+    { title:'Family and Independence', eyebrow:'Topic 5 • Family relationships', body:`<p>As a child, you depended on parents or guardians for many decisions. As a teen, you are learning to <strong>act independently</strong> and decide more for yourself.</p><div class="arrowline"><div class="step">Want more decisions</div><span class="arrow">→</span><div class="step">Possible disagreements</div><span class="arrow">→</span><div class="step">Talk and respect rules</div></div><div class="tile-grid"><div class="tile peach"><b>Example</b><span>A teen may want to stay out later or shop for clothes alone.</span></div><div class="tile cyan"><b>Example</b><span>A family may have a 9 p.m. curfew on school nights.</span></div></div>`, remember:'More independence can lead to differences with parents or guardians.' },
+    { title:'Rules, Safety, and Trust', eyebrow:'Topic 5 • Family relationships', body:`<div class="tile-grid"><div class="tile"><b>Rules</b><span>Parents or guardians make rules to keep you safe. Some other rules are laws.</span></div><div class="tile green"><b>Trust</b><span>Follow family rules and avoid breaking laws; this shows respect for the rules.</span></div></div><div class="arrowline"><div class="step">Follow rules</div><span class="arrow">→</span><div class="step">Show you are trustworthy</div><span class="arrow">→</span><div class="step">May be allowed more decisions</div></div><p>The book says parents will recognize your trustworthiness and may allow you to make more of your own decisions.</p>`, remember:'Respect rules → show trust → possibly gain more independence.' },
+    { title:'Peers and Their Influence', eyebrow:'Topic 5 • Peer relationships', body:`<p class="lead">Peers may play a <strong>growing role</strong> in your teen years.</p><div class="tile-grid"><div class="tile cyan"><b>More friend time</b><span>Many teens spend more time with friends and less with family members.</span></div><div class="tile"><b>External influence</b><span>Peers can affect your ideas, behavior, choices, and relationships.</span></div></div><p>Some teens change how they dress or what music they prefer to be more like their friends.</p>`, remember:'Peer influence is an external influence on choices and behavior.' },
+    { title:'Positive and Negative Peer Influence', eyebrow:'Topic 5 • Compare', body:`<table><thead><tr><th>Positive influence</th><th>Negative influence</th></tr></thead><tbody><tr><td>Try a new sport</td><td>Encouragement toward risky behaviors</td></tr><tr><td>Act in a school play</td><td>Using tobacco, alcohol, or other drugs can lead to addiction</td></tr><tr><td>Study art</td><td>Becoming sexually active can result in an unintended pregnancy</td></tr></tbody></table><p>Peer influences can help you feel part of a group. But risky behaviors can have <strong>negative consequences</strong>.</p>`, remember:'Positive peers support new activities; risky behaviors can have negative effects.' },
+    { title:'Respect Others During Puberty', eyebrow:'Topic 5 • Good character', body:`<p class="lead">The textbook asks teens to show <strong>respect</strong> for others going through puberty.</p><div class="tile-grid"><div class="tile pink"><b>Be sensitive</b><span>Other teens may start puberty earlier than their friends.</span></div><div class="tile green"><b>Do not tease</b><span>The book says it is important not to tease others about the way they look.</span></div><div class="tile cyan"><b>Remember how it feels</b><span>You will want to be treated with respect when your turn comes.</span></div><div class="tile peach"><b>Try this</b><span>Think of how you could help a friend who is being teased about appearance.</span></div></div>`, remember:'Do not tease others about body changes. Treat them with respect.' },
+    { title:'Your Community and Service', eyebrow:'Topic 6 • Community relationships', body:`<p>Communities include your <strong>neighborhood</strong>, your <strong>school</strong>, and the <strong>city or town</strong> where you live.</p><div class="callout"><strong>Community service</strong> involves volunteer programs aimed at improving the community and the life of its residents.</div><div class="tile-grid"><div class="tile green"><b>Help others</b><span>Make a positive contribution to the community.</span></div><div class="tile cyan"><b>Learn and grow</b><span>Meet new people, learn new skills, and develop responsibility.</span></div></div><p>Volunteering gives teens a chance to make decisions about <strong>when and where to work</strong>. It lets you <strong>help people</strong> and develop <strong>independence</strong> at the same time.</p>`, remember:'Community service = volunteering to improve the community and help its residents.' },
+    { title:'The Four Teacher Vocabulary Words', eyebrow:'Keywords • Exact textbook meanings', body:`<p class="lead">Read the source meaning, then use the memory clue.</p><table><thead><tr><th>Word</th><th>Textbook meaning</th><th>Memory clue</th></tr></thead><tbody><tr><td><strong>adolescence</strong></td><td>It’s the stage of life between childhood and adulthood, usually beginning somewhere between the ages of 11 and 15.</td><td>Between two life stages</td></tr><tr><td><strong>puberty</strong></td><td>Puberty is the time during which you develop the physical characteristics of an adult.</td><td>Physical changes</td></tr><tr><td><strong>hormones</strong></td><td>They are chemical substances made in the glands of your body. They regulate the way the body functions.</td><td>Chemical signals</td></tr><tr><td><strong>community service</strong></td><td>Community service involves volunteer programs aimed at improving the community and the life of its residents.</td><td>Volunteer to help</td></tr></tbody></table>`, remember:'Adolescence = stage; puberty = physical traits; hormones = chemicals; community service = volunteer help.' },
+    { title:'Easy-to-Confuse Points', eyebrow:'Exam focus • Compare carefully', body:`<table><thead><tr><th>Do not mix these up</th><th>Remember the difference</th></tr></thead><tbody><tr><td>Adolescence vs. puberty</td><td>Adolescence = life stage; puberty = development of adult physical characteristics.</td></tr><tr><td>Adolescence ages vs. puberty ages</td><td>Adolescence usually begins at 11–15. Puberty begins for most girls at 8–13 and for many boys at 10–15.</td></tr><tr><td>Mental vs. emotional</td><td>Mental = thinking, planning, reasoning. Emotional = feelings, mood swings.</td></tr><tr><td>Positive vs. negative peer influence</td><td>Sports, play, art vs. risky behaviors and negative consequences.</td></tr><tr><td>Independence vs. family rules</td><td>You may want more decisions; rules are set for safety, and following them shows trust.</td></tr></tbody></table>`, remember:'Match the word to its meaning, and keep the age ranges separate.' },
+    { title:'Exam Focus and Reading Check', eyebrow:'Final review • About 4 minutes', body:`<p class="lead">Test yourself on facts, explanations, comparisons, and examples.</p><ul class="factlist"><li><strong>Definitions:</strong> adolescence, puberty, hormones, community service.</li><li><strong>Ages:</strong> adolescence 11–15; most girls begin puberty 8–13; many boys 10–15.</li><li><strong>Physical:</strong> growth spurt, diagram examples, and shared changes.</li><li><strong>Mental / emotional:</strong> thinking skills, mood swings, trusted adults, attraction.</li><li><strong>Social:</strong> family rules, independence, positive and negative peer influence, volunteering, respect.</li></ul><div class="callout"><b>Reading Check from the textbook:</b> How can peers have a positive influence on teens?<br><b>Answer:</b> They may encourage a teen to try a new sport, act in a school play, or study art.</div>`, remember:'Before the test, know definitions, ages, examples, causes, and effects.' },
+    { title:'Remember These Before the Test', eyebrow:'Final 4-minute review • Last slide before quiz', body:`<p class="lead">Read each line, then check it in your mind.</p><ul class="checklist"><li>Adolescence is between childhood and adulthood.</li><li>Puberty develops adult physical characteristics; hormones signal the body.</li><li>Puberty happens at different times and paces.</li><li>Body, thinking, feelings, and relationships may change.</li><li>Follow safety rules; show respect to family and peers.</li><li>Choose positive peer influences; know the risks of negative ones.</li><li>Community service helps residents and builds skills and responsibility.</li></ul><p class="small">Ready? Tap <b>Start Quiz</b> for 30 questions. Answer each one before seeing feedback.</p>`, remember:'Grow • Think • Feel • Relate • Help. You are ready to practice!' }
+  ];
+
+  const questions = [
+    // EASY • Questions 1–10
+    {q:'What is adolescence?',a:['The time a person volunteers','The stage between childhood and adulthood','A sudden increase in height','A rule set by parents'],c:1,why:'Adolescence is the life stage between childhood and adulthood.',topic:'Vocabulary',level:'Easy'},
+    {q:'According to the textbook, adolescence usually begins somewhere between which ages?',a:['8 and 13','11 and 15','10 and 15','Only after 15'],c:1,why:'The book states adolescence usually begins between ages 11 and 15.',topic:'Ages',level:'Easy'},
+    {q:'What is puberty?',a:['Growing more interested in friendships','A volunteer program','The time you develop adult physical characteristics','A type of school rule'],c:2,why:'Puberty is the time when adult physical characteristics develop.',topic:'Vocabulary',level:'Easy'},
+    {q:'What are hormones?',a:['Chemical substances made in the body’s glands','A group of friends','Programs to improve communities','Changes in school rules'],c:0,why:'The book calls hormones chemical substances made in glands.',topic:'Vocabulary',level:'Easy'},
+    {q:'Which body system releases hormones?',a:['The school community','The peer group','The family','The endocrine system'],c:3,why:'Hormones are released by the endocrine system.',topic:'Hormones',level:'Easy'},
+    {q:'Which three main areas of change does the book describe?',a:['School, home, and sports','Dates, names, and laws','Physical, mental/emotional, and social','Clothes, music, and art'],c:2,why:'The big idea names physical, mental/emotional, and social changes.',topic:'Big idea',level:'Easy'},
+    {q:'What is a growth spurt?',a:['A sudden, rapid increase in height','An increase in the time spent with friends','A new feeling about dating','A community volunteer program'],c:0,why:'The textbook defines a growth spurt as a sudden, rapid increase in height.',topic:'Physical changes',level:'Easy'},
+    {q:'For most girls, puberty begins between which ages?',a:['11 and 15','10 and 15','Only after age 15','8 and 13'],c:3,why:'The diagram text says puberty begins for most girls between 8 and 13.',topic:'Ages',level:'Easy'},
+    {q:'Many boys begin puberty between which ages?',a:['8 and 13','10 and 15','11 and 15','Only at age 15'],c:1,why:'The book says many boys begin puberty between 10 and 15.',topic:'Ages',level:'Easy'},
+    {q:'What is community service?',a:['Volunteer programs that improve a community and residents’ lives','An increase in body hair','A sudden shift in mood','A difference of opinion with a parent'],c:0,why:'Community service is volunteer work aimed at helping the community and residents.',topic:'Vocabulary',level:'Easy'},
+
+    // MEDIUM • Questions 11–20
+    {q:'Which mental skills improve during the teen years?',a:['The formation of mature eggs','Increased perspiration','Planning and reasoning','The growth of facial hair'],c:2,why:'The book says the part of the brain related to planning and reasoning grows.',topic:'Mental changes',level:'Medium'},
+    {q:'What can cause sudden shifts from happiness to sadness or anger?',a:['Community service','A 9 p.m. curfew','A new school play','Mood swings'],c:3,why:'Mood swings may cause these sudden changes in feelings.',topic:'Emotional changes',level:'Medium'},
+    {q:'What does the textbook suggest if changes are troubling you?',a:['Tease a friend','Talk to a trusted adult','Break family rules','Stop making new friends'],c:1,why:'Talking to a trusted adult can help you gain perspective.',topic:'Emotional changes',level:'Medium'},
+    {q:'Which is a social change described in the book?',a:['Friendships may become more important','A sudden increase in height','The production of sperm cells','Acne'],c:0,why:'Friendships often grow in importance during the teen years.',topic:'Social changes',level:'Medium'},
+    {q:'Why might teens and parents disagree more often?',a:['Teens stop having feelings','All teens begin puberty at once','Teens want more independence','Community service releases hormones'],c:2,why:'Growing independence can lead to differences with family members.',topic:'Family relationships',level:'Medium'},
+    {q:'According to the textbook, why do parents or guardians set rules?',a:['To make puberty start earlier','To help keep teens safe','To stop teens from learning skills','To prevent all friendships'],c:1,why:'Parents and guardians set family rules to keep teens safe.',topic:'Family relationships',level:'Medium'},
+    {q:'Which example is a positive peer influence?',a:['Encouraging tobacco use','Encouraging alcohol use','Encouraging risky behavior','Encouraging a new sport'],c:3,why:'The textbook lists trying a new sport as a positive peer influence.',topic:'Peer relationships',level:'Medium'},
+    {q:'What can using tobacco, alcohol, and other drugs lead to?',a:['Addiction','A growth spurt','Community service','Better reasoning'],c:0,why:'The book states that these substances can lead to addiction.',topic:'Peer relationships',level:'Medium'},
+    {q:'What does the textbook say about weight changes during puberty?',a:['They must happen at the same age','They can be normal and no cause for concern','They are a kind of community service','They only happen to boys'],c:1,why:'Both boys and girls may gain or lose weight; the book says this is normal.',topic:'Physical changes',level:'Medium'},
+    {q:'What can teens gain from community service?',a:['Facial hair and a deeper voice','A sudden increase in height','New skills and a sense of responsibility','Earlier puberty for everyone'],c:2,why:'The book names new skills and a sense of responsibility.',topic:'Community service',level:'Medium'},
+
+    // HARD • Questions 21–30
+    {q:'A teen begins puberty later than friends. What matches the book?',a:['Everyone begins at exactly the same time','Only boys experience puberty','Puberty always starts after adolescence ends','Everyone experiences puberty at their own time and pace'],c:3,why:'The book says the timing and pace are different for everyone.',topic:'Ages',level:'Hard'},
+    {q:'A teen wants to stay out later, but has a school-night curfew. Which action matches the textbook?',a:['Ignore the rule to show independence','Ask peers to break the rule','Follow the rule to show respect and trustworthiness','Assume all family rules are laws'],c:2,why:'Following rules shows respect and can help parents see that a teen is trustworthy.',topic:'Family relationships',level:'Hard'},
+    {q:'Friends invite you to study art. What kind of influence does the book describe?',a:['Positive peer influence','A physical change of puberty','A family curfew','A hormone'],c:0,why:'Studying art is a textbook example of positive peer influence.',topic:'Peer relationships',level:'Hard'},
+    {q:'A friend encourages a teen to act in a school play. Which statement is best?',a:['It is a negative physical change','It is an endocrine signal','It proves everyone matures at the same age','It is a positive peer influence'],c:3,why:'The book includes acting in a school play as a positive example.',topic:'Peer relationships',level:'Hard'},
+    {q:'A teen is better at explaining ideas and thinking critically. Which change is this?',a:['Only a physical change','Only a community change','A mental change','A menstrual cycle'],c:2,why:'Critical thinking and expressing yourself are mental skills that improve.',topic:'Mental changes',level:'Hard'},
+    {q:'Which statement correctly separates adolescence from puberty?',a:['Adolescence is a life stage; puberty involves adult physical characteristics','They both mean community service','Adolescence is a hormone; puberty is a gland','They both mean peer influence'],c:0,why:'Adolescence is a stage of life, while puberty describes physical development.',topic:'Vocabulary',level:'Hard'},
+    {q:'A teen volunteers in the community and meets new people. Which textbook idea is shown?',a:['Hormones make people follow rules','All puberty changes happen together','Peer influence always causes risky behavior','Volunteering offers a chance to meet new people'],c:3,why:'The book says community service offers opportunities to meet people.',topic:'Community service',level:'Hard'},
+    {q:'Which physical change is listed on the MALE side of the textbook diagram?',a:['Formation of mature eggs','Development of breasts','Deeper voice','Beginning of menstrual cycles'],c:2,why:'The male side includes a deeper voice.',topic:'Physical changes',level:'Hard'},
+    {q:'Which change is shown for BOTH females and males in the diagram?',a:['Beginning menstrual cycles','Acne','Facial hair','Formation of mature eggs'],c:1,why:'Acne is labeled for both figures.',topic:'Physical changes',level:'Hard'},
+    {q:'A teen starts to prefer the same music as friends. What is this an example of?',a:['An external influence from peers','A growth spurt','An endocrine-system release','A family safety rule'],c:0,why:'The text says peers can influence a teen’s preferred music.',topic:'Peer relationships',level:'Hard'}
+  ];
+
+  let state = {mode:'slide',index:0,qi:0,answers:Array(questions.length).fill(null)};
+  const $ = (id) => document.getElementById(id);
+  const canvas = $('canvas');
+  const escapeHtml = (s) => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const score = () => state.answers.reduce((n,a,i)=>n+(a===questions[i].c?1:0),0);
+  const isReview = () => state.mode==='slide' && state.index>=slides.length-2;
+  function phaseUI(){
+    const n = state.mode==='quiz'||state.mode==='result'?2:isReview()?1:0;
+    ['phaseTeach','phaseReview','phaseQuiz'].forEach((id,i)=>{const e=$(id);e.classList.toggle('active',i===n);e.classList.toggle('done',i<n);});
+  }
+  function render(){
+    phaseUI();
+    if(state.mode==='slide') renderSlide();
+    else if(state.mode==='quiz') renderQuiz();
+    else renderResult();
+    canvas.scrollTop=0;
+    $('progress').setAttribute('aria-valuenow',Math.round(parseFloat($('progressFill').style.width)||0));
+  }
+  function chrome(mode,counter,percent,remember,nextLabel){
+    $('modeLabel').textContent=mode;
+    $('counter').textContent=counter;
+    $('progressFill').style.width=percent+'%';
+    $('rememberText').textContent=remember;
+    $('nextBtn').textContent=nextLabel;
+  }
+  function renderSlide(){
+    const s=slides[state.index];
+    canvas.innerHTML=`<div class="eyebrow">${s.eyebrow}</div><h2>${s.title}</h2>${s.body}`;
+    chrome(isReview()?'Final review':'Learning time',`Slide ${state.index+1} of ${slides.length}`,100*(state.index+1)/slides.length,s.remember,state.index===slides.length-1?'Start Quiz →':'Next →');
+    $('backBtn').disabled=state.index===0;
+    $('nextBtn').disabled=false;
+  }
+  function renderQuiz(){
+    const q=questions[state.qi],chosen=state.answers[state.qi],done=chosen!==null;
+    const choices=q.a.map((option,i)=>{
+      const cls=done?(i===q.c?' correct':i===chosen?' wrong':''):'';
+      return `<button type="button" class="option${cls}" data-choice="${i}" ${done?'disabled':''} aria-label="Option ${'ABCD'[i]}: ${escapeHtml(option)}"><span class="letter">${'ABCD'[i]}</span><span>${escapeHtml(option)}</span></button>`;
+    }).join('');
+    const feedback=done?`<div class="feedback ${chosen===q.c?'':'bad'}" role="status"><b>${chosen===q.c?'✅ Correct!':'❌ Incorrect'}</b><p><strong>Correct answer: ${'ABCD'[q.c]}.</strong> ${escapeHtml(q.a[q.c])}</p><p>${escapeHtml(q.why)}</p></div>`:'';
+    canvas.innerHTML=`<div class="eyebrow">Practice • ${escapeHtml(q.topic)}</div><h2>Check Your Understanding</h2><div class="quizmeta"><span class="bubble ${q.level.toLowerCase()}">${q.level}</span><span class="bubble">Score: ${score()} / ${questions.length}</span></div><div class="question">${escapeHtml(q.q)}</div><div class="choices">${choices}</div>${feedback}`;
+    canvas.querySelectorAll('[data-choice]').forEach(btn=>btn.addEventListener('click',()=>answerQuestion(Number(btn.dataset.choice))));
+    chrome('Quiz time',`Question ${state.qi+1} of ${questions.length}`,100*(state.qi+1)/questions.length,done?'Learn from the explanation, then move on.':'Choose A, B, C, or D. Feedback appears after you answer.',state.qi===questions.length-1?'See Results →':'Next Question →');
+    $('backBtn').disabled=false;
+    $('nextBtn').disabled=!done;
+  }
+  function answerQuestion(choice){
+    if(state.mode!=='quiz'||state.answers[state.qi]!==null)return;
+    state.answers[state.qi]=choice;
+    render();
+  }
+  function renderResult(){
+    const total=score(),pct=Math.round(total*100/questions.length);
+    const missed={}; questions.forEach((q,i)=>{if(state.answers[i]!==q.c)missed[q.topic]=(missed[q.topic]||0)+1;});
+    const areas=Object.entries(missed).sort((a,b)=>b[1]-a[1]);
+    const review=areas.length?areas.map(([name,count])=>`<div class="review-item">📘 ${escapeHtml(name)} <span class="small">(${count} to review)</span></div>`).join(''):'<div class="review-item ok">🌟 Great work — no missed topics!</div>';
+    canvas.innerHTML=`<div class="eyebrow">Quiz complete • Your result</div><div class="final-score"><h2>Nice Work!</h2><p class="lead">You finished all 30 questions.</p><div class="score-ring" style="--score:${pct}%"><div>${total}/30</div></div><p><strong>${pct}% correct</strong></p></div><h3>Topics to Review</h3><div class="review-grid">${review}</div><p class="small" style="margin-top:18px">Use Back to revisit your last answer, or Restart to study the whole lesson again.</p>`;
+    chrome('Quiz complete','Final score',100,'Your results show what to review before the test.','Review Quiz ←');
+    $('backBtn').disabled=false;
+    $('nextBtn').disabled=false;
+  }
+  function next(){
+    if(state.mode==='slide'){
+      if(state.index<slides.length-1)state.index++;
+      else {state.mode='quiz';state.qi=0;}
+    } else if(state.mode==='quiz'){
+      if(state.answers[state.qi]===null)return;
+      if(state.qi<questions.length-1)state.qi++;
+      else state.mode='result';
+    } else {state.mode='quiz';state.qi=questions.length-1;}
+    render();
+  }
+  function back(){
+    if(state.mode==='slide')state.index=Math.max(0,state.index-1);
+    else if(state.mode==='quiz'){
+      if(state.qi===0){state.mode='slide';state.index=slides.length-1;}
+      else state.qi--;
+    }
+    else {state.mode='quiz';state.qi=questions.length-1;}
+    render();
+  }
+  function restart(){
+    if(state.mode==='slide'&&state.index===0)return;
+    if(!window.confirm('Restart the lesson and clear your quiz answers?'))return;
+    state={mode:'slide',index:0,qi:0,answers:Array(questions.length).fill(null)};
+    render();
+  }
+  $('nextBtn').addEventListener('click',next);
+  $('backBtn').addEventListener('click',back);
+  $('restartBtn').addEventListener('click',restart);
+  window.addEventListener('keydown',e=>{
+    if(e.target.closest('button'))return;
+    if(e.key==='ArrowRight'&&!$('nextBtn').disabled)next();
+    if(e.key==='ArrowLeft'&&!$('backBtn').disabled)back();
+  });
+  render();
+  </script>
+</body>
+</html>
