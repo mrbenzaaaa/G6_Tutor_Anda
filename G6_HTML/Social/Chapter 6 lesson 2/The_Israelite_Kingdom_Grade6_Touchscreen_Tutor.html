@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#4336b8">
+  <title>The Israelite Kingdom | Grade 6 Touchscreen Tutor</title>
+  <style>
+    :root { --ink:#20284c; --muted:#66708d; --purple:#5846c8; --purple-dark:#4336a9; --lavender:#ece8ff; --cyan:#dff7fb; --peach:#fff0da; --green:#dcf7e5; --pink:#ffe6ed; --white:#fff; --line:#e5e8f3; --shadow:0 22px 55px rgba(47,43,118,.14); }
+    * { box-sizing:border-box; }
+    html { -webkit-text-size-adjust:100%; }
+    body { margin:0; background:radial-gradient(circle at 4% 5%,#ddd8ff 0,transparent 33%),radial-gradient(circle at 98% 95%,#d0f4f9 0,transparent 30%),#f7f8fd; color:var(--ink); font:500 17px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif; min-height:100vh; }
+    button { font:inherit; cursor:pointer; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+    button:focus-visible { outline:4px solid #ffb73d; outline-offset:3px; }
+    .shell { width:min(1240px,calc(100% - 32px)); margin:18px auto; display:grid; grid-template-columns:280px minmax(0,1fr); min-height:min(840px,calc(100svh - 36px)); gap:18px; }
+    .rail { background:linear-gradient(160deg,#5745cb,#3f339a); color:white; border-radius:28px; padding:30px 25px; display:flex; flex-direction:column; box-shadow:var(--shadow); overflow:hidden; position:relative; }
+    .rail::before,.rail::after { content:""; position:absolute; border-radius:50%; border:2px solid rgba(255,255,255,.14); pointer-events:none; }
+    .rail::before { width:250px; height:250px; top:-140px; right:-130px; }.rail::after{width:300px;height:300px;bottom:-210px;left:-140px;}
+    .brand { font-size:14px; font-weight:900; letter-spacing:.14em; text-transform:uppercase; opacity:.85; }
+    .rail h1 { font-size:clamp(27px,2.6vw,38px); line-height:1.13; margin:35px 0 16px; letter-spacing:-.04em; }
+    .rail p { color:#e6e1ff; font-size:15px; margin:0; }
+    .time-pill { align-self:flex-start; border:1px solid #ab9eff; border-radius:999px; padding:8px 13px; font-weight:800; font-size:13px; margin:24px 0 34px; color:white; background:#ffffff17; }
+    .section-steps { display:grid; gap:18px; margin-top:auto; position:relative; }
+    .phase { display:flex; gap:12px; align-items:center; opacity:.5; font-weight:800; font-size:15px; }
+    .phase.active,.phase.done { opacity:1; }
+    .phase-number { display:grid; place-items:center; width:34px; height:34px; flex:none; border-radius:12px; background:#ffffff29; border:1px solid #ffffff32; }
+    .phase.active .phase-number { background:white; color:var(--purple-dark); }
+    .phase.done .phase-number { background:#8df0be; color:#1a6b49; }
+    .tiny-note { color:#dbd6ff;font-size:12px;margin-top:24px; }
+    .main { min-width:0; background:white; border:1px solid #ffffff; border-radius:28px; box-shadow:var(--shadow); display:flex; flex-direction:column; overflow:hidden; height:min(840px,calc(100svh - 36px)); min-height:640px; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; padding:21px 29px 15px; gap:16px; }
+    .status { display:flex; align-items:center; gap:10px; color:var(--purple-dark); text-transform:uppercase; font-size:12px; font-weight:900; letter-spacing:.12em; }
+    .dot { width:11px; height:11px; border-radius:50%; background:#feae61; box-shadow:0 0 0 5px #fff0db; }
+    .count { color:#65708d; font-size:14px; font-weight:800; white-space:nowrap; }
+    .track { margin:0 29px; height:9px; background:#edf0f8; border-radius:40px; overflow:hidden; }
+    .fill { height:100%; width:0%; border-radius:40px; background:linear-gradient(90deg,#7264e4,#39c3cd); transition:width .3s ease; }
+    .canvas { flex:1; min-height:0; overflow-y:auto; overscroll-behavior:contain; padding:28px 36px 14px; scrollbar-width:thin; scrollbar-color:#cfc9f9 #f8f9fc; }
+    .eyebrow { color:var(--purple); font-size:12px; text-transform:uppercase; letter-spacing:.16em; font-weight:900; }
+    h2 { font-size:clamp(27px,3vw,40px); line-height:1.12; letter-spacing:-.038em; margin:9px 0 13px; }
+    .lead { color:#5b6483; font-size:18px; margin:0 0 22px; }
+    p { margin:0 0 14px; }
+    strong { font-weight:900; color:#4133a4; }
+    .tile-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; margin:18px 0; }
+    .tile-grid.three { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .tile { background:#f4f3ff; border-radius:18px; padding:17px; border:1px solid #e8e4ff; min-width:0; }
+    .tile.cyan { background:#eafafd;border-color:#d6f2f7; }.tile.peach{background:#fff6e9;border-color:#ffedd6;}.tile.green{background:#eafaf0;border-color:#d8f2e2;}.tile.pink{background:#fff0f5;border-color:#fbdde7;}
+    .tile b { display:block; color:#29325c; font-size:17px; margin-bottom:6px; }.tile span{font-size:15px;display:block;line-height:1.45;color:#4a5574;}
+    .arrowline { display:flex; gap:9px; align-items:stretch; margin:18px 0; }.step { flex:1; display:grid; place-items:center; text-align:center; background:#eeeaff; border-radius:16px; min-height:85px; padding:12px; font-weight:800; font-size:15px; }.arrow{align-self:center;font-size:24px;color:#7d6df1;font-weight:900;}
+    .callout { padding:15px 19px;border-left:5px solid #8b7ae6;background:#f4f2ff;border-radius:0 16px 16px 0;margin:15px 0;font-size:16px; }
+    .tagrow { display:flex; flex-wrap:wrap; gap:9px; margin:13px 0 20px; }.tag { border:1px solid #ddd9ff;border-radius:999px;background:#f4f2ff;padding:6px 12px;font-weight:800;color:#4c3db1;font-size:14px; }
+    table { border-collapse:separate; border-spacing:0; width:100%; font-size:14px; margin:14px 0 22px; border:1px solid #e1e5f4;border-radius:15px;overflow:hidden; }
+    th,td{ text-align:left; padding:11px 13px; vertical-align:top; border-bottom:1px solid #e7eaf4; } th{ background:#eae7ff;color:#322582;font-size:13px;letter-spacing:.015em;}tr:nth-child(even) td{background:#f9faff;}tr:last-child td{border-bottom:0;}
+    td:first-child { font-weight:800; color:#2f3764; }
+    .factlist { margin:12px 0 18px; padding-left:22px; }.factlist li { margin-bottom:8px; padding-left:2px; }
+    .remember { margin:0 30px 16px; padding:14px 18px; border-radius:17px; background:linear-gradient(90deg,#fff3ca,#fff8e7); border:1px solid #ffe3a7; color:#5f421b; display:flex;align-items:flex-start;gap:9px;font-size:15px;line-height:1.4; }
+    .remember b { flex:none; color:#795016; }
+    .bottom { border-top:1px solid #eff0f6; padding:15px 29px 20px; display:flex; align-items:center; gap:12px; background:white; }
+    .nav { display:flex; align-items:center; justify-content:center; min-height:55px; border:0; border-radius:16px; padding:10px 22px; font-weight:900; font-size:16px; transition:transform .1s,background .15s; }
+    .nav:active,.option:active { transform:scale(.98); }
+    .nav.secondary { background:#f0f1fb;color:#4e5790; }.nav.primary{ background:var(--purple);color:white;min-width:147px;box-shadow:0 8px 20px #5947c52b;}.nav.primary:hover{background:var(--purple-dark);}
+    .nav.minor { background:transparent;color:#7c84a0;padding:8px 12px; }.nav:disabled{opacity:.38;cursor:not-allowed;box-shadow:none;}
+    .bottom .spacer{flex:1;}
+    .quizmeta {display:flex;gap:9px;flex-wrap:wrap;margin:16px 0;}.bubble{border-radius:999px;background:#eaf0ff;color:#3e4c86;font-weight:900;font-size:13px;padding:6px 12px;}.bubble.easy{background:#def5e7;color:#267649;}.bubble.medium{background:#fff1d6;color:#8a5b18;}.bubble.hard{background:#ffe4ec;color:#9c3254;}
+    .question { font-size:clamp(22px,2.6vw,30px);line-height:1.28;font-weight:900;letter-spacing:-.017em;margin:10px 0 20px; }
+    .choices {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:18px;}
+    .option {display:flex;text-align:left;align-items:center;gap:12px;border:2px solid #e4e8f5;background:#fafbff;border-radius:17px;padding:15px;min-height:88px;color:#303958;font-size:16px;font-weight:750;}.option:hover:not(:disabled){background:#f1efff;border-color:#a99afa;}.option:disabled{cursor:default;}.option .letter{flex:none;display:grid;place-items:center;width:35px;height:35px;border-radius:11px;background:#e9e6ff;color:#5040ba;font-weight:950;}.option.correct{background:#e3faeb;border-color:#58c889;color:#15683b;}.option.correct .letter{background:#b9efd0;color:#15683b;}.option.wrong{background:#ffebef;border-color:#f28aa3;color:#a0274a;}.option.wrong .letter{background:#ffd2de;color:#a0274a;}
+    .feedback {padding:15px 17px;border-radius:17px;border:1px solid #c8ecd6;background:#effcf3;font-size:15px;}.feedback.bad{background:#fff1f3;border-color:#ffcbd5;}.feedback b{font-size:18px;display:block;color:#236d45;}.feedback.bad b{color:#ae3155;}.feedback p{margin:4px 0 0;}
+    .final-score {text-align:center;padding:8px 0 18px;}.score-ring{width:150px;height:150px;border-radius:50%;background:conic-gradient(#5d4ed2 var(--score),#e9e9f5 0);display:grid;place-items:center;margin:16px auto;}.score-ring>div{width:125px;height:125px;border-radius:50%;background:white;display:grid;place-items:center;font-size:36px;font-weight:950;color:#4436ab;}.review-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}.review-item{background:#fff6e8;border:1px solid #fbe3ba;border-radius:14px;padding:12px;font-size:15px;font-weight:800;}.review-item.ok{background:#eaf9ed;border-color:#cdeed7;}
+    .checklist {list-style:none;padding:0;margin:12px 0;}.checklist li{padding:11px 13px;border-radius:12px;background:#f6f7fd;margin:8px 0;}.checklist li::before{content:'☐';color:#7769db;font-weight:900;margin-right:10px;}
+    .small{font-size:14px;color:var(--muted);}.nowrap{white-space:nowrap;}
+    @media (max-width:950px){.shell{grid-template-columns:1fr;max-width:840px;margin:10px auto;width:calc(100% - 20px);gap:10px;}.rail{min-height:auto;padding:14px 20px;border-radius:20px;display:block;}.brand{font-size:11px}.rail h1{font-size:23px;margin:5px 0 2px}.rail p,.time-pill,.section-steps,.tiny-note{display:none;}.main{height:calc(100svh - 112px);min-height:550px;border-radius:20px;}.canvas{padding:21px 24px 10px}.remember{margin:0 22px 12px}.bottom{padding:12px 20px 16px}.topbar{padding:15px 22px 11px}.track{margin:0 22px}}
+    @media (max-width:600px){body{font-size:16px}.shell{width:calc(100% - 12px);margin:6px auto;gap:7px}.rail{padding:10px 16px;border-radius:16px}.rail h1{font-size:20px}.brand{font-size:10px}.main{height:calc(100svh - 82px);min-height:460px;border-radius:16px}.canvas{padding:17px 16px 7px}.topbar{padding:13px 15px 10px}.track{margin:0 15px}h2{font-size:26px}.lead{font-size:16px}.tile-grid,.tile-grid.three,.choices,.review-grid{grid-template-columns:1fr}.tile{padding:13px}.choices{gap:9px}.option{min-height:68px;padding:10px 12px}.remember{margin:0 12px 8px;padding:11px 13px;font-size:13px}.bottom{padding:10px 12px 12px;gap:7px}.nav{font-size:14px;min-height:49px;padding:9px 13px;border-radius:13px}.nav.primary{min-width:104px}.nav.minor{padding:7px 6px}table{font-size:12px}th,td{padding:8px 7px}.arrowline{gap:4px}.step{font-size:12px;padding:7px;min-height:65px}.arrow{font-size:17px}.question{font-size:22px}}
+    @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail" aria-label="Lesson overview">
+      <div class="brand">Grade 6 • Touchscreen Tutor</div>
+      <h1>The Israelite<br>Kingdom</h1>
+      <p>Early kings, two kingdoms, exile, and messages of the prophets.</p>
+      <div class="time-pill">⏱ Teaching: about 15–20 minutes</div>
+      <div class="section-steps">
+        <div class="phase active" id="phaseTeach"><span class="phase-number">1</span><span>Teaching slides</span></div>
+        <div class="phase" id="phaseReview"><span class="phase-number">2</span><span>Final review</span></div>
+        <div class="phase" id="phaseQuiz"><span class="phase-number">3</span><span>30-question quiz</span></div>
+      </div>
+      <div class="tiny-note">Based only on the supplied textbook pages.</div>
+    </aside>
+
+    <main class="main" aria-label="Interactive lesson">
+      <header class="topbar"><div class="status"><span class="dot"></span><span id="modeLabel">Learning time</span></div><div class="count" id="counter">Slide 1 of 28</div></header>
+      <div class="track" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress"><div class="fill" id="progressFill"></div></div>
+      <section class="canvas" id="canvas" tabindex="-1" aria-live="polite"></section>
+      <div class="remember" id="remember"><b>⭐ Remember</b><span id="rememberText"></span></div>
+      <footer class="bottom">
+        <button class="nav secondary" id="backBtn" type="button">← Back</button>
+        <button class="nav minor" id="restartBtn" type="button">↺ Restart</button>
+        <span class="spacer"></span>
+        <button class="nav primary" id="nextBtn" type="button">Next →</button>
+      </footer>
+    </main>
+  </div>
+  <script>
+  'use strict';
+  const slides = [
+    {title:'What You Must Know',eyebrow:'Start here • Lesson map',body:`<p class="lead">The essential question is <strong>“What are the characteristics of a leader?”</strong> This chapter is about Israelite kings and the challenges that followed.</p><div class="tile-grid three"><div class="tile"><b>👑 Early kings</b><span>Saul, David, and Solomon</span></div><div class="tile cyan"><b>🗺️ Two kingdoms</b><span>Israel and Judah, neighboring empires, and exile</span></div><div class="tile peach"><b>📜 Messages</b><span>Psalms, proverbs, and the prophets' teachings</span></div></div><div class="callout">Teacher's three vocabulary words: <strong>psalm</strong>, <strong>proverb</strong>, and <strong>exile</strong>.</div><p class="small">Learn the facts from the textbook, then try 30 questions.</p>`,remember:'Kings → divided kingdoms → exile → prophets’ messages.'},
+    {title:'Israelites Before the Kings',eyebrow:'Topic 1 • Why a king?',body:`<p>By <strong>1100 B.C.</strong>, the Israelites had settled much of <strong>Canaan</strong> and developed a prosperous culture.</p><div class="tile-grid"><div class="tile green"><b>Ideas from Canaan</b><span>They created an <strong>alphabet</strong> and <strong>calendar</strong> based on Canaanite ideas.</span></div><div class="tile peach"><b>Danger</b><span>The <strong>Philistines</strong> moved inland from the Mediterranean Sea and fought the Israelites.</span></div></div><div class="arrowline"><div class="step">Philistines threatened the tribes</div><span class="arrow">→</span><div class="step">Israelites wanted unity</div><span class="arrow">→</span><div class="step">Many called for a king</div></div><p>They hoped a king would unite the <strong>Twelve Tribes</strong> and lead them in battle.</p>`,remember:'1100 B.C.: Canaan settled; Philistine conflict led to calls for a king.'},
+    {title:'Samuel Chose Saul',eyebrow:'Topic 1 • Saul, the first king',body:`<p>According to the Hebrew Bible, the Israelites asked the judge <strong>Samuel</strong> to choose a king.</p><div class="tile-grid"><div class="tile peach"><b>Samuel's warning</b><span>A king would <strong>tax</strong> the people and <strong>enslave</strong> them.</span></div><div class="tile cyan"><b>The people's choice</b><span>They still demanded a king, so Samuel chose a young man named <strong>Saul</strong>.</span></div></div><div class="arrowline"><div class="step">Samuel chose Saul</div><span class="arrow">→</span><div class="step">Poured holy oil on him</div><span class="arrow">→</span><div class="step">Showed God's blessing</div></div><p><strong>Saul</strong> became the first king in the chapter.</p>`,remember:'Samuel warned about taxes and enslavement, but chose and anointed Saul.'},
+    {title:'Saul’s Victories and Problems',eyebrow:'Topic 1 • A change in support',body:`<p>Under <strong>Saul</strong>, the Israelites won many battles against the <strong>Philistines</strong>.</p><div class="arrowline"><div class="step">Military victories</div><span class="arrow">→</span><div class="step">Saul gained fame</div><span class="arrow">→</span><div class="step">Saul later lost support</div></div><p>According to the Hebrew Bible, Saul <strong>disobeyed some of God's commands</strong>. God instructed Samuel to choose and anoint another king.</p><div class="callout">That next choice was a young shepherd named <strong>David</strong>.</div>`,remember:'Saul won battles, but later lost support after disobeying God’s commands.'},
+    {title:'Samuel Chose David',eyebrow:'Topic 1 • The young shepherd',body:`<p>God instructed Samuel to choose another king. Samuel chose a young shepherd named <strong>David</strong>.</p><div class="tile-grid"><div class="tile green"><b>David before kingship</b><span>He tended sheep and had a shepherd's <strong>staff</strong>.</span></div><div class="tile cyan"><b>What he became known for</b><span>His <strong>bravery</strong> and victory over a Philistine warrior.</span></div></div><p>According to the Hebrew Bible, David later became Israel's king.</p>`,remember:'Samuel chose David, a shepherd known for bravery.'},
+    {title:'David and Goliath',eyebrow:'Topic 1 • The famous challenge',body:`<p>The Hebrew Bible tells of David's victory over <strong>Goliath</strong>, a giant Philistine warrior.</p><div class="arrowline"><div class="step">Goliath challenged an Israelite to fight alone</div><span class="arrow">→</span><div class="step">David stepped forward with staff, slingshot, 5 stones</div><span class="arrow">→</span><div class="step">One stone struck Goliath's forehead</div></div><p>Goliath had a <strong>heavy spear</strong>. David hurled one stone, and <strong>Goliath dropped dead</strong> in the account.</p><div class="callout">Memory numbers: <strong>five</strong> smooth stones; <strong>one</strong> stone hit Goliath.</div>`,remember:'David used a slingshot; one of five stones hit Goliath.'},
+    {title:'Saul and David',eyebrow:'Topic 1 • Jealousy and succession',body:`<p>King Saul admired David's skill and placed his army under David's command.</p><div class="arrowline"><div class="step">David won many victories</div><span class="arrow">→</span><div class="step">People praised David</div><span class="arrow">→</span><div class="step">Saul became jealous</div></div><p>The textbook quotes a song praising David's victories more highly than Saul's. Saul tried to kill David, but <strong>David escaped</strong>.</p><p>When <strong>Saul died in battle against the Philistines</strong>, David returned and became king.</p>`,remember:'David’s victories → Saul’s jealousy; after Saul died, David became king.'},
+    {title:'King David Unites the Tribes',eyebrow:'Topic 1 • Jerusalem',body:`<p>According to the Hebrew Bible, once <strong>David</strong> became king, he united the Israelite tribes and defeated the Philistines.</p><div class="arrowline"><div class="step">David united the tribes</div><span class="arrow">→</span><div class="step">Defeated the Philistines</div><span class="arrow">→</span><div class="step">Established Jerusalem as capital</div></div><p>He established the capital at <strong>Jerusalem</strong>. The Israelites built it in the <strong>hill country</strong>, away from the coast.</p><div class="callout">David is remembered in the source as a great Israelite king.</div>`,remember:'David united Israel and chose Jerusalem as the capital.'},
+    {title:'What Is a Psalm?',eyebrow:'Topic 1 • Teacher vocabulary',body:`<p>The textbook says David was a fine <strong>musician</strong> and <strong>poet</strong>. He is believed to have written many <strong>sacred songs</strong> in the Hebrew Bible's <strong>Book of Psalms</strong>, also found in the Christian Bible.</p><div class="callout"><strong>Psalm →</strong> a sacred song, as described in the textbook.</div><div class="tile-grid"><div class="tile"><b>Example</b><span><strong>Psalm 23</strong> begins with an image of the Lord as a <strong>shepherd</strong>.</span></div><div class="tile cyan"><b>Meaning for memory</b><span>The passage says the Lord guides and restores the speaker.</span></div></div><p class="small">The textbook prints <strong>Psalm 23:1–3</strong>.</p>`,remember:'Psalm = sacred song; David is linked to the Book of Psalms.'},
+    {title:'Farming Under King David',eyebrow:'Topic 1 • Prosperity and terraces',body:`<p>Under David's rule, the Israelites had prosperous times. Farmers worked the <strong>tough, dry land</strong> by building <strong>terraces</strong>.</p><div class="arrowline"><div class="step">Steep hillsides</div><span class="arrow">→</span><div class="step">Strips of land cut like stair steps</div><span class="arrow">→</span><div class="step">Less soil washed away in rain</div></div><div class="callout"><strong>Terraces</strong> prevented soil from washing down the hillside when it rained.</div><p>After David's death, the Israelites honored him as their <strong>greatest king</strong>, as Jews do today, according to the textbook.</p>`,remember:'Terraces = hillside steps that kept soil from washing away.'},
+    {title:'King Solomon',eyebrow:'Topic 2 • David’s son',body:`<p><strong>Solomon</strong>, David's son, became the next Israelite king around <strong>970 B.C.</strong></p><div class="tile-grid"><div class="tile green"><b>Peace</b><span>Trade and treaties with other peoples brought a long period of peace.</span></div><div class="tile cyan"><b>Building</b><span>Solomon constructed many cities.</span></div><div class="tile peach"><b>Wisdom</b><span>He was also known for wisdom and wise sayings.</span></div></div><p>According to the Hebrew Bible, Solomon built the <strong>first temple in Jerusalem</strong>.</p>`,remember:'Solomon ≈ 970 B.C.: trade, treaties, peace, cities, temple, wisdom.'},
+    {title:'Solomon’s First Temple',eyebrow:'Topic 2 • A sacred place',body:`<p>Solomon built the <strong>First Temple</strong> on a site selected by <strong>David</strong>, called the <strong>Temple Mount</strong>.</p><div class="tile-grid"><div class="tile"><b>Materials</b><span>Fragrant <strong>cedar wood</strong> and costly <strong>stone</strong></span></div><div class="tile cyan"><b>Inside</b><span>The <strong>Ark of the Covenant</strong> and other sacred objects</span></div></div><p>The temple was a place of religious significance. According to the Hebrew Bible, the site was where <strong>Abraham tried to sacrifice Isaac</strong>.</p><div class="arrowline"><div class="step">David selected the site</div><span class="arrow">→</span><div class="step">Solomon built the Temple</div><span class="arrow">→</span><div class="step">Ark kept there</div></div>`,remember:'Temple Mount: David chose the place; Solomon built the First Temple.'},
+    {title:'What Is a Proverb?',eyebrow:'Topic 2 • Teacher vocabulary',body:`<div class="callout"><strong>Proverb:</strong> a wise saying.</div><p>Solomon is believed to be the author of <strong>proverbs</strong> recorded in the <strong>Hebrew Bible</strong>. He shared them to help people.</p><div class="tile-grid"><div class="tile green"><b>Example in the textbook</b><span><strong>Proverbs 10:9</strong> compares people who walk with integrity with people who take crooked paths.</span></div><div class="tile peach"><b>What to remember</b><span>A proverb is a <strong>wise saying</strong>, while a psalm is a <strong>sacred song</strong>.</span></div></div>`,remember:'Proverb = wise saying. Solomon is linked with Proverbs.'},
+    {title:'Why Did the Kingdom Split?',eyebrow:'Topic 2 • Cause and effect',body:`<p>Despite Solomon's achievements, many Israelites turned against him.</p><div class="tile-grid"><div class="tile peach"><b>Building projects</b><span>People did not like working on Solomon's building projects.</span></div><div class="tile pink"><b>High taxes</b><span>People disliked paying the <strong>high taxes</strong> he demanded.</span></div></div><div class="arrowline"><div class="step">Unhappiness with work and taxes</div><span class="arrow">→</span><div class="step">Solomon died around 922 B.C.</div><span class="arrow">→</span><div class="step">Disagreements split the kingdom</div></div><p>Powerful neighboring empires also threatened their survival.</p>`,remember:'Building work + high taxes → anger; after Solomon ≈ 922 B.C., the kingdom split.'},
+    {title:'Two Kingdoms: Israel and Judah',eyebrow:'Topic 3 • Compare the two',body:`<p>After Solomon's death, the <strong>ten northern tribes</strong> rebelled against the government in Jerusalem.</p><table><thead><tr><th></th><th>Israel</th><th>Judah</th></tr></thead><tbody><tr><td>Location</td><td><strong>North</strong></td><td><strong>South</strong></td></tr><tr><td>Tribes</td><td><strong>10</strong></td><td><strong>2</strong></td></tr><tr><td>Capital</td><td><strong>Samaria</strong></td><td><strong>Jerusalem</strong></td></tr><tr><td>Size in source</td><td>Separate northern kingdom</td><td>Smaller southern kingdom</td></tr></tbody></table><div class="callout">Even though the people were split <strong>politically</strong>, Israel and Judah <strong>preserved the Israelite religion</strong>.</div>`,remember:'Israel = 10 north / Samaria. Judah = 2 south / Jerusalem.'},
+    {title:'Threats from Neighboring Empires',eyebrow:'Topic 3 • Why both kingdoms were at risk',body:`<p>Large empires formed around Israel and Judah, especially the <strong>Assyrians</strong> and <strong>Chaldeans</strong>.</p><div class="arrowline"><div class="step">Important trade routes ran through Israelite kingdoms</div><span class="arrow">→</span><div class="step">Neighboring rulers wanted control</div><span class="arrow">→</span><div class="step">Israel and Judah felt threatened</div></div><div class="tile-grid"><div class="tile"><b>Smaller kingdoms</b><span>Israel and Judah were small and weak.</span></div><div class="tile cyan"><b>Powerful empires</b><span>The Assyrians and Chaldeans grew powerful in the region.</span></div></div>`,remember:'Trade routes + powerful neighbors made Israel and Judah vulnerable.'},
+    {title:'The Fall of Israel: 722 B.C.',eyebrow:'Topic 3 • Assyrian conquest',body:`<p>The Assyrians spread fear through the region. They demanded <strong>tribute</strong> from conquered peoples.</p><div class="arrowline"><div class="step">Israel refused tribute</div><span class="arrow">→</span><div class="step">Assyrians invaded in 722 B.C.</div><span class="arrow">→</span><div class="step">Cities including Samaria captured</div></div><p>Assyrians destroyed towns, burned estates, carried away valuable goods, and forced conquered people to move to different areas. They wanted <strong>absolute control</strong>.</p><div class="callout">Exam date: <strong>722 B.C.</strong> = Assyrians invaded the kingdom of <strong>Israel</strong>.</div>`,remember:'Israel + Assyrians + 722 B.C. + Samaria.'},
+    {title:'Who Were the Samaritans?',eyebrow:'Topic 3 • After Assyrian conquest',body:`<p>The Assyrians forced some Israelites to resettle in the <strong>Assyrian Empire</strong>. They also brought people from other areas of their empire to live in Israel.</p><div class="arrowline"><div class="step">Settlers mixed with remaining Israelites</div><span class="arrow">→</span><div class="step">A new mingled culture grew</div><span class="arrow">→</span><div class="step">People became known as Samaritans</div></div><ul class="factlist"><li>Samaritans worshipped the <strong>God of Israel</strong>, read the <strong>Torah</strong>, and followed Israelite religious laws.</li><li>They also adopted religious practices the Israelites <strong>did not accept</strong>.</li><li>They and the people of Israel later had little in common. Judaism developed mainly from practices preserved in <strong>Judah</strong>.</li></ul>`,remember:'Samaritans = a mixed culture; shared some Israelite beliefs, but not all practices.'},
+    {title:'Israelite Prophets: First Four',eyebrow:'Topic 4 • Chart in the textbook',body:`<p class="lead">The chart gives prophets' names, time periods, and teachings.</p><table><thead><tr><th>Prophet</th><th>Time period</th><th>Teaching visible in source</th></tr></thead><tbody><tr><td><strong>Elijah</strong></td><td>874–840 B.C.</td><td>Only God should be worshipped—not idols or false … <em>(the ending is cut off)</em></td></tr><tr><td><strong>Amos</strong></td><td>780–740 B.C.</td><td>The kingdom of King David will be restored and will … <em>(the ending is cut off)</em></td></tr><tr><td><strong>Hosea</strong></td><td>750–722 B.C.</td><td>God is loving and forgiving.</td></tr><tr><td><strong>Isaiah</strong></td><td>738–700 B.C.</td><td>God wants us to help others and promote justice.</td></tr></tbody></table><p class="small">For the cut-off words: <strong>This information is not provided clearly in the study material.</strong></p>`,remember:'Hosea: loving and forgiving. Isaiah: help others and promote justice.'},
+    {title:'Israelite Prophets: Three More',eyebrow:'Topic 4 • Chart in the textbook',body:`<table><thead><tr><th>Prophet</th><th>Time period</th><th>Teaching visible in source</th></tr></thead><tbody><tr><td><strong>Micah</strong></td><td>735–700 B.C.</td><td>Both rich and poor must do what is right … <em>(the ending is cut off)</em></td></tr><tr><td><strong>Jeremiah</strong></td><td>626–586 B.C.</td><td>God is just and kind; he rewards as well as … <em>(the ending is cut off)</em></td></tr><tr><td><strong>Ezekiel</strong></td><td>597–571 B.C.</td><td>Someone who has done wrong can choose to … <em>(the ending is cut off)</em></td></tr></tbody></table><div class="callout">The text says Israelites believed <strong>prophets</strong> brought them the word of God.</div><p class="small"><strong>This information is not provided clearly in the study material.</strong> Some ends of the chart's teaching lines are outside the image.</p>`,remember:'Know the prophets and their periods; do not guess the cut-off chart words.'},
+    {title:'The Fall of Judah: 597 B.C.',eyebrow:'Topic 3 • Chaldeans and Babylon',body:`<p>Judah survived the Assyrian conquests, but its freedom did not last.</p><div class="arrowline"><div class="step">597 B.C.: Chaldeans invaded Judah</div><span class="arrow">→</span><div class="step">King Nebuchadnezzar ordered people to leave Jerusalem</div><span class="arrow">→</span><div class="step">Thousands taken to Babylon</div></div><div class="tile-grid"><div class="tile peach"><b>Nebuchadnezzar</b><span>King of the <strong>Chaldeans</strong>.</span></div><div class="tile cyan"><b>Babylon</b><span>The <strong>Chaldean capital</strong>.</span></div></div><p>Nebuchadnezzar chose a new <strong>Judean king</strong> to rule Judah.</p>`,remember:'597 B.C.: Chaldeans under Nebuchadnezzar took people to Babylon.'},
+    {title:'Jeremiah and the Fall of Jerusalem',eyebrow:'Topic 3 • 586 B.C.',body:`<p>The king chosen to rule Judah soon plotted to set Judah free. The prophet <strong>Jeremiah</strong> warned that God did not want Judah to rebel, but the king refused to listen.</p><div class="arrowline"><div class="step">Judah rebelled</div><span class="arrow">→</span><div class="step">586 B.C.: Chaldeans retook Jerusalem</div><span class="arrow">→</span><div class="step">Temple destroyed; king and thousands taken to Babylon</div></div><p>Nebuchadnezzar <strong>leveled Jerusalem to the ground</strong> and destroyed the temple.</p><div class="callout">Exam date: <strong>586 B.C.</strong> = Chaldeans retook <strong>Jerusalem</strong>.</div>`,remember:'Jeremiah warned the king; 586 B.C. = Jerusalem and Temple destroyed.'},
+    {title:'What Is Exile?',eyebrow:'Topic 3 • Teacher vocabulary',body:`<div class="callout"><strong>Exile:</strong> a forced absence from one's home or country.</div><p>The forced move to Babylon became known in Jewish history as the <strong>Babylonian Exile</strong>.</p><div class="arrowline"><div class="step">People forced from Judah</div><span class="arrow">→</span><div class="step">Living far from home in Babylon</div><span class="arrow">→</span><div class="step">Sadness in the Bible's Psalm 137</div></div><p><strong>Psalm 137:1–6</strong> describes how many people of Judah felt about living far from their homeland.</p><div class="tile-grid"><div class="tile pink"><b>Exile</b><span>The event of forced absence from home</span></div><div class="tile cyan"><b>Psalm</b><span>A sacred song, here expressing sadness about the exile</span></div></div>`,remember:'Exile = forced absence from home; Psalm 137 expresses sadness far away.'},
+    {title:'What Was the Prophets’ Message?',eyebrow:'Topic 4 • Justice and moral life',body:`<p>Prophets had an important role in Judean life. They gave people <strong>hope</strong> in hard times and explained trouble when people were not obeying God.</p><div class="tile-grid"><div class="tile green"><b>Change</b><span>Prophets urged people to change their ways and make the world better.</span></div><div class="tile cyan"><b>Justice</b><span>Amos taught about <strong>justice</strong> and <strong>righteousness</strong>; people should work for a fair society.</span></div></div><div class="callout">Amos's words in the source: “Let justice roll on like a river, righteousness like a never-failing stream!”</div><p>The textbook says <strong>Dr. Martin Luther King, Jr.</strong> quoted Amos in his 20th-century <strong>“I Have a Dream”</strong> speech.</p><p>Justice became a primary part of teachings in <strong>Christianity and Islam</strong>. Jewish prophets also stressed leading a <strong>moral life</strong> and helping others to connect with God.</p>`,remember:'Prophets gave hope and urged change, justice, and helping others.'},
+    {title:'Teacher Vocabulary Summary',eyebrow:'Keywords • Book meanings + memory clues',body:`<p class="lead">The three words your teacher gave you:</p><table><thead><tr><th>Word</th><th>Meaning from the textbook</th><th>Memory tip</th></tr></thead><tbody><tr><td><strong>psalm</strong></td><td>A sacred song (the textbook calls the songs in the Book of Psalms “sacred songs”)</td><td>Song</td></tr><tr><td><strong>proverb</strong></td><td>A wise saying</td><td>Wisdom</td></tr><tr><td><strong>exile</strong></td><td>A forced absence from one's home or country</td><td>Forced to leave home</td></tr></tbody></table><p class="small">Other highlighted source words: <strong>period</strong> = a division of time shorter than an era; <strong>survive</strong> = to continue to live (the rest of its textbook glossary line is cut off).</p>`,remember:'Psalm = sacred song • Proverb = wise saying • Exile = forced absence.'},
+    {title:'Easy-to-Confuse Points',eyebrow:'Exam focus • Compare carefully',body:`<table><thead><tr><th>Do not mix up</th><th>Correct difference</th></tr></thead><tbody><tr><td><strong>Psalm / proverb</strong></td><td>Sacred song / wise saying</td></tr><tr><td><strong>Saul / David / Solomon</strong></td><td>First king / united tribes and Jerusalem / First Temple and proverbs</td></tr><tr><td><strong>Israel / Judah</strong></td><td>10 northern tribes, Samaria / 2 southern tribes, Jerusalem</td></tr><tr><td><strong>Assyrians / Chaldeans</strong></td><td>Israel invaded in 722 B.C. / Judah invaded in 597 B.C., Jerusalem taken again in 586 B.C.</td></tr><tr><td><strong>Jeremiah / Nebuchadnezzar</strong></td><td>Prophet who warned Judah / Chaldean king who attacked Judah</td></tr><tr><td><strong>Exile / prosperous times</strong></td><td>People forced away from home / prosperity under David and peace under Solomon</td></tr></tbody></table>`,remember:'Israel—Assyrians—722. Judah—Chaldeans—597/586.'},
+    {title:'Exam Focus: Names, Dates, Numbers',eyebrow:'Final 4-minute review • Exam facts',body:`<div class="tile-grid"><div class="tile"><b>Dates</b><span><strong>1100 B.C.</strong> settled Canaan; <strong>970 B.C.</strong> Solomon became king; <strong>922 B.C.</strong> divided kingdoms.</span></div><div class="tile cyan"><b>Conquests</b><span><strong>722 B.C.</strong> Israel; <strong>597 B.C.</strong> Judah invaded; <strong>586 B.C.</strong> Jerusalem retaken and Temple destroyed.</span></div></div><ul class="factlist"><li><strong>People:</strong> Samuel, Saul, David, Goliath, Solomon, Nebuchadnezzar, Jeremiah, Amos, Hosea, Isaiah, and other chart prophets.</li><li><strong>Numbers:</strong> Twelve Tribes; <strong>10</strong> northern and <strong>2</strong> southern; David's <strong>5</strong> smooth stones.</li><li><strong>Places:</strong> Jerusalem, Samaria, Babylon, Temple Mount.</li><li><strong>Causes → effects:</strong> Philistine danger → desire for king; taxes → division; refused tribute → invasion; rebellion → 586 B.C. fall.</li></ul>`,remember:'1100 → 970 → 922 → 722 → 597 → 586 B.C.'},
+    {title:'Remember These Before the Test',eyebrow:'Final 4-minute review • Last slide before quiz',body:`<p class="lead">Check these facts in your mind before tapping Start Quiz.</p><ul class="checklist"><li><strong>Samuel</strong> warned about kings but chose <strong>Saul</strong>.</li><li><strong>David</strong> defeated Goliath, united tribes, and made <strong>Jerusalem</strong> his capital.</li><li><strong>Psalm</strong> = sacred song; <strong>proverb</strong> = wise saying; <strong>exile</strong> = forced absence from home.</li><li><strong>Solomon</strong> became king around 970 B.C., built the First Temple, and was known for wisdom.</li><li>After Solomon, <strong>Israel</strong> (10 / Samaria) and <strong>Judah</strong> (2 / Jerusalem) divided.</li><li><strong>Assyrians</strong> invaded Israel in 722 B.C.</li><li><strong>Chaldeans</strong> invaded Judah in 597 B.C. and destroyed the Temple in 586 B.C.</li><li><strong>Prophets</strong> urged justice, moral life, and helping others.</li></ul><p class="small">Tap <strong>Start Quiz</strong> for 30 questions. Answers appear only after you choose.</p>`,remember:'Three kings • two kingdoms • two empires • three vocabulary words.'}
+  ];
+  
+  const questions = [
+    // EASY 1–10: definitions and key people
+    {q:'What is a psalm, based on the textbook?',a:['A forced trip away from home','A sacred song','An Assyrian tax','A walled capital'],c:1,why:'The text describes the Book of Psalms as containing sacred songs.',topic:'Vocabulary',level:'Easy'},
+    {q:'What is a proverb?',a:['A battle','A forced absence','A wise saying','A kind of terrace'],c:2,why:'The textbook defines proverb as a wise saying.',topic:'Vocabulary',level:'Easy'},
+    {q:'What is exile?',a:['A forced absence from one’s home or country','The title of a king','A group of northern tribes','A sacred song'],c:0,why:'Exile means a forced absence from home or country.',topic:'Vocabulary',level:'Easy'},
+    {q:'Who was the first Israelite king in this chapter?',a:['Solomon','David','Goliath','Saul'],c:3,why:'Samuel chose Saul to be the first king.',topic:'Early kings',level:'Easy'},
+    {q:'Who was the judge who chose and anointed Saul?',a:['Amos','Samuel','Jeremiah','Nebuchadnezzar'],c:1,why:'Samuel chose Saul and poured holy oil on him.',topic:'Early kings',level:'Easy'},
+    {q:'Who defeated Goliath according to the Hebrew Bible?',a:['David','Solomon','Saul','Isaiah'],c:0,why:'The Hebrew Bible tells of David’s victory over Goliath.',topic:'King David',level:'Easy'},
+    {q:'Which city became David’s capital?',a:['Babylon','Samaria','Jerusalem','Sidon'],c:2,why:'David established Jerusalem as Israel’s capital.',topic:'King David',level:'Easy'},
+    {q:'Who built the First Temple in Jerusalem?',a:['Saul','Amos','Samuel','Solomon'],c:3,why:'Solomon built the First Temple.',topic:'Solomon',level:'Easy'},
+    {q:'What was the capital of the northern kingdom of Israel?',a:['Jerusalem','Samaria','Babylon','Temple Mount'],c:1,why:'Samaria was the capital of Israel.',topic:'Two kingdoms',level:'Easy'},
+    {q:'What was the capital of Judah?',a:['Jerusalem','Samaria','Babylon','Canaan'],c:0,why:'Jerusalem was the capital of the southern kingdom of Judah.',topic:'Two kingdoms',level:'Easy'},
+  
+    // MEDIUM 11–20: causes, dates and comparisons
+    {q:'Why did many Israelites want a king?',a:['They wanted to stop using an alphabet','They wanted to move to Babylon','They wanted to unite the tribes and fight the Philistines','They wanted to replace Canaanite calendars'],c:2,why:'Many called for a king to unite the Twelve Tribes against the Philistines.',topic:'Early kings',level:'Medium'},
+    {q:'What did Samuel warn a king would do?',a:['Write all Psalms','Build terraces for free','Remove all taxes','Tax and enslave people'],c:3,why:'Samuel warned a king would tax and enslave them.',topic:'Early kings',level:'Medium'},
+    {q:'Why did Saul later lose the people’s support?',a:['He disobeyed some of God’s commands','He built the First Temple','He divided the kingdom into two','He moved the capital to Babylon'],c:0,why:'The Hebrew Bible says Saul disobeyed some commands of God.',topic:'Saul and David',level:'Medium'},
+    {q:'Which tool did David use against Goliath?',a:['An iron weapon from Judah','A slingshot and stones','A terrace-building tool','A trading ship'],c:1,why:'David used a slingshot and five smooth stones.',topic:'King David',level:'Medium'},
+    {q:'What farming method helped keep soil on steep hills?',a:['Taking tribute','Rebuilding Samaria','Terraces','Writing proverbs'],c:2,why:'Terraces prevented soil from washing down hillsides when it rained.',topic:'Life under David',level:'Medium'},
+    {q:'Around what year did Solomon become king?',a:['722 B.C.','586 B.C.','1100 B.C.','970 B.C.'],c:3,why:'The textbook says Solomon became king around 970 B.C.',topic:'Dates',level:'Medium'},
+    {q:'What two complaints helped turn Israelites against Solomon?',a:['Building projects and high taxes','Singing Psalms and teaching justice','Trade and treaties','Terraces and calendars'],c:0,why:'They disliked working on building projects and paying high taxes.',topic:'Solomon',level:'Medium'},
+    {q:'How many tribes were in northern Israel after the split?',a:['Two','Ten','Five','Twelve in the south'],c:1,why:'The ten northern tribes founded Israel.',topic:'Two kingdoms',level:'Medium'},
+    {q:'Who invaded Israel in 722 B.C.?',a:['The Philistines','The Chaldeans','The Assyrians','David’s army'],c:2,why:'The Assyrians invaded Israel in 722 B.C.',topic:'Conquests and dates',level:'Medium'},
+    {q:'Which Chaldean king forced thousands of Judah’s people to Babylon?',a:['Saul','Samuel','Solomon','Nebuchadnezzar'],c:3,why:'King Nebuchadnezzar led the Chaldean action against Judah.',topic:'Fall of Judah',level:'Medium'},
+  
+    // HARD 21–30: scenarios, comparisons, chronological reasoning
+    {q:'Someone mixes up psalms and proverbs. Which statement is correct?',a:['A psalm is a sacred song; a proverb is a wise saying','Both are names of Israelite kings','A psalm is a tax; a proverb is exile','A psalm is a city; a proverb is a temple'],c:0,why:'The source links Psalms with sacred songs and defines proverbs as wise sayings.',topic:'Vocabulary comparison',level:'Hard'},
+    {q:'Which sequence of kings matches the textbook?',a:['Solomon → Saul → David','Saul → David → Solomon','David → Samuel → Saul','Jeremiah → David → Solomon'],c:1,why:'Saul was first, David followed, and Solomon was David’s son.',topic:'Early kings',level:'Hard'},
+    {q:'A chart labels a kingdom “10 tribes, Samaria.” Which kingdom is it?',a:['Judah','Babylon','Israel','The Chaldeans'],c:2,why:'The northern kingdom Israel had ten tribes and Samaria as its capital.',topic:'Two kingdoms',level:'Hard'},
+    {q:'A chart labels a kingdom “2 tribes, Jerusalem.” Which kingdom is it?',a:['Israel','Assyria','Samaria','Judah'],c:3,why:'The two southern tribes formed Judah with Jerusalem as its capital.',topic:'Two kingdoms',level:'Hard'},
+    {q:'How did the Samaritans develop after Assyria conquered Israel?',a:['Settlers from other lands mixed with Israelites still living there','Only the king Saul’s family remained','All Judah’s people became Phoenicians','They were formed from Solomon’s temple builders alone'],c:0,why:'Assyrian settlers mixed with Israelites, creating a mingled culture.',topic:'Samaritans',level:'Hard'},
+    {q:'What is the correct match for 597 B.C. and 586 B.C.?',a:['Solomon became king / Saul was chosen','Chaldeans invaded Judah / Chaldeans retook Jerusalem and destroyed the Temple','Israel split / David united tribes','Assyrians invaded Israel / Israel refused tribute'],c:1,why:'Judah was invaded in 597 B.C.; Jerusalem fell again in 586 B.C.',topic:'Conquests and dates',level:'Hard'},
+    {q:'What did Jeremiah tell the ruler of Judah before the final rebellion?',a:['Build more terraces','Worship idols','God did not want Judah to rebel','Pay tribute to Saul'],c:2,why:'Jeremiah warned that God did not want Judah to rebel.',topic:'Prophets',level:'Hard'},
+    {q:'People are forced to live in Babylon away from Judah. Which term fits?',a:['Proverb','Terrace','Treaty','Exile'],c:3,why:'Exile is forced absence from one’s home or country.',topic:'Vocabulary',level:'Hard'},
+    {q:'Which message matches Hosea in the readable prophets chart?',a:['God is loving and forgiving','Terraces prevent erosion','All ten tribes lived in Judah','The capital is Jerusalem'],c:0,why:'The chart clearly says Hosea taught that God is loving and forgiving.',topic:'Prophets chart',level:'Hard'},
+    {q:'A student is asked what Amos and the prophets urged people to do. Which fits?',a:['Collect high taxes for building projects','Work for justice, change their ways, and help others','Demand a king to fight Philistines','Move the capital to Samaria'],c:1,why:'The prophets taught justice, moral life, change, and helping others.',topic:'Prophets messages',level:'Hard'}
+  ];
+  
+
+  let state = {mode:'slide',index:0,qi:0,answers:Array(questions.length).fill(null)};
+  const $ = (id) => document.getElementById(id);
+  const canvas = $('canvas');
+  const escapeHtml = (s) => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const score = () => state.answers.reduce((n,a,i)=>n+(a===questions[i].c?1:0),0);
+  const isReview = () => state.mode==='slide' && state.index>=slides.length-2;
+  function phaseUI(){
+    const n = state.mode==='quiz'||state.mode==='result'?2:isReview()?1:0;
+    ['phaseTeach','phaseReview','phaseQuiz'].forEach((id,i)=>{const e=$(id);e.classList.toggle('active',i===n);e.classList.toggle('done',i<n);});
+  }
+  function render(){
+    phaseUI();
+    if(state.mode==='slide') renderSlide();
+    else if(state.mode==='quiz') renderQuiz();
+    else renderResult();
+    canvas.scrollTop=0;
+    $('progress').setAttribute('aria-valuenow',Math.round(parseFloat($('progressFill').style.width)||0));
+  }
+  function chrome(mode,counter,percent,remember,nextLabel){
+    $('modeLabel').textContent=mode;
+    $('counter').textContent=counter;
+    $('progressFill').style.width=percent+'%';
+    $('rememberText').textContent=remember;
+    $('nextBtn').textContent=nextLabel;
+  }
+  function renderSlide(){
+    const s=slides[state.index];
+    canvas.innerHTML=`<div class="eyebrow">${s.eyebrow}</div><h2>${s.title}</h2>${s.body}`;
+    chrome(isReview()?'Final review':'Learning time',`Slide ${state.index+1} of ${slides.length}`,100*(state.index+1)/slides.length,s.remember,state.index===slides.length-1?'Start Quiz →':'Next →');
+    $('backBtn').disabled=state.index===0;
+    $('nextBtn').disabled=false;
+  }
+  function renderQuiz(){
+    const q=questions[state.qi],chosen=state.answers[state.qi],done=chosen!==null;
+    const choices=q.a.map((option,i)=>{
+      const cls=done?(i===q.c?' correct':i===chosen?' wrong':''):'';
+      return `<button type="button" class="option${cls}" data-choice="${i}" ${done?'disabled':''} aria-label="Option ${'ABCD'[i]}: ${escapeHtml(option)}"><span class="letter">${'ABCD'[i]}</span><span>${escapeHtml(option)}</span></button>`;
+    }).join('');
+    const feedback=done?`<div class="feedback ${chosen===q.c?'':'bad'}" role="status"><b>${chosen===q.c?'✅ Correct!':'❌ Incorrect'}</b><p><strong>Correct answer: ${'ABCD'[q.c]}.</strong> ${escapeHtml(q.a[q.c])}</p><p>${escapeHtml(q.why)}</p></div>`:'';
+    canvas.innerHTML=`<div class="eyebrow">Practice • ${escapeHtml(q.topic)}</div><h2>Check Your Understanding</h2><div class="quizmeta"><span class="bubble ${q.level.toLowerCase()}">${q.level}</span><span class="bubble">Score: ${score()} / ${questions.length}</span></div><div class="question">${escapeHtml(q.q)}</div><div class="choices">${choices}</div>${feedback}`;
+    canvas.querySelectorAll('[data-choice]').forEach(btn=>btn.addEventListener('click',()=>answerQuestion(Number(btn.dataset.choice))));
+    chrome('Quiz time',`Question ${state.qi+1} of ${questions.length}`,100*(state.qi+1)/questions.length,done?'Learn from the explanation, then move on.':'Choose A, B, C, or D. Feedback appears after you answer.',state.qi===questions.length-1?'See Results →':'Next Question →');
+    $('backBtn').disabled=false;
+    $('nextBtn').disabled=!done;
+  }
+  function answerQuestion(choice){
+    if(state.mode!=='quiz'||state.answers[state.qi]!==null)return;
+    state.answers[state.qi]=choice;
+    render();
+  }
+  function renderResult(){
+    const total=score(),pct=Math.round(total*100/questions.length);
+    const missed={}; questions.forEach((q,i)=>{if(state.answers[i]!==q.c)missed[q.topic]=(missed[q.topic]||0)+1;});
+    const areas=Object.entries(missed).sort((a,b)=>b[1]-a[1]);
+    const review=areas.length?areas.map(([name,count])=>`<div class="review-item">📘 ${escapeHtml(name)} <span class="small">(${count} to review)</span></div>`).join(''):'<div class="review-item ok">🌟 Great work — no missed topics!</div>';
+    canvas.innerHTML=`<div class="eyebrow">Quiz complete • Your result</div><div class="final-score"><h2>Nice Work!</h2><p class="lead">You finished all 30 questions.</p><div class="score-ring" style="--score:${pct}%"><div>${total}/30</div></div><p><strong>${pct}% correct</strong></p></div><h3>Topics to Review</h3><div class="review-grid">${review}</div><p class="small" style="margin-top:18px">Use Back to revisit your last answer, or Restart to study the whole lesson again.</p>`;
+    chrome('Quiz complete','Final score',100,'Your results show what to review before the test.','Review Quiz ←');
+    $('backBtn').disabled=false;
+    $('nextBtn').disabled=false;
+  }
+  function next(){
+    if(state.mode==='slide'){
+      if(state.index<slides.length-1)state.index++;
+      else {state.mode='quiz';state.qi=0;}
+    } else if(state.mode==='quiz'){
+      if(state.answers[state.qi]===null)return;
+      if(state.qi<questions.length-1)state.qi++;
+      else state.mode='result';
+    } else {state.mode='quiz';state.qi=questions.length-1;}
+    render();
+  }
+  function back(){
+    if(state.mode==='slide')state.index=Math.max(0,state.index-1);
+    else if(state.mode==='quiz'){
+      if(state.qi===0){state.mode='slide';state.index=slides.length-1;}
+      else state.qi--;
+    }
+    else {state.mode='quiz';state.qi=questions.length-1;}
+    render();
+  }
+  function restart(){
+    if(state.mode==='slide'&&state.index===0)return;
+    if(!window.confirm('Restart the lesson and clear your quiz answers?'))return;
+    state={mode:'slide',index:0,qi:0,answers:Array(questions.length).fill(null)};
+    render();
+  }
+  $('nextBtn').addEventListener('click',next);
+  $('backBtn').addEventListener('click',back);
+  $('restartBtn').addEventListener('click',restart);
+  window.addEventListener('keydown',e=>{
+    if(e.target.closest('button'))return;
+    if(e.key==='ArrowRight'&&!$('nextBtn').disabled)next();
+    if(e.key==='ArrowLeft'&&!$('backBtn').disabled)back();
+  });
+  render();
+  </script>
+</body>
+</html>

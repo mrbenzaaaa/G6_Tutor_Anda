@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#4336b8">
+  <title>The Jews in the Mediterranean World | Grade 6 Touchscreen Tutor</title>
+  <style>
+    :root { --ink:#20284c; --muted:#66708d; --purple:#5846c8; --purple-dark:#4336a9; --lavender:#ece8ff; --cyan:#dff7fb; --peach:#fff0da; --green:#dcf7e5; --pink:#ffe6ed; --white:#fff; --line:#e5e8f3; --shadow:0 22px 55px rgba(47,43,118,.14); }
+    * { box-sizing:border-box; }
+    html { -webkit-text-size-adjust:100%; }
+    body { margin:0; background:radial-gradient(circle at 4% 5%,#ddd8ff 0,transparent 33%),radial-gradient(circle at 98% 95%,#d0f4f9 0,transparent 30%),#f7f8fd; color:var(--ink); font:500 17px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif; min-height:100vh; }
+    button { font:inherit; cursor:pointer; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+    button:focus-visible { outline:4px solid #ffb73d; outline-offset:3px; }
+    .shell { width:min(1240px,calc(100% - 32px)); margin:18px auto; display:grid; grid-template-columns:280px minmax(0,1fr); min-height:min(840px,calc(100svh - 36px)); gap:18px; }
+    .rail { background:linear-gradient(160deg,#5745cb,#3f339a); color:white; border-radius:28px; padding:30px 25px; display:flex; flex-direction:column; box-shadow:var(--shadow); overflow:hidden; position:relative; }
+    .rail::before,.rail::after { content:""; position:absolute; border-radius:50%; border:2px solid rgba(255,255,255,.14); pointer-events:none; }
+    .rail::before { width:250px; height:250px; top:-140px; right:-130px; }.rail::after{width:300px;height:300px;bottom:-210px;left:-140px;}
+    .brand { font-size:14px; font-weight:900; letter-spacing:.14em; text-transform:uppercase; opacity:.85; }
+    .rail h1 { font-size:clamp(27px,2.6vw,38px); line-height:1.13; margin:35px 0 16px; letter-spacing:-.04em; }
+    .rail p { color:#e6e1ff; font-size:15px; margin:0; }
+    .time-pill { align-self:flex-start; border:1px solid #ab9eff; border-radius:999px; padding:8px 13px; font-weight:800; font-size:13px; margin:24px 0 34px; color:white; background:#ffffff17; }
+    .section-steps { display:grid; gap:18px; margin-top:auto; position:relative; }
+    .phase { display:flex; gap:12px; align-items:center; opacity:.5; font-weight:800; font-size:15px; }
+    .phase.active,.phase.done { opacity:1; }
+    .phase-number { display:grid; place-items:center; width:34px; height:34px; flex:none; border-radius:12px; background:#ffffff29; border:1px solid #ffffff32; }
+    .phase.active .phase-number { background:white; color:var(--purple-dark); }
+    .phase.done .phase-number { background:#8df0be; color:#1a6b49; }
+    .tiny-note { color:#dbd6ff;font-size:12px;margin-top:24px; }
+    .main { min-width:0; background:white; border:1px solid #ffffff; border-radius:28px; box-shadow:var(--shadow); display:flex; flex-direction:column; overflow:hidden; height:min(840px,calc(100svh - 36px)); min-height:640px; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; padding:21px 29px 15px; gap:16px; }
+    .status { display:flex; align-items:center; gap:10px; color:var(--purple-dark); text-transform:uppercase; font-size:12px; font-weight:900; letter-spacing:.12em; }
+    .dot { width:11px; height:11px; border-radius:50%; background:#feae61; box-shadow:0 0 0 5px #fff0db; }
+    .count { color:#65708d; font-size:14px; font-weight:800; white-space:nowrap; }
+    .track { margin:0 29px; height:9px; background:#edf0f8; border-radius:40px; overflow:hidden; }
+    .fill { height:100%; width:0%; border-radius:40px; background:linear-gradient(90deg,#7264e4,#39c3cd); transition:width .3s ease; }
+    .canvas { flex:1; min-height:0; overflow-y:auto; overscroll-behavior:contain; padding:28px 36px 14px; scrollbar-width:thin; scrollbar-color:#cfc9f9 #f8f9fc; }
+    .eyebrow { color:var(--purple); font-size:12px; text-transform:uppercase; letter-spacing:.16em; font-weight:900; }
+    h2 { font-size:clamp(27px,3vw,40px); line-height:1.12; letter-spacing:-.038em; margin:9px 0 13px; }
+    .lead { color:#5b6483; font-size:18px; margin:0 0 22px; }
+    p { margin:0 0 14px; }
+    strong { font-weight:900; color:#4133a4; }
+    .tile-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; margin:18px 0; }
+    .tile-grid.three { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .tile { background:#f4f3ff; border-radius:18px; padding:17px; border:1px solid #e8e4ff; min-width:0; }
+    .tile.cyan { background:#eafafd;border-color:#d6f2f7; }.tile.peach{background:#fff6e9;border-color:#ffedd6;}.tile.green{background:#eafaf0;border-color:#d8f2e2;}.tile.pink{background:#fff0f5;border-color:#fbdde7;}
+    .tile b { display:block; color:#29325c; font-size:17px; margin-bottom:6px; }.tile span{font-size:15px;display:block;line-height:1.45;color:#4a5574;}
+    .arrowline { display:flex; gap:9px; align-items:stretch; margin:18px 0; }.step { flex:1; display:grid; place-items:center; text-align:center; background:#eeeaff; border-radius:16px; min-height:85px; padding:12px; font-weight:800; font-size:15px; }.arrow{align-self:center;font-size:24px;color:#7d6df1;font-weight:900;}
+    .callout { padding:15px 19px;border-left:5px solid #8b7ae6;background:#f4f2ff;border-radius:0 16px 16px 0;margin:15px 0;font-size:16px; }
+    .tagrow { display:flex; flex-wrap:wrap; gap:9px; margin:13px 0 20px; }.tag { border:1px solid #ddd9ff;border-radius:999px;background:#f4f2ff;padding:6px 12px;font-weight:800;color:#4c3db1;font-size:14px; }
+    table { border-collapse:separate; border-spacing:0; width:100%; font-size:14px; margin:14px 0 22px; border:1px solid #e1e5f4;border-radius:15px;overflow:hidden; }
+    th,td{ text-align:left; padding:11px 13px; vertical-align:top; border-bottom:1px solid #e7eaf4; } th{ background:#eae7ff;color:#322582;font-size:13px;letter-spacing:.015em;}tr:nth-child(even) td{background:#f9faff;}tr:last-child td{border-bottom:0;}
+    td:first-child { font-weight:800; color:#2f3764; }
+    .factlist { margin:12px 0 18px; padding-left:22px; }.factlist li { margin-bottom:8px; padding-left:2px; }
+    .remember { margin:0 30px 16px; padding:14px 18px; border-radius:17px; background:linear-gradient(90deg,#fff3ca,#fff8e7); border:1px solid #ffe3a7; color:#5f421b; display:flex;align-items:flex-start;gap:9px;font-size:15px;line-height:1.4; }
+    .remember b { flex:none; color:#795016; }
+    .bottom { border-top:1px solid #eff0f6; padding:15px 29px 20px; display:flex; align-items:center; gap:12px; background:white; }
+    .nav { display:flex; align-items:center; justify-content:center; min-height:55px; border:0; border-radius:16px; padding:10px 22px; font-weight:900; font-size:16px; transition:transform .1s,background .15s; }
+    .nav:active,.option:active { transform:scale(.98); }
+    .nav.secondary { background:#f0f1fb;color:#4e5790; }.nav.primary{ background:var(--purple);color:white;min-width:147px;box-shadow:0 8px 20px #5947c52b;}.nav.primary:hover{background:var(--purple-dark);}
+    .nav.minor { background:transparent;color:#7c84a0;padding:8px 12px; }.nav:disabled{opacity:.38;cursor:not-allowed;box-shadow:none;}
+    .bottom .spacer{flex:1;}
+    .quizmeta {display:flex;gap:9px;flex-wrap:wrap;margin:16px 0;}.bubble{border-radius:999px;background:#eaf0ff;color:#3e4c86;font-weight:900;font-size:13px;padding:6px 12px;}.bubble.easy{background:#def5e7;color:#267649;}.bubble.medium{background:#fff1d6;color:#8a5b18;}.bubble.hard{background:#ffe4ec;color:#9c3254;}
+    .question { font-size:clamp(22px,2.6vw,30px);line-height:1.28;font-weight:900;letter-spacing:-.017em;margin:10px 0 20px; }
+    .choices {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:18px;}
+    .option {display:flex;text-align:left;align-items:center;gap:12px;border:2px solid #e4e8f5;background:#fafbff;border-radius:17px;padding:15px;min-height:88px;color:#303958;font-size:16px;font-weight:750;}.option:hover:not(:disabled){background:#f1efff;border-color:#a99afa;}.option:disabled{cursor:default;}.option .letter{flex:none;display:grid;place-items:center;width:35px;height:35px;border-radius:11px;background:#e9e6ff;color:#5040ba;font-weight:950;}.option.correct{background:#e3faeb;border-color:#58c889;color:#15683b;}.option.correct .letter{background:#b9efd0;color:#15683b;}.option.wrong{background:#ffebef;border-color:#f28aa3;color:#a0274a;}.option.wrong .letter{background:#ffd2de;color:#a0274a;}
+    .feedback {padding:15px 17px;border-radius:17px;border:1px solid #c8ecd6;background:#effcf3;font-size:15px;}.feedback.bad{background:#fff1f3;border-color:#ffcbd5;}.feedback b{font-size:18px;display:block;color:#236d45;}.feedback.bad b{color:#ae3155;}.feedback p{margin:4px 0 0;}
+    .final-score {text-align:center;padding:8px 0 18px;}.score-ring{width:150px;height:150px;border-radius:50%;background:conic-gradient(#5d4ed2 var(--score),#e9e9f5 0);display:grid;place-items:center;margin:16px auto;}.score-ring>div{width:125px;height:125px;border-radius:50%;background:white;display:grid;place-items:center;font-size:36px;font-weight:950;color:#4436ab;}.review-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}.review-item{background:#fff6e8;border:1px solid #fbe3ba;border-radius:14px;padding:12px;font-size:15px;font-weight:800;}.review-item.ok{background:#eaf9ed;border-color:#cdeed7;}
+    .checklist {list-style:none;padding:0;margin:12px 0;}.checklist li{padding:11px 13px;border-radius:12px;background:#f6f7fd;margin:8px 0;}.checklist li::before{content:'☐';color:#7769db;font-weight:900;margin-right:10px;}
+    .small{font-size:14px;color:var(--muted);}.nowrap{white-space:nowrap;}
+    @media (max-width:950px){.shell{grid-template-columns:1fr;max-width:840px;margin:10px auto;width:calc(100% - 20px);gap:10px;}.rail{min-height:auto;padding:14px 20px;border-radius:20px;display:block;}.brand{font-size:11px}.rail h1{font-size:23px;margin:5px 0 2px}.rail p,.time-pill,.section-steps,.tiny-note{display:none;}.main{height:calc(100svh - 112px);min-height:550px;border-radius:20px;}.canvas{padding:21px 24px 10px}.remember{margin:0 22px 12px}.bottom{padding:12px 20px 16px}.topbar{padding:15px 22px 11px}.track{margin:0 22px}}
+    @media (max-width:600px){body{font-size:16px}.shell{width:calc(100% - 12px);margin:6px auto;gap:7px}.rail{padding:10px 16px;border-radius:16px}.rail h1{font-size:20px}.brand{font-size:10px}.main{height:calc(100svh - 82px);min-height:460px;border-radius:16px}.canvas{padding:17px 16px 7px}.topbar{padding:13px 15px 10px}.track{margin:0 15px}h2{font-size:26px}.lead{font-size:16px}.tile-grid,.tile-grid.three,.choices,.review-grid{grid-template-columns:1fr}.tile{padding:13px}.choices{gap:9px}.option{min-height:68px;padding:10px 12px}.remember{margin:0 12px 8px;padding:11px 13px;font-size:13px}.bottom{padding:10px 12px 12px;gap:7px}.nav{font-size:14px;min-height:49px;padding:9px 13px;border-radius:13px}.nav.primary{min-width:104px}.nav.minor{padding:7px 6px}table{font-size:12px}th,td{padding:8px 7px}.arrowline{gap:4px}.step{font-size:12px;padding:7px;min-height:65px}.arrow{font-size:17px}.question{font-size:22px}}
+    @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail" aria-label="Lesson overview">
+      <div class="brand">Grade 6 • Touchscreen Tutor</div>
+      <h1>Jews in the<br>Mediterranean World</h1>
+      <p>Greek and Roman rule, Jewish groups, and rabbis.</p>
+      <div class="time-pill">⏱ Teaching: about 15–20 minutes</div>
+      <div class="section-steps">
+        <div class="phase active" id="phaseTeach"><span class="phase-number">1</span><span>Teaching slides</span></div>
+        <div class="phase" id="phaseReview"><span class="phase-number">2</span><span>Final review</span></div>
+        <div class="phase" id="phaseQuiz"><span class="phase-number">3</span><span>30-question quiz</span></div>
+      </div>
+      <div class="tiny-note">Based only on the supplied textbook pages.</div>
+    </aside>
+
+    <main class="main" aria-label="Interactive lesson">
+      <header class="topbar"><div class="status"><span class="dot"></span><span id="modeLabel">Learning time</span></div><div class="count" id="counter">Slide 1 of 31</div></header>
+      <div class="track" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress"><div class="fill" id="progressFill"></div></div>
+      <section class="canvas" id="canvas" tabindex="-1" aria-live="polite"></section>
+      <div class="remember" id="remember"><b>⭐ Remember</b><span id="rememberText"></span></div>
+      <footer class="bottom">
+        <button class="nav secondary" id="backBtn" type="button">← Back</button>
+        <button class="nav minor" id="restartBtn" type="button">↺ Restart</button>
+        <span class="spacer"></span>
+        <button class="nav primary" id="nextBtn" type="button">Next →</button>
+      </footer>
+    </main>
+  </div>
+  <script>
+  'use strict';
+  const slides = [
+    {title:'What You Must Know',eyebrow:'Start here • Lesson map',body:`<p class="lead">The essential question is <strong>“Why does conflict develop?”</strong> This chapter follows Jews under Greek and Roman rule.</p><div class="tile-grid three"><div class="tile"><b>🌍 Greek rule</b><span>Alexander, Diaspora, Seleucids, Maccabees</span></div><div class="tile cyan"><b>🏛️ Roman rule</b><span>Herod, Jewish groups, revolts, Jerusalem</span></div><div class="tile peach"><b>📜 Jewish learning</b><span>Rabbis, Torah schools, Mishnah, Talmud</span></div></div><div class="callout">Teacher's two vocabulary words: <strong>diaspora</strong> and <strong>rabbi</strong>.</div><p class="small">Watch for names, dates, reasons for conflict, and how Jewish ideas spread.</p>`,remember:'Greek rule → Roman rule → rabbis and Jewish teachings.'},
+    {title:'Alexander and the Greeks',eyebrow:'Topic 1 • Arrival of Greek rule',body:`<p>The Jews of <strong>Judah</strong> remained under Persian rule for nearly <strong>200 years</strong>.</p><div class="arrowline"><div class="step">331 B.C.</div><span class="arrow">→</span><div class="step">Alexander the Great defeated Persians</div><span class="arrow">→</span><div class="step">Greek language and culture introduced</div></div><p><strong>Alexander the Great</strong> was a king from <strong>Macedonia</strong> who had conquered Greece. He admired Greek ways and wanted to spread them.</p><p>Alexander <strong>allowed Jews to stay in Judah</strong>.</p>`,remember:'331 B.C.: Alexander defeated the Persians and spread Greek culture.'},
+    {title:'What Is the Diaspora?',eyebrow:'Topic 1 • Teacher vocabulary',body:`<div class="callout"><strong>Diaspora:</strong> the groups of Jews living outside of the Jewish homeland.</div><p><strong>Diaspora</strong> is a Greek word meaning <strong>“scattered.”</strong></p><div class="arrowline"><div class="step">Jews lived outside Judah</div><span class="arrow">→</span><div class="step">Settled in other lands</div><span class="arrow">→</span><div class="step">Practiced customs and spread Jewish ideas</div></div><p>Under Alexander, Judah remained the <strong>center of Judaism</strong>, even though many Jews lived elsewhere.</p>`,remember:'Diaspora = groups outside homeland; Greek meaning “scattered.”'},
+    {title:'Why Did Jews Live Outside Judah?',eyebrow:'Topic 1 • Causes and places',body:`<p>Thousands had been exiled to <strong>Babylon in 586 B.C.</strong> When the Persians allowed return to Judah in <strong>538 B.C.</strong>, many stayed in Babylon or moved elsewhere.</p><div class="tile-grid"><div class="tile"><b>Babylon</b><span>Some Jews chose to remain there.</span></div><div class="tile cyan"><b>Other Mediterranean lands</b><span>Other Jews settled throughout this region.</span></div></div><div class="arrowline"><div class="step">Exile and later choices</div><span class="arrow">→</span><div class="step">Jews living abroad</div><span class="arrow">→</span><div class="step">Diaspora communities</div></div><p>As they practiced Jewish customs outside Judah, Jewish ideas spread.</p>`,remember:'586 B.C. exile → 538 B.C. permission to return → many lived abroad.'},
+    {title:'Jewish Ideas Spread in Greek',eyebrow:'Topic 1 • The Septuagint',body:`<p>Jews of the Diaspora remained loyal to <strong>Judaism</strong>. Many learned the <strong>Greek language</strong> and adopted features of Greek culture.</p><div class="arrowline"><div class="step">Jewish scholars in Egypt</div><span class="arrow">→</span><div class="step">Copied Hebrew Bible into Greek</div><span class="arrow">→</span><div class="step">More people could read it</div></div><div class="callout">The Greek version of the Hebrew Bible is called the <strong>Septuagint</strong>.</div><p>It helped people who were <strong>not Jews</strong> read and understand the Hebrew Bible, spreading Jewish ideas through the Mediterranean.</p>`,remember:'Septuagint = Greek version of Hebrew Bible; it helped ideas spread.'},
+    {title:'From Alexander to the Seleucids',eyebrow:'Topic 1 • New rulers',body:`<p>After Alexander died, <strong>four generals</strong> divided his empire into separate kingdoms.</p><div class="arrowline"><div class="step">Alexander died</div><span class="arrow">→</span><div class="step">Four generals divided empire</div><span class="arrow">→</span><div class="step">Seleucids ruled much of Southwest Asia</div></div><p>The <strong>Seleucids</strong> were a family ruling one kingdom. By <strong>200 B.C.</strong>, Judah was under the control of Seleucid kings.</p>`,remember:'After Alexander: four kingdoms; Seleucids controlled Judah by 200 B.C.'},
+    {title:'Antiochus IV and Religious Conflict',eyebrow:'Topic 1 • Cause of revolt',body:`<p>In <strong>176 B.C.</strong>, <strong>Antiochus IV</strong> came to power as a Seleucid king.</p><div class="tile-grid"><div class="tile peach"><b>He ruled Judah</b><span>He was the ruler of the Seleucid kingdom.</span></div><div class="tile pink"><b>He required</b><span>Jews to worship the many <strong>Greek gods and goddesses</strong>.</span></div></div><div class="arrowline"><div class="step">Required Greek worship</div><span class="arrow">→</span><div class="step">Many Jews refused to leave their religion</div><span class="arrow">→</span><div class="step">Revolt</div></div>`,remember:'176 B.C.: Antiochus IV required worship of Greek gods.'},
+    {title:'Judas Maccabeus Leads the Revolt',eyebrow:'Topic 1 • 167 B.C.',body:`<p>In <strong>167 B.C.</strong>, a Jewish priest named <strong>Judas Maccabeus</strong> led the fight against Seleucid rule. The biography gives his life as <strong>c. 190 B.C.–c. 160 B.C.</strong></p><div class="arrowline"><div class="step">Judas and followers fled to hills</div><span class="arrow">→</span><div class="step">Formed a rebel army</div><span class="arrow">→</span><div class="step">Fought many battles</div></div><p>They became known as the <strong>Maccabees</strong>. The biography says they used <strong>guerrilla warfare</strong>: irregular fighting by small groups of independent soldiers.</p><div class="callout">This strategy helped them defeat the Seleucids.</div>`,remember:'167 B.C.: priest Judas Maccabeus led the Maccabees.'},
+    {title:'The Temple and Hanukkah',eyebrow:'Topic 1 • What the revolt achieved',body:`<p>After many battles, the Maccabees captured the <strong>Temple</strong>.</p><div class="arrowline"><div class="step">Captured Temple</div><span class="arrow">→</span><div class="step">Cleared statues of Greek gods and goddesses</div><span class="arrow">→</span><div class="step">Rededicated Temple to worship of God</div></div><p>Every year, Jews recall the cleansing of the Temple during the festival of <strong>Hanukkah</strong>.</p><p>The biography says Judas expanded Judah's lands and helped it remain free until the Roman conquest.</p>`,remember:'Maccabees cleaned and rededicated Temple → Hanukkah remembers.'},
+    {title:'Roman Rule Begins',eyebrow:'Topic 2 • Dates and names',body:`<p>By <strong>100 B.C.</strong>, the Romans controlled much of the eastern Mediterranean lands.</p><div class="arrowline"><div class="step">Roman empire grew</div><span class="arrow">→</span><div class="step">63 B.C.: Romans conquered Judah</div><span class="arrow">→</span><div class="step">Renamed it Judaea</div></div><p>The name <strong>Roman</strong> came from <strong>Rome</strong>, their capital, in what is known today as <strong>Italy</strong>.</p><div class="callout">Exam pair: <strong>63 B.C. → Rome conquered Judah → Judaea</strong>.</div>`,remember:'100 B.C. Romans widespread; 63 B.C. Judah became Judaea.'},
+    {title:'Herod and the Second Temple',eyebrow:'Topic 2 • A Roman-backed king',body:`<p>At first, the Romans chose <strong>Herod</strong>, a follower of the Jewish religion, to rule as king of Judaea.</p><div class="tile-grid"><div class="tile"><b>Building</b><span>Herod built many <strong>forts and cities</strong> in Judaea.</span></div><div class="tile cyan"><b>Second Temple</b><span>Rebuilt during Herod's reign, it served as the center of <strong>Jewish worship</strong>.</span></div><div class="tile peach"><b>Masada</b><span>The source caption says Herod developed the fortress at <strong>Masada</strong>.</span></div></div>`,remember:'Herod: forts and cities; Second Temple rebuilt during his reign.'},
+    {title:'Why Jewish Groups Disagreed',eyebrow:'Topic 2 • Different practices',body:`<p>After Herod died, <strong>Roman officials</strong> ruled Judaea. Jews differed about how Judaism should be practiced and how to deal with Romans.</p><div class="tile-grid"><div class="tile"><b>Pharisees</b><span>Teachings for daily life; oral and written law</span></div><div class="tile cyan"><b>Sadducees</b><span>Temple roles; written law; cooperation</span></div><div class="tile peach"><b>Essenes</b><span>Qumran; prayer; written Torah</span></div><div class="tile pink"><b>Zealots</b><span>Wanted to fight Romans for freedom</span></div></div>`,remember:'Four groups: Pharisees • Sadducees • Essenes • Zealots.'},
+    {title:'The Pharisees',eyebrow:'Topic 2 • Everyday practice',body:`<p>The <strong>Pharisees</strong> gained the support of common people.</p><ul class="factlist"><li>Taught in <strong>synagogues</strong> and applied the <strong>Torah</strong> to daily life.</li><li>Helped make Judaism a religion of the <strong>home and family</strong>.</li><li>Wanted Jews to obey the <strong>Ten Commandments</strong>.</li><li>Stressed both <strong>written law</strong> and <strong>oral law</strong>.</li></ul><div class="callout"><strong>Oral law</strong> = unwritten explanations passed by word of mouth.</div><p>They wanted Judaea free of Rome but urged people to resist by practicing Torah with greater <strong>devotion</strong>, not fighting.</p>`,remember:'Pharisees: synagogue, daily life, written + oral law, no fight.'},
+    {title:'The Sadducees',eyebrow:'Topic 2 • Temple and written law',body:`<p>The <strong>Sadducees</strong> were made up of wealthy noble families. Many served as <strong>priests and scribes</strong> in the Temple.</p><div class="tile-grid"><div class="tile"><b>Accepted</b><span>The <strong>written laws of the Torah</strong>.</span></div><div class="tile peach"><b>Rejected</b><span>The <strong>oral law</strong> stressed by the Pharisees.</span></div><div class="tile cyan"><b>Main concern</b><span>Applying law to <strong>Temple ceremonies</strong>.</span></div><div class="tile green"><b>Roman relations</b><span>Favored <strong>cooperation</strong> with Romans for peace and order in Judaea.</span></div></div>`,remember:'Sadducees: wealthy Temple group; written law only; cooperate with Rome.'},
+    {title:'The Essenes',eyebrow:'Topic 2 • Qumran near Dead Sea',body:`<p>The <strong>Essenes</strong> were priests who broke away from the Temple in Jerusalem.</p><div class="arrowline"><div class="step">Left Temple</div><span class="arrow">→</span><div class="step">Many lived at Qumran near the Dead Sea</div><span class="arrow">→</span><div class="step">Prayed and waited for God to deliver Jews</div></div><p>The Essenes followed only the <strong>written law of the Torah</strong>.</p><div class="callout">Place: <strong>Qumran</strong> was in the desert near the <strong>Dead Sea</strong>.</div>`,remember:'Essenes: Qumran, prayer, written Torah only.'},
+    {title:'The Dead Sea Scrolls: 1947',eyebrow:'Topic 2 • Discovery',body:`<p>In <strong>A.D. 1947</strong>, ancient scrolls were found in caves at <strong>Qumran</strong>, near the <strong>Dead Sea</strong>.</p><div class="tile-grid"><div class="tile"><b>Name</b><span><strong>Dead Sea Scrolls</strong>, named after the nearby sea</span></div><div class="tile cyan"><b>Likely authors</b><span>The source says many were <strong>most likely written by Essenes</strong>.</span></div></div><p>They help historians learn details about a particular place and time.</p>`,remember:'1947: Dead Sea Scrolls found at Qumran, likely written by Essenes.'},
+    {title:'What Do the Scrolls Tell Us?',eyebrow:'Topic 2 • Different Jewish beliefs',body:`<p>The scrolls showed that followers did not all practice Judaism the same way during Roman times.</p><ul class="factlist"><li>Some describe Jews in exile who felt alone and waited for someone to lead them.</li><li>Some record beliefs, holy days, and practices of other Jewish groups.</li><li>Some historians think the writings might have been a <strong>library's contents</strong>.</li></ul><div class="callout">Why the scrolls were hidden is <strong>unclear</strong>. The source says someone <em>may have</em> hidden them to protect them from destruction during Roman conflict.</div>`,remember:'Scrolls show different practices; the hiding reason is unclear.'},
+    {title:'The Zealots',eyebrow:'Topic 2 • Fighting for freedom',body:`<p>A fourth Jewish group, the <strong>Zealots</strong>, lived in Judaea and wanted to <strong>fight the Romans</strong> for freedom.</p><div class="arrowline"><div class="step">Tensions rose in A.D. 60s</div><span class="arrow">→</span><div class="step">Hatred of Roman rule grew</div><span class="arrow">→</span><div class="step">Zealots prepared to act</div></div><p>Many Jews were waiting for God to send a deliverer. As tensions increased, the Zealots prepared for revolt.</p>`,remember:'Zealots wanted to fight Rome; tension grew in the A.D. 60s.'},
+    {title:'The Jewish–Roman War',eyebrow:'Topic 3 • A.D. 66 to 70',body:`<div class="arrowline"><div class="step">A.D. 66: Zealots revolted</div><span class="arrow">→</span><div class="step">Overpowered a small Roman army in Jerusalem</div><span class="arrow">→</span><div class="step">Four years later, Romans retook city</div></div><p>Roman forces retook <strong>Jerusalem</strong>, killed thousands of Jews, and forced many others to leave.</p><p>The Romans also destroyed the <strong>Second Temple</strong> in Jerusalem.</p><div class="callout">Date pair: <strong>A.D. 66 → revolt; A.D. 70 → Roman capture and Temple destruction</strong>.</div>`,remember:'A.D. 66 revolt → A.D. 70 Romans retook Jerusalem, destroyed Temple.'},
+    {title:'The Western Wall',eyebrow:'Topic 3 • A remnant in Jerusalem',body:`<p>The source says the <strong>Western Wall</strong> still stands in <strong>Jerusalem</strong>.</p><div class="tile-grid"><div class="tile"><b>What remained?</b><span>The Western Wall is all that remains of the <strong>Temple complex</strong>, according to the textbook.</span></div><div class="tile cyan"><b>What do Jews do?</b><span>Jewish people have a long-standing custom of visiting this wall to <strong>pray</strong>.</span></div></div><p>After the Temple was destroyed, Jews no longer had the Temple as the center of worship described earlier.</p>`,remember:'Western Wall remains in Jerusalem; many Jews go there to pray.'},
+    {title:'Bar Kochba’s Revolt',eyebrow:'Topic 3 • A.D. 132',body:`<p>After some years, some Jews rebelled again against Roman rule.</p><div class="arrowline"><div class="step">A.D. 132</div><span class="arrow">→</span><div class="step">Simon ben Kosiba, called Bar Kochba, led Jews</div><span class="arrow">→</span><div class="step">They fought for freedom</div></div><p>Three years later, Roman forces crushed the revolt and killed <strong>Bar Kochba</strong> and many other Jewish leaders.</p>`,remember:'A.D. 132: Bar Kochba led revolt; three years later it was crushed.'},
+    {title:'After Bar Kochba: Roman Controls',eyebrow:'Topic 3 • What changed?',body:`<p>After the revolt was put down, Romans imposed <strong>stricter controls</strong>.</p><div class="tile-grid"><div class="tile pink"><b>Jerusalem</b><span>Jews were not allowed to <strong>live in</strong> or even <strong>visit</strong> the city.</span></div><div class="tile peach"><b>Name</b><span>Romans renamed <strong>Judaea</strong> and called it <strong>Palestine</strong>.</span></div></div><p>The textbook explains that the name <strong>Palestine</strong> refers to the <strong>Philistines</strong>, whom the Israelites had conquered centuries before.</p>`,remember:'After revolt: no Jews living/visiting Jerusalem; Judaea renamed Palestine.'},
+    {title:'What Is a Rabbi?',eyebrow:'Topic 4 • Teacher vocabulary',body:`<div class="callout"><strong>Rabbi:</strong> the official leader of a Jewish congregation.</div><p>After the Jews lost their fight for independence, they regrouped with help from <strong>rabbis</strong>, or religious leaders.</p><div class="arrowline"><div class="step">No temple or priests</div><span class="arrow">→</span><div class="step">Synagogues and rabbis gained importance</div><span class="arrow">→</span><div class="step">Torah teaching continued</div></div><p>Rabbis explained the <strong>Torah</strong> and gave <strong>moral guidance</strong> about right and wrong.</p>`,remember:'Rabbi = Jewish congregation leader; taught Torah and moral guidance.'},
+    {title:'Yohanan ben Zaccai and Yavneh',eyebrow:'Topic 4 • A famous rabbi',body:`<p>One famous rabbi was <strong>Yohanan ben Zaccai</strong>. He lived in Judaea when Jerusalem fell in <strong>A.D. 70</strong>.</p><div class="arrowline"><div class="step">Persuaded Romans to spare Yavneh</div><span class="arrow">→</span><div class="step">Founded a school there</div><span class="arrow">→</span><div class="step">Continued teaching Torah</div></div><p>Ben Zaccai helped Judaism survive the destruction of the Temple and loss of Jerusalem.</p>`,remember:'Ben Zaccai saved Yavneh and founded a Torah school after A.D. 70.'},
+    {title:'Learning and Kindness',eyebrow:'Topic 4 • Torah schools',body:`<div class="tile-grid"><div class="tile green"><b>What Ben Zaccai valued</b><span>Study of the <strong>Torah</strong>, acts of <strong>loving kindness</strong>, and <strong>community service</strong>.</span></div><div class="tile cyan"><b>What followed</b><span>The school at <strong>Yavneh</strong> became a center for Torah studies and a model for other schools.</span></div></div><p>Other rabbis founded Torah schools as far away as <strong>Babylon</strong> and <strong>Egypt</strong>. Ben Zaccai and other rabbis helped preserve the basic beliefs of Judaism.</p>`,remember:'Yavneh → Torah study + kindness; schools spread to Babylon and Egypt.'},
+    {title:'The Mishnah',eyebrow:'Topic 4 • Jewish law recorded',body:`<p>Rabbis gathered their <strong>oral discussions</strong> about Jewish law.</p><div class="arrowline"><div class="step">Rabbis discussed Jewish law</div><span class="arrow">→</span><div class="step">Discussions recorded</div><span class="arrow">→</span><div class="step">Work called Mishnah</div></div><div class="callout"><strong>Mishnah:</strong> the work in which rabbis recorded oral discussions about Jewish law, according to the textbook.</div><p>This helped preserve teachings after the loss of the Temple.</p>`,remember:'Oral discussions about Jewish law → Mishnah.'},
+    {title:'The Talmud',eyebrow:'Topic 4 • Continuing Jewish tradition',body:`<p>The <strong>Mishnah</strong> was later combined with other Jewish legal traditions into the <strong>Talmud</strong>.</p><div class="arrowline"><div class="step">Mishnah</div><span class="arrow">+</span><div class="step">Other Jewish legal traditions</div><span class="arrow">→</span><div class="step">Talmud</div></div><ul class="factlist"><li>The Hebrew word <strong>Talmud</strong> means <strong>“instruction.”</strong></li><li>It became the basis for Jewish teaching through the ages.</li><li>The text says it remains central today and is the ultimate authority on <strong>Jewish law</strong>.</li><li>A prayer quoted from the <strong>Babylon Talmud</strong> shows reverence for the Torah.</li></ul>`,remember:'Mishnah + legal traditions → Talmud (“instruction”).'},
+    {title:'Teacher Vocabulary Summary',eyebrow:'Keywords • Exact book definitions',body:`<p class="lead">Two words from the teacher. Learn the book meaning and memory tip.</p><table><thead><tr><th>Word</th><th>Meaning from textbook</th><th>Memory tip</th></tr></thead><tbody><tr><td><strong>Diaspora</strong></td><td>The groups of Jews living outside of the Jewish homeland</td><td>Scattered abroad</td></tr><tr><td><strong>rabbi</strong></td><td>The official leader of a Jewish congregation</td><td>Community leader</td></tr></tbody></table><p class="small">Additional bold academic words from the source: <strong>version</strong> = a different form or edition; a translation of the Bible. <strong>expand</strong> = to enlarge. <strong>devotion</strong> = dedication, a strong commitment. <strong>cooperation</strong> = working together. <strong>document</strong> = an official paper used as proof or support of something.</p>`,remember:'Diaspora = outside homeland. Rabbi = congregation leader.'},
+    {title:'Easy-to-Confuse Points',eyebrow:'Exam focus • Comparison table',body:`<table><thead><tr><th>Do not confuse</th><th>Key difference</th></tr></thead><tbody><tr><td><strong>Alexander / Antiochus IV</strong></td><td>Alexander spread Greek culture and let Jews stay / Antiochus required worship of Greek gods</td></tr><tr><td><strong>Pharisees / Sadducees</strong></td><td>Written + oral law and daily life / written law, Temple and Roman cooperation</td></tr><tr><td><strong>Essenes / Zealots</strong></td><td>Qumran, prayer, written Torah / wanted to fight Rome</td></tr><tr><td><strong>Maccabees / Zealots</strong></td><td>Revolted against Seleucids / revolted against Romans</td></tr><tr><td><strong>Mishnah / Talmud</strong></td><td>Recorded rabbinic oral discussions / Mishnah combined with other legal traditions</td></tr><tr><td><strong>A.D. 70 / A.D. 1947</strong></td><td>Second Temple destroyed / Dead Sea Scrolls discovered</td></tr></tbody></table>`,remember:'Greek conflict = Maccabees; Roman conflict = Zealots and Bar Kochba.'},
+    {title:'Exam Focus: Dates and Cause → Effect',eyebrow:'Final review • Key timeline',body:`<div class="tile-grid"><div class="tile"><b>Greek rule</b><span><strong>331 B.C.</strong> Alexander; <strong>200 B.C.</strong> Seleucids; <strong>176 B.C.</strong> Antiochus IV; <strong>167 B.C.</strong> Maccabees.</span></div><div class="tile cyan"><b>Roman rule</b><span><strong>100 B.C.</strong> region; <strong>63 B.C.</strong> Judaea; <strong>A.D. 66</strong> revolt; <strong>A.D. 70</strong> Temple destroyed; <strong>A.D. 132</strong> Bar Kochba.</span></div></div><ul class="factlist"><li><strong>Other date:</strong> <strong>A.D. 1947</strong> Dead Sea Scrolls found near Qumran.</li><li><strong>Causes:</strong> Greek worship demanded → Maccabean revolt; Roman rule and tensions → Jewish–Roman wars.</li><li><strong>Effects:</strong> Temple lost → synagogues and rabbis gained importance; Torah schools and writings preserved beliefs.</li><li><strong>Names:</strong> Alexander, Antiochus IV, Judas Maccabeus, Herod, Bar Kochba, Yohanan ben Zaccai.</li></ul>`,remember:'331–200–176–167 B.C. → 63 B.C. → A.D. 66–70–132 → 1947.'},
+    {title:'Remember These Before the Test',eyebrow:'Final 4-minute review • Last slide before quiz',body:`<p class="lead">Read this checklist once, then say the answers without looking.</p><ul class="checklist"><li><strong>Diaspora:</strong> Jews outside homeland; Greek meaning “scattered.”</li><li><strong>Alexander:</strong> 331 B.C.; spread Greek culture. <strong>Septuagint:</strong> Greek Hebrew Bible.</li><li><strong>Maccabees:</strong> Judas led revolt in 167 B.C.; Hanukkah remembers Temple cleansing.</li><li><strong>Romans:</strong> Judah conquered in 63 B.C., renamed Judaea; Herod and Second Temple.</li><li><strong>Groups:</strong> Pharisees, Sadducees, Essenes, Zealots—know differences.</li><li><strong>Wars:</strong> A.D. 66 revolt; A.D. 70 Temple destroyed; A.D. 132 Bar Kochba.</li><li><strong>Dead Sea Scrolls:</strong> found near Qumran in A.D. 1947.</li><li><strong>Rabbi:</strong> Jewish congregation leader. <strong>Ben Zaccai:</strong> Yavneh school.</li><li><strong>Writings:</strong> oral discussions → Mishnah; combined traditions → Talmud.</li></ul><p class="small">Ready? Tap <strong>Start Quiz</strong>. Feedback appears after each choice.</p>`,remember:'Spread • revolt • Roman rule • groups • rabbis • preserved teachings.'}
+  ];
+  
+  const questions = [
+    // EASY • 1–10
+    {q:'What does Diaspora mean in the textbook?',a:['A Jewish temple','Groups of Jews living outside their homeland','A Roman army','A religious school'],c:1,why:'The Diaspora consisted of Jews living outside the Jewish homeland.',topic:'Teacher vocabulary',level:'Easy'},
+    {q:'What is a rabbi?',a:['A Greek ruler','A scroll from a cave','The official leader of a Jewish congregation','A Roman fortress'],c:2,why:'A rabbi is the official leader of a Jewish congregation.',topic:'Teacher vocabulary',level:'Easy'},
+    {q:'What does the Greek word Diaspora mean?',a:['Scattered','Temple','Instruction','Revolt'],c:0,why:'The textbook says Diaspora is Greek for scattered.',topic:'Diaspora',level:'Easy'},
+    {q:'Who defeated the Persians in 331 B.C.?',a:['Judas Maccabeus','Herod','Bar Kochba','Alexander the Great'],c:3,why:'Alexander defeated the Persians in 331 B.C.',topic:'Greek rule',level:'Easy'},
+    {q:'What is the Septuagint?',a:['A Roman wall','The Greek version of the Hebrew Bible','An army of rebel soldiers','The Talmud'],c:1,why:'Jewish scholars in Egypt made a Greek version called the Septuagint.',topic:'Diaspora',level:'Easy'},
+    {q:'Who led the revolt against the Seleucids in 167 B.C.?',a:['Judas Maccabeus','Herod','Yohanan ben Zaccai','Alexander'],c:0,why:'Judas Maccabeus led the Maccabees.',topic:'Maccabees',level:'Easy'},
+    {q:'Which festival recalls the cleansing of the Temple?',a:['Sabbath','Passover','Hanukkah','Talmud'],c:2,why:'Hanukkah remembers the Temple cleansing and rededication.',topic:'Maccabees',level:'Easy'},
+    {q:'What did the Romans call Judah after conquering it?',a:['Babylon','Qumran','Yavneh','Judaea'],c:3,why:'In 63 B.C. the Romans renamed Judah Judaea.',topic:'Roman rule',level:'Easy'},
+    {q:'Where were the Dead Sea Scrolls found?',a:['Rome','Caves near Qumran','Inside Masada','A school in Egypt'],c:1,why:'The scrolls were found in caves at Qumran near the Dead Sea.',topic:'Dead Sea Scrolls',level:'Easy'},
+    {q:'What does the Hebrew word Talmud mean?',a:['Instruction','Scattered','Fortress','Revolt'],c:0,why:'The source states Talmud means instruction.',topic:'Mishnah and Talmud',level:'Easy'},
+  
+    // MEDIUM • 11–20
+    {q:'What did Alexander allow Jews to do after introducing Greek culture?',a:['Build a Roman fortress','Rule all Macedonia','Stay in Judah','Move the capital to Yavneh'],c:2,why:'Alexander introduced Greek culture but allowed Jews to stay in Judah.',topic:'Greek rule',level:'Medium'},
+    {q:'After Alexander died, who divided his empire?',a:['The Pharisees','The rabbis','The Romans','Four of his generals'],c:3,why:'Four generals divided Alexander’s empire into kingdoms.',topic:'Greek rule',level:'Medium'},
+    {q:'Which king required Jews to worship Greek gods and goddesses?',a:['Antiochus IV','Herod','Cyrus II','Yohanan ben Zaccai'],c:0,why:'Antiochus IV imposed this demand in Judah.',topic:'Maccabees',level:'Medium'},
+    {q:'What did the Maccabees do after capturing the Temple?',a:['Taught only oral law','Removed statues and rededicated it to God','Destroyed every Torah scroll','Gave it to Rome'],c:1,why:'They cleared Greek statues and restored worship of God.',topic:'Maccabees',level:'Medium'},
+    {q:'Which group applied Torah to daily life and stressed written and oral law?',a:['Sadducees','Essenes','Pharisees','Zealots'],c:2,why:'Pharisees taught in synagogues and stressed both forms of law.',topic:'Jewish groups',level:'Medium'},
+    {q:'Which group favored cooperation with the Romans?',a:['Zealots','Pharisees','Essenes','Sadducees'],c:3,why:'Sadducees wanted cooperation to keep peace and order.',topic:'Jewish groups',level:'Medium'},
+    {q:'Which group lived at Qumran near the Dead Sea?',a:['Essenes','Maccabees','Zealots','Roman generals'],c:0,why:'Many Essenes lived and prayed at Qumran.',topic:'Jewish groups',level:'Medium'},
+    {q:'In what year did the Zealots revolt?',a:['A.D. 1947','A.D. 66','331 B.C.','167 B.C.'],c:1,why:'The Zealots revolted in A.D. 66.',topic:'Jewish–Roman wars',level:'Medium'},
+    {q:'What happened in Jerusalem in A.D. 70?',a:['Alexander defeated Persians','The Septuagint was written','Romans retook the city and destroyed the Second Temple','Cyrus II returned Jews'],c:2,why:'Romans retook Jerusalem four years after A.D. 66 and destroyed the Temple.',topic:'Jewish–Roman wars',level:'Medium'},
+    {q:'Which school did Yohanan ben Zaccai establish to teach Torah?',a:['Masada','Qumran','Rome','Yavneh'],c:3,why:'Ben Zaccai persuaded Romans to spare Yavneh and founded a school there.',topic:'Rabbis',level:'Medium'},
+  
+    // HARD • 21–30
+    {q:'A Jewish family lives outside Judah, speaks Greek, and keeps Jewish customs. Which idea fits?',a:['Diaspora','The Sadducees only','The Roman conquest','The Temple at Jerusalem'],c:0,why:'The Diaspora included Jews abroad who preserved customs and spread ideas.',topic:'Diaspora scenarios',level:'Hard'},
+    {q:'Which comparison between the Pharisees and Sadducees matches the book?',a:['Both rejected the written Torah','Pharisees stressed written and oral law; Sadducees stressed written law and Temple ceremonies','Pharisees sought guerrilla war; Sadducees hid cave scrolls','Both lived only in Qumran'],c:1,why:'The source contrasts oral law and daily practice with Temple ceremonies.',topic:'Jewish groups',level:'Hard'},
+    {q:'A group lives near the Dead Sea, follows written Torah, and waits for God to deliver Jews. Which group?',a:['Pharisees','Zealots','Essenes','Sadducees'],c:2,why:'These are textbook features of Essenes living at Qumran.',topic:'Jewish groups',level:'Hard'},
+    {q:'What is the correct sequence?',a:['Roman conquest → Alexander → Maccabees','Bar Kochba → Maccabees → Alexander','Dead Sea Scrolls discovery → Roman war → Greek rule','Alexander → Seleucids → Maccabees → Roman rule'],c:3,why:'Greek expansion came before Seleucid and Maccabean events, then Rome.',topic:'Timeline',level:'Hard'},
+    {q:'Which statement correctly compares the Maccabees and Zealots?',a:['Maccabees fought Seleucids; Zealots fought Romans','Both led revolts against Cyrus II','Maccabees created Talmud; Zealots translated Bible','Both lived at Yavneh after A.D. 70'],c:0,why:'The two rebel groups resisted different rulers.',topic:'Conflict comparisons',level:'Hard'},
+    {q:'Why did rabbis and synagogues gain importance after the Roman wars?',a:['Romans made all Jews Greek rulers','Jews no longer had a temple or priests','The Torah was no longer studied','The Maccabees captured Rome'],c:1,why:'The textbook says rabbis and synagogues helped Jews regroup without Temple or priests.',topic:'Rabbis',level:'Hard'},
+    {q:'What does the Dead Sea Scrolls evidence show about Judaism during Roman rule?',a:['All Jews always practiced exactly alike','All writing came from Rome','Different Jewish groups had different practices','The reason the scrolls were hidden is certain'],c:2,why:'The scrolls record a variety of beliefs, days, and practices.',topic:'Dead Sea Scrolls',level:'Hard'},
+    {q:'Which event followed the Bar Kochba revolt?',a:['Alexander allowed Jews to stay in Judah','Jews gained their own Roman emperor','Rome renamed Judah Macedonia','Romans restricted Jews from Jerusalem and renamed Judaea Palestine'],c:3,why:'Romans imposed controls and the name Palestine after crushing the revolt.',topic:'Jewish–Roman wars',level:'Hard'},
+    {q:'Which pair correctly shows how the books of Jewish law were formed?',a:['Oral discussions → Mishnah; Mishnah with other legal traditions → Talmud','Torah → Greek army; Greek army → Talmud','Temple ruins → Mishnah; Maccabees → Talmud','Septuagint → Hanukkah; Hanukkah → Mishnah'],c:0,why:'Rabbis recorded oral discussions as Mishnah, later part of Talmud.',topic:'Mishnah and Talmud',level:'Hard'},
+    {q:'A teacher asks what helped Judaism continue after the Temple was destroyed. Which example is from the book?',a:['Stopping Torah study','Ben Zaccai’s Yavneh school, rabbis, and community service','Rejecting Jewish law','Only rebuilding Greek statues'],c:1,why:'Ben Zaccai founded a Torah school and taught kindness and community service.',topic:'Rabbis',level:'Hard'}
+  ];
+  
+
+  let state = {mode:'slide',index:0,qi:0,answers:Array(questions.length).fill(null)};
+  const $ = (id) => document.getElementById(id);
+  const canvas = $('canvas');
+  const escapeHtml = (s) => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const score = () => state.answers.reduce((n,a,i)=>n+(a===questions[i].c?1:0),0);
+  const isReview = () => state.mode==='slide' && state.index>=slides.length-2;
+  function phaseUI(){
+    const n = state.mode==='quiz'||state.mode==='result'?2:isReview()?1:0;
+    ['phaseTeach','phaseReview','phaseQuiz'].forEach((id,i)=>{const e=$(id);e.classList.toggle('active',i===n);e.classList.toggle('done',i<n);});
+  }
+  function render(){
+    phaseUI();
+    if(state.mode==='slide') renderSlide();
+    else if(state.mode==='quiz') renderQuiz();
+    else renderResult();
+    canvas.scrollTop=0;
+    $('progress').setAttribute('aria-valuenow',Math.round(parseFloat($('progressFill').style.width)||0));
+  }
+  function chrome(mode,counter,percent,remember,nextLabel){
+    $('modeLabel').textContent=mode;
+    $('counter').textContent=counter;
+    $('progressFill').style.width=percent+'%';
+    $('rememberText').textContent=remember;
+    $('nextBtn').textContent=nextLabel;
+  }
+  function renderSlide(){
+    const s=slides[state.index];
+    canvas.innerHTML=`<div class="eyebrow">${s.eyebrow}</div><h2>${s.title}</h2>${s.body}`;
+    chrome(isReview()?'Final review':'Learning time',`Slide ${state.index+1} of ${slides.length}`,100*(state.index+1)/slides.length,s.remember,state.index===slides.length-1?'Start Quiz →':'Next →');
+    $('backBtn').disabled=state.index===0;
+    $('nextBtn').disabled=false;
+  }
+  function renderQuiz(){
+    const q=questions[state.qi],chosen=state.answers[state.qi],done=chosen!==null;
+    const choices=q.a.map((option,i)=>{
+      const cls=done?(i===q.c?' correct':i===chosen?' wrong':''):'';
+      return `<button type="button" class="option${cls}" data-choice="${i}" ${done?'disabled':''} aria-label="Option ${'ABCD'[i]}: ${escapeHtml(option)}"><span class="letter">${'ABCD'[i]}</span><span>${escapeHtml(option)}</span></button>`;
+    }).join('');
+    const feedback=done?`<div class="feedback ${chosen===q.c?'':'bad'}" role="status"><b>${chosen===q.c?'✅ Correct!':'❌ Incorrect'}</b><p><strong>Correct answer: ${'ABCD'[q.c]}.</strong> ${escapeHtml(q.a[q.c])}</p><p>${escapeHtml(q.why)}</p></div>`:'';
+    canvas.innerHTML=`<div class="eyebrow">Practice • ${escapeHtml(q.topic)}</div><h2>Check Your Understanding</h2><div class="quizmeta"><span class="bubble ${q.level.toLowerCase()}">${q.level}</span><span class="bubble">Score: ${score()} / ${questions.length}</span></div><div class="question">${escapeHtml(q.q)}</div><div class="choices">${choices}</div>${feedback}`;
+    canvas.querySelectorAll('[data-choice]').forEach(btn=>btn.addEventListener('click',()=>answerQuestion(Number(btn.dataset.choice))));
+    chrome('Quiz time',`Question ${state.qi+1} of ${questions.length}`,100*(state.qi+1)/questions.length,done?'Learn from the explanation, then move on.':'Choose A, B, C, or D. Feedback appears after you answer.',state.qi===questions.length-1?'See Results →':'Next Question →');
+    $('backBtn').disabled=false;
+    $('nextBtn').disabled=!done;
+  }
+  function answerQuestion(choice){
+    if(state.mode!=='quiz'||state.answers[state.qi]!==null)return;
+    state.answers[state.qi]=choice;
+    render();
+  }
+  function renderResult(){
+    const total=score(),pct=Math.round(total*100/questions.length);
+    const missed={}; questions.forEach((q,i)=>{if(state.answers[i]!==q.c)missed[q.topic]=(missed[q.topic]||0)+1;});
+    const areas=Object.entries(missed).sort((a,b)=>b[1]-a[1]);
+    const review=areas.length?areas.map(([name,count])=>`<div class="review-item">📘 ${escapeHtml(name)} <span class="small">(${count} to review)</span></div>`).join(''):'<div class="review-item ok">🌟 Great work — no missed topics!</div>';
+    canvas.innerHTML=`<div class="eyebrow">Quiz complete • Your result</div><div class="final-score"><h2>Nice Work!</h2><p class="lead">You finished all 30 questions.</p><div class="score-ring" style="--score:${pct}%"><div>${total}/30</div></div><p><strong>${pct}% correct</strong></p></div><h3>Topics to Review</h3><div class="review-grid">${review}</div><p class="small" style="margin-top:18px">Use Back to revisit your last answer, or Restart to study the whole lesson again.</p>`;
+    chrome('Quiz complete','Final score',100,'Your results show what to review before the test.','Review Quiz ←');
+    $('backBtn').disabled=false;
+    $('nextBtn').disabled=false;
+  }
+  function next(){
+    if(state.mode==='slide'){
+      if(state.index<slides.length-1)state.index++;
+      else {state.mode='quiz';state.qi=0;}
+    } else if(state.mode==='quiz'){
+      if(state.answers[state.qi]===null)return;
+      if(state.qi<questions.length-1)state.qi++;
+      else state.mode='result';
+    } else {state.mode='quiz';state.qi=questions.length-1;}
+    render();
+  }
+  function back(){
+    if(state.mode==='slide')state.index=Math.max(0,state.index-1);
+    else if(state.mode==='quiz'){
+      if(state.qi===0){state.mode='slide';state.index=slides.length-1;}
+      else state.qi--;
+    }
+    else {state.mode='quiz';state.qi=questions.length-1;}
+    render();
+  }
+  function restart(){
+    if(state.mode==='slide'&&state.index===0)return;
+    if(!window.confirm('Restart the lesson and clear your quiz answers?'))return;
+    state={mode:'slide',index:0,qi:0,answers:Array(questions.length).fill(null)};
+    render();
+  }
+  $('nextBtn').addEventListener('click',next);
+  $('backBtn').addEventListener('click',back);
+  $('restartBtn').addEventListener('click',restart);
+  window.addEventListener('keydown',e=>{
+    if(e.target.closest('button'))return;
+    if(e.key==='ArrowRight'&&!$('nextBtn').disabled)next();
+    if(e.key==='ArrowLeft'&&!$('backBtn').disabled)back();
+  });
+  render();
+  </script>
+</body>
+</html>

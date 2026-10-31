@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#4336b8">
+  <title>The Development of Judaism | Grade 6 Touchscreen Tutor</title>
+  <style>
+    :root { --ink:#20284c; --muted:#66708d; --purple:#5846c8; --purple-dark:#4336a9; --lavender:#ece8ff; --cyan:#dff7fb; --peach:#fff0da; --green:#dcf7e5; --pink:#ffe6ed; --white:#fff; --line:#e5e8f3; --shadow:0 22px 55px rgba(47,43,118,.14); }
+    * { box-sizing:border-box; }
+    html { -webkit-text-size-adjust:100%; }
+    body { margin:0; background:radial-gradient(circle at 4% 5%,#ddd8ff 0,transparent 33%),radial-gradient(circle at 98% 95%,#d0f4f9 0,transparent 30%),#f7f8fd; color:var(--ink); font:500 17px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif; min-height:100vh; }
+    button { font:inherit; cursor:pointer; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+    button:focus-visible { outline:4px solid #ffb73d; outline-offset:3px; }
+    .shell { width:min(1240px,calc(100% - 32px)); margin:18px auto; display:grid; grid-template-columns:280px minmax(0,1fr); min-height:min(840px,calc(100svh - 36px)); gap:18px; }
+    .rail { background:linear-gradient(160deg,#5745cb,#3f339a); color:white; border-radius:28px; padding:30px 25px; display:flex; flex-direction:column; box-shadow:var(--shadow); overflow:hidden; position:relative; }
+    .rail::before,.rail::after { content:""; position:absolute; border-radius:50%; border:2px solid rgba(255,255,255,.14); pointer-events:none; }
+    .rail::before { width:250px; height:250px; top:-140px; right:-130px; }.rail::after{width:300px;height:300px;bottom:-210px;left:-140px;}
+    .brand { font-size:14px; font-weight:900; letter-spacing:.14em; text-transform:uppercase; opacity:.85; }
+    .rail h1 { font-size:clamp(27px,2.6vw,38px); line-height:1.13; margin:35px 0 16px; letter-spacing:-.04em; }
+    .rail p { color:#e6e1ff; font-size:15px; margin:0; }
+    .time-pill { align-self:flex-start; border:1px solid #ab9eff; border-radius:999px; padding:8px 13px; font-weight:800; font-size:13px; margin:24px 0 34px; color:white; background:#ffffff17; }
+    .section-steps { display:grid; gap:18px; margin-top:auto; position:relative; }
+    .phase { display:flex; gap:12px; align-items:center; opacity:.5; font-weight:800; font-size:15px; }
+    .phase.active,.phase.done { opacity:1; }
+    .phase-number { display:grid; place-items:center; width:34px; height:34px; flex:none; border-radius:12px; background:#ffffff29; border:1px solid #ffffff32; }
+    .phase.active .phase-number { background:white; color:var(--purple-dark); }
+    .phase.done .phase-number { background:#8df0be; color:#1a6b49; }
+    .tiny-note { color:#dbd6ff;font-size:12px;margin-top:24px; }
+    .main { min-width:0; background:white; border:1px solid #ffffff; border-radius:28px; box-shadow:var(--shadow); display:flex; flex-direction:column; overflow:hidden; height:min(840px,calc(100svh - 36px)); min-height:640px; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; padding:21px 29px 15px; gap:16px; }
+    .status { display:flex; align-items:center; gap:10px; color:var(--purple-dark); text-transform:uppercase; font-size:12px; font-weight:900; letter-spacing:.12em; }
+    .dot { width:11px; height:11px; border-radius:50%; background:#feae61; box-shadow:0 0 0 5px #fff0db; }
+    .count { color:#65708d; font-size:14px; font-weight:800; white-space:nowrap; }
+    .track { margin:0 29px; height:9px; background:#edf0f8; border-radius:40px; overflow:hidden; }
+    .fill { height:100%; width:0%; border-radius:40px; background:linear-gradient(90deg,#7264e4,#39c3cd); transition:width .3s ease; }
+    .canvas { flex:1; min-height:0; overflow-y:auto; overscroll-behavior:contain; padding:28px 36px 14px; scrollbar-width:thin; scrollbar-color:#cfc9f9 #f8f9fc; }
+    .eyebrow { color:var(--purple); font-size:12px; text-transform:uppercase; letter-spacing:.16em; font-weight:900; }
+    h2 { font-size:clamp(27px,3vw,40px); line-height:1.12; letter-spacing:-.038em; margin:9px 0 13px; }
+    .lead { color:#5b6483; font-size:18px; margin:0 0 22px; }
+    p { margin:0 0 14px; }
+    strong { font-weight:900; color:#4133a4; }
+    .tile-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; margin:18px 0; }
+    .tile-grid.three { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .tile { background:#f4f3ff; border-radius:18px; padding:17px; border:1px solid #e8e4ff; min-width:0; }
+    .tile.cyan { background:#eafafd;border-color:#d6f2f7; }.tile.peach{background:#fff6e9;border-color:#ffedd6;}.tile.green{background:#eafaf0;border-color:#d8f2e2;}.tile.pink{background:#fff0f5;border-color:#fbdde7;}
+    .tile b { display:block; color:#29325c; font-size:17px; margin-bottom:6px; }.tile span{font-size:15px;display:block;line-height:1.45;color:#4a5574;}
+    .arrowline { display:flex; gap:9px; align-items:stretch; margin:18px 0; }.step { flex:1; display:grid; place-items:center; text-align:center; background:#eeeaff; border-radius:16px; min-height:85px; padding:12px; font-weight:800; font-size:15px; }.arrow{align-self:center;font-size:24px;color:#7d6df1;font-weight:900;}
+    .callout { padding:15px 19px;border-left:5px solid #8b7ae6;background:#f4f2ff;border-radius:0 16px 16px 0;margin:15px 0;font-size:16px; }
+    .tagrow { display:flex; flex-wrap:wrap; gap:9px; margin:13px 0 20px; }.tag { border:1px solid #ddd9ff;border-radius:999px;background:#f4f2ff;padding:6px 12px;font-weight:800;color:#4c3db1;font-size:14px; }
+    table { border-collapse:separate; border-spacing:0; width:100%; font-size:14px; margin:14px 0 22px; border:1px solid #e1e5f4;border-radius:15px;overflow:hidden; }
+    th,td{ text-align:left; padding:11px 13px; vertical-align:top; border-bottom:1px solid #e7eaf4; } th{ background:#eae7ff;color:#322582;font-size:13px;letter-spacing:.015em;}tr:nth-child(even) td{background:#f9faff;}tr:last-child td{border-bottom:0;}
+    td:first-child { font-weight:800; color:#2f3764; }
+    .factlist { margin:12px 0 18px; padding-left:22px; }.factlist li { margin-bottom:8px; padding-left:2px; }
+    .remember { margin:0 30px 16px; padding:14px 18px; border-radius:17px; background:linear-gradient(90deg,#fff3ca,#fff8e7); border:1px solid #ffe3a7; color:#5f421b; display:flex;align-items:flex-start;gap:9px;font-size:15px;line-height:1.4; }
+    .remember b { flex:none; color:#795016; }
+    .bottom { border-top:1px solid #eff0f6; padding:15px 29px 20px; display:flex; align-items:center; gap:12px; background:white; }
+    .nav { display:flex; align-items:center; justify-content:center; min-height:55px; border:0; border-radius:16px; padding:10px 22px; font-weight:900; font-size:16px; transition:transform .1s,background .15s; }
+    .nav:active,.option:active { transform:scale(.98); }
+    .nav.secondary { background:#f0f1fb;color:#4e5790; }.nav.primary{ background:var(--purple);color:white;min-width:147px;box-shadow:0 8px 20px #5947c52b;}.nav.primary:hover{background:var(--purple-dark);}
+    .nav.minor { background:transparent;color:#7c84a0;padding:8px 12px; }.nav:disabled{opacity:.38;cursor:not-allowed;box-shadow:none;}
+    .bottom .spacer{flex:1;}
+    .quizmeta {display:flex;gap:9px;flex-wrap:wrap;margin:16px 0;}.bubble{border-radius:999px;background:#eaf0ff;color:#3e4c86;font-weight:900;font-size:13px;padding:6px 12px;}.bubble.easy{background:#def5e7;color:#267649;}.bubble.medium{background:#fff1d6;color:#8a5b18;}.bubble.hard{background:#ffe4ec;color:#9c3254;}
+    .question { font-size:clamp(22px,2.6vw,30px);line-height:1.28;font-weight:900;letter-spacing:-.017em;margin:10px 0 20px; }
+    .choices {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:18px;}
+    .option {display:flex;text-align:left;align-items:center;gap:12px;border:2px solid #e4e8f5;background:#fafbff;border-radius:17px;padding:15px;min-height:88px;color:#303958;font-size:16px;font-weight:750;}.option:hover:not(:disabled){background:#f1efff;border-color:#a99afa;}.option:disabled{cursor:default;}.option .letter{flex:none;display:grid;place-items:center;width:35px;height:35px;border-radius:11px;background:#e9e6ff;color:#5040ba;font-weight:950;}.option.correct{background:#e3faeb;border-color:#58c889;color:#15683b;}.option.correct .letter{background:#b9efd0;color:#15683b;}.option.wrong{background:#ffebef;border-color:#f28aa3;color:#a0274a;}.option.wrong .letter{background:#ffd2de;color:#a0274a;}
+    .feedback {padding:15px 17px;border-radius:17px;border:1px solid #c8ecd6;background:#effcf3;font-size:15px;}.feedback.bad{background:#fff1f3;border-color:#ffcbd5;}.feedback b{font-size:18px;display:block;color:#236d45;}.feedback.bad b{color:#ae3155;}.feedback p{margin:4px 0 0;}
+    .final-score {text-align:center;padding:8px 0 18px;}.score-ring{width:150px;height:150px;border-radius:50%;background:conic-gradient(#5d4ed2 var(--score),#e9e9f5 0);display:grid;place-items:center;margin:16px auto;}.score-ring>div{width:125px;height:125px;border-radius:50%;background:white;display:grid;place-items:center;font-size:36px;font-weight:950;color:#4436ab;}.review-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}.review-item{background:#fff6e8;border:1px solid #fbe3ba;border-radius:14px;padding:12px;font-size:15px;font-weight:800;}.review-item.ok{background:#eaf9ed;border-color:#cdeed7;}
+    .checklist {list-style:none;padding:0;margin:12px 0;}.checklist li{padding:11px 13px;border-radius:12px;background:#f6f7fd;margin:8px 0;}.checklist li::before{content:'☐';color:#7769db;font-weight:900;margin-right:10px;}
+    .small{font-size:14px;color:var(--muted);}.nowrap{white-space:nowrap;}
+    @media (max-width:950px){.shell{grid-template-columns:1fr;max-width:840px;margin:10px auto;width:calc(100% - 20px);gap:10px;}.rail{min-height:auto;padding:14px 20px;border-radius:20px;display:block;}.brand{font-size:11px}.rail h1{font-size:23px;margin:5px 0 2px}.rail p,.time-pill,.section-steps,.tiny-note{display:none;}.main{height:calc(100svh - 112px);min-height:550px;border-radius:20px;}.canvas{padding:21px 24px 10px}.remember{margin:0 22px 12px}.bottom{padding:12px 20px 16px}.topbar{padding:15px 22px 11px}.track{margin:0 22px}}
+    @media (max-width:600px){body{font-size:16px}.shell{width:calc(100% - 12px);margin:6px auto;gap:7px}.rail{padding:10px 16px;border-radius:16px}.rail h1{font-size:20px}.brand{font-size:10px}.main{height:calc(100svh - 82px);min-height:460px;border-radius:16px}.canvas{padding:17px 16px 7px}.topbar{padding:13px 15px 10px}.track{margin:0 15px}h2{font-size:26px}.lead{font-size:16px}.tile-grid,.tile-grid.three,.choices,.review-grid{grid-template-columns:1fr}.tile{padding:13px}.choices{gap:9px}.option{min-height:68px;padding:10px 12px}.remember{margin:0 12px 8px;padding:11px 13px;font-size:13px}.bottom{padding:10px 12px 12px;gap:7px}.nav{font-size:14px;min-height:49px;padding:9px 13px;border-radius:13px}.nav.primary{min-width:104px}.nav.minor{padding:7px 6px}table{font-size:12px}th,td{padding:8px 7px}.arrowline{gap:4px}.step{font-size:12px;padding:7px;min-height:65px}.arrow{font-size:17px}.question{font-size:22px}}
+    @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail" aria-label="Lesson overview">
+      <div class="brand">Grade 6 • Touchscreen Tutor</div>
+      <h1>The Development<br>of Judaism</h1>
+      <p>Worship, Hebrew Bible, Jewish family, and dietary laws.</p>
+      <div class="time-pill">⏱ Teaching: about 15–20 minutes</div>
+      <div class="section-steps">
+        <div class="phase active" id="phaseTeach"><span class="phase-number">1</span><span>Teaching slides</span></div>
+        <div class="phase" id="phaseReview"><span class="phase-number">2</span><span>Final review</span></div>
+        <div class="phase" id="phaseQuiz"><span class="phase-number">3</span><span>30-question quiz</span></div>
+      </div>
+      <div class="tiny-note">Based only on the supplied textbook pages.</div>
+    </aside>
+
+    <main class="main" aria-label="Interactive lesson">
+      <header class="topbar"><div class="status"><span class="dot"></span><span id="modeLabel">Learning time</span></div><div class="count" id="counter">Slide 1 of 29</div></header>
+      <div class="track" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress"><div class="fill" id="progressFill"></div></div>
+      <section class="canvas" id="canvas" tabindex="-1" aria-live="polite"></section>
+      <div class="remember" id="remember"><b>⭐ Remember</b><span id="rememberText"></span></div>
+      <footer class="bottom">
+        <button class="nav secondary" id="backBtn" type="button">← Back</button>
+        <button class="nav minor" id="restartBtn" type="button">↺ Restart</button>
+        <span class="spacer"></span>
+        <button class="nav primary" id="nextBtn" type="button">Next →</button>
+      </footer>
+    </main>
+  </div>
+  <script>
+  'use strict';
+  const slides = [
+    {title:'What You Must Know',eyebrow:'Start here • Lesson map',body:`<p class="lead">Essential question: <strong>How does religion shape society?</strong> This lesson explains how Jewish beliefs shaped daily life.</p><div class="tile-grid three"><div class="tile"><b>🕯️ Worship</b><span>Exile, synagogues, Sabbath, return to Judah</span></div><div class="tile cyan"><b>📜 Scripture</b><span>Scribes, scrolls, and the Hebrew Bible's stories</span></div><div class="tile peach"><b>🏠 Daily life</b><span>Family, food rules, and Passover traditions</span></div></div><div class="callout">Teacher's words: <strong>synagogue</strong>, <strong>sabbath</strong>, <strong>scroll</strong>, <strong>kosher</strong>.</div><p class="small">Learn the short slides, then answer the 30-question practice quiz.</p>`,remember:'Worship → Scriptures → family and food customs.'},
+    {title:'The Jews During the Exile',eyebrow:'Topic 1 • Return to Judah',body:`<p>Families of Judeans forced to live in <strong>Babylon</strong> spent <strong>70 years</strong> away from <strong>Judah</strong>.</p><div class="arrowline"><div class="step">Judeans exiled to Babylon</div><span class="arrow">→</span><div class="step">Lived away for 70 years</div><span class="arrow">→</span><div class="step">Became known as Jews</div></div><p>During their exile, they became known as the <strong>Jews</strong>. Their religion is called <strong>Judaism</strong>.</p><div class="callout">Religion served as the basis for the ancient Israelites' daily activities. Many practices continue today.</div>`,remember:'Babylonian exile: 70 years away; Judeans became known as Jews.'},
+    {title:'What Is a Synagogue?',eyebrow:'Topic 1 • Teacher vocabulary',body:`<div class="callout"><strong>Synagogue:</strong> a Jewish house of worship.</div><p>While in Babylon, the Jews no longer had a <strong>temple</strong> in which to worship God. Small groups began meeting at <strong>synagogues</strong>.</p><div class="arrowline"><div class="step">No temple in Babylon</div><span class="arrow">→</span><div class="step">Small groups met together</div><span class="arrow">→</span><div class="step">Worship at synagogues</div></div><p>The source says these were Jewish houses of worship.</p>`,remember:'Synagogue = Jewish house of worship; small groups met in Babylon.'},
+    {title:'What Is the Sabbath?',eyebrow:'Topic 1 • Teacher vocabulary',body:`<div class="callout"><strong>Sabbath:</strong> a weekly day of worship and rest.</div><p>Jews worshipped on the <strong>Sabbath</strong>. According to tradition, it lasts from <strong>sundown Friday</strong> to <strong>nightfall Saturday</strong>.</p><div class="arrowline"><div class="step">Friday at sundown</div><span class="arrow">→</span><div class="step">Worship and rest</div><span class="arrow">→</span><div class="step">Saturday at nightfall</div></div><p>During this weekly day, Jews <strong>prayed</strong> and talked about their religion and history. Jews still observe the Sabbath today.</p>`,remember:'Sabbath = rest and worship; Friday sundown → Saturday nightfall.'},
+    {title:'Returning to Judah in 538 B.C.',eyebrow:'Topic 1 • A turning point',body:`<p>Some Jews accepted <strong>Babylon</strong> as their permanent home. Others hoped to return to <strong>Judah</strong>.</p><div class="arrowline"><div class="step">Persians swept across Southwest Asia</div><span class="arrow">→</span><div class="step">Defeated Chaldeans; took Babylon</div><span class="arrow">→</span><div class="step">Cyrus II allowed Jews to return</div></div><p>In <strong>538 B.C.</strong>, the Persian king <strong>Cyrus II</strong> let Jews return to Judah.</p><div class="callout">Remember the pair: <strong>Cyrus II → 538 B.C. → return to Judah</strong>.</div>`,remember:'538 B.C.: Persian king Cyrus II let Jews return.'},
+    {title:'The Second Temple and Persian Rule',eyebrow:'Topic 1 • Rebuilding Judah',body:`<div class="tile-grid"><div class="tile green"><b>Jerusalem rebuilt</b><span>Many Jews returned, rebuilt <strong>Jerusalem</strong>, and constructed the <strong>Second Temple</strong> to replace the one destroyed by the Chaldeans.</span></div><div class="tile peach"><b>Some stayed</b><span>Other Jews remained in <strong>Babylon</strong>.</span></div><div class="tile cyan"><b>Persian rulers</b><span>Persians chose officials to rule and collect <strong>taxes</strong>.</span></div><div class="tile"><b>Jewish community</b><span>Jews had no king or government of their own, so they relied on religious leaders.</span></div></div>`,remember:'Return → Jerusalem rebuilt → Second Temple; Persian officials ruled.'},
+    {title:'Priests and Scribes',eyebrow:'Topic 1 • Community leaders',body:`<p>Jews depended on <strong>temple priests</strong> and <strong>scribes</strong> to guide society.</p><table><thead><tr><th>Role</th><th>What the textbook says</th></tr></thead><tbody><tr><td><strong>Priests</strong></td><td>Many were religious scholars with deep understanding of the Jewish faith.</td></tr><tr><td><strong>Scribes</strong></td><td>Lectured in synagogues and taught in schools.</td></tr></tbody></table><div class="arrowline"><div class="step">Temple priests + scribes</div><span class="arrow">→</span><div class="step">Guided the people</div><span class="arrow">→</span><div class="step">Taught religious life</div></div>`,remember:'Priests = scholars; scribes = teachers and synagogue lecturers.'},
+    {title:'What Is a Scroll?',eyebrow:'Topic 1 • Teacher vocabulary',body:`<div class="callout"><strong>Scroll:</strong> a long document made from pieces of parchment sewn together.</div><p>A scribe named <strong>Ezra</strong> led the Jews in writing the <strong>five books of the Torah</strong> on pieces of <strong>parchment</strong>.</p><div class="arrowline"><div class="step">Write on parchment pieces</div><span class="arrow">→</span><div class="step">Sew pieces together</div><span class="arrow">→</span><div class="step">Make long scrolls</div></div><p>The <strong>Torah</strong> and later writings became part of the <strong>Hebrew Bible</strong>.</p>`,remember:'Ezra → five Torah books → parchment sewn into long scrolls.'},
+    {title:'How Is the Hebrew Bible Organized?',eyebrow:'Topic 2 • Three parts',body:`<p>The Hebrew Bible includes <strong>three parts</strong> and a collection of <strong>24 books</strong> written and collected over many centuries.</p><div class="tile-grid three"><div class="tile"><b>1. Torah</b><span>First part</span></div><div class="tile cyan"><b>2. Prophets</b><span>Second part</span></div><div class="tile peach"><b>3. Writings</b><span>Third part</span></div></div><ul class="factlist"><li>It presents laws and rules of the Israelites.</li><li>It reflects their <strong>culture</strong>: history, art, literature, poetry, and proverbs.</li><li>The source calls it a guide to the people's rules and beliefs.</li></ul>`,remember:'Hebrew Bible: Torah + Prophets + Writings = 24 books.'},
+    {title:'Genesis: Creation and Rest',eyebrow:'Topic 2 • The first Torah book',body:`<p><strong>Genesis</strong>, the first book of the <strong>Torah</strong>, presents the Israelite view of human beginnings.</p><div class="arrowline"><div class="step">God created Earth in six days</div><span class="arrow">→</span><div class="step">God rested on the seventh day</div></div><p>These are statements from the Genesis account presented in the textbook.</p><div class="callout">Study connection: <strong>six days</strong> of creation followed by <strong>rest on the seventh day</strong>.</div>`,remember:'Genesis: created in six days; rested on day seven.'},
+    {title:'Genesis: Noah and the Flood',eyebrow:'Topic 2 • A textbook story',body:`<p>Genesis says God punished the world for wicked behavior. God warned <strong>Noah</strong> that a flood was coming and commanded him to build an <strong>ark</strong>, or large boat.</p><div class="arrowline"><div class="step">Noah built an ark</div><span class="arrow">→</span><div class="step">Noah, family, and two of every animal boarded</div><span class="arrow">→</span><div class="step">Flood rose; only those on the ark escaped drowning</div></div><p>After the rain stopped, God placed a <strong>rainbow</strong> in the sky as a sign the world would never again be destroyed by a flood, according to Genesis.</p>`,remember:'Noah → ark → flood → rainbow promise.'},
+    {title:'Genesis: The Tower of Babel',eyebrow:'Topic 2 • Why different languages?',body:`<p>Genesis also explains why people speak many different languages.</p><div class="arrowline"><div class="step">People of Babel tried a tower to heaven</div><span class="arrow">→</span><div class="step">God made them speak different languages</div><span class="arrow">→</span><div class="step">They could not work together</div><span class="arrow">→</span><div class="step">God scattered them across Earth</div></div><p>The source says God <strong>disapproved</strong> of the tower.</p>`,remember:'Babel: different languages → cannot communicate → people scattered.'},
+    {title:'Isaiah: Hope for Peace',eyebrow:'Topic 2 • Jewish hopes for the future',body:`<p>Later parts of the Hebrew Bible describe Jewish hopes for the future.</p><div class="tile-grid"><div class="tile green"><b>Book of Isaiah</b><span>Describes what Jews believed was God's plan for a <strong>peaceful world</strong>.</span></div><div class="tile cyan"><b>Isaiah 2:4</b><span>Pictures weapons being made into <strong>farm tools</strong>, with nations no longer training for war.</span></div></div><div class="arrowline"><div class="step">Swords → plowshares</div><span class="arrow">→</span><div class="step">Spears → pruning hooks</div><span class="arrow">→</span><div class="step">Nations no longer train for war</div></div>`,remember:'Isaiah’s hope: weapons become farm tools; no more war.'},
+    {title:'Daniel and the Lions’ Den',eyebrow:'Topic 2 • Good over evil',body:`<p>The book of <strong>Daniel</strong> says the Jews believed <strong>evil and suffering</strong> would eventually be replaced by <strong>goodness</strong>.</p><div class="arrowline"><div class="step">Daniel advised a Babylonian king</div><span class="arrow">→</span><div class="step">He refused to worship Babylonian gods</div><span class="arrow">→</span><div class="step">Chaldeans threw him into lions' den</div><span class="arrow">→</span><div class="step">God protected Daniel</div></div><p>The textbook says this story reminds Jews that God will rescue them. <strong>Christians and Muslims</strong> share hope for a better world where good triumphs over evil.</p>`,remember:'Daniel refused to worship Babylonian gods; God protected him from lions.'},
+    {title:'Judaism Shaped Daily Life',eyebrow:'Topic 3 • Religion and behavior',body:`<p>The <strong>Torah</strong> gave teachings for daily living and family life. It included rules about food and clothing.</p><div class="tile-grid"><div class="tile green"><b>Help others</b><span>Help the <strong>poor</strong>.</span></div><div class="tile cyan"><b>Be honest</b><span>Deal honestly with <strong>neighbors</strong>.</span></div><div class="tile peach"><b>Be fair</b><span>Apply <strong>laws fairly</strong>.</span></div><div class="tile pink"><b>Be responsible</b><span>Show individual worth, responsibility, self-discipline, and loyalty to God.</span></div></div>`,remember:'Torah shaped food, clothes, fairness, honesty, and responsibility.'},
+    {title:'The Jewish Family',eyebrow:'Topic 3 • Roles in the home',body:`<p>Ancient Israelites stressed the importance of <strong>family life</strong>. The Torah identified roles for the father and mother.</p><div class="tile-grid"><div class="tile"><b>Father</b><span>Led the family. If a father died, his <strong>sons</strong> took his place.</span></div><div class="tile cyan"><b>Mother</b><span>Educated daughters at home, teaching family roles and Jewish ways of life.</span></div></div><div class="callout">Education, especially for young <strong>men</strong>, was an important part of Jewish family life in the textbook.</div>`,remember:'The Torah gave family roles; sons took the father’s place when he died.'},
+    {title:'How Boys Learned',eyebrow:'Topic 3 • Education',body:`<div class="arrowline"><div class="step">Fathers taught worship and a trade</div><span class="arrow">→</span><div class="step">Religious teachers taught boys to read Torah</div><span class="arrow">→</span><div class="step">They learned from alphabet to Jewish history</div></div><p>Because reading the <strong>Torah</strong> was central to Jewish life, religious teachers became important <strong>community leaders</strong>.</p><div class="callout"><strong>Community</strong> (academic vocabulary): a group of people with common interests living in an area.</div>`,remember:'Fathers taught worship and trade; teachers taught Torah reading and history.'},
+    {title:'How Daughters Learned',eyebrow:'Topic 3 • Education at home',body:`<p>Daughters were educated at home by their <strong>mothers</strong>.</p><div class="tile-grid"><div class="tile pink"><b>Family roles</b><span>They learned to be <strong>wives, mothers, and housekeepers</strong>.</span></div><div class="tile green"><b>Jewish teachings</b><span>They learned about food, the <strong>Sabbath</strong>, and holidays.</span></div></div><p>The textbook then gives the story of two women from ancient Israel: <strong>Ruth</strong> and her mother-in-law <strong>Naomi</strong>.</p>`,remember:'Daughters learned family roles, food teachings, Sabbath, and holidays.'},
+    {title:'Ruth and Naomi',eyebrow:'Topic 3 • Family devotion',body:`<p>According to the Hebrew Bible, <strong>Naomi's husband and two sons died</strong>. One son had been married to <strong>Ruth</strong>.</p><div class="arrowline"><div class="step">Naomi planned to leave Moab</div><span class="arrow">→</span><div class="step">Ruth chose to go with Naomi</div><span class="arrow">→</span><div class="step">They went to Bethlehem</div></div><p>Ruth was <strong>not a Jew</strong> herself, and leaving her homeland of <strong>Moab</strong> was difficult. Naomi had urged Ruth to stay with her own people, but Ruth chose to help.</p>`,remember:'Ruth left Moab to stay with Naomi in Bethlehem.'},
+    {title:'Ruth’s Example',eyebrow:'Topic 3 • A source quotation',body:`<p>Ruth's answer in <strong>Ruth 1:16–17</strong> promised to go where Naomi went and stay where Naomi stayed.</p><div class="tile-grid"><div class="tile green"><b>Courage</b><span>Ruth left her homeland to help Naomi.</span></div><div class="tile cyan"><b>Devotion</b><span>Ruth was loyal to her family.</span></div></div><p>The textbook says Ruth's <strong>courage and devotion</strong> provided an example for Jewish girls to follow.</p>`,remember:'Ruth = courage + devotion to family.'},
+    {title:'Dietary Laws: What Jews Could Eat',eyebrow:'Topic 4 • Food rules',body:`<p>Jewish law told Jews what foods they could eat. Ancient Jews could eat meat from only <strong>certain animals</strong>.</p><div class="tile-grid"><div class="tile green"><b>Allowed examples in the book</b><span><strong>Beef</strong> and <strong>lamb</strong></span></div><div class="tile peach"><b>Reason for following laws</b><span>Jews believed following food rules showed <strong>obedience to God</strong>.</span></div></div><p>The rules about food were called <strong>kashrut</strong>, which the source says means <strong>“that which is proper.”</strong></p>`,remember:'Allowed meat examples: beef and lamb. Food rules = kashrut.'},
+    {title:'What Does Kosher Mean?',eyebrow:'Topic 4 • Teacher vocabulary',body:`<div class="callout"><strong>Kosher:</strong> prepared according to Jewish dietary law.</div><p>Many grocery items have a <strong>symbol for kosher</strong> on the label.</p><div class="arrowline"><div class="step">Animal killed in a certain way</div><span class="arrow">→</span><div class="step">Meat inspected</div><span class="arrow">→</span><div class="step">Salted</div><span class="arrow">→</span><div class="step">Soaked in water</div></div><p>The textbook describes this preparation for animals used as <strong>kosher meat</strong>.</p>`,remember:'Kosher = prepared by Jewish food law; meat killed, checked, salted, soaked.'},
+    {title:'What Is Not Kosher?',eyebrow:'Topic 4 • Compare the food rules',body:`<p>The textbook says foods that are not kosher are considered <strong>unclean</strong>.</p><table><thead><tr><th>Allowed example</th><th>Not allowed by dietary law</th></tr></thead><tbody><tr><td>Beef or lamb, when prepared by the rules</td><td><strong>Meat and dairy products together</strong></td></tr><tr><td>Foods prepared according to the law</td><td><strong>Shellfish</strong>, such as crab or shrimp</td></tr></tbody></table><div class="callout">Do not confuse <strong>an allowed animal</strong> with <strong>correct kosher preparation</strong>. The source gives both ideas.</div>`,remember:'No meat with dairy; no shellfish such as crab or shrimp.'},
+    {title:'What Is the Passover Seder?',eyebrow:'Topic 4 • Special meal',body:`<p><strong>Passover</strong> celebrates the <strong>Exodus</strong> of Jewish people from <strong>Egypt</strong>. During this festival, a special meal is eaten called the <strong>seder</strong>.</p><div class="tile-grid"><div class="tile"><b>Foods named in the source</b><span><strong>Lamb, hardboiled eggs, vinegar, salt water, herbs</strong>, and flat bread called <strong>matzoh</strong>.</span></div><div class="tile cyan"><b>Why it matters</b><span>Eating special foods and thinking about history is <strong>sacred</strong> to Jewish people.</span></div></div><p>Each food can carry <strong>religious significance</strong>.</p>`,remember:'Seder = Passover meal; Passover remembers Exodus from Egypt.'},
+    {title:'Seder Symbols and Family Questions',eyebrow:'Topic 4 • Food meanings',body:`<div class="tile-grid"><div class="tile peach"><b>Hardboiled egg</b><span>The caption calls it a symbol of <strong>God's kindness</strong>.</span></div><div class="tile green"><b>Bitter herbs</b><span>Represent the <strong>bitter experience of Jews in exile</strong>.</span></div><div class="tile cyan"><b>Fruit juice or honey</b><span>Herbs dipped in these show the <strong>sweetness and bitterness of life</strong>.</span></div><div class="tile pink"><b>Youngest child</b><span>Asks questions about <strong>the food and Passover</strong>; adults and older children recite answers together.</span></div></div>`,remember:'Egg = kindness; bitter herbs = exile; child asks, older family members answer.'},
+    {title:'Teacher Vocabulary Summary',eyebrow:'Keywords • Book definitions and memory tips',body:`<p class="lead">All four teacher words in one table.</p><table><thead><tr><th>Word</th><th>Textbook meaning</th><th>Memory tip</th></tr></thead><tbody><tr><td><strong>synagogue</strong></td><td>A Jewish house of worship</td><td>Worship house</td></tr><tr><td><strong>Sabbath</strong></td><td>A weekly day of worship and rest</td><td>Rest weekly</td></tr><tr><td><strong>scroll</strong></td><td>A long document made from pieces of parchment sewn together</td><td>Pieces joined</td></tr><tr><td><strong>kosher</strong></td><td>Prepared according to Jewish dietary law</td><td>Food rules</td></tr></tbody></table><p class="small">Other academic words in the source: <strong>tradition</strong> = a custom, or way of life, passed down from generation to generation; <strong>community</strong> = a group of people with common interests living in an area.</p>`,remember:'Synagogue = house • Sabbath = day • scroll = document • kosher = food.'},
+    {title:'Easy-to-Confuse Points',eyebrow:'Exam focus • Compare',body:`<table><thead><tr><th>Pair</th><th>What is different?</th></tr></thead><tbody><tr><td><strong>Synagogue / Temple</strong></td><td>Small groups worshipped in synagogues during exile / Jews later built the <strong>Second Temple</strong> in Jerusalem.</td></tr><tr><td><strong>Sabbath / seder</strong></td><td>Weekly rest and worship / special Passover meal</td></tr><tr><td><strong>Scroll / Torah</strong></td><td>Long parchment document / the first part of the Hebrew Bible, with five books copied by Ezra</td></tr><tr><td><strong>Kashrut / kosher</strong></td><td>The food laws (“that which is proper”) / food prepared according to those laws</td></tr><tr><td><strong>Persians / Chaldeans</strong></td><td>Persians defeated Chaldeans and allowed return / Chaldeans had destroyed the first temple</td></tr><tr><td><strong>Ruth / Naomi</strong></td><td>Ruth chose to help / Naomi was her mother-in-law</td></tr></tbody></table>`,remember:'Sabbath = weekly rest; seder = Passover meal; scroll = document.'},
+    {title:'Exam Focus: Facts and Sequences',eyebrow:'Final 4-minute review • Names and examples',body:`<div class="tile-grid"><div class="tile"><b>Time and numbers</b><span><strong>70 years</strong> in Babylon, <strong>538 B.C.</strong> return, <strong>3 parts</strong> and <strong>24 books</strong> in Hebrew Bible.</span></div><div class="tile cyan"><b>People</b><span><strong>Cyrus II, Ezra, Noah, Isaiah, Daniel, Ruth, Naomi</strong>.</span></div></div><ul class="factlist"><li><strong>Sequences:</strong> exile → worship in synagogues → Cyrus II allowed return → Second Temple.</li><li><strong>Texts:</strong> Genesis (creation, Noah, Babel), Isaiah (peace), Daniel (lions' den), Ruth (family devotion).</li><li><strong>Family:</strong> fathers and mothers, sons and daughters, learning the Torah.</li><li><strong>Food:</strong> beef/lamb, kosher preparation, no meat with dairy, no shellfish.</li><li><strong>Passover:</strong> seder foods, meanings, and youngest child's questions.</li></ul>`,remember:'70 years • 538 B.C. • three Hebrew Bible parts • 24 books.'},
+    {title:'Remember These Before the Test',eyebrow:'Final 4-minute review • Last slide before quiz',body:`<p class="lead">Read each line once, then say it back in your own words.</p><ul class="checklist"><li><strong>Exile:</strong> Jews lived 70 years away from Judah in Babylon.</li><li><strong>Synagogue:</strong> Jewish house of worship.</li><li><strong>Sabbath:</strong> Friday sundown to Saturday nightfall; worship and rest.</li><li><strong>Cyrus II:</strong> allowed Jews to return in 538 B.C.; Second Temple rebuilt.</li><li><strong>Scroll:</strong> parchment pieces sewn together; Ezra wrote Torah books.</li><li><strong>Hebrew Bible:</strong> Torah + Prophets + Writings = 24 books.</li><li><strong>Stories:</strong> Noah, Babel, Isaiah's peace, Daniel, Ruth and Naomi.</li><li><strong>Kosher:</strong> Jewish dietary laws; know allowed and forbidden examples.</li><li><strong>Passover seder:</strong> foods, meanings, and family questions.</li></ul><p class="small">Ready? Tap <strong>Start Quiz</strong> for 30 questions. The answer stays hidden until you tap.</p>`,remember:'Know the four words, key stories, 70 years, 538 B.C., and daily-life rules.'}
+  ];
+  
+  const questions = [
+    // EASY • 1–10
+    {q:'What is a synagogue?',a:['A kind of food','A Jewish house of worship','A long document','A Persian king'],c:1,why:'A synagogue is a Jewish house of worship.',topic:'Teacher vocabulary',level:'Easy'},
+    {q:'What is the Sabbath?',a:['A holiday celebrating the Exodus','A type of scroll','A weekly day of worship and rest','A city in Judah'],c:2,why:'The textbook defines the Sabbath as a weekly day of worship and rest.',topic:'Teacher vocabulary',level:'Easy'},
+    {q:'What is a scroll?',a:['A long document of sewn parchment pieces','A rule about meat','A house of worship','A special Passover food'],c:0,why:'A scroll is made by sewing parchment pieces into a long document.',topic:'Teacher vocabulary',level:'Easy'},
+    {q:'What does kosher mean?',a:['A Jewish king','A day of rest','A book of the Bible','Prepared according to Jewish dietary law'],c:3,why:'Kosher means prepared according to Jewish dietary law.',topic:'Teacher vocabulary',level:'Easy'},
+    {q:'For how many years were the exiled Judeans away from Judah?',a:['24 years','70 years','3 years','538 years'],c:1,why:'The source says the families spent 70 years in Babylon.',topic:'Exile',level:'Easy'},
+    {q:'Who allowed Jews to return to Judah in 538 B.C.?',a:['Cyrus II','Noah','Ezra','Daniel'],c:0,why:'Persian king Cyrus II allowed the return in 538 B.C.',topic:'Return to Judah',level:'Easy'},
+    {q:'How many parts make up the Hebrew Bible?',a:['Five','Two','Three','Six'],c:2,why:'The Hebrew Bible has Torah, Prophets, and Writings.',topic:'Hebrew Bible',level:'Easy'},
+    {q:'How many books are in the Hebrew Bible, according to this source?',a:['Three','Seven','Five','24'],c:3,why:'The source states it contains 24 books.',topic:'Hebrew Bible',level:'Easy'},
+    {q:'What city did many returning Jews rebuild?',a:['Babylon','Jerusalem','Moab','Babel'],c:1,why:'They rebuilt Jerusalem and the Second Temple.',topic:'Return to Judah',level:'Easy'},
+    {q:'What special meal is eaten during Passover?',a:['Seder','Kashrut','Scroll','Sabbath'],c:0,why:'The Passover festival includes a special meal called the seder.',topic:'Passover',level:'Easy'},
+    // MEDIUM • 11–20
+    {q:'When does the Sabbath traditionally begin?',a:['Saturday at noon','Friday at sunrise','Friday at sundown','Sunday at nightfall'],c:2,why:'The textbook says it lasts from Friday sundown to Saturday nightfall.',topic:'Sabbath',level:'Medium'},
+    {q:'Why did Jews begin meeting in synagogues during exile?',a:['They wanted a new king','They were building the First Temple','They needed to learn Greek','They no longer had a temple in Babylon'],c:3,why:'Without a temple in Babylon, small groups met in synagogues.',topic:'Synagogues',level:'Medium'},
+    {q:'What did Persian officials do in Judah?',a:['Ruled the country and collected taxes','Taught Noah to build an ark','Wrote Psalm 137','Led the Exodus'],c:0,why:'Persian officials ruled Judah and collected taxes.',topic:'Return to Judah',level:'Medium'},
+    {q:'Which person led Jews in writing five books of Torah on parchment?',a:['Ruth','Ezra','Daniel','Cyrus II'],c:1,why:'The source names the scribe Ezra.',topic:'Scribes and scrolls',level:'Medium'},
+    {q:'Which are the three parts of the Hebrew Bible?',a:['Genesis, Noah, Babel','Synagogue, Sabbath, Scroll','Torah, Prophets, Writings','Seder, Kosher, Matzoh'],c:2,why:'The book names the Torah, Prophets, and Writings.',topic:'Hebrew Bible',level:'Medium'},
+    {q:'According to Genesis in the source, what happened on the seventh day?',a:['Noah built the ark','Babel was scattered','Ruth arrived in Bethlehem','God rested'],c:3,why:'The source says God created Earth in six days and rested on the seventh.',topic:'Genesis',level:'Medium'},
+    {q:'What did the rainbow show in the story of Noah?',a:['The world would not again be destroyed by a flood','A new temple was built','The Sabbath had ended','Ruth returned to Moab'],c:0,why:'Genesis says God placed a rainbow as a sign of that promise.',topic:'Genesis',level:'Medium'},
+    {q:'Who refused to worship Babylonian gods and was placed in a lions’ den?',a:['Isaiah','Daniel','Cyrus II','Ezra'],c:1,why:'The book of Daniel tells this account.',topic:'Daniel',level:'Medium'},
+    {q:'Who went from Moab to Bethlehem to stay with Naomi?',a:['A Persian official','A scribe','Ruth','Noah'],c:2,why:'Ruth chose to accompany Naomi to Bethlehem.',topic:'Ruth and Naomi',level:'Medium'},
+    {q:'Which pair of meats could ancient Jews eat according to the textbook?',a:['Crab and shrimp','Meat mixed with dairy','Shellfish and shrimp','Beef and lamb'],c:3,why:'Beef and lamb are the source examples of allowed meat.',topic:'Kosher food',level:'Medium'},
+    // HARD • 21–30
+    {q:'A family begins worship at Friday sundown and rests until Saturday nightfall. What is this?',a:['Observing the Sabbath','Eating the seder','Writing a scroll','Rebuilding the Temple'],c:0,why:'The Sabbath traditionally lasts from Friday sundown to Saturday nightfall.',topic:'Sabbath scenarios',level:'Hard'},
+    {q:'A student confuses the Torah and a scroll. Which comparison is correct?',a:['Both mean kosher food','Torah is the first part of the Hebrew Bible; a scroll is a sewn parchment document','Torah is the Second Temple; a scroll is a king','Torah is a festival; a scroll is a prayer day'],c:1,why:'Ezra wrote the five Torah books on parchment made into scrolls.',topic:'Vocabulary comparisons',level:'Hard'},
+    {q:'Which sequence matches the source?',a:['Cyrus II returned → Babylonian exile began → Temple destroyed','Ruth met Noah → Babel scattered → Jews returned','Exile in Babylon → Cyrus II allowed return → Second Temple built','Second Temple → Noah’s flood → 70 years in Babylon'],c:2,why:'Return followed the exile, and the Second Temple followed the return.',topic:'History sequence',level:'Hard'},
+    {q:'Which teaching from the Torah is shown by helping the poor and dealing honestly?',a:['A rule of a Persian official','A Babylonian construction order','A story only about Noah','Daily Jewish life guided by religion'],c:3,why:'The Torah instructed Jews to help the poor and act honestly.',topic:'Daily life',level:'Hard'},
+    {q:'A piece of beef is used as kosher meat. Which preparation matches the textbook?',a:['Killed in a certain way, inspected, salted, and soaked in water','Mixed with dairy products','Eaten with shellfish','Only dried in the sun'],c:0,why:'The source lists killing, inspection, salt, and soaking for kosher meat.',topic:'Kosher food',level:'Hard'},
+    {q:'Which meal choice breaks the food rule stated in the textbook?',a:['Lamb prepared by kosher rules','Meat and dairy products together','Kosher beef','An egg at a seder'],c:1,why:'The textbook forbids meat and dairy products together.',topic:'Kosher food',level:'Hard'},
+    {q:'At a seder, the youngest child asks questions. Who recites the answers?',a:['Only the Persian governor','Only Ezra','Adults and older children together','Nobody at the table'],c:2,why:'The source says adults and older children recite answers together.',topic:'Passover',level:'Hard'},
+    {q:'At the Passover seder, what do bitter herbs represent in the source?',a:['Persian taxes','The ark after the flood','The Second Temple','The bitter experience of Jews in exile'],c:3,why:'The source says bitter herbs reflect the Jews’ bitter time in exile.',topic:'Passover',level:'Hard'},
+    {q:'What is the key difference between the Second Temple and synagogues in this lesson?',a:['The Second Temple was rebuilt in Jerusalem; small groups worshipped in synagogues in Babylon','Both were foods used at the seder','The Second Temple was in Moab; synagogues were in Egypt','Neither was a place of worship'],c:0,why:'The source separates synagogue worship during exile from later rebuilding the Temple.',topic:'Worship places',level:'Hard'},
+    {q:'A classmate says Ruth chose to stay with her own people in Moab. Which source fact corrects this?',a:['Ruth wrote the Torah','Ruth left Moab to be with Naomi in Bethlehem','Ruth became a Persian official','Ruth rebuilt the Second Temple'],c:1,why:'Ruth chose to leave her homeland and accompany Naomi to Bethlehem.',topic:'Ruth and Naomi',level:'Hard'}
+  ];
+  
+
+  let state = {mode:'slide',index:0,qi:0,answers:Array(questions.length).fill(null)};
+  const $ = (id) => document.getElementById(id);
+  const canvas = $('canvas');
+  const escapeHtml = (s) => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const score = () => state.answers.reduce((n,a,i)=>n+(a===questions[i].c?1:0),0);
+  const isReview = () => state.mode==='slide' && state.index>=slides.length-2;
+  function phaseUI(){
+    const n = state.mode==='quiz'||state.mode==='result'?2:isReview()?1:0;
+    ['phaseTeach','phaseReview','phaseQuiz'].forEach((id,i)=>{const e=$(id);e.classList.toggle('active',i===n);e.classList.toggle('done',i<n);});
+  }
+  function render(){
+    phaseUI();
+    if(state.mode==='slide') renderSlide();
+    else if(state.mode==='quiz') renderQuiz();
+    else renderResult();
+    canvas.scrollTop=0;
+    $('progress').setAttribute('aria-valuenow',Math.round(parseFloat($('progressFill').style.width)||0));
+  }
+  function chrome(mode,counter,percent,remember,nextLabel){
+    $('modeLabel').textContent=mode;
+    $('counter').textContent=counter;
+    $('progressFill').style.width=percent+'%';
+    $('rememberText').textContent=remember;
+    $('nextBtn').textContent=nextLabel;
+  }
+  function renderSlide(){
+    const s=slides[state.index];
+    canvas.innerHTML=`<div class="eyebrow">${s.eyebrow}</div><h2>${s.title}</h2>${s.body}`;
+    chrome(isReview()?'Final review':'Learning time',`Slide ${state.index+1} of ${slides.length}`,100*(state.index+1)/slides.length,s.remember,state.index===slides.length-1?'Start Quiz →':'Next →');
+    $('backBtn').disabled=state.index===0;
+    $('nextBtn').disabled=false;
+  }
+  function renderQuiz(){
+    const q=questions[state.qi],chosen=state.answers[state.qi],done=chosen!==null;
+    const choices=q.a.map((option,i)=>{
+      const cls=done?(i===q.c?' correct':i===chosen?' wrong':''):'';
+      return `<button type="button" class="option${cls}" data-choice="${i}" ${done?'disabled':''} aria-label="Option ${'ABCD'[i]}: ${escapeHtml(option)}"><span class="letter">${'ABCD'[i]}</span><span>${escapeHtml(option)}</span></button>`;
+    }).join('');
+    const feedback=done?`<div class="feedback ${chosen===q.c?'':'bad'}" role="status"><b>${chosen===q.c?'✅ Correct!':'❌ Incorrect'}</b><p><strong>Correct answer: ${'ABCD'[q.c]}.</strong> ${escapeHtml(q.a[q.c])}</p><p>${escapeHtml(q.why)}</p></div>`:'';
+    canvas.innerHTML=`<div class="eyebrow">Practice • ${escapeHtml(q.topic)}</div><h2>Check Your Understanding</h2><div class="quizmeta"><span class="bubble ${q.level.toLowerCase()}">${q.level}</span><span class="bubble">Score: ${score()} / ${questions.length}</span></div><div class="question">${escapeHtml(q.q)}</div><div class="choices">${choices}</div>${feedback}`;
+    canvas.querySelectorAll('[data-choice]').forEach(btn=>btn.addEventListener('click',()=>answerQuestion(Number(btn.dataset.choice))));
+    chrome('Quiz time',`Question ${state.qi+1} of ${questions.length}`,100*(state.qi+1)/questions.length,done?'Learn from the explanation, then move on.':'Choose A, B, C, or D. Feedback appears after you answer.',state.qi===questions.length-1?'See Results →':'Next Question →');
+    $('backBtn').disabled=false;
+    $('nextBtn').disabled=!done;
+  }
+  function answerQuestion(choice){
+    if(state.mode!=='quiz'||state.answers[state.qi]!==null)return;
+    state.answers[state.qi]=choice;
+    render();
+  }
+  function renderResult(){
+    const total=score(),pct=Math.round(total*100/questions.length);
+    const missed={}; questions.forEach((q,i)=>{if(state.answers[i]!==q.c)missed[q.topic]=(missed[q.topic]||0)+1;});
+    const areas=Object.entries(missed).sort((a,b)=>b[1]-a[1]);
+    const review=areas.length?areas.map(([name,count])=>`<div class="review-item">📘 ${escapeHtml(name)} <span class="small">(${count} to review)</span></div>`).join(''):'<div class="review-item ok">🌟 Great work — no missed topics!</div>';
+    canvas.innerHTML=`<div class="eyebrow">Quiz complete • Your result</div><div class="final-score"><h2>Nice Work!</h2><p class="lead">You finished all 30 questions.</p><div class="score-ring" style="--score:${pct}%"><div>${total}/30</div></div><p><strong>${pct}% correct</strong></p></div><h3>Topics to Review</h3><div class="review-grid">${review}</div><p class="small" style="margin-top:18px">Use Back to revisit your last answer, or Restart to study the whole lesson again.</p>`;
+    chrome('Quiz complete','Final score',100,'Your results show what to review before the test.','Review Quiz ←');
+    $('backBtn').disabled=false;
+    $('nextBtn').disabled=false;
+  }
+  function next(){
+    if(state.mode==='slide'){
+      if(state.index<slides.length-1)state.index++;
+      else {state.mode='quiz';state.qi=0;}
+    } else if(state.mode==='quiz'){
+      if(state.answers[state.qi]===null)return;
+      if(state.qi<questions.length-1)state.qi++;
+      else state.mode='result';
+    } else {state.mode='quiz';state.qi=questions.length-1;}
+    render();
+  }
+  function back(){
+    if(state.mode==='slide')state.index=Math.max(0,state.index-1);
+    else if(state.mode==='quiz'){
+      if(state.qi===0){state.mode='slide';state.index=slides.length-1;}
+      else state.qi--;
+    }
+    else {state.mode='quiz';state.qi=questions.length-1;}
+    render();
+  }
+  function restart(){
+    if(state.mode==='slide'&&state.index===0)return;
+    if(!window.confirm('Restart the lesson and clear your quiz answers?'))return;
+    state={mode:'slide',index:0,qi:0,answers:Array(questions.length).fill(null)};
+    render();
+  }
+  $('nextBtn').addEventListener('click',next);
+  $('backBtn').addEventListener('click',back);
+  $('restartBtn').addEventListener('click',restart);
+  window.addEventListener('keydown',e=>{
+    if(e.target.closest('button'))return;
+    if(e.key==='ArrowRight'&&!$('nextBtn').disabled)next();
+    if(e.key==='ArrowLeft'&&!$('backBtn').disabled)back();
+  });
+  render();
+  </script>
+</body>
+</html>
